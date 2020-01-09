@@ -145,7 +145,7 @@ namespace AAEmu.Game.Core.Network.Game
                             //------------------------------
                             var input = new byte[stream2.Count - 2];
                             Buffer.BlockCopy(stream2, 2, input, 0, stream2.Count - 2);
-                            var output = GameConnection.DecryptCs.Decode(input, GameConnection.CryptRsa.XorKey, GameConnection.CryptRsa.AesKey, GameConnection.CryptRsa.Iv, m_numPck);
+                            var output = DecryptCs.Decode(input, GameConnection.CryptRsa.XorKey, GameConnection.CryptRsa.AesKey, GameConnection.CryptRsa.Iv, m_numPck);
                             m_numPck++; //увеличим номер пакета от клиента
                             var OutBytes = new byte[output.Length + 5];
                             Buffer.BlockCopy(stream2, offset, OutBytes, 0, 5); // скопируем (ushort)len, 0005 

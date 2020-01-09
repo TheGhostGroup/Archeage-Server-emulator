@@ -1,6 +1,6 @@
 ArcheAge (kor. 아키에이지 — "Ancient times"; ch. 上古世紀) — client fantasy massively multiplayer online role-playing game (MMORPG) for the PC, developed by Korean company XLGames. The game is set in the universe of ArcheAge — fantasy world with elements of medieval magic and steampunk.
 
-Our project mainly focuses on version 3.0.3.0 without packet decryption
+Our project is mainly focused on version 3.0.3.0 (Attention! There is bad decryption of packets. Do your own encryption research).
 
 # [![AAEmu](https://boards.aaemu.pw/assets/files/2018-10-11/1539288486-150348-aaemu-blank-text.png)](https://boards.aaemu.pw/)
 
@@ -14,6 +14,7 @@ If you don't find what you're looking for there, [talk to a human](#discussion).
 - [Site](https://aaemu.info/)
 - [Forums](https://boards.aaemu.pw/)
 - [Community Discord](https://discord.gg/vn8E8E6)
+- [Clients & Launcher](https://mega.nz/#F!C3Q0WQjT!vRUethZLPiYSo2B4nE_etg!fyIykIZC)
 
 ### Can I contribute?
 Yes you can! Contributions are welcomed provided that they comply with our [Contributing Guidelines](CONTRIBUTING.md). Please ensure you read the relevant sections of the guidelines carefully before making a Pull Request or opening an Issue.
@@ -37,6 +38,8 @@ atel0/AAEmu are not affiliated with XLGames. All brands and trademarks belong to
 
 Now you can create characters.
 Now you can enter the world.
+update: 09.01.2020
+Now with packet decryption (Attention! There is bad decryption of packets. Do your own encryption research)
 
 ![avatar](/doc/img/Screenshot_1.png)
 ![avatar](/doc/img/Screenshot_2.png)

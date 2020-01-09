@@ -3,9 +3,6 @@
 AAEmu.Commons/obj/
 AAEmu.Game/obj/
 AAEmu.Stream/obj/
-/AAEmu.Commons/Cryptography
-/AAEmu.Commons/Compression
-/AAEmu.Game/Core/Packets/C2G/CSRSAEncryptAESkeyXORkeyPacket.cs
 
 .idea/
 AAEmu.Commons/bin/
@@ -16,3 +13,5 @@ AAEmu.Game/Config.json
 AAEmu.Login/Config.json
 publish/
 *.old
+/AAEmu.Commons/Cryptography/DecryptCS0.cs
+/AAEmu.Commons/Cryptography/DecryptCS1.cs
