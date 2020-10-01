@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using AAEmu.Commons.IO;
+using AAEmu.Commons.Models;
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Managers.World;
@@ -536,6 +537,34 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                 }
             }
             inventory.Equip[(int)slot] = item;
+        }
+
+        public List<LoginCharacterInfo> LoadCharacters(ulong accountId)
+        {
+            var result = new List<LoginCharacterInfo>();
+            using (var connection = MySQL.CreateConnection())
+            {
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText =
+                        "SELECT `id`, `name`, `race`, `gender` FROM characters WHERE `account_id`=@accountId";
+                    command.Parameters.AddWithValue("@accountId", accountId);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var character = new LoginCharacterInfo();
+                            character.AccountId = accountId;
+                            character.Id = reader.GetUInt32("id");
+                            character.Name = reader.GetString("name");
+                            character.Race = reader.GetByte("race");
+                            character.Gender = reader.GetByte("gender");
+                            result.Add(character);
+                        }
+                    }
+                }
+            }
+            return result;
         }
     }
 }

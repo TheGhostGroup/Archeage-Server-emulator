@@ -13,5 +13,4 @@ AAEmu.Game/Config.json
 AAEmu.Login/Config.json
 publish/
 *.old
-/AAEmu.Commons/Cryptography/DecryptCS0.cs
-/AAEmu.Commons/Cryptography/DecryptCS1.cs
+*.sqlite3

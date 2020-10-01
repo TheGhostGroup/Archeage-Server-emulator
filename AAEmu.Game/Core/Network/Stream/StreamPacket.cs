@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Network.Connections;
 
@@ -22,16 +22,16 @@ namespace AAEmu.Game.Core.Network.Stream
                 _log.Fatal(ex);
                 throw;
             }
-            
-            _log.Debug("StreamPacket: S->C\n{0}", ps);
+
+            _log.Debug("StreamPacket: S->C type {0:X3} {1}", TypeId, this.ToString().Substring(23));
 
             return ps;
         }
 
         public override PacketBase<StreamConnection> Decode(PacketStream ps)
         {
-            _log.Debug("StreamPacket: C->S\n{0}", ps);
-            
+            _log.Debug("StreamPacket: C->S type {0:X3} {1}", TypeId, this.ToString().Substring(23));
+
             try
             {
                 Read(ps);

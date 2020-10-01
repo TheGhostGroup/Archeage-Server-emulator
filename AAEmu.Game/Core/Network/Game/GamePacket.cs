@@ -68,23 +68,23 @@ namespace AAEmu.Game.Core.Network.Game
                 throw;
             }
 
-            // SC здесь можно установит фильтр на скрытие пакетов
+            // SC here you can set the filter to hide packets
             if (!(TypeId == 0x013 && Level == 2) && // Pong
                 !(TypeId == 0x016 && Level == 2) && // FastPong
                 !(TypeId == 0x06B && Level == 1) && // SCUnitMovements
                 !(TypeId == 0x06C && Level == 1))   // SCOneUnitMovement
-                _log.Debug("GamePacket: S->C type {0:X}\n{1}", TypeId, ps);
+                _log.Debug("GamePacket: S->C type {0:X3} {1}", TypeId, this.ToString().Substring(23));
 
             return ps;
         }
 
         public override PacketBase<GameConnection> Decode(PacketStream ps)
         {
-            // CS здесь можно установит фильтр на скрытие пакетов
+            // CS here you can set the filter to hide packets
             if (!(TypeId == 0x012 && Level == 2) && // Ping
                 !(TypeId == 0x015 && Level == 2) && // FastPing
                 !(TypeId == 0x089 && Level == 1))   // CSMoveUnit
-                _log.Debug("GamePacket: C->S type {0:X}\n{1}", TypeId, ps);
+                _log.Debug("GamePacket: C->S type {0:X3} {1}", TypeId, this.ToString().Substring(23));
 
             try
             {
