@@ -38,8 +38,6 @@ atel0/AAEmu are not affiliated with XLGames. All brands and trademarks belong to
 
 Now you can create characters.
 Now you can enter the world.
-update: 09.01.2020
-Now with packet decryption (Attention! There is bad decryption of packets. Do your own encryption research)
 
 ![avatar](/doc/img/Screenshot_1.png)
 ![avatar](/doc/img/Screenshot_2.png)
