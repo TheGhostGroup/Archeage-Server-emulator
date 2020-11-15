@@ -207,14 +207,14 @@ namespace AAEmu.Game.Core.Managers
                     command.Prepare();
                     using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
                     {
+                        var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new NpcMountSkills()
-                            {
-                                Id = reader.GetUInt32("id"),
-                                NpcId = reader.GetUInt32("npc_id"),
-                                MountSkillId = reader.GetUInt32("mount_skill_id")
-                            };
+                            var template = new NpcMountSkills();
+                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                            template.Id = step++;
+                            template.NpcId = reader.GetUInt32("npc_id");
+                            template.MountSkillId = reader.GetUInt32("mount_skill_id");
                             _slaveMountSkills.Add(template.Id, template);
                         }
                     }

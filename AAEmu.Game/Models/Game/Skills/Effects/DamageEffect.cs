@@ -38,7 +38,7 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
         public int ManaStealRatio { get; set; }
         public float DpsMultiplier { get; set; }
         public int WeaponSlotId { get; set; }
-        public bool CheckCrime { get; set; }
+        //public bool CheckCrime { get; set; } // there is no such field in the database for version 3030
         public uint HitAnimTimingId { get; set; }
         public bool UseTargetChargedBuff { get; set; }
         public uint TargetChargedBuffId { get; set; }

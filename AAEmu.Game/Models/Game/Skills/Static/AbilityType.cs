@@ -13,6 +13,8 @@
         Vocation = 8,
         Romance = 9,
         Love = 10,
-        None = 11
+        Predator = 11,
+        Trooper = 12,
+        None = 13
     }
 }

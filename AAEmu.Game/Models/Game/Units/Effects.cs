@@ -30,33 +30,33 @@ namespace AAEmu.Game.Models.Game.Units
             _effects = new List<Effect>();
         }
 
-        public bool CheckBuffImmune(uint buffId)
-        {
-            foreach (var effect in new List<Effect>(_effects))
-            {
-                if (effect == null)
-                    continue;
-                switch (effect.Template)
-                {
-                    case BuffTemplate template when template.ImmuneBuffTagId == 0:
-                        return false;
-                    case BuffTemplate template:
-                        {
-                            var buffs = SkillManager.Instance.GetBuffsByTagId(template.ImmuneBuffTagId);
-                            return buffs != null && buffs.Contains(buffId);
-                        }
-                    case BuffEffect buffEffect when buffEffect.Buff.ImmuneBuffTagId == 0:
-                        return false;
-                    case BuffEffect buffEffect:
-                        {
-                            var buffs = SkillManager.Instance.GetBuffsByTagId(buffEffect.Buff.ImmuneBuffTagId);
-                            return buffs != null && buffs.Contains(buffId);
-                        }
-                }
-            }
+        //public bool CheckBuffImmune(uint buffId)
+        //{
+        //    foreach (var effect in new List<Effect>(_effects))
+        //    {
+        //        if (effect == null)
+        //            continue;
+        //        switch (effect.Template)
+        //        {
+        //            case BuffTemplate template when template.ImmuneBuffTagId == 0:
+        //                return false;
+        //            case BuffTemplate template:
+        //                {
+        //                    var buffs = SkillManager.Instance.GetBuffsByTagId(template.ImmuneBuffTagId);
+        //                    return buffs != null && buffs.Contains(buffId);
+        //                }
+        //            case BuffEffect buffEffect when buffEffect.Buff.ImmuneBuffTagId == 0:
+        //                return false;
+        //            case BuffEffect buffEffect:
+        //                {
+        //                    var buffs = SkillManager.Instance.GetBuffsByTagId(buffEffect.Buff.ImmuneBuffTagId);
+        //                    return buffs != null && buffs.Contains(buffId);
+        //                }
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         public List<Effect> GetEffectsByType(Type effectType)
         {

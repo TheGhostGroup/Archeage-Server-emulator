@@ -45,7 +45,7 @@ namespace AAEmu.Game.Core.Packets.C2G
                 doodad.OwnerType = DoodadOwnerType.Character;
                 doodad.OwnerId = Connection.ActiveChar.Id;
                 doodad.OwnerObjId = Connection.ActiveChar.ObjId;
-                //doodad.Position = new Models.Game.World.Point(Connection.ActiveChar.Position.WorldId, Connection.ActiveChar.Position.ZoneId, x, y, z, 0, 0, 0);
+                //doodad.Position = new Models.Game.World.TransfersPathPoint(Connection.ActiveChar.Position.WorldId, Connection.ActiveChar.Position.ZoneId, x, y, z, 0, 0, 0);
                 if (scale > 0)
                     doodad.SetScale(scale);
                 doodad.Spawn();

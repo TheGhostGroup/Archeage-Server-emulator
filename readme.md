@@ -11,8 +11,6 @@ Head over to the [wiki](https://github.com/atel0/AAEmu/wiki).
 If you don't find what you're looking for there, [talk to a human](#discussion). Please do not use our issue tracker for support requests.
 
 ### Discussion
-- [Site](https://aaemu.info/)
-- [Forums](https://boards.aaemu.pw/)
 - [Community Discord](https://discord.gg/vn8E8E6)
 - [Clients & Launcher](https://mega.nz/#F!C3Q0WQjT!vRUethZLPiYSo2B4nE_etg!fyIykIZC)
 
@@ -38,6 +36,7 @@ atel0/AAEmu are not affiliated with XLGames. All brands and trademarks belong to
 
 Now you can create characters.
 Now you can enter the world.
+update: 09.01.2020 Now with packet decryption (Attention! There is bad decryption of packets. Do your own encryption research)
 
 ![avatar](/doc/img/Screenshot_1.png)
 ![avatar](/doc/img/Screenshot_2.png)

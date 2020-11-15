@@ -34,6 +34,7 @@ namespace AAEmu.Game.Models.Game.Units
         public DateTime UpdateTime { get; set; }
         public ActorData moveType { get; set; }
         public double Angle { get; set; }
+        public short AngleZ { get; set; }
         public float Distance { get; set; }
         public float MovingDistance { get; set; } = 0.27f;
         public double AngleTmp { get; set; }
@@ -341,7 +342,7 @@ namespace AAEmu.Game.Models.Game.Units
             }
         }
 
-        protected SkillCastTarget GetSkillCastTarget(Unit caster, Skill skill)
+        public SkillCastTarget GetSkillCastTarget(Unit caster, Skill skill)
         {
             SkillCastTarget targetType;
             switch (skill.Template.TargetType)
@@ -357,9 +358,12 @@ namespace AAEmu.Game.Models.Game.Units
                 case SkillTargetType.GeneralUnit:
                 case SkillTargetType.Hostile:
                 case SkillTargetType.Others:
-                case SkillTargetType.Self:
                     targetType = SkillCastTarget.GetByType(SkillCastTargetType.Unit);
                     targetType.ObjId = caster.CurrentTarget.ObjId;
+                    break;
+                case SkillTargetType.Self:
+                    targetType = SkillCastTarget.GetByType(SkillCastTargetType.Unit);
+                    targetType.ObjId = caster.CurrentTarget?.ObjId ?? caster.ObjId;
                     break;
                 case SkillTargetType.ArtilleryPos:
                 case SkillTargetType.BallisticPos:
@@ -370,7 +374,6 @@ namespace AAEmu.Game.Models.Game.Units
                 case SkillTargetType.SourcePos:
                 case SkillTargetType.SummonPos:
                     targetType = SkillCastTarget.GetByType(SkillCastTargetType.Position);
-                    targetType.ObjId = caster.CurrentTarget.ObjId;
                     break;
                 case SkillTargetType.Item:
                     targetType = SkillCastTarget.GetByType(SkillCastTargetType.Item);

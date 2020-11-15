@@ -91,7 +91,7 @@ namespace AAEmu.Game.Models.Game.Char
                 {
                     if (!container.AddOrMoveExistingItem(ItemTaskType.Invalid, item, item.Slot))
                     {
-                        item._holdingContainer?.RemoveItem(ItemTaskType.Invalid, item, true);
+                        item.HoldingContainer?.RemoveItem(ItemTaskType.Invalid, item, true);
                         _log.Error("LoadInventory found unused item type for item, Id {0} ({1}) at {2}:{3} for {1}", item.Id, item.TemplateId, item.SlotType, item.Slot, Owner?.Name ?? "Id:" + item.OwnerId.ToString());
                         // throw new Exception(string.Format("Was unable to add item {0} to container {1} for player {2} using the defined slot.", item?.Template.Name ?? item.TemplateId.ToString(), item.Slot.ToString(), Owner?.Name ?? "???"));
                     }
@@ -278,7 +278,7 @@ namespace AAEmu.Game.Models.Game.Char
 
             // Grab target container for easy manipulation
             ItemContainer targetContainer = Bag;
-            ItemContainer sourceContainer = fromItem?._holdingContainer ?? Bag;
+            ItemContainer sourceContainer = fromItem?.HoldingContainer ?? Bag;
             if (_itemContainers.TryGetValue(toType, out targetContainer))
             {
                 itemInTargetSlot = targetContainer.GetItemBySlot(toSlot);
@@ -301,7 +301,7 @@ namespace AAEmu.Game.Models.Game.Char
                 _log.Error("SplitOrMoveItem didn't provide a source itemId");
                 return false;
             }
-            if ((action != SwapAction.doEquipInEmptySlot) && (fromItem?._holdingContainer?.ContainerType != fromType))
+            if ((action != SwapAction.doEquipInEmptySlot) && (fromItem?.HoldingContainer?.ContainerType != fromType))
             {
                 _log.Error("SplitOrMoveItem Source Item Container did not match what the client asked");
                 return false;
@@ -371,7 +371,7 @@ namespace AAEmu.Game.Models.Game.Char
                     {
                         sourceContainer.Items.Add(itemInTargetSlot);
                         targetContainer.Items.Remove(itemInTargetSlot);
-                        itemInTargetSlot._holdingContainer = sourceContainer;
+                        itemInTargetSlot.HoldingContainer = sourceContainer;
                         sourceContainer.UpdateFreeSlotCount();
                         targetContainer.UpdateFreeSlotCount();
                     }
@@ -382,7 +382,7 @@ namespace AAEmu.Game.Models.Game.Char
                     var ni = ItemManager.Instance.Create(fromItem.TemplateId, count, fromItem.Grade, true);
                     ni.SlotType = toType;
                     ni.Slot = toSlot;
-                    ni._holdingContainer = targetContainer;
+                    ni.HoldingContainer = targetContainer;
                     targetContainer.Items.Add(ni);
                     itemTasks.Add(new ItemAdd(ni));
                     if (targetContainer != sourceContainer)
@@ -403,7 +403,7 @@ namespace AAEmu.Game.Models.Game.Char
                     {
                         sourceContainer.Items.Remove(fromItem);
                         targetContainer.Items.Add(fromItem);
-                        fromItem._holdingContainer = targetContainer;
+                        fromItem.HoldingContainer = targetContainer;
                         sourceContainer.UpdateFreeSlotCount();
                         targetContainer.UpdateFreeSlotCount();
                     }
@@ -426,7 +426,7 @@ namespace AAEmu.Game.Models.Game.Char
                     else
                     {
                         itemTasks.Add(new ItemRemoveSlot(fromItem));
-                        fromItem._holdingContainer.RemoveItem(ItemTaskType.Invalid, fromItem, true);
+                        fromItem.HoldingContainer.RemoveItem(ItemTaskType.Invalid, fromItem, true);
                     }
                     break;
                 case SwapAction.doSwap:
@@ -438,7 +438,7 @@ namespace AAEmu.Game.Models.Game.Char
                     {
                         sourceContainer.Items.Remove(fromItem);
                         targetContainer.Items.Add(fromItem);
-                        fromItem._holdingContainer = targetContainer;
+                        fromItem.HoldingContainer = targetContainer;
                         targetContainer.UpdateFreeSlotCount();
                     }
                     itemInTargetSlot.SlotType = sourceContainer.ContainerType;
@@ -447,7 +447,7 @@ namespace AAEmu.Game.Models.Game.Char
                     {
                         targetContainer.Items.Remove(itemInTargetSlot);
                         sourceContainer.Items.Add(itemInTargetSlot);
-                        itemInTargetSlot._holdingContainer = sourceContainer;
+                        itemInTargetSlot.HoldingContainer = sourceContainer;
                         sourceContainer.UpdateFreeSlotCount();
                     }
                     break;

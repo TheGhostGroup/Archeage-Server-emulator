@@ -163,9 +163,11 @@ namespace AAEmu.Game.Models.Game.Units.Route
             }
             else // other
             {
-                //_newz = AppConfiguration.Instance.HeightMapsEnable ? WorldManager.Instance.GetHeight(npc.Position.ZoneId, npc.Position.X, npc.Position.Y) : npc.Position.Z;
-                //moveType.Z = _newz;
-                moveType.Z = npc.Position.Z;
+                moveType.Z = AppConfiguration.Instance.HeightMapsEnable ? WorldManager.Instance.GetHeight(npc.Position.ZoneId, npc.Position.X, npc.Position.Y) : npc.Position.Z;
+                if (npc.Position.Z - moveType.Z > 2.0)
+                {
+                    moveType.Z = npc.Position.Z;
+                }
             }
 
             // looks in the direction of movement
@@ -177,7 +179,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
             moveType.DeltaMovement = new Vector3(0, 1.0f, 0);
             //moveType.DeltaMovement = new Vector3(diff.X, diff.Y, diff.Z);
 
-            moveType.Flags = 5;     // 5-walk, 4-run, 3-stand still
+            moveType.actorFlags = 5;// 5-walk, 4-run, 3-stand still
             moveType.Stance = 1;    // COMBAT = 0x0, IDLE = 0x1
             moveType.Alertness = 0; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
             moveType.Time = Seq;    // has to change all the time for normal motion.

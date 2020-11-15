@@ -1432,12 +1432,46 @@ namespace AAEmu.Game.Models.Game.Char
                 index++;
             }
             stream.Write((uint)validFlags); // validFlags for 3.0.3.0
+
+            var itemSlot = EquipmentItemSlot.Head;
             foreach (var item in items)
             {
-                if (item != null)
+                if (item == null)
                 {
-                    stream.Write(item);
+                    itemSlot++;
+                    continue;
                 }
+                switch (itemSlot)
+                {
+                    case EquipmentItemSlot.Head:
+                    case EquipmentItemSlot.Neck:
+                    case EquipmentItemSlot.Chest:
+                    case EquipmentItemSlot.Waist:
+                    case EquipmentItemSlot.Legs:
+                    case EquipmentItemSlot.Hands:
+                    case EquipmentItemSlot.Feet:
+                    case EquipmentItemSlot.Arms:
+                    case EquipmentItemSlot.Back:
+                    case EquipmentItemSlot.Undershirt:
+                    case EquipmentItemSlot.Underpants:
+                    case EquipmentItemSlot.Mainhand:
+                    case EquipmentItemSlot.Offhand:
+                    case EquipmentItemSlot.Ranged:
+                    case EquipmentItemSlot.Musical:
+                    case EquipmentItemSlot.Cosplay:
+                        stream.Write(item);
+                        break;
+                    case EquipmentItemSlot.Face:
+                    case EquipmentItemSlot.Hair:
+                    case EquipmentItemSlot.Glasses:
+                    case EquipmentItemSlot.Horns:
+                    case EquipmentItemSlot.Tail:
+                    case EquipmentItemSlot.Body:
+                    case EquipmentItemSlot.Beard:
+                        stream.Write(item.TemplateId);
+                        break;
+                }
+                itemSlot++;
             }
             if (validFlags != 0)
             {

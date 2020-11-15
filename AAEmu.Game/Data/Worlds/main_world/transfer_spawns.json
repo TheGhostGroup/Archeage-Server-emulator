@@ -1353,5 +1353,61 @@
         "RotationY": 0,
         "RotationZ": -1.88858,
         "Scale": 1.0
+    },
+    {
+        "Count": 1,
+        "Id": 130,
+        "UnitId": 130,
+        "Position": {
+        "X": 10419.33,
+        "Y": 15196.28,
+        "Z": 218.3148
+        },
+        "RotationX": 0,
+        "RotationY": 0,
+        "RotationZ": -3.575818,
+        "Scale": 1.0
+    },
+    {
+        "Count": 1,
+        "Id": 132,
+        "UnitId": 132,
+        "Position": {
+        "X": 14420.31,
+        "Y": 14412.04,
+        "Z": 108.5801
+        },
+        "RotationX": 0,
+        "RotationY": 0,
+        "RotationZ": -3.575818,
+        "Scale": 1.0
+    },
+    {
+        "Count": 1,
+        "Id": 133,
+        "UnitId": 133,
+        "Position": {
+        "X": 15252.99,
+        "Y": 14060.4,
+        "Z": 143.9139
+        },
+        "RotationX": 0,
+        "RotationY": 0,
+        "RotationZ": -3.575818,
+        "Scale": 1.0
+    },
+    {
+        "Count": 1,
+        "Id": 134,
+        "UnitId": 134,
+        "Position": {
+        "X": 15565.99,
+        "Y": 14841.05,
+        "Z": 139.2941
+        },
+        "RotationX": 0,
+        "RotationY": 0,
+        "RotationZ": -3.575818,
+        "Scale": 1.0
     }
 ]

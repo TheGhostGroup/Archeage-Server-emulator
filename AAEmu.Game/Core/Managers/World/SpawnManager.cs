@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 using AAEmu.Commons.IO;
@@ -13,7 +14,6 @@ using AAEmu.Game.Models.Game.NPChar;
 using AAEmu.Game.Models.Game.Transfers;
 using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.World;
-
 using NLog;
 
 namespace AAEmu.Game.Core.Managers.World
@@ -179,6 +179,12 @@ namespace AAEmu.Game.Core.Managers.World
             foreach (var (worldId, worldSpawners) in _gimmickSpawners)
                 foreach (var spawner in worldSpawners.Values)
                     spawner.Spawn(0);
+
+            // нужно для создания файла transfer_paths_original.json
+            //var result = TransfersPath.Paths.OrderBy(x => x.Type).ToList();
+            //var serialized = JsonConvert.SerializeObject(result, Formatting.Indented);
+            //FileManager.SaveFile(serialized, string.Format("{0}transfer_paths_original.json", FileManager.AppPath));
+
         }
 
         public void Stop()

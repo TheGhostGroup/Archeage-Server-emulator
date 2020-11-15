@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-using AAEmu.Commons.Network;
+﻿using AAEmu.Commons.Network;
 
 namespace AAEmu.Game.Models.Game.Units
 {
@@ -56,11 +54,11 @@ namespace AAEmu.Game.Models.Game.Units
         public uint RightPupilColor { get; set; }
         public uint EyebrowColor { get; set; }
         public uint DecoColor { get; set; }
+
         public byte[] Modifier { get; set; }
 
         public FaceModel()
         {
-            //FixedDecalAsset = new FixedDecalAsset[4]; // 1.2
             FixedDecalAsset = new FixedDecalAsset[6];   // 3.0.3.0
             for (var i = 0; i < FixedDecalAsset.Length; i++)
             {
@@ -113,7 +111,6 @@ namespace AAEmu.Game.Models.Game.Units
             NormalMapId = (uint)mMap[1];
             EyelashMapId = (uint)mMap[2];
 
-            // for 3.0.3.0
             for (var i = 0; i < 6; i++)
             {
                 FixedDecalAsset[i].AssetWeight = stream.ReadSingle(); // weight
@@ -131,12 +128,12 @@ namespace AAEmu.Game.Models.Game.Units
 
         public override PacketStream Write(PacketStream stream)
         {
-            stream.Write(MovableDecalAssetId); // type
-            stream.Write(MovableDecalWeight);  // weight
-            stream.Write(MovableDecalScale);   // scale
-            stream.Write(MovableDecalRotate);  // rotate
-            stream.Write(MovableDecalMoveX);   // moveX
-            stream.Write(MovableDecalMoveY);   // moveY
+            stream.Write(MovableDecalAssetId);
+            stream.Write(MovableDecalWeight);
+            stream.Write(MovableDecalScale);
+            stream.Write(MovableDecalRotate);
+            stream.Write(MovableDecalMoveX);
+            stream.Write(MovableDecalMoveY);
             stream.WritePisc(FixedDecalAsset[0].AssetId, FixedDecalAsset[1].AssetId, FixedDecalAsset[2].AssetId, FixedDecalAsset[3].AssetId);
             stream.WritePisc(FixedDecalAsset[4].AssetId, FixedDecalAsset[5].AssetId);
             stream.WritePisc(DiffuseMapId, NormalMapId, EyelashMapId);
@@ -144,15 +141,14 @@ namespace AAEmu.Game.Models.Game.Units
             {
                 stream.Write(FixedDecalAsset[i].AssetWeight); // weight
             }
-            stream.Write(NormalMapWeight); // weight
-            stream.Write(LipColor);        // lip
-            stream.Write(LeftPupilColor);  // leftPupil
-            stream.Write(RightPupilColor); // rightPupil
-            stream.Write(EyebrowColor);    // eyebrow
-            stream.Write(DecoColor);       // deco
+            stream.Write(NormalMapWeight);
+            stream.Write(LipColor);
+            stream.Write(LeftPupilColor);
+            stream.Write(RightPupilColor);
+            stream.Write(EyebrowColor);
+            stream.Write(DecoColor);
 
-            stream.Write(Modifier, true);            // modifiers
-
+            stream.Write(Modifier, true);
             return stream;
         }
     }
@@ -184,12 +180,12 @@ namespace AAEmu.Game.Models.Game.Units
                 Face = new FaceModel();
             return this;
         }
+
         public UnitCustomModelParams SetModelId(uint modelId)
         {
             ModelId = modelId;
             return this;
         }
-
         public UnitCustomModelParams SetBodyNormalMapId(uint bodyNormalMapId)
         {
             BodyNormalMapId = bodyNormalMapId;
@@ -202,9 +198,20 @@ namespace AAEmu.Game.Models.Game.Units
             return this;
         }
 
+        public UnitCustomModelParams SetHornColorId(uint hornColorId)
+        {
+            HornColorId = hornColorId;
+            return this;
+        }
+
         public UnitCustomModelParams SetSkinColorId(uint skinColorId)
         {
             SkinColorId = skinColorId;
+            return this;
+        }
+        public UnitCustomModelParams SetBodyNormalMapWeight(float weight)
+        {
+            BodyNormalMapWeight = weight;
             return this;
         }
 
@@ -213,6 +220,28 @@ namespace AAEmu.Game.Models.Game.Units
             Face = face;
             return this;
         }
+
+        public UnitCustomModelParams SetDefaultHairColor(uint defaultHairColor)
+        {
+            DefaultHairColor = defaultHairColor;
+            return this;
+        }
+        public UnitCustomModelParams SetTwoToneHair(uint twoToneHair)
+        {
+            TwoToneHair = twoToneHair;
+            return this;
+        }
+        public UnitCustomModelParams SetTwoToneFirstWidth(float twoToneFirstWidth)
+        {
+            TwoToneFirstWidth = twoToneFirstWidth;
+            return this;
+        }
+        public UnitCustomModelParams SetTwoToneSecondWidth(float twoToneSecondWidth)
+        {
+            TwoToneSecondWidth = twoToneSecondWidth;
+            return this;
+        }
+
 
         public override void Read(PacketStream stream)
         {
@@ -262,7 +291,7 @@ namespace AAEmu.Game.Models.Game.Units
                 return stream;
 
             stream.Write(SkinColorId);          // type
-            stream.Write(0u);                   // type for 3.0.3.0
+            stream.Write(ModelId);              // type for 3.0.3.0
             stream.Write(BodyNormalMapId);      // type for 3.0.3.0
             stream.Write(BodyNormalMapWeight);  // weight
 

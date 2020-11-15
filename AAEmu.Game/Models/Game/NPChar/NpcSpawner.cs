@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
+using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Managers.UnitManagers;
 using AAEmu.Game.Core.Managers.World;
+using AAEmu.Game.Models.Game.AI.Static;
+using AAEmu.Game.Models.Game.Transfers.Paths;
+using AAEmu.Game.Models.Game.Units.Route;
 using AAEmu.Game.Models.Game.World;
+using AAEmu.Game.Utils;
 using NLog;
 
 namespace AAEmu.Game.Models.Game.NPChar
@@ -51,10 +57,26 @@ namespace AAEmu.Game.Models.Game.NPChar
             
             npc.Spawner = this;
             npc.Position = Position.Clone();
+            npc.Pos = new WorldPos(Helpers.ConvertLongX(Position.X), Helpers.ConvertLongY(Position.Y), Position.Z);
+            npc.Rot = new Quaternion(Helpers.ConvertDirectionToRadian(Position.RotationX), Helpers.ConvertDirectionToRadian(Position.RotationY), Helpers.ConvertDirectionToRadian(Position.RotationZ), 1f);
+            npc.Vel = new Vector3();
+            npc.AngVel = new Vector3();
+            
             if (npc.Position == null)
             {
                 _log.Error("Can't spawn npc {1} from spawn {0}", Id, UnitId);
                 return null;
+            }
+
+            if (npc.Template.AiFileId == AiFilesType.Roaming ||
+                npc.Template.AiFileId == AiFilesType.BigMonsterRoaming ||
+                npc.Template.AiFileId == AiFilesType.ArcherRoaming ||
+                npc.Template.AiFileId == AiFilesType.WildBoarRoaming)
+            {
+                npc.Patrol = new Roaming { Interrupt = true, Loop = true, Abandon = false };
+                npc.IsInBattle = false;
+                npc.Patrol.Pause(npc);
+                npc.Patrol.LastPatrol = npc.Patrol;
             }
 
             npc.Spawn();

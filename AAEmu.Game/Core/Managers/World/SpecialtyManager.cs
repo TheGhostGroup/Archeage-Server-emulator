@@ -31,7 +31,7 @@ namespace AAEmu.Game.Core.Managers.World
 
         private Dictionary<uint, Specialty> _specialties;
         private Dictionary<uint, SpecialtyBundleItem> _specialtyBundleItems;
-        private Dictionary<uint, SpecialtyNpc> _specialtyNpc;
+        private Dictionary<uint, List<SpecialtyNpc>> _specialtyNpc;
 
         //                 itemId           bundleId
         private Dictionary<uint, Dictionary<uint, SpecialtyBundleItem>> _specialtyBundleItemsMapped;
@@ -44,7 +44,7 @@ namespace AAEmu.Game.Core.Managers.World
         {
             _specialties = new Dictionary<uint, Specialty>();
             _specialtyBundleItems = new Dictionary<uint, SpecialtyBundleItem>();
-            _specialtyNpc = new Dictionary<uint, SpecialtyNpc>();
+            _specialtyNpc = new Dictionary<uint, List<SpecialtyNpc>>();
             _soldPackAmountInTick = new Dictionary<uint, Dictionary<uint, int>>();
 
             _specialtyBundleItemsMapped = new Dictionary<uint, Dictionary<uint, SpecialtyBundleItem>>();
@@ -106,15 +106,26 @@ namespace AAEmu.Game.Core.Managers.World
                     command.Prepare();
                     using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
                     {
+                        var step = 0u;
                         while (reader.Read())
                         {
                             var template = new SpecialtyNpc();
-                            template.Id = reader.GetUInt32("id");
-                            template.Name = reader.GetString("name");
+                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                            template.Id = step++;
+                            //template.Name = reader.GetString("name"); // there is no such field in the database for version 3030
                             template.NpcId = reader.GetUInt32("npc_id");
                             template.SpecialtyBundleId = reader.GetUInt32("specialty_bundle_id");
 
-                            _specialtyNpc.Add(template.NpcId, template);
+                            //_specialtyNpc.Add(template.NpcId, template);  // в наличии дубли NpcId
+                            List<SpecialtyNpc> tempListSpecialtyNpc;
+                            if (_specialtyNpc.ContainsKey(template.NpcId))
+                                tempListSpecialtyNpc = _specialtyNpc[template.NpcId];
+                            else
+                            {
+                                tempListSpecialtyNpc = new List<SpecialtyNpc>();
+                                _specialtyNpc.Add(template.NpcId, tempListSpecialtyNpc);
+                            }
+                            tempListSpecialtyNpc.Add(template);
                         }
                     }
                 }
@@ -176,7 +187,7 @@ namespace AAEmu.Game.Core.Managers.World
                 return 0;
             }
 
-            var bundleIdAtNPC = _specialtyNpc[npc.TemplateId].SpecialtyBundleId;
+            var bundleIdAtNPC = _specialtyNpc[npc.TemplateId][0].SpecialtyBundleId;
 
             if (!_specialtyBundleItemsMapped.ContainsKey(backpack.TemplateId))
             {

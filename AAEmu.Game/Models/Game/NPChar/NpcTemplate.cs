@@ -73,7 +73,7 @@ namespace AAEmu.Game.Models.Game.NPChar
         public int BaseSkillId { get; set; }
         public bool TrackFriendship { get; set; }
         public bool Priest { get; set; }
-        public int NpcTedencyId { get; set; }
+        //public int NpcTedencyId { get; set; } // there is no such field in the database for version 3030
         public bool Blacksmith { get; set; }
         public bool Teleporter { get; set; }
         public float Opacity { get; set; }
@@ -81,14 +81,14 @@ namespace AAEmu.Game.Models.Game.NPChar
         public float Scale { get; set; }
         public float SightRangeScale { get; set; }
         public float SightFovScale { get; set; }
-        public int MilestoneId { get; set; }
+        //public int MilestoneId { get; set; } // there is no such field in the database for version 3030
         public float AttackStartRangeScale { get; set; }
         public bool Aggression { get; set; }
         public float ExpMultiplier { get; set; }
         public int ExpAdder { get; set; }
         public bool Stabler { get; set; }
         public bool AcceptAggroLink { get; set; }
-        public int RecrutingBattlefieldId { get; set; }
+        //public int RecrutingBattlefieldId { get; set; } // there is no such field in the database for version 3030
         public float ReturnDistance { get; set; }
         public int NpcAiParamId { get; set; }
         public bool NonPushableByActor { get; set; }
@@ -125,6 +125,7 @@ namespace AAEmu.Game.Models.Game.NPChar
         public byte Gender { get; set; }
         public uint MerchantPackId { get; set; }
         public uint HairId { get; set; }
+        public uint HornId { get; set; }
         public UnitCustomModelParams ModelParams { get; set; }
         public EquipItemsTemplate Items { get; set; }
         public (uint ItemId, bool NpcOnly)[] BodyItems { get; set; }
@@ -139,7 +140,8 @@ namespace AAEmu.Game.Models.Game.NPChar
 
         public NpcTemplate()
         {
-            HairId = 0;
+            HairId = 404;
+            HornId = 0;
             Items = new EquipItemsTemplate();
             ModelParams = new UnitCustomModelParams();
             BodyItems = new (uint, bool)[7];

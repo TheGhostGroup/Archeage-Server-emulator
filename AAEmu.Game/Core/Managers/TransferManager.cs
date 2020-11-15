@@ -17,6 +17,7 @@ using AAEmu.Game.Models.Game.Faction;
 using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Static;
 using AAEmu.Game.Models.Game.Transfers;
+using AAEmu.Game.Models.Game.Transfers.Paths;
 using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.World;
 using AAEmu.Game.Utils;
@@ -291,11 +292,11 @@ namespace AAEmu.Game.Core.Managers
              из двух дорог, по одному пути в каждую сторону.
             */
             var Tolerance = 1.401298E-45f;    // Погрешность
-            //                             templateId,      idx,      Path
+            //                             templateId,      idx,      TransfersPath
             var allRoutes = new Dictionary<uint, Dictionary<int, List<Point>>>();
             //                             templateId,           idx, PathName
             var allRouteNames = new Dictionary<uint, Dictionary<int, string>>();
-            //                         idx,      Path
+            //                         idx,      TransfersPath
             var routes = new Dictionary<int, List<Point>>();
             //                         idx,      PathName
             var nameRoutes = new Dictionary<int, string>();
@@ -310,7 +311,7 @@ namespace AAEmu.Game.Core.Managers
                                 path.Name
             var listNames = new List<string>();
                                            idx,  path.WorldPos
-            var listPaths = new Dictionary<uint, List<Point>>();
+            var listPaths = new Dictionary<uint, List<TransfersPathPoint>>();
             */
             var (listTypes, listNames, listPaths) = GetAllTypesNamesPaths(templateId);
 
@@ -640,7 +641,7 @@ namespace AAEmu.Game.Core.Managers
             transfer.Rot = new Quaternion(0f, 0f, 0, 1f);
 
             (transfer.Position.X, transfer.Position.Y) = MathUtil.AddDistanceToFront(-9.24417f, transfer.Position.X, transfer.Position.Y, transfer.Position.RotationZ);
-            //var tempPoint = new Point(transfer.Position.WorldId, transfer.Position.ZoneId, -0.33f, -9.01f, 2.44f, 0, 0, 0);
+            //var tempPoint = new TransfersPathPoint(transfer.Position.WorldId, transfer.Position.ZoneId, -0.33f, -9.01f, 2.44f, 0, 0, 0);
             transfer.Position.Z = AppConfiguration.Instance.HeightMapsEnable ? WorldManager.Instance.GetHeight(transfer.Position.ZoneId, transfer.Position.X, transfer.Position.Y) : transfer.Position.Z;
 
             transfer.Faction = new SystemFaction();
@@ -802,8 +803,6 @@ namespace AAEmu.Game.Core.Managers
             }
             #endregion
             #region TransferPath
-
-
             _log.Info("Loading transfer_path...");
 
             var worlds = WorldManager.Instance.GetWorlds();
@@ -873,6 +872,9 @@ namespace AAEmu.Game.Core.Managers
             #endregion
 
             GetOwnerPaths();
+
+            // optional for test 
+            TransfersPath.GetPaths();
         }
     }
 }

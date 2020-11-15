@@ -5,7 +5,7 @@ namespace AAEmu.Game.Models.Tasks.UnitMove
 {
     public class Record : Task
     {
-        private readonly Simulation _patrol;
+        private readonly SimulationNpc _patrol;
         private readonly Character _ch;
 
         /// <summary>
@@ -13,7 +13,7 @@ namespace AAEmu.Game.Models.Tasks.UnitMove
         /// </summary>
         /// <param name="sim"></param>
         /// <param name="ch"></param>
-        public Record(Simulation sim, Character ch)
+        public Record(SimulationNpc sim, Character ch)
         {
             _patrol = sim;
             _ch = ch;

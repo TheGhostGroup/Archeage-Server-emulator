@@ -66,7 +66,7 @@ namespace AAEmu.Game.Models.Game.Skills.Templates
         public bool Unmount { get; set; }
         public uint DamageTypeId { get; set; }
         public bool AllowToPrisoner { get; set; }
-        public uint MilestoneId { get; set; }
+        //public uint MilestoneId { get; set; } // there is no such field in the database for version 3030
         public bool MatchAnimation { get; set; }
         public Plot Plot { get; set; }
         public bool UseAnimTime { get; set; }

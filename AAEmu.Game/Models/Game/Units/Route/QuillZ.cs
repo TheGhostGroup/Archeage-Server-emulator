@@ -184,7 +184,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
         }
         public override void Execute(Transfer transfer)
         {
-            // Transfer не будет двигаться по оси Z
+            // TransfersPath не будет двигаться по оси Z
             throw new NotImplementedException();
         }
     }

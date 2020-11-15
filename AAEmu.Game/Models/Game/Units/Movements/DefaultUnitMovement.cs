@@ -21,14 +21,23 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             var vy = stream.ReadInt16();
             var vz = stream.ReadInt16();
             Velocity = new Vector3(vx, vy, vz);
+            VelX = (short)Velocity.X;
+            VelY = (short)Velocity.Y;
+            VelZ = (short)Velocity.Z;
 
             //RotationX = (sbyte)stream.ReadInt16();
             //RotationY = (sbyte)stream.ReadInt16();
             //RotationZ = (sbyte)stream.ReadInt16();
-            var rx = stream.ReadSByte();
-            var ry = stream.ReadSByte();
-            var rz = stream.ReadSByte();
-            Rot = new Quaternion(Helpers.ConvertDirectionToRadian(rx), Helpers.ConvertDirectionToRadian(ry), Helpers.ConvertDirectionToRadian(rz), 1f);
+
+            //var rx = (sbyte)stream.ReadInt16();
+            //var ry = (sbyte)stream.ReadInt16();
+            //var rz = (sbyte)stream.ReadInt16();
+            //Rot = new Quaternion(Helpers.ConvertDirectionToRadian(rx), Helpers.ConvertDirectionToRadian(ry), Helpers.ConvertDirectionToRadian(rz), 1f);
+
+            Rot = stream.ReadQuaternionShort();
+            RotationX = (sbyte)Rot.X;
+            RotationY = (sbyte)Rot.Y;
+            RotationZ = (sbyte)Rot.Z;
         }
 
         public override PacketStream Write(PacketStream stream)

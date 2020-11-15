@@ -102,7 +102,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
 
             moveType.DeltaMovement = new Vector3(0, 1.0f, 0);
 
-            moveType.Flags = 5;      // 5-walk, 4-run, 3-stand still
+            moveType.actorFlags = 5;// 5-walk, 4-run, 3-stand still
             moveType.Stance = 1;    // COMBAT = 0x0, IDLE = 0x1
             moveType.Alertness = 0; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
             moveType.Time = Seq;    // has to change all the time for normal motion.
@@ -121,7 +121,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 // 停止移动
                 // Stop moving
                 //moveType.DeltaMovement[1] = 0;
-                moveType.DeltaMovement = new Vector3();
+                moveType.DeltaMovement = Vector3.Zero;
                 npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
                 //LoopAuto(npc);
                 // stop at the top for time seconds

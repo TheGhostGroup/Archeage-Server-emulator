@@ -95,7 +95,8 @@ namespace AAEmu.Game.Models.Game.DoodadObj
         {
             stream.WriteBc(ObjId);
 
-            stream.WritePisc(TemplateId, FuncGroupId, 0, 0);
+            var hasLootItrem = 0; //false;
+            stream.WritePisc(TemplateId, FuncGroupId, hasLootItrem, QuestGlow);
 
             stream.Write(Flag);
             stream.WriteBc(OwnerObjId);

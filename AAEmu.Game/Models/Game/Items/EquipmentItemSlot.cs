@@ -21,18 +21,18 @@
         Offhand = 16,
         Ranged = 17,
         Musical = 18,
-        //somehow_special (BodyPart)
+        // ---- somehow_special
         Face = 19,
         Hair = 20,
         Glasses = 21,
-        Reserved = 22,
+        Horns = 22,
         Tail = 23,
         Body = 24,
         Beard = 25,
-        //================
+        // ---- somehow_special
         Backpack = 26,
         Cosplay = 27,
-        CosplayVisual = 28
+        Stabilizer = 28
     }
 
     public enum EquipmentItemSlotType : byte
@@ -62,13 +62,13 @@
         Face = 23,
         Hair = 24,
         Glasses = 25,
-        Reserved = 26,
+        Horns = 26,
         Tail = 27,
         Body = 28,
         Beard = 29,
         Backpack = 30,
         Cosplay = 31,
-        CosplayVisual = 32
+        Stabilizer = 32
     }
 
     public enum WeaponTypeBuff : uint

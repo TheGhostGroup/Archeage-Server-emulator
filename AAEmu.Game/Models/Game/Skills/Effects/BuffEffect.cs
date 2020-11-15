@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Packets.G2C;
@@ -21,8 +21,8 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
         {
             if (Buff.RequireBuffId > 0 && !target.Effects.CheckBuff(Buff.RequireBuffId))
                 return; // TODO send error?
-            if (target.Effects.CheckBuffImmune(Buff.Id))
-                return; // TODO send error of immune?
+            //if (target.Effects.CheckBuffImmune(Buff.Id))
+            //    return; // TODO send error of immune?
             target.Effects.AddEffect(new Effect(target, caster, casterObj, this, skill, time));
         }
 

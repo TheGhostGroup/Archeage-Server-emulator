@@ -292,14 +292,14 @@ namespace AAEmu.Game.Core.Managers
 
                     using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
                     {
+                        var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new SlaveInitialBuffs
-                            {
-                                Id = reader.GetUInt32("id"),
-                                SlaveId = reader.GetUInt32("slave_id"),
-                                BuffId = reader.GetUInt32("buff_id")
-                            };
+                            var template = new SlaveInitialBuffs();
+                            //template.Id = reader.GetUInt32("id");
+                            template.Id = step++;
+                            template.SlaveId = reader.GetUInt32("slave_id");
+                            template.BuffId = reader.GetUInt32("buff_id");
                             if (_slaveTemplates.ContainsKey(template.SlaveId))
                             {
                                 _slaveTemplates[template.SlaveId].InitialBuffs.Add(template);
@@ -315,15 +315,15 @@ namespace AAEmu.Game.Core.Managers
 
                     using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
                     {
+                        var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new SlavePassiveBuffs
-                            {
-                                Id = reader.GetUInt32("id"),
-                                OwnerId = reader.GetUInt32("owner_id"),
-                                OwnerType = reader.GetString("owner_type"),
-                                PassiveBuffId = reader.GetUInt32("passive_buff_id")
-                            };
+                            var template = new SlavePassiveBuffs();
+                            //template.Id = reader.GetUInt32("id");
+                            template.Id = step++;
+                            template.OwnerId = reader.GetUInt32("owner_id");
+                            template.OwnerType = reader.GetString("owner_type");
+                            template.PassiveBuffId = reader.GetUInt32("passive_buff_id");
                             if (_slaveTemplates.ContainsKey(template.OwnerId))
                             {
                                 _slaveTemplates[template.OwnerId].PassiveBuffs.Add(template);
@@ -339,18 +339,18 @@ namespace AAEmu.Game.Core.Managers
 
                     using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
                     {
+                        var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new SlaveDoodadBindings
-                            {
-                                Id = reader.GetUInt32("id"),
-                                OwnerId = reader.GetUInt32("owner_id"),
-                                OwnerType = reader.GetString("owner_type"),
-                                AttachPointId = reader.GetInt32("attach_point_id"),
-                                DoodadId = reader.GetUInt32("doodad_id"),
-                                Persist = reader.GetBoolean("persist"),
-                                Scale = reader.GetFloat("scale")
-                            };
+                            var template = new SlaveDoodadBindings();
+                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                            template.Id = step++;
+                            template.OwnerId = reader.GetUInt32("owner_id");
+                            template.OwnerType = reader.GetString("owner_type");
+                            template.AttachPointId = reader.GetInt32("attach_point_id");
+                            template.DoodadId = reader.GetUInt32("doodad_id");
+                            template.Persist = reader.GetBoolean("persist");
+                            template.Scale = reader.GetFloat("scale");
                             if (_slaveTemplates.ContainsKey(template.OwnerId))
                             {
                                 _slaveTemplates[template.OwnerId].DoodadBindings.Add(template);

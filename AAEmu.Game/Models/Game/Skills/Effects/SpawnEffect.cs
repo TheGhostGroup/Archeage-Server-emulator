@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AAEmu.Game.Models.Game.Skills.Templates;
 using AAEmu.Game.Models.Game.Units;
 
@@ -9,8 +9,9 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
         public uint OwnerTypeId { get; set; }
         public uint SubType { get; set; }
         public uint PosDirId { get; set; }
-        public float PosAngle { get; set; }
-        public float PosDistance { get; set; }
+        //public float PosAngle { get; set; } // there is no such field in the database for version 3030
+        public float PosDistanceMax { get; set; }
+        public float PosDistanceMin { get; set; }
         public uint OriDirId { get; set; }
         public float OriAngle { get; set; }
         public bool UseSummonerFaction { get; set; }

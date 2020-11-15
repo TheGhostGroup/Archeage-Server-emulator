@@ -1,0 +1,193 @@
+[
+    {
+        "Id": 1,
+        "Count": 1,
+        "UnitId": 11999,
+        "Title": "Дозорный Дрю",
+        "Position": {
+            "X": 15501.0,
+            "Y": 14864.0,
+            "Z": 141.58,
+            "RotationX": 0,
+            "RotationY": 0,
+            "RotationZ": 0
+        },
+        "Scale": 0.0,
+        "Zone": 1
+    },
+    {
+        "Id": 2,
+        "Count": 1,
+        "UnitId": 8172,
+        "Title": "Guard 1",
+        "Position": {
+            "X": 15436.0,
+            "Y": 13810.0,
+            "Z": 175.4471,
+            "RotationX": 0,
+            "RotationY": 0,
+            "RotationZ": 0
+        },
+        "Scale": 0.0,
+        "Zone": 1
+    },
+    {
+        "Id": 3,
+        "Count": 1,
+        "UnitId": 8176,
+        "Title": "Guard 2",
+        "Position": {
+            "X": 15379.0,
+            "Y": 13869.0,
+            "Z": 158.9948,
+            "RotationX": 0,
+            "RotationY": 0,
+            "RotationZ": 0
+        },
+        "Scale": 0.0,
+        "Zone": 1
+    },
+    {
+    "Id": 4,
+    "Count": 1,
+    "UnitId": 3576,
+    "Title": "",
+    "Position": {
+      "X": 15328.0,
+      "Y": 13863.0,
+      "Z": 154.4,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0,
+    "Zone": 1
+  },
+  {
+    "Id": 5,
+    "Count": 1,
+    "UnitId": 918,
+    "Title": "",
+    "Position": {
+      "X": 15254.0,
+      "Y": 13877.0,
+      "Z": 146.3729,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0,
+    "Zone": 1
+  },
+  {
+    "Id": 6,
+    "Count": 1,
+    "UnitId": 3626,
+    "Title": "",
+    "Position": {
+      "X": 15261.0,
+      "Y": 13642.0,
+      "Z": 106.0891,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0,
+    "Zone": 1
+  },
+  {
+    "Id": 7,
+    "Count": 1,
+    "UnitId": 8172,
+    "Title": "",
+    "Position": {
+      "X": 15361.0,
+      "Y": 13856.0,
+      "Z": 158.7417,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0,
+    "Zone": 1
+  },
+  {
+    "Id": 8,
+    "Count": 1,
+    "UnitId": 8176,
+    "Title": "",
+    "Position": {
+      "X": 15435.0,
+      "Y": 13793.0,
+      "Z": 175.252,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0,
+    "Zone": 1
+  },
+  {
+    "Id": 9,
+    "Count": 1,
+    "UnitId": 3626,
+    "Title": "",
+    "Position": {
+      "X": 15190.0,
+      "Y": 13629.0,
+      "Z": 105.9851,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0,
+    "Zone": 1
+  },
+  {
+    "Id": 10,
+    "Count": 1,
+    "UnitId": 8172,
+    "Title": "",
+    "Position": {
+      "X": 15436.0,
+      "Y": 13810.0,
+      "Z": 175.4471,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0,
+    "Zone": 1
+  },
+  {
+    "Id": 8058,
+    "Count": 1,
+    "UnitId": 12143,
+    "Title": "Woodcutter Solace",
+    "Position": {
+      "X": 15529.47,
+      "Y": 15275.76,
+      "Z": 132.211,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0,
+    "Zone": 1
+  },
+  {
+    "Id": 6214,
+    "Count": 1,
+    "UnitId": 3597,
+    "Title": "Maude",
+    "Position": {
+      "X": 15563.43,
+      "Y": 15352.42,
+      "Z": 128.0607,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -17
+    },
+    "Scale": 0.0
+  }
+]

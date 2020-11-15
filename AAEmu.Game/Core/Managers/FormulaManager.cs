@@ -20,10 +20,7 @@ namespace AAEmu.Game.Core.Managers
         private Dictionary<UnitOwnerType, Dictionary<UnitFormulaKind, UnitFormula>> _unitFormulas;
         private Dictionary<WearableFormulaType, WearableFormula> _wearableFormulas;
         private Dictionary<uint, Formula> _formulas;
-
-        private Dictionary<uint, Dictionary<UnitFormulaVariableType, Dictionary<uint, UnitFormulaVariable>>>
-            _unitVariables;
-
+        private Dictionary<uint, Dictionary<UnitFormulaVariableType, Dictionary<uint, UnitFormulaVariable>>> _unitVariables;
         public CalculationEngine CalculationEngine { get; private set; }
 
         public UnitFormula GetUnitFormula(UnitOwnerType owner, UnitFormulaKind kind)
@@ -110,11 +107,9 @@ namespace AAEmu.Game.Core.Managers
                                 Value = reader.GetFloat("value")
                             };
                             if (!_unitVariables.ContainsKey(variable.FormulaId))
-                                _unitVariables.Add(variable.FormulaId,
-                                    new Dictionary<UnitFormulaVariableType, Dictionary<uint, UnitFormulaVariable>>());
+                                _unitVariables.Add(variable.FormulaId, new Dictionary<UnitFormulaVariableType, Dictionary<uint, UnitFormulaVariable>>());
                             if (!_unitVariables[variable.FormulaId].ContainsKey(variable.Type))
-                                _unitVariables[variable.FormulaId].Add(variable.Type,
-                                    new Dictionary<uint, UnitFormulaVariable>());
+                                _unitVariables[variable.FormulaId].Add(variable.Type, new Dictionary<uint, UnitFormulaVariable>());
                             _unitVariables[variable.FormulaId][variable.Type].Add(variable.Key, variable);
                         }
                     }
@@ -127,16 +122,18 @@ namespace AAEmu.Game.Core.Managers
                     using (var sqliteReader = command.ExecuteReader())
                     using (var reader = new SQLiteWrapperReader(sqliteReader))
                     {
+                        var step = 0u;
                         while (reader.Read())
                         {
-                            var formula = new WearableFormula
-                            {
-                                Id = reader.GetUInt32("id"),
-                                Type = (WearableFormulaType)reader.GetByte("kind_id"),
-                                TextFormula = reader.GetString("formula")
-                            };
+                            var formula = new WearableFormula();
+                            //formula.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                            formula.Id = step++;
+                            formula.Type = (WearableFormulaType)reader.GetByte("kind_id");
+                            formula.TextFormula = reader.GetString("formula");
                             if (formula.Prepare())
+                            {
                                 _wearableFormulas.Add(formula.Type, formula);
+                            }
                         }
                     }
                 }

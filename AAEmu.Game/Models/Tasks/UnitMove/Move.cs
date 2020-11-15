@@ -1,5 +1,6 @@
 ﻿using AAEmu.Game.Models.Game.Gimmicks;
 using AAEmu.Game.Models.Game.NPChar;
+using AAEmu.Game.Models.Game.Transfers.Paths;
 using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.Units.Route;
 
@@ -12,6 +13,7 @@ namespace AAEmu.Game.Models.Tasks.UnitMove
         private readonly float _targetX;
         private readonly float _targetY;
         private readonly float _targetZ;
+        private readonly TransfersPathPoint _pp;
 
         /// <summary>
         /// Move task
@@ -21,13 +23,14 @@ namespace AAEmu.Game.Models.Tasks.UnitMove
         /// <param name="TargetX"></param>
         /// <param name="TargetY"></param>
         /// <param name="TargetZ"></param>
-        public Move(Simulation patrol, Unit unit, float TargetX, float TargetY, float TargetZ)
+        public Move(Simulation patrol, Unit unit, float TargetX, float TargetY, float TargetZ, TransfersPathPoint pp = null)
         {
             _patrol = patrol;
             _targetX = TargetX;
             _targetY = TargetY;
             _targetZ = TargetZ;
             _unit = unit;
+            _pp = pp;
         }
 
         /// <summary>
@@ -44,7 +47,8 @@ namespace AAEmu.Game.Models.Tasks.UnitMove
                     _patrol?.MoveTo(_patrol, _gimmick, _targetX, _targetY, _targetZ);
                     break;
                 case Transfer _transfer:
-                    _patrol?.MoveTo(_patrol, _transfer, _targetX, _targetY, _targetZ);
+                    //_patrol?.MoveTo(_patrol, _transfer, _targetX, _targetY, _targetZ);
+                    _patrol?.MoveToPath(_patrol, _transfer, _targetX, _targetY, _targetZ, _pp);
                     break;
             }
         }

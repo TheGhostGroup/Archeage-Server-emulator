@@ -9,6 +9,8 @@ namespace AAEmu.Game.Models.Game.Items.Templates
 
         public uint Id { get; set; }
         public uint ArmorTypeId { get; set; }
+        public uint GradeId { get; set; }
+        public uint BuffId { get; set; }
         public Dictionary<uint, uint> Buffs { get; set; }
 
         public ArmorGradeBuffTemplate()

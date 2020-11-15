@@ -25,7 +25,9 @@ namespace AAEmu.Game.Core.Packets.C2G
             var myObjId = Connection.ActiveChar.ObjId;
             var type = (UnitMovementType)stream.ReadByte();
             var moveType = UnitMovement.GetType(type);
-            stream.Read(moveType);
+            
+            stream.Read(moveType); // Read UnitMovement
+            var extraFlag = stream.ReadByte(); // add in 3.0.3.0
 
             // ---- test Ai ----
             var movementAction = new MovementAction(
@@ -91,18 +93,17 @@ namespace AAEmu.Game.Core.Packets.C2G
                 RemoveEffects(Connection.ActiveChar, moveType);
                 // This will allow you to walk on a boat, but crashes other clients. Not sure why yet.
                 if ((
-                        (moveType.Flags & 32) == 32 // предположительно, мы на корабле
+                        (moveType.actorFlags & 32) == 32 // предположительно, мы на корабле
                         ||
-                        (moveType.Flags & 36) == 36 // предположительно, мы на дилижансе
+                        (moveType.actorFlags & 36) == 36 // предположительно, мы на дилижансе
                         ||
-                        (moveType.Flags & 64) == 64 // предположительно, мы на лифте
+                        (moveType.actorFlags & 64) == 64 // предположительно, мы на лифте
                      )
                     && moveType is ActorData mType)
                 {
                     Connection
                         .ActiveChar
                         .SetPosition(mType.X2 + mType.X, mType.Y2 + mType.Y, mType.Z2 + mType.Z, (sbyte)mType.Rot.X, (sbyte)mType.Rot.Y, (sbyte)mType.Rot.Z);
-
                     //  .SetPosition(mType.GcWorldPos.X + mType.X, mType.GcWorldPos.Y + mType.Y, mType.GcWorldPos.Z + mType.Z, (sbyte)mType.Rot.X, (sbyte)mType.Rot.Y, (sbyte)mType.Rot.Z);
 
                 }

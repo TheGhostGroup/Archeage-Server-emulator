@@ -1,0 +1,77 @@
+[
+  {
+    "Id": 6259,
+    "Count": 1,
+    "UnitId": 10688,
+    "Title": "Maison",
+    "Position": {
+      "X": 15563.84,
+      "Y": 15348.97,
+      "Z": 128.1497,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6214,
+    "Count": 1,
+    "UnitId": 3597,
+    "Title": "Maude",
+    "Position": {
+      "X": 15563.43,
+      "Y": 15352.42,
+      "Z": 128.0607,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -17
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6275,
+    "Count": 1,
+    "UnitId": 3511,
+    "Title": "Woodcutter Gallagher",
+    "Position": {
+      "X": 15524.76,
+      "Y": 15279.11,
+      "Z": 131.0439,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 15
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6474,
+    "Count": 1,
+    "UnitId": 12143,
+    "Title": "Woodcutter Solace",
+    "Position": {
+      "X": 15545.61,
+      "Y": 15355.37,
+      "Z": 129.6643,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 11
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6232,
+    "Count": 1,
+    "UnitId": 11949,
+    "Title": "Lucius",
+    "Position": {
+      "X": 15643.11,
+      "Y": 15172.95,
+      "Z": 121.3771,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  }
+]

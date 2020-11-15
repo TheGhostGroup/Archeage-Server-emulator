@@ -16,6 +16,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
         public sbyte Stance { get; set; }
         public sbyte Alertness { get; set; }
         public byte GcFlags { get; set; }
+        public ushort GcPart { get; set; }
         public ushort GcPartId { get; set; }
         public uint GcId { get; set; }
         public WorldPos GcWorldPos { get; set; }
@@ -31,29 +32,36 @@ namespace AAEmu.Game.Models.Game.Units.Movements
         //public sbyte RotationZ2 { get; set; }
         // ---
         public uint ClimbData { get; set; }
+        public uint MaxPushedUnitId { get; set; }
 
         public ActorData()
         {
-            WorldPos = new WorldPos(Helpers.ConvertLongX(X), Helpers.ConvertLongX(Y), Z);
-            GcWorldPos = new WorldPos(Helpers.ConvertLongX(X2), Helpers.ConvertLongX(Y2), Z2);
+            WorldPos = new WorldPos(Helpers.ConvertLongX(X), Helpers.ConvertLongY(Y), Z);
+            GcWorldPos = new WorldPos(Helpers.ConvertLongX(X2), Helpers.ConvertLongY(Y2), Z2);
         }
 
         public override void Read(PacketStream stream)
         {
             base.Read(stream);
             (X, Y, Z) = stream.ReadPositionBc();
-            WorldPos = new WorldPos(Helpers.ConvertLongX(X), Helpers.ConvertLongX(Y), Z);
+            WorldPos = new WorldPos(Helpers.ConvertLongX(X), Helpers.ConvertLongY(Y), Z);
 
             //VelX = stream.ReadInt16();
             //VelY = stream.ReadInt16();
             //VelZ = stream.ReadInt16();
             var tempVelocity = stream.ReadVector3Short();
             Velocity = new Vector3(tempVelocity.X * 60f, tempVelocity.Y * 60f, tempVelocity.Z * 60f);
+            VelX = (short)Velocity.X;
+            VelY = (short)Velocity.Y;
+            VelZ = (short)Velocity.Z;
 
             //RotationX = stream.ReadSByte();
             //RotationY = stream.ReadSByte();
             //RotationZ = stream.ReadSByte();
             Rot = stream.ReadQuaternionSbyte();
+            RotationX = 0;
+            RotationY = 0;
+            RotationZ = Helpers.ConvertRadianToSbyteDirection(Rot.Z);
 
             //DeltaMovement = new sbyte[3];
             //DeltaMovement[0] = stream.ReadSByte();
@@ -63,18 +71,19 @@ namespace AAEmu.Game.Models.Game.Units.Movements
 
             Stance = stream.ReadSByte();
             Alertness = stream.ReadSByte();
-            Flags = stream.ReadByte();
-            if ((Flags & 0x80) == 0x80)
+            actorFlags = stream.ReadUInt16(); // short in 3.0.3.0, sbyte in 1.2
+            if ((actorFlags & 0x80) == 0x80) // TODO если падает и ударяется об землю, видимо Значение нужно вычитать от текущего HP
             {
                 FallVel = stream.ReadUInt16(); // actor.fallVel
             }
 
-            if ((Flags & 0x20) == 0x20)
+            if ((actorFlags & 0x20) == 0x20) // TODO если находится на движущейся повозке/лифте/корабле? то здесь координаты персонажа
             {
                 GcFlags = stream.ReadByte();    // actor.gcFlags
+                GcPart = stream.ReadUInt16(); // actor.gcPart
                 GcPartId = stream.ReadUInt16(); // actor.gcPartId
                 (X2, Y2, Z2) = stream.ReadPositionBc(); // ix, iy, iz
-                GcWorldPos = new WorldPos(Helpers.ConvertLongX(X2), Helpers.ConvertLongX(Y2), Z2);
+                GcWorldPos = new WorldPos(Helpers.ConvertLongX(X2), Helpers.ConvertLongY(Y2), Z2);
                 //var (x2, y2, z2) = stream.ReadWorldPosition();
                 //GcWorldPos = new WorldPos(x2, y2, z2);
 
@@ -83,14 +92,18 @@ namespace AAEmu.Game.Models.Game.Units.Movements
                 //RotationZ2 = stream.ReadSByte();
                 GcWorldRot = stream.ReadQuaternionSbyte();
             }
-            if ((Flags & 0x60) == 0x60)
+            if ((actorFlags & 0x60) == 0x60)
             {
                 GcId = stream.ReadUInt32(); // actor.gcId
             }
 
-            if ((Flags & 0x40) == 0x40)
+            if ((actorFlags & 0x40) == 0x40)
             {
                 ClimbData = stream.ReadUInt32(); // actor.climbData
+            }
+            if ((actorFlags & 0x100) == 0x100)
+            {
+                MaxPushedUnitId = stream.ReadUInt32(); // actor.maxPushedUnitId
             }
         }
 
@@ -98,7 +111,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
         {
             base.Write(stream);
             stream.WritePositionBc(X, Y, Z);
-            WorldPos = new WorldPos(Helpers.ConvertLongX(X), Helpers.ConvertLongX(Y), Z);
+            WorldPos = new WorldPos(Helpers.ConvertLongX(X), Helpers.ConvertLongY(Y), Z);
             //stream.WriteWorldPosition(WorldPos.X, WorldPos.Y, WorldPos.Z);
 
             //stream.Write(VelX);
@@ -119,19 +132,20 @@ namespace AAEmu.Game.Models.Game.Units.Movements
 
             stream.Write(Stance);
             stream.Write(Alertness);
-            stream.Write(Flags);
-            if ((Flags & 0x80) == 0x80)
+            stream.Write(actorFlags);
+            if ((actorFlags & 0x80) == 0x80)
             {
                 stream.Write(FallVel);
             }
 
-            if ((Flags & 0x20) == 0x20)
+            if ((actorFlags & 0x20) == 0x20)
             {
                 stream.Write(GcFlags);
+                stream.Write(GcPart);
                 stream.Write(GcPartId);
 
                 stream.WritePositionBc(X2, Y2, Z2);
-                GcWorldPos = new WorldPos(Helpers.ConvertLongX(X2), Helpers.ConvertLongX(Y2), Z2);
+                GcWorldPos = new WorldPos(Helpers.ConvertLongX(X2), Helpers.ConvertLongY(Y2), Z2);
                 //stream.WriteWorldPosition(GcWorldPos.X, GcWorldPos.Y, GcWorldPos.Z);
 
                 //stream.Write(RotationX2);
@@ -140,14 +154,18 @@ namespace AAEmu.Game.Models.Game.Units.Movements
                 stream.WriteQuaternionSbyte(GcWorldRot);
 
             }
-            if ((Flags & 0x60) == 0x60)
+            if ((actorFlags & 0x60) == 0x60)
             {
                 stream.Write(GcId);
             }
 
-            if ((Flags & 0x40) == 0x40)
+            if ((actorFlags & 0x40) == 0x40)
             {
                 stream.Write(ClimbData);
+            }
+            if ((actorFlags & 0x100) == 0x100)
+            {
+                stream.Write(MaxPushedUnitId);
             }
 
             return stream;

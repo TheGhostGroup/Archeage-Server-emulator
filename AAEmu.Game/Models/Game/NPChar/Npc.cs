@@ -20,13 +20,11 @@ namespace AAEmu.Game.Models.Game.NPChar
 
         public uint TemplateId { get; set; }
         public NpcTemplate Template { get; set; }
-        public Item[] Equip { get; set; }
+        //public Item[] Equip { get; set; }
         public NpcSpawner Spawner { get; set; }
-
         public override UnitCustomModelParams ModelParams => Template.ModelParams;
         public override float Scale => Template.Scale;
-
-        public override byte RaceGender => (byte) (Template.CharRaceId > 0 ? 16 * Template.Gender + Template.Race : 0);
+        public override byte RaceGender => (byte)(16 * Template.Gender + Template.Race);
         public WorldPos Pos { get; set; }
         public Quaternion Rot { get; set; }
         public Vector3 Vel { get; set; }
@@ -470,8 +468,6 @@ namespace AAEmu.Game.Models.Game.NPChar
         public Npc()
         {
             Name = "";
-            Equip = new Item[29]; // TODO 1.2 item: 28, at 3.0.3.0 item: 29
-
             Ai = new NpcAi(this, 100f); //Template.AggroLinkHelpDist);
             UnitType = BaseUnitType.Npc;
         }

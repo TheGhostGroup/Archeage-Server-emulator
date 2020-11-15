@@ -1,4 +1,4 @@
-using AAEmu.Game.Models.Game.Formulas;
+﻿using AAEmu.Game.Models.Game.Formulas;
 
 namespace AAEmu.Game.Models.Game.Items
 {

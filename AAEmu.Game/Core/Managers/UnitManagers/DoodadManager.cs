@@ -67,7 +67,7 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                             template.ModelKindId = (ModelKind)reader.GetUInt32("model_kind_id");
                             template.UseCreatorFaction = reader.GetBoolean("use_creator_faction", true);
                             template.ForceTodTopPriority = reader.GetBoolean("force_tod_top_priority", true);
-                            template.MilestoneId = reader.GetUInt32("milestone_id", 0);
+                            //template.MilestoneId = reader.GetUInt32("milestone_id", 0); // there is no such field in the database for version 3030
                             template.GroupId = reader.GetUInt32("group_id");
                             template.UseTargetDecal = reader.GetBoolean("use_target_decal", true);
                             template.UseTargetSilhouette = reader.GetBoolean("use_target_silhouette", true);
@@ -325,7 +325,7 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                         {
                             var func = new DoodadFuncBuyFishModel();
                             func.Id = reader.GetUInt32("id");
-                            func.Name = reader.GetString("name");
+                            //func.Name = reader.GetString("name"); // there is no such field in the database for version 3030
                             _funcTemplates["DoodadFuncBuyFishModel"].Add(func.Id, func);
                         }
                     }
@@ -427,14 +427,16 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
 
                 using (var command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT * FROM doodad_func_clout_effects";
+                    command.CommandText = "SELECT * FROM doodad_func_clout_effects ORDER BY doodad_func_clout_id ASC";
                     command.Prepare();
                     using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
                     {
+                        var step = 0u;
                         while (reader.Read())
                         {
                             var func = new DoodadFuncCloutEffect();
-                            func.Id = reader.GetUInt32("id");
+                            //func.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                            func.Id = step++;
                             func.FuncCloutId = reader.GetUInt32("doodad_func_clout_id");
                             func.EffectId = reader.GetUInt32("effect_id");
                             _funcTemplates["DoodadFuncCloutEffect"].Add(func.Id, func);
@@ -564,7 +566,7 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                         {
                             var func = new DoodadFuncConsumeChangerModel();
                             func.Id = reader.GetUInt32("id");
-                            func.Name = reader.GetString("name");
+                            //func.Name = reader.GetString("name"); // there is no such field in the database for version 3030
                             _funcTemplates["DoodadFuncConsumeChangerModel"].Add(func.Id, func);
                         }
                     }
@@ -1832,22 +1834,22 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                     }
                 }
 
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "SELECT * FROM doodad_func_respawns";
-                    command.Prepare();
-                    using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
-                    {
-                        while (reader.Read())
-                        {
-                            var func = new DoodadFuncRespawn();
-                            func.Id = reader.GetUInt32("id");
-                            func.MinTime = reader.GetInt32("min_time");
-                            func.MaxTime = reader.GetInt32("max_time");
-                            _funcTemplates["DoodadFuncRespawn"].Add(func.Id, func);
-                        }
-                    }
-                }
+                //using (var command = connection.CreateCommand())
+                //{
+                //    command.CommandText = "SELECT * FROM doodad_func_respawns";
+                //    command.Prepare();
+                //    using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
+                //    {
+                //        while (reader.Read())
+                //        {
+                //            var func = new DoodadFuncRespawn();
+                //            func.Id = reader.GetUInt32("id");
+                //            func.MinTime = reader.GetInt32("min_time");
+                //            func.MaxTime = reader.GetInt32("max_time");
+                //            _funcTemplates["DoodadFuncRespawn"].Add(func.Id, func);
+                //        }
+                //    }
+                //}
 
                 using (var command = connection.CreateCommand())
                 {
@@ -2001,6 +2003,35 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                             func.AngleZ = reader.GetFloat("angle_z");
                             func.NextPhase = reader.GetUInt32("next_phase");
                             _funcTemplates["DoodadFuncSpawnGimmick"].Add(func.Id, func);
+                        }
+                    }
+                }
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT * FROM doodad_func_spawns";
+                    command.Prepare();
+                    using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
+                    {
+                        while (reader.Read())
+                        {
+                            var func = new DoodadFuncSpawn();
+                            func.Id = reader.GetUInt32("id");
+                            func.DespawnOnCreatorDeath = reader.GetBoolean("despawn_on_creator_death");
+                            func.LifeTime = reader.GetFloat("life_time");
+                            func.MateStateId = reader.GetUInt32("mate_state_id");
+                            func.OriAngle = reader.GetFloat("ori_angle");
+                            func.OriDirId = reader.GetUInt32("ori_dir_id");
+                            func.OwnerTypeId = reader.GetUInt32("owner_type_id");
+                            func.PosAngleMax = reader.GetFloat("pos_angle_max");
+                            func.PosAngleMin = reader.GetFloat("pos_angle_min");
+                            func.PosDirId = reader.GetUInt32("pos_dir_id");
+                            func.PosDistanceMax = reader.GetFloat("pos_distance_max");
+                            func.PosDistanceMin = reader.GetFloat("pos_distance_min");
+                            func.SubType = reader.GetUInt32("sub_type");
+                            func.UseSummonerAggroTarget = reader.GetBoolean("use_summoner_aggro_target");
+                            func.UseSummonerFaction = reader.GetBoolean("use_summoner_faction");
+                            _funcTemplates["DoodadFuncSpawn"].Add(func.Id, func);
                         }
                     }
                 }

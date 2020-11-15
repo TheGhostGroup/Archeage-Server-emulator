@@ -62,27 +62,27 @@ namespace AAEmu.Game.Core.Managers
             _housesTl = new Dictionary<ushort, House>();
             _removedHousings = new List<uint>();
 
-            //            var housingAreas = new Dictionary<uint, HousingAreas>();
+            var housingAreas = new Dictionary<uint, HousingAreas>();
             var houseTaxes = new Dictionary<uint, HouseTax>();
 
             using (var connection = SQLite.CreateConnection())
             {
-                //                using (var command = connection.CreateCommand())
-                //                {
-                //                    command.CommandText = "SELECT * FROM housing_areas";
-                //                    command.Prepare();
-                //                    using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
-                //                    {
-                //                        while (reader.Read())
-                //                        {
-                //                            var template = new HousingAreas();
-                //                            template.Id = reader.GetUInt32("id");
-                //                            template.Name = reader.GetString("name");
-                //                            template.GroupId = reader.GetUInt32("housing_group_id");
-                //                            housingAreas.Add(template.Id, template);
-                //                        }
-                //                    }
-                //                }
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT * FROM housing_areas";
+                    command.Prepare();
+                    using (var reader = new SQLiteWrapperReader(command.ExecuteReader()))
+                    {
+                        while (reader.Read())
+                        {
+                            var template = new HousingAreas();
+                            template.Id = reader.GetUInt32("id");
+                            template.Name = reader.GetString("name");
+                            template.GroupId = reader.GetUInt32("housing_group_id");
+                            housingAreas.Add(template.Id, template);
+                        }
+                    }
+                }
 
                 using (var command = connection.CreateCommand())
                 {
@@ -156,10 +156,9 @@ namespace AAEmu.Game.Core.Managers
                             var templateBindings = binding.Find(x => x.TemplateId.Contains(template.Id));
                             using (var command2 = connection.CreateCommand())
                             {
-                                command2.CommandText =
-                                    "SELECT * FROM housing_binding_doodads WHERE owner_id=@owner_id AND owner_type='Housing'";
+                                command2.CommandText = "SELECT * FROM housing_binding_doodads WHERE housing_id=@housing_id";
                                 command2.Prepare();
-                                command2.Parameters.AddWithValue("owner_id", template.Id);
+                                command2.Parameters.AddWithValue("housing_id", template.Id);
                                 using (var reader2 = new SQLiteWrapperReader(command2.ExecuteReader()))
                                 {
                                     var doodads = new List<HousingBindingDoodad>();
@@ -168,19 +167,20 @@ namespace AAEmu.Game.Core.Managers
                                         var bindingDoodad = new HousingBindingDoodad();
                                         bindingDoodad.AttachPointId = reader2.GetUInt32("attach_point_id");
                                         bindingDoodad.DoodadId = reader2.GetUInt32("doodad_id");
+                                        bindingDoodad.ForceDbSave = reader2.GetBoolean("force_db_save", false);
+                                        bindingDoodad.HoudingId = reader2.GetUInt32("housing_id");
 
-                                        if (templateBindings != null &&
-                                            templateBindings.AttachPointId.ContainsKey(bindingDoodad.AttachPointId))
-                                            bindingDoodad.Position = templateBindings
-                                                .AttachPointId[bindingDoodad.AttachPointId].Clone();
-
+                                        if (templateBindings != null && templateBindings.AttachPointId.ContainsKey(bindingDoodad.AttachPointId))
+                                        {
+                                            bindingDoodad.Position = templateBindings.AttachPointId[bindingDoodad.AttachPointId].Clone();
+                                        }
                                         if (bindingDoodad.Position == null)
+                                        {
                                             bindingDoodad.Position = new Point(0, 0, 0);
+                                        }
                                         bindingDoodad.Position.WorldId = 1;
-
                                         doodads.Add(bindingDoodad);
                                     }
-
                                     template.HousingBindingDoodad = doodads.ToArray();
                                 }
                             }

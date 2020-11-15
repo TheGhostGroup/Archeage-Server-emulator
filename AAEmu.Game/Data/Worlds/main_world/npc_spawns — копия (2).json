@@ -1,0 +1,6577 @@
+[
+  {
+    "Id": 72949,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15495.98,
+      "Y": 15247.72,
+      "Z": 133.7869,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 36
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 77956,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15534.29,
+      "Y": 15348.35,
+      "Z": 131.8552,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 32308,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15572.02,
+      "Y": 15241.95,
+      "Z": 133.986,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6275,
+    "Count": 1,
+    "UnitId": 3511,
+    "Title": "Woodcutter Gallagher",
+    "Position": {
+      "X": 15524.76,
+      "Y": 15279.11,
+      "Z": 131.0439,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 15
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 12273,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15530.41,
+      "Y": 15208.13,
+      "Z": 132.7515,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 76
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6489,
+    "Count": 1,
+    "UnitId": 11541,
+    "Title": "Gossiper Parish",
+    "Position": {
+      "X": 15603.59,
+      "Y": 15217.44,
+      "Z": 121.9013,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 30
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 84771,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15471.55,
+      "Y": 15260.93,
+      "Z": 133.5518,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 19
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6221,
+    "Count": 1,
+    "UnitId": 7676,
+    "Title": "Solzreed Kit",
+    "Position": {
+      "X": 15468.3,
+      "Y": 15240.28,
+      "Z": 133.3678,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6208,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15461.15,
+      "Y": 15291.04,
+      "Z": 133.7579,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -21
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 83710,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15488.82,
+      "Y": 15251.07,
+      "Z": 133.924,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 61
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 84347,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15469.07,
+      "Y": 15266.36,
+      "Z": 134.0801,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -14
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 84854,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15468.98,
+      "Y": 15253.33,
+      "Z": 133.5819,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 65
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6504,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15558.73,
+      "Y": 15226.33,
+      "Z": 132.4984,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 35
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 84954,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15468.35,
+      "Y": 15251.58,
+      "Z": 133.5719,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 126254,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15500.5,
+      "Y": 15228.05,
+      "Z": 133.3608,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 37
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6314,
+    "Count": 1,
+    "UnitId": 7677,
+    "Title": "Solzreed Vixen",
+    "Position": {
+      "X": 15469.22,
+      "Y": 15240.34,
+      "Z": 133.3678,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 44160,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15498.78,
+      "Y": 15222.19,
+      "Z": 133.3578,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6548,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15494.39,
+      "Y": 15222.25,
+      "Z": 133.3748,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 72059,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15566.42,
+      "Y": 15222.71,
+      "Z": 131.509,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 76
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7173,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15521.11,
+      "Y": 15206.59,
+      "Z": 133.4538,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 119068,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15503.56,
+      "Y": 15203.07,
+      "Z": 133.5739,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 45
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7168,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15526.38,
+      "Y": 15200.33,
+      "Z": 134.1021,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 43
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6252,
+    "Count": 1,
+    "UnitId": 11996,
+    "Title": "Burnill",
+    "Position": {
+      "X": 15598.85,
+      "Y": 15219.79,
+      "Z": 122.3785,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -42
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6390,
+    "Count": 1,
+    "UnitId": 11997,
+    "Title": "Janssen",
+    "Position": {
+      "X": 15602.56,
+      "Y": 15220.67,
+      "Z": 121.9993,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 72965,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15575.81,
+      "Y": 15145.1,
+      "Z": 130.2506,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6282,
+    "Count": 1,
+    "UnitId": 8172,
+    "Title": "Guard",
+    "Position": {
+      "X": 15630.56,
+      "Y": 15184.93,
+      "Z": 120.6498,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 13
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6475,
+    "Count": 1,
+    "UnitId": 8176,
+    "Title": "Sentry",
+    "Position": {
+      "X": 15639.5,
+      "Y": 15190.01,
+      "Z": 120.6688,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 74219,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15558.12,
+      "Y": 15122.99,
+      "Z": 130.6257,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 58
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 74436,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15590.99,
+      "Y": 15129.05,
+      "Z": 130.6227,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 52
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6232,
+    "Count": 1,
+    "UnitId": 11949,
+    "Title": "Lucius",
+    "Position": {
+      "X": 15643.11,
+      "Y": 15172.95,
+      "Z": 121.3771,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6300,
+    "Count": 1,
+    "UnitId": 3512,
+    "Title": "Mayor Gott",
+    "Position": {
+      "X": 15656.01,
+      "Y": 15173.21,
+      "Z": 121.3951,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 56
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6242,
+    "Count": 1,
+    "UnitId": 5335,
+    "Title": "Monica",
+    "Position": {
+      "X": 15653.48,
+      "Y": 15148.43,
+      "Z": 123.657,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6304,
+    "Count": 1,
+    "UnitId": 918,
+    "Title": "Dog",
+    "Position": {
+      "X": 15657.93,
+      "Y": 15154.18,
+      "Z": 121.8753,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -33
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6501,
+    "Count": 1,
+    "UnitId": 11543,
+    "Title": "Perusubal",
+    "Position": {
+      "X": 15664.04,
+      "Y": 15160.31,
+      "Z": 121.107,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6372,
+    "Count": 1,
+    "UnitId": 10580,
+    "Title": "Prophet Terrien",
+    "Position": {
+      "X": 15665.32,
+      "Y": 15163.02,
+      "Z": 120.9129,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -49
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6393,
+    "Count": 1,
+    "UnitId": 11542,
+    "Title": "Pan",
+    "Position": {
+      "X": 15665.27,
+      "Y": 15159.22,
+      "Z": 121.045,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -5
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6319,
+    "Count": 1,
+    "UnitId": 7137,
+    "Title": "Wandering Merchant Kadiga",
+    "Position": {
+      "X": 15668.88,
+      "Y": 15163.19,
+      "Z": 120.7468,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 42
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 27615,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15621.77,
+      "Y": 15114.0,
+      "Z": 128.6059,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6485,
+    "Count": 1,
+    "UnitId": 11854,
+    "Title": "Innkeeper Nage",
+    "Position": {
+      "X": 15683.8,
+      "Y": 15173.36,
+      "Z": 120.8139,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 27
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6419,
+    "Count": 1,
+    "UnitId": 11188,
+    "Title": "Sirinu",
+    "Position": {
+      "X": 15682.67,
+      "Y": 15167.61,
+      "Z": 120.7488,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 42
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 27161,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15627.51,
+      "Y": 15113.43,
+      "Z": 128.954,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 55
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6351,
+    "Count": 1,
+    "UnitId": 3513,
+    "Title": "Allen",
+    "Position": {
+      "X": 15664.5,
+      "Y": 15130.21,
+      "Z": 121.6402,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6327,
+    "Count": 1,
+    "UnitId": 8176,
+    "Title": "Sentry",
+    "Position": {
+      "X": 15719.85,
+      "Y": 15183.49,
+      "Z": 104.7486,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 2
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6438,
+    "Count": 1,
+    "UnitId": 5331,
+    "Title": "Corie",
+    "Position": {
+      "X": 15685.88,
+      "Y": 15124.22,
+      "Z": 120.7428,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 51
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6495,
+    "Count": 1,
+    "UnitId": 5330,
+    "Title": "Dayna",
+    "Position": {
+      "X": 15688.44,
+      "Y": 15122.48,
+      "Z": 120.7428,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 53
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 15748,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15598.38,
+      "Y": 15097.04,
+      "Z": 130.3736,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -9
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6285,
+    "Count": 1,
+    "UnitId": 11953,
+    "Title": "Lucius",
+    "Position": {
+      "X": 15691.13,
+      "Y": 15118.42,
+      "Z": 120.6228,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 20
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6306,
+    "Count": 1,
+    "UnitId": 7653,
+    "Title": "Amy",
+    "Position": {
+      "X": 15687.44,
+      "Y": 15111.38,
+      "Z": 120.4097,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 32
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 122920,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15583.55,
+      "Y": 15097.95,
+      "Z": 131.0849,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 73
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6464,
+    "Count": 1,
+    "UnitId": 3514,
+    "Title": "Fisherman Randy",
+    "Position": {
+      "X": 15724.92,
+      "Y": 15150.37,
+      "Z": 108.294,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -33
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6450,
+    "Count": 1,
+    "UnitId": 10689,
+    "Title": "Luis",
+    "Position": {
+      "X": 15692.94,
+      "Y": 15106.72,
+      "Z": 120.8399,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 30
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6496,
+    "Count": 1,
+    "UnitId": 918,
+    "Title": "Dog",
+    "Position": {
+      "X": 15732.7,
+      "Y": 15163.51,
+      "Z": 108.0409,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6491,
+    "Count": 1,
+    "UnitId": 3580,
+    "Title": "Moore",
+    "Position": {
+      "X": 15691.47,
+      "Y": 15100.06,
+      "Z": 120.8759,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -17
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 58427,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15599.01,
+      "Y": 15087.02,
+      "Z": 130.3696,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6339,
+    "Count": 1,
+    "UnitId": 3635,
+    "Title": "Lloyd",
+    "Position": {
+      "X": 15743.82,
+      "Y": 15182.01,
+      "Z": 113.6191,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6427,
+    "Count": 1,
+    "UnitId": 11182,
+    "Title": "Billa",
+    "Position": {
+      "X": 15717.1,
+      "Y": 15115.01,
+      "Z": 120.6488,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 47
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6279,
+    "Count": 1,
+    "UnitId": 11185,
+    "Title": "Damon",
+    "Position": {
+      "X": 15718.18,
+      "Y": 15113.02,
+      "Z": 120.7428,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 46
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6379,
+    "Count": 1,
+    "UnitId": 11186,
+    "Title": "Mohanik",
+    "Position": {
+      "X": 15719.19,
+      "Y": 15110.5,
+      "Z": 120.7629,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 44
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6181,
+    "Count": 1,
+    "UnitId": 3596,
+    "Title": "Serin",
+    "Position": {
+      "X": 15721.27,
+      "Y": 15108.86,
+      "Z": 120.7428,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -63
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6448,
+    "Count": 1,
+    "UnitId": 8146,
+    "Title": "Yata",
+    "Position": {
+      "X": 15693.5,
+      "Y": 15086.51,
+      "Z": 121.216,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -12
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6317,
+    "Count": 1,
+    "UnitId": 6979,
+    "Title": "Black Horse",
+    "Position": {
+      "X": 15698.97,
+      "Y": 15088.27,
+      "Z": 121.121,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6263,
+    "Count": 1,
+    "UnitId": 6978,
+    "Title": "White Horse",
+    "Position": {
+      "X": 15703.45,
+      "Y": 15087.83,
+      "Z": 120.8869,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6262,
+    "Count": 1,
+    "UnitId": 6953,
+    "Title": "Donkey",
+    "Position": {
+      "X": 15706.39,
+      "Y": 15089.27,
+      "Z": 120.8759,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6318,
+    "Count": 1,
+    "UnitId": 11976,
+    "Title": "Lucius",
+    "Position": {
+      "X": 15725.14,
+      "Y": 15094.62,
+      "Z": 122.4045,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6315,
+    "Count": 1,
+    "UnitId": 7987,
+    "Title": "Glorious Nui",
+    "Position": {
+      "X": 15665.45,
+      "Y": 15064.09,
+      "Z": 134.9854,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -34
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6293,
+    "Count": 1,
+    "UnitId": 502,
+    "Title": "Temple Priestess",
+    "Position": {
+      "X": 15669.91,
+      "Y": 15063.65,
+      "Z": 135.0854,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -41
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6250,
+    "Count": 1,
+    "UnitId": 8172,
+    "Title": "Guard",
+    "Position": {
+      "X": 15723.94,
+      "Y": 15080.73,
+      "Z": 126.147,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -61
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6337,
+    "Count": 1,
+    "UnitId": 8176,
+    "Title": "Sentry",
+    "Position": {
+      "X": 15728.81,
+      "Y": 15081.67,
+      "Z": 126.1019,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -57
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6341,
+    "Count": 1,
+    "UnitId": 11974,
+    "Title": "Daisy",
+    "Position": {
+      "X": 15723.89,
+      "Y": 15069.27,
+      "Z": 128.3168,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -5
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 51853,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15596.49,
+      "Y": 15066.6,
+      "Z": 130.3696,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 48
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 58812,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15582.35,
+      "Y": 15073.02,
+      "Z": 130.4886,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 63
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6185,
+    "Count": 1,
+    "UnitId": 15111,
+    "Position": {
+      "X": 15659.76,
+      "Y": 15030.06,
+      "Z": 135.8818,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -43
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 51442,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15584.35,
+      "Y": 15068.0,
+      "Z": 130.4886,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 58
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 106234,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15487.54,
+      "Y": 15079.4,
+      "Z": 176.9477,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -6
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 125677,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15699.24,
+      "Y": 15011.89,
+      "Z": 135.1245,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 47706,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15686.01,
+      "Y": 15003.03,
+      "Z": 136.8701,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -34
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 64571,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15675.73,
+      "Y": 14995.96,
+      "Z": 136.6561,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 80
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 66,
+    "Count": 1,
+    "UnitId": 134,
+    "Title": "Tai",
+    "Position": {
+      "X": 15650.7,
+      "Y": 15004.48,
+      "Z": 137.9876,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -17
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 67,
+    "Count": 1,
+    "UnitId": 46,
+    "Title": "Overflowing Chest",
+    "Position": {
+      "X": 15651.78,
+      "Y": 15004.53,
+      "Z": 138.0786,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -13
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6247,
+    "Count": 1,
+    "UnitId": 7112,
+    "Title": "Bob",
+    "Position": {
+      "X": 15642.07,
+      "Y": 14987.38,
+      "Z": 141.2779,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6165,
+    "Count": 1,
+    "UnitId": 7113,
+    "Title": "Bounty Hunter Clint",
+    "Position": {
+      "X": 15639.8,
+      "Y": 14988.26,
+      "Z": 141.0848,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -40
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 127375,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15628.43,
+      "Y": 14938.86,
+      "Z": 146.2698,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 36
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 61748,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15610.12,
+      "Y": 14893.32,
+      "Z": 150.4835,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 83
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 55469,
+    "Count": 1,
+    "UnitId": 3464,
+    "Title": "Rabbit",
+    "Position": {
+      "X": 15610.56,
+      "Y": 14889.03,
+      "Z": 151.0737,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 20
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 62787,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15598.04,
+      "Y": 14891.75,
+      "Z": 147.6463,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 4
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 120353,
+    "Count": 1,
+    "UnitId": 3464,
+    "Title": "Rabbit",
+    "Position": {
+      "X": 15609.37,
+      "Y": 14886.36,
+      "Z": 150.8386,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -38
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 83633,
+    "Count": 1,
+    "UnitId": 3464,
+    "Title": "Rabbit",
+    "Position": {
+      "X": 15591.7,
+      "Y": 14882.44,
+      "Z": 146.9401,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 50
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6404,
+    "Count": 1,
+    "UnitId": 3646,
+    "Title": "Rinna",
+    "Position": {
+      "X": 15585.63,
+      "Y": 14879.9,
+      "Z": 145.8246,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 47
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6458,
+    "Count": 1,
+    "UnitId": 3647,
+    "Title": "Lola",
+    "Position": {
+      "X": 15585.13,
+      "Y": 14878.29,
+      "Z": 145.7606,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 2
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6470,
+    "Count": 1,
+    "UnitId": 14745,
+    "Title": "Diamond Shores",
+    "Position": {
+      "X": 15559.07,
+      "Y": 14838.43,
+      "Z": 139.4411,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -37
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 37673,
+    "Count": 1,
+    "UnitId": 3464,
+    "Title": "Rabbit",
+    "Position": {
+      "X": 15592.05,
+      "Y": 14828.38,
+      "Z": 135.8177,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 49
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 118378,
+    "Count": 1,
+    "UnitId": 3464,
+    "Title": "Rabbit",
+    "Position": {
+      "X": 15603.67,
+      "Y": 14824.37,
+      "Z": 135.1675,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -41
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 77646,
+    "Count": 1,
+    "UnitId": 3464,
+    "Title": "Rabbit",
+    "Position": {
+      "X": 15583.36,
+      "Y": 14809.79,
+      "Z": 135.5496,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6271,
+    "Count": 1,
+    "UnitId": 11999,
+    "Title": "Forest Keeper Arthur",
+    "Position": {
+      "X": 15496.24,
+      "Y": 14866.1,
+      "Z": 141.8611,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -36
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6193,
+    "Count": 1,
+    "UnitId": 11951,
+    "Title": "Lucius",
+    "Position": {
+      "X": 15534.82,
+      "Y": 14821.28,
+      "Z": 138.1977,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6531,
+    "Count": 1,
+    "UnitId": 916,
+    "Title": "Pig",
+    "Position": {
+      "X": 15591.04,
+      "Y": 14794.91,
+      "Z": 135.6197,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 74
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6367,
+    "Count": 1,
+    "UnitId": 3515,
+    "Title": "Rohna",
+    "Position": {
+      "X": 15566.9,
+      "Y": 14790.35,
+      "Z": 136.3229,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6460,
+    "Count": 1,
+    "UnitId": 916,
+    "Title": "Pig",
+    "Position": {
+      "X": 15590.89,
+      "Y": 14779.87,
+      "Z": 135.5746,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 68
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 21600,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15675.5,
+      "Y": 15014.13,
+      "Z": 135.9178,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -15
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 50525,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15688.57,
+      "Y": 15023.98,
+      "Z": 136.467,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 74
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 122764,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15595.51,
+      "Y": 15093.6,
+      "Z": 130.3696,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 45
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 71798,
+    "Count": 1,
+    "UnitId": 15819,
+    "Position": {
+      "X": 15727.22,
+      "Y": 15096.01,
+      "Z": 121.6672,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 71
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 54267,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15627.88,
+      "Y": 15123.11,
+      "Z": 129.3782,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 15
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 59995,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15587.69,
+      "Y": 15107.56,
+      "Z": 130.3716,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 43
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6284,
+    "Count": 1,
+    "UnitId": 11187,
+    "Title": "Plerian",
+    "Position": {
+      "X": 15651.45,
+      "Y": 15151.86,
+      "Z": 123.601,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6471,
+    "Count": 1,
+    "UnitId": 12079,
+    "Title": "Lucius",
+    "Position": {
+      "X": 15663.35,
+      "Y": 15173.14,
+      "Z": 121.017,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 43
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 80323,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15619.48,
+      "Y": 15120.43,
+      "Z": 128.5579,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 59685,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15588.58,
+      "Y": 15136.89,
+      "Z": 130.3156,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 43
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 69987,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15581.62,
+      "Y": 15116.05,
+      "Z": 130.7237,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 2
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 40194,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15581.08,
+      "Y": 15235.52,
+      "Z": 131.7341,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -38
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6502,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15595.52,
+      "Y": 15257.69,
+      "Z": 136.0018,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -33
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6170,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15596.45,
+      "Y": 15257.99,
+      "Z": 135.9548,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -14
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6565,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15596.73,
+      "Y": 15258.85,
+      "Z": 136.1539,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 67
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6534,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15598.28,
+      "Y": 15260.03,
+      "Z": 136.2279,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -9
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6609,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15589.71,
+      "Y": 15259.81,
+      "Z": 137.7395,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 4
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6590,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15594.07,
+      "Y": 15262.39,
+      "Z": 137.4244,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 6
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 118200,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15547.85,
+      "Y": 15224.28,
+      "Z": 131.274,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 89742,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15558.22,
+      "Y": 15241.02,
+      "Z": 133.997,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 63
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 65176,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15556.37,
+      "Y": 15248.98,
+      "Z": 134.019,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 53
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 81796,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15546.17,
+      "Y": 15244.57,
+      "Z": 133.2577,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 48
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 129757,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15569.19,
+      "Y": 15271.99,
+      "Z": 139.022,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -13
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 64325,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15554.34,
+      "Y": 15267.65,
+      "Z": 136.1349,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 48
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 86696,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15570.92,
+      "Y": 15287.38,
+      "Z": 141.8431,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 46
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 121085,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15548.24,
+      "Y": 15285.87,
+      "Z": 136.7601,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -8
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 45187,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15548.06,
+      "Y": 15287.03,
+      "Z": 136.8841,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 50
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 56495,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15555.79,
+      "Y": 15301.36,
+      "Z": 138.8409,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -38
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 44794,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15505.0,
+      "Y": 15252.99,
+      "Z": 132.1893,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 19
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6182,
+    "Count": 1,
+    "UnitId": 11956,
+    "Title": "Lucius",
+    "Position": {
+      "X": 15523.36,
+      "Y": 15289.22,
+      "Z": 131.6021,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 21
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 15643,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15494.3,
+      "Y": 15258.81,
+      "Z": 132.3284,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -9
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 75157,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15471.95,
+      "Y": 15264.91,
+      "Z": 133.6839,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 42172,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15473.92,
+      "Y": 15269.85,
+      "Z": 133.6379,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 50225,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15500.76,
+      "Y": 15301.03,
+      "Z": 130.4486,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 43
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 81347,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15479.31,
+      "Y": 15282.02,
+      "Z": 134.8624,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -13
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 52317,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15502.16,
+      "Y": 15304.51,
+      "Z": 130.4306,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 47
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 69733,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15479.8,
+      "Y": 15289.94,
+      "Z": 134.7413,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 60079,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15493.01,
+      "Y": 15307.21,
+      "Z": 131.445,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 71277,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15494.91,
+      "Y": 15316.41,
+      "Z": 131.0379,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 53
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 85026,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15463.03,
+      "Y": 15292.27,
+      "Z": 134.2681,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 107925,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15461.34,
+      "Y": 15293.38,
+      "Z": 133.875,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 60
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6507,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15467.86,
+      "Y": 15299.86,
+      "Z": 133.6329,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 56
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 96822,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15507.61,
+      "Y": 15326.39,
+      "Z": 133.2197,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -11
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 81696,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15500.32,
+      "Y": 15322.6,
+      "Z": 131.9972,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 30
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 108994,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15520.02,
+      "Y": 15336.46,
+      "Z": 133.8019,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -36
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 118822,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15531.96,
+      "Y": 15341.95,
+      "Z": 133.2427,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 21
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 101527,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15520.91,
+      "Y": 15342.61,
+      "Z": 134.4612,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 62864,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15522.45,
+      "Y": 15347.23,
+      "Z": 134.3342,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -15
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 118146,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15515.72,
+      "Y": 15347.41,
+      "Z": 134.9964,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 65
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6474,
+    "Count": 1,
+    "UnitId": 12143,
+    "Title": "Woodcutter Solace",
+    "Position": {
+      "X": 15545.61,
+      "Y": 15355.37,
+      "Z": 129.6643,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 11
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6259,
+    "Count": 1,
+    "UnitId": 10688,
+    "Title": "Maison",
+    "Position": {
+      "X": 15563.84,
+      "Y": 15348.97,
+      "Z": 128.1497,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6214,
+    "Count": 1,
+    "UnitId": 3597,
+    "Title": "Maude",
+    "Position": {
+      "X": 15563.43,
+      "Y": 15352.42,
+      "Z": 128.0607,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -17
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 21212,
+    "Count": 1,
+    "UnitId": 3492,
+    "Title": "Solzreed Fox",
+    "Position": {
+      "X": 15500.19,
+      "Y": 15244.26,
+      "Z": 133.5869,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 62
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 75022,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15585.56,
+      "Y": 15115.8,
+      "Z": 130.8278,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 75
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 108391,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15622.42,
+      "Y": 15119.17,
+      "Z": 128.4499,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 32
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 77503,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15629.73,
+      "Y": 15119.62,
+      "Z": 127.9286,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 20
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 55399,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15568.48,
+      "Y": 15111.9,
+      "Z": 130.4927,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 23
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 51977,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15633.12,
+      "Y": 14937.03,
+      "Z": 145.4105,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 59254,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15605.8,
+      "Y": 14906.61,
+      "Z": 147.6163,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 82
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 110658,
+    "Count": 1,
+    "UnitId": 3475,
+    "Title": "Solzreed Boar",
+    "Position": {
+      "X": 15604.51,
+      "Y": 14886.85,
+      "Z": 149.4541,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6481,
+    "Count": 1,
+    "UnitId": 7654,
+    "Title": "Forest Keeper Ben",
+    "Position": {
+      "X": 15397.14,
+      "Y": 14900.65,
+      "Z": 142.6724,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 106245,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15446.23,
+      "Y": 14959.88,
+      "Z": 156.0776,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 2
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6538,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15484.85,
+      "Y": 14965.84,
+      "Z": 171.4856,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 13
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 76211,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15366.88,
+      "Y": 14853.4,
+      "Z": 145.9707,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 55966,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15364.29,
+      "Y": 14845.55,
+      "Z": 146.3999,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 53
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 86502,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15372.01,
+      "Y": 14923.0,
+      "Z": 142.8725,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 78
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 53131,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15356.68,
+      "Y": 14860.62,
+      "Z": 145.2014,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 66
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6592,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15477.68,
+      "Y": 14978.3,
+      "Z": 167.1719,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -30
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 89607,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15388.1,
+      "Y": 14951.9,
+      "Z": 142.1702,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 65
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 83098,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15358.51,
+      "Y": 14934.25,
+      "Z": 141.2819,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 119487,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15342.72,
+      "Y": 14859.17,
+      "Z": 144.8583,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 48
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 75443,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15340.06,
+      "Y": 14913.3,
+      "Z": 143.2906,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 81
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6298,
+    "Count": 1,
+    "UnitId": 11998,
+    "Title": "Mauled Young Man",
+    "Position": {
+      "X": 15348.61,
+      "Y": 14937.71,
+      "Z": 139.7183,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 116906,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15329.01,
+      "Y": 14862.51,
+      "Z": 145.6686,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -32
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 77571,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15322.52,
+      "Y": 14925.7,
+      "Z": 142.4723,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 63
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 47041,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15338.0,
+      "Y": 14957.69,
+      "Z": 137.1112,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 61
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 118312,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15351.36,
+      "Y": 14988.84,
+      "Z": 136.2279,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 5
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 121093,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15317.19,
+      "Y": 14962.81,
+      "Z": 135.2865,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -37
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 100417,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15306.93,
+      "Y": 14860.73,
+      "Z": 146.636,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 76
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6488,
+    "Count": 1,
+    "UnitId": 11951,
+    "Title": "Lucius",
+    "Position": {
+      "X": 15288.45,
+      "Y": 14886.49,
+      "Z": 144.123,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 115512,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15288.84,
+      "Y": 14875.39,
+      "Z": 144.5131,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 84
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6439,
+    "Count": 1,
+    "UnitId": 3516,
+    "Title": "Jenny",
+    "Position": {
+      "X": 15283.75,
+      "Y": 14889.86,
+      "Z": 143.7848,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -35
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 33734,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15304.88,
+      "Y": 14980.79,
+      "Z": 132.9356,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 31
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 122699,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15313.93,
+      "Y": 14990.96,
+      "Z": 131.9362,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6549,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15270.65,
+      "Y": 14957.16,
+      "Z": 140.4225,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 26458,
+    "Count": 1,
+    "UnitId": 7674,
+    "Title": "Angry Brown Bear",
+    "Position": {
+      "X": 15292.23,
+      "Y": 14987.09,
+      "Z": 133.86,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 106072,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15502.9,
+      "Y": 15008.57,
+      "Z": 173.5694,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 45
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6576,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15266.79,
+      "Y": 14975.69,
+      "Z": 139.3591,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 23
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 98672,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15258.94,
+      "Y": 14972.14,
+      "Z": 140.7507,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 20232,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15243.06,
+      "Y": 14968.93,
+      "Z": 141.7771,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 57
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 37230,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15242.76,
+      "Y": 14963.6,
+      "Z": 141.611,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 54
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6430,
+    "Count": 1,
+    "UnitId": 7651,
+    "Title": "Recon Captain Kliik",
+    "Position": {
+      "X": 15250.5,
+      "Y": 14916.6,
+      "Z": 142.5904,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6444,
+    "Count": 1,
+    "UnitId": 3529,
+    "Title": "Recon Scout Philip",
+    "Position": {
+      "X": 15250.01,
+      "Y": 14913.99,
+      "Z": 143.0626,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 20
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 60949,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15251.34,
+      "Y": 14889.89,
+      "Z": 144.6932,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -12
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 87641,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15237.71,
+      "Y": 14889.02,
+      "Z": 144.9023,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 77
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 92554,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15248.16,
+      "Y": 14858.37,
+      "Z": 145.5885,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 9
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6357,
+    "Count": 1,
+    "UnitId": 502,
+    "Title": "Temple Priestess",
+    "Position": {
+      "X": 15193.06,
+      "Y": 14895.59,
+      "Z": 147.1922,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6295,
+    "Count": 1,
+    "UnitId": 7987,
+    "Title": "Glorious Nui",
+    "Position": {
+      "X": 15192.09,
+      "Y": 14891.63,
+      "Z": 147.3973,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -4
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6380,
+    "Count": 1,
+    "UnitId": 3593,
+    "Title": "Monolith Ghost",
+    "Position": {
+      "X": 15185.28,
+      "Y": 14951.2,
+      "Z": 142.7764,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -35
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 41124,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15188.68,
+      "Y": 14848.42,
+      "Z": 158.3545,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6707,
+    "Count": 1,
+    "UnitId": 7675,
+    "Title": "Velpo's Henchman",
+    "Position": {
+      "X": 15200.96,
+      "Y": 14832.15,
+      "Z": 160.2643,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 84
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 74334,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15182.77,
+      "Y": 14847.63,
+      "Z": 156.8679,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 27
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 119666,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15182.65,
+      "Y": 14843.75,
+      "Z": 156.7249,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 83
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 122328,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15149.82,
+      "Y": 14863.0,
+      "Z": 151.4388,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 26144,
+    "Count": 1,
+    "UnitId": 3484,
+    "Title": "Hooligan Velpo",
+    "Position": {
+      "X": 15141.89,
+      "Y": 14856.13,
+      "Z": 151.774,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -5
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 73473,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15145.92,
+      "Y": 14848.17,
+      "Z": 151.927,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 14
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 57559,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15123.9,
+      "Y": 14873.68,
+      "Z": 148.1045,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6476,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15115.47,
+      "Y": 14892.96,
+      "Z": 143.3217,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 47
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6532,
+    "Count": 1,
+    "UnitId": 7675,
+    "Title": "Velpo's Henchman",
+    "Position": {
+      "X": 15108.59,
+      "Y": 14907.12,
+      "Z": 142.0532,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 69
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 77758,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15120.56,
+      "Y": 14872.61,
+      "Z": 147.7474,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 65
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6586,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15104.22,
+      "Y": 14948.77,
+      "Z": 142.4823,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 86979,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15142.97,
+      "Y": 14841.84,
+      "Z": 152.1291,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -6
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 73727,
+    "Count": 1,
+    "UnitId": 7675,
+    "Title": "Velpo's Henchman",
+    "Position": {
+      "X": 15126.0,
+      "Y": 14854.45,
+      "Z": 151.6579,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 9345,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15196.99,
+      "Y": 14818.54,
+      "Z": 161.6738,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 19175,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15121.38,
+      "Y": 14844.1,
+      "Z": 152.4372,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 44939,
+    "Count": 1,
+    "UnitId": 7675,
+    "Title": "Velpo's Henchman",
+    "Position": {
+      "X": 15130.26,
+      "Y": 14830.68,
+      "Z": 153.5717,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 73
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 66147,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15097.2,
+      "Y": 14875.56,
+      "Z": 145.4925,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 66
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 105727,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15102.34,
+      "Y": 14851.58,
+      "Z": 149.5451,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 24
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 85657,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15106.13,
+      "Y": 14833.83,
+      "Z": 152.8874,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -28
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 8851,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15221.07,
+      "Y": 14795.65,
+      "Z": 165.3171,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -9
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 21025,
+    "Count": 1,
+    "UnitId": 7675,
+    "Title": "Velpo's Henchman",
+    "Position": {
+      "X": 15093.91,
+      "Y": 14848.63,
+      "Z": 149.249,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6442,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15077.61,
+      "Y": 14923.2,
+      "Z": 144.7212,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 76
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6530,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15066.92,
+      "Y": 14864.87,
+      "Z": 147.0391,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 60
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 93673,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15074.22,
+      "Y": 14834.21,
+      "Z": 147.7084,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6231,
+    "Count": 1,
+    "UnitId": 18000,
+    "Position": {
+      "X": 15197.54,
+      "Y": 14772.83,
+      "Z": 164.874,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 2
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6449,
+    "Count": 1,
+    "UnitId": 7675,
+    "Title": "Velpo's Henchman",
+    "Position": {
+      "X": 15066.17,
+      "Y": 14850.47,
+      "Z": 147.3022,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -38
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 54155,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15078.25,
+      "Y": 14811.0,
+      "Z": 149.6901,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -36
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 62578,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15193.93,
+      "Y": 14756.76,
+      "Z": 163.5054,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 91
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 124083,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15214.29,
+      "Y": 14760.45,
+      "Z": 164.874,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 120
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 92821,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15247.98,
+      "Y": 14782.1,
+      "Z": 166.2395,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 60
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 70283,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15221.17,
+      "Y": 14760.06,
+      "Z": 164.874,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 115
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 128496,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15220.01,
+      "Y": 14755.05,
+      "Z": 164.874,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 23
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6311,
+    "Count": 1,
+    "UnitId": 3517,
+    "Title": "Monolith Researcher Miles",
+    "Position": {
+      "X": 15174.29,
+      "Y": 14742.64,
+      "Z": 164.874,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 74
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 71992,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15214.08,
+      "Y": 14737.25,
+      "Z": 163.6895,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 14
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 68619,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15194.42,
+      "Y": 14726.74,
+      "Z": 163.9826,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 91
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 15483,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15215.11,
+      "Y": 14731.71,
+      "Z": 164.1497,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 69
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 102237,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15188.64,
+      "Y": 14724.31,
+      "Z": 164.3968,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 69
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 94452,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15196.43,
+      "Y": 14721.5,
+      "Z": 164.4368,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 81
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 112045,
+    "Count": 1,
+    "UnitId": 3483,
+    "Title": "Vengeful Ghost",
+    "Position": {
+      "X": 15208.39,
+      "Y": 14717.87,
+      "Z": 164.877,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 47
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 3220,
+    "Count": 1,
+    "UnitId": 283,
+    "Position": {
+      "X": 15324.0,
+      "Y": 14636.0,
+      "Z": 172.3159,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6362,
+    "Count": 1,
+    "UnitId": 6983,
+    "Title": "Monolith Researcher Jones",
+    "Position": {
+      "X": 15117.53,
+      "Y": 14732.19,
+      "Z": 164.4408,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -34
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2794,
+    "Count": 1,
+    "UnitId": 283,
+    "Position": {
+      "X": 15340.0,
+      "Y": 14636.0,
+      "Z": 171.5306,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 82217,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15196.85,
+      "Y": 14697.63,
+      "Z": 165.5893,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -20
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 70625,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15162.25,
+      "Y": 14698.72,
+      "Z": 166.2125,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 3221,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 15324.0,
+      "Y": 14608.0,
+      "Z": 172.591,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 107126,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15125.05,
+      "Y": 14705.26,
+      "Z": 165.5833,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 57311,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15160.89,
+      "Y": 14678.92,
+      "Z": 168.8545,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 89085,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15143.75,
+      "Y": 14685.07,
+      "Z": 168.2173,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -41
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 20415,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15065.05,
+      "Y": 14777.41,
+      "Z": 154.1809,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -34
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 71365,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15041.71,
+      "Y": 14797.92,
+      "Z": 149.0399,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 78
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6196,
+    "Count": 1,
+    "UnitId": 10581,
+    "Title": "Marian",
+    "Position": {
+      "X": 15036.34,
+      "Y": 14740.78,
+      "Z": 150.3264,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 83
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 95228,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15036.55,
+      "Y": 14824.1,
+      "Z": 147.1161,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -35
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6562,
+    "Count": 1,
+    "UnitId": 3497,
+    "Title": "Velpo's Lackey",
+    "Position": {
+      "X": 15054.82,
+      "Y": 14856.86,
+      "Z": 148.1716,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 69
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 70753,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 15016.46,
+      "Y": 14757.15,
+      "Z": 148.1866,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 77
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6406,
+    "Count": 1,
+    "UnitId": 7674,
+    "Title": "Angry Brown Bear",
+    "Position": {
+      "X": 15043.89,
+      "Y": 14896.39,
+      "Z": 151.1387,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 23
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6561,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15030.72,
+      "Y": 14923.89,
+      "Z": 152.6973,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -24
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6607,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15084.53,
+      "Y": 14948.53,
+      "Z": 144.3841,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 72
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6529,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15054.97,
+      "Y": 14965.48,
+      "Z": 149.6001,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6527,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 15002.88,
+      "Y": 14944.42,
+      "Z": 152.6793,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -4
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6559,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 14971.85,
+      "Y": 14941.57,
+      "Z": 150.3224,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6417,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 14972.13,
+      "Y": 14990.98,
+      "Z": 149.7002,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6584,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 14948.95,
+      "Y": 14986.46,
+      "Z": 146.9971,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 17
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6472,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 14886.69,
+      "Y": 14942.19,
+      "Z": 134.012,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6605,
+    "Count": 1,
+    "UnitId": 7648,
+    "Title": "Hungry Brown Bear",
+    "Position": {
+      "X": 14959.28,
+      "Y": 15020.66,
+      "Z": 146.5119,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 33
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6274,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 14872.72,
+      "Y": 14889.66,
+      "Z": 135.4036,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6316,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 14881.64,
+      "Y": 14991.35,
+      "Z": 131.1249,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 79
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6255,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 14852.36,
+      "Y": 14968.5,
+      "Z": 127.8226,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 50
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6435,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14931.19,
+      "Y": 15142.61,
+      "Z": 101.4903,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 55
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6436,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14917.74,
+      "Y": 15138.21,
+      "Z": 101.9125,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 54
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6622,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14928.41,
+      "Y": 15150.34,
+      "Z": 100.9781,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6434,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14922.08,
+      "Y": 15147.04,
+      "Z": 101.2362,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 54
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6302,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14942.52,
+      "Y": 15160.07,
+      "Z": 101.0311,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 59
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6639,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14968.81,
+      "Y": 15181.73,
+      "Z": 101.2422,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -8
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6389,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14989.59,
+      "Y": 15185.67,
+      "Z": 101.0311,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -24
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6175,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14907.59,
+      "Y": 15150.33,
+      "Z": 101.3113,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -35
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6425,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15024.42,
+      "Y": 15188.55,
+      "Z": 101.6874,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -35
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6610,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14915.43,
+      "Y": 15169.53,
+      "Z": 101.1912,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 45
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6426,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15029.04,
+      "Y": 15189.64,
+      "Z": 101.6314,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -27
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6424,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15020.19,
+      "Y": 15192.6,
+      "Z": 101.6104,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 53
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6235,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14993.59,
+      "Y": 15209.65,
+      "Z": 101.2983,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 11
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6236,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14986.3,
+      "Y": 15210.91,
+      "Z": 101.3093,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 60
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6312,
+    "Count": 1,
+    "UnitId": 7987,
+    "Title": "Glorious Nui",
+    "Position": {
+      "X": 15137.07,
+      "Y": 15122.73,
+      "Z": 145.1834,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -4
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6234,
+    "Count": 1,
+    "UnitId": 502,
+    "Title": "Temple Priestess",
+    "Position": {
+      "X": 15137.0,
+      "Y": 15128.2,
+      "Z": 144.9523,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -4
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6169,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15052.46,
+      "Y": 15225.07,
+      "Z": 101.4053,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 70
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6168,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15044.52,
+      "Y": 15232.98,
+      "Z": 101.6104,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6167,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15056.5,
+      "Y": 15232.22,
+      "Z": 101.4433,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -31
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6503,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 15080.51,
+      "Y": 15232.08,
+      "Z": 102.9359,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 29
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6309,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 15079.31,
+      "Y": 15241.56,
+      "Z": 102.5567,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 46
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6591,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 15150.84,
+      "Y": 15260.02,
+      "Z": 102.8739,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -24
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6630,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 15142.93,
+      "Y": 15270.02,
+      "Z": 102.1516,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6364,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15116.3,
+      "Y": 15261.56,
+      "Z": 102.6508,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6173,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15154.06,
+      "Y": 15281.0,
+      "Z": 101.8115,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -11
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6363,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15106.53,
+      "Y": 15263.28,
+      "Z": 102.5687,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6172,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15144.4,
+      "Y": 15285.32,
+      "Z": 101.6994,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 40
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6365,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15107.77,
+      "Y": 15271.64,
+      "Z": 102.0595,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6174,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 15149.94,
+      "Y": 15294.51,
+      "Z": 101.4043,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -12
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6482,
+    "Count": 1,
+    "UnitId": 502,
+    "Title": "Temple Priestess",
+    "Position": {
+      "X": 15233.65,
+      "Y": 15342.4,
+      "Z": 101.5163,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 47
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6411,
+    "Count": 1,
+    "UnitId": 7989,
+    "Title": "Glorious Nui",
+    "Position": {
+      "X": 15236.74,
+      "Y": 15345.42,
+      "Z": 101.6804,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 47
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6237,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14991.29,
+      "Y": 15216.55,
+      "Z": 101.4383,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 84
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6359,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14947.72,
+      "Y": 15207.9,
+      "Z": 101.6264,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6361,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14934.93,
+      "Y": 15199.3,
+      "Z": 101.6264,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6360,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14936.08,
+      "Y": 15212.71,
+      "Z": 101.4183,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6325,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14880.61,
+      "Y": 15147.16,
+      "Z": 101.6914,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 59
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6336,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14880.21,
+      "Y": 15173.55,
+      "Z": 101.7074,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -41
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6281,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14877.26,
+      "Y": 15126.46,
+      "Z": 101.9195,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6335,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14879.28,
+      "Y": 15187.37,
+      "Z": 101.3333,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 72
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6324,
+    "Count": 1,
+    "UnitId": 4500,
+    "Title": "Wandering Captain Kingston",
+    "Position": {
+      "X": 14871.01,
+      "Y": 15149.97,
+      "Z": 101.8745,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 57
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6334,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14872.95,
+      "Y": 15179.64,
+      "Z": 101.4163,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 81
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6326,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14868.07,
+      "Y": 15140.55,
+      "Z": 101.6854,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 51
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6395,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14839.84,
+      "Y": 15149.24,
+      "Z": 102.1106,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6375,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14836.07,
+      "Y": 15121.93,
+      "Z": 101.9445,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -25
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6376,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14835.36,
+      "Y": 15134.23,
+      "Z": 101.9855,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -27
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6374,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14831.81,
+      "Y": 15130.92,
+      "Z": 101.7094,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6371,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14840.95,
+      "Y": 15160.46,
+      "Z": 101.6394,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 81
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6378,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14829.78,
+      "Y": 15145.02,
+      "Z": 101.9835,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -37
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6370,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14828.78,
+      "Y": 15154.51,
+      "Z": 101.6114,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -40
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6369,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14832.42,
+      "Y": 15163.83,
+      "Z": 101.3233,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6229,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14787.78,
+      "Y": 15129.15,
+      "Z": 100.631,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6228,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14782.27,
+      "Y": 15136.5,
+      "Z": 100.8811,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 21
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6227,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14779.91,
+      "Y": 15128.06,
+      "Z": 100.9381,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -31
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6198,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14779.0,
+      "Y": 15086.04,
+      "Z": 101.4643,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 60
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6199,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14768.94,
+      "Y": 15096.82,
+      "Z": 100.8461,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 42
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6197,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14766.32,
+      "Y": 15090.56,
+      "Z": 100.9281,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 34
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6566,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14764.4,
+      "Y": 15097.55,
+      "Z": 100.8091,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -29
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6288,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14751.5,
+      "Y": 15111.96,
+      "Z": 100.8721,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -5
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6386,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14731.82,
+      "Y": 15111.42,
+      "Z": 100.9381,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 67
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6213,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14728.94,
+      "Y": 15088.71,
+      "Z": 101.4373,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6535,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14728.46,
+      "Y": 15093.61,
+      "Z": 101.2522,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 49
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6384,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14730.69,
+      "Y": 15121.36,
+      "Z": 100.771,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 66
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6385,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14720.69,
+      "Y": 15120.23,
+      "Z": 100.686,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6366,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 14753.2,
+      "Y": 14980.9,
+      "Z": 135.0314,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6648,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14677.25,
+      "Y": 15080.47,
+      "Z": 100.776,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -42
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6177,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14680.25,
+      "Y": 15105.84,
+      "Z": 100.745,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6176,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14683.83,
+      "Y": 15115.21,
+      "Z": 100.561,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 23
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6178,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14676.83,
+      "Y": 15110.93,
+      "Z": 100.8571,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 34
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6423,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14652.53,
+      "Y": 15104.0,
+      "Z": 100.9841,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6462,
+    "Count": 1,
+    "UnitId": 7673,
+    "Title": "Violent Monolith Guardian",
+    "Position": {
+      "X": 14692.12,
+      "Y": 14971.61,
+      "Z": 145.3034,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 58
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6218,
+    "Count": 1,
+    "UnitId": 4499,
+    "Title": "Wandering Deep Sea Guide",
+    "Position": {
+      "X": 14637.0,
+      "Y": 15081.7,
+      "Z": 101.1162,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 59
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6421,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14640.06,
+      "Y": 15097.46,
+      "Z": 100.9751,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -85
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6422,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14639.02,
+      "Y": 15108.31,
+      "Z": 100.8251,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6467,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14597.39,
+      "Y": 15112.58,
+      "Z": 100.9461,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6465,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14591.46,
+      "Y": 15111.8,
+      "Z": 100.9621,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6466,
+    "Count": 1,
+    "UnitId": 4498,
+    "Title": "Undead Boatswain",
+    "Position": {
+      "X": 14588.71,
+      "Y": 15121.43,
+      "Z": 100.3969,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -24
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6328,
+    "Count": 1,
+    "UnitId": 502,
+    "Title": "Temple Priestess",
+    "Position": {
+      "X": 14477.62,
+      "Y": 15116.99,
+      "Z": 101.6984,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -19
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6410,
+    "Count": 1,
+    "UnitId": 7989,
+    "Title": "Glorious Nui",
+    "Position": {
+      "X": 14472.71,
+      "Y": 15114.16,
+      "Z": 101.8054,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 75492,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14346.33,
+      "Y": 15162.13,
+      "Z": 129.0651,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 88128,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14336.44,
+      "Y": 15160.66,
+      "Z": 130.4846,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 19
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 52435,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14355.11,
+      "Y": 15199.33,
+      "Z": 131.8802,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 39
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 55495,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14351.75,
+      "Y": 15208.73,
+      "Z": 132.3504,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -6
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 9348,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14329.42,
+      "Y": 15204.25,
+      "Z": 130.2676,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 86797,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14320.81,
+      "Y": 15199.08,
+      "Z": 130.5247,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 26
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 52062,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14351.98,
+      "Y": 15240.01,
+      "Z": 132.6265,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 40
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6774,
+    "Count": 1,
+    "UnitId": 3648,
+    "Title": "Merril",
+    "Position": {
+      "X": 14460.58,
+      "Y": 14916.26,
+      "Z": 163.0833,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6792,
+    "Count": 1,
+    "UnitId": 7698,
+    "Title": "Four Fingers Wizard",
+    "Position": {
+      "X": 14362.74,
+      "Y": 14884.93,
+      "Z": 124.1842,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6757,
+    "Count": 1,
+    "UnitId": 7699,
+    "Title": "Four Fingers Thieves Guild",
+    "Position": {
+      "X": 14368.53,
+      "Y": 14966.24,
+      "Z": 126.0309,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 108822,
+    "Count": 1,
+    "UnitId": 7700,
+    "Title": "Four Fingers Robber",
+    "Position": {
+      "X": 14337.65,
+      "Y": 14922.48,
+      "Z": 121.7312,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 80
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 87182,
+    "Count": 1,
+    "UnitId": 7699,
+    "Title": "Four Fingers Thieves Guild",
+    "Position": {
+      "X": 14289.91,
+      "Y": 15017.46,
+      "Z": 123.1928,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 27
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 72478,
+    "Count": 1,
+    "UnitId": 7694,
+    "Title": "Four Fingers Wizard",
+    "Position": {
+      "X": 14307.23,
+      "Y": 14985.28,
+      "Z": 121.4731,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 46
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 76598,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14223.94,
+      "Y": 15177.39,
+      "Z": 133.839,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 54
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 119159,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14214.98,
+      "Y": 15181.85,
+      "Z": 132.9496,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 54
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 93773,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14244.09,
+      "Y": 15208.4,
+      "Z": 129.4883,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -15
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 51236,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14271.89,
+      "Y": 15218.34,
+      "Z": 131.0129,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -13
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 90672,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14239.58,
+      "Y": 15209.96,
+      "Z": 129.2512,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -30
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 50614,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14263.65,
+      "Y": 15222.58,
+      "Z": 129.9074,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 40
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 72488,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14206.4,
+      "Y": 15198.51,
+      "Z": 132.0873,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 81764,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14199.5,
+      "Y": 15191.26,
+      "Z": 133.3638,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 37752,
+    "Count": 1,
+    "UnitId": 3538,
+    "Title": "Sara",
+    "Position": {
+      "X": 14172.05,
+      "Y": 15170.98,
+      "Z": 133.1247,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 18
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 54186,
+    "Count": 1,
+    "UnitId": 3539,
+    "Title": "Derry",
+    "Position": {
+      "X": 14171.09,
+      "Y": 15174.34,
+      "Z": 133.1507,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 60
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 50788,
+    "Count": 1,
+    "UnitId": 3537,
+    "Title": "Philly",
+    "Position": {
+      "X": 14169.41,
+      "Y": 15170.37,
+      "Z": 133.1247,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -7
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 82865,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14236.12,
+      "Y": 15244.91,
+      "Z": 129.6663,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 41
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 74811,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14221.89,
+      "Y": 15243.2,
+      "Z": 129.4402,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 34
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 85096,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14231.71,
+      "Y": 15253.89,
+      "Z": 131.1779,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 5
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 73154,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14188.54,
+      "Y": 15233.43,
+      "Z": 133.3128,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 20526,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14316.02,
+      "Y": 15259.29,
+      "Z": 130.4096,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 24
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 71422,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14170.75,
+      "Y": 15224.81,
+      "Z": 137.1933,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 16
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 95379,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14181.53,
+      "Y": 15240.56,
+      "Z": 134.8494,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -13
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 54051,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14333.5,
+      "Y": 15254.34,
+      "Z": 132.0653,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 109940,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14164.67,
+      "Y": 15217.18,
+      "Z": 138.0766,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 55
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 78890,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14232.52,
+      "Y": 15276.79,
+      "Z": 132.6755,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -32
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 22359,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14219.13,
+      "Y": 15273.71,
+      "Z": 131.5331,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 45
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 106036,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14337.18,
+      "Y": 15256.35,
+      "Z": 132.1573,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -40
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 78588,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14357.68,
+      "Y": 15252.53,
+      "Z": 131.9692,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 2
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 64026,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14336.68,
+      "Y": 15289.29,
+      "Z": 130.9218,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 42
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 38732,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14347.11,
+      "Y": 15286.42,
+      "Z": 131.349,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 79
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 92826,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14363.34,
+      "Y": 15349.69,
+      "Z": 130.2996,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 31
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 32809,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14321.55,
+      "Y": 15345.68,
+      "Z": 129.8714,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 64
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 83231,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14331.16,
+      "Y": 15350.43,
+      "Z": 129.7464,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -9
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 94694,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14364.25,
+      "Y": 15354.47,
+      "Z": 130.0545,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 73
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 72467,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14417.68,
+      "Y": 15337.97,
+      "Z": 130.1185,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -30
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 56506,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14359.94,
+      "Y": 15372.59,
+      "Z": 129.6873,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 46
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 59901,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14318.06,
+      "Y": 15379.35,
+      "Z": 129.6873,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 67
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 88235,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14322.7,
+      "Y": 15399.33,
+      "Z": 130.1405,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 51827,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14416.1,
+      "Y": 15347.87,
+      "Z": 130.6047,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -2
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7143,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14396.5,
+      "Y": 15376.63,
+      "Z": 129.8084,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 54
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7145,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14399.18,
+      "Y": 15375.26,
+      "Z": 129.9344,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 62
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7142,
+    "Count": 1,
+    "UnitId": 5536,
+    "Title": "Shy Denly",
+    "Position": {
+      "X": 14400.59,
+      "Y": 15377.87,
+      "Z": 129.8964,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 22
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 76317,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14364.56,
+      "Y": 15403.57,
+      "Z": 129.7504,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -30
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7144,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14404.6,
+      "Y": 15379.15,
+      "Z": 129.9184,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -10
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 34893,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14422.06,
+      "Y": 15359.7,
+      "Z": 130.9848,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 36
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 95123,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14403.35,
+      "Y": 15384.39,
+      "Z": 129.8004,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 83
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 67296,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14363.56,
+      "Y": 15413.52,
+      "Z": 129.8124,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -27
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 74598,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14431.57,
+      "Y": 15362.73,
+      "Z": 130.5897,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 6
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 84252,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14309.79,
+      "Y": 15439.98,
+      "Z": 139.7173,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 46
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 69943,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14319.72,
+      "Y": 15441.5,
+      "Z": 137.5214,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 4
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 68739,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14433.72,
+      "Y": 15404.45,
+      "Z": 132.3114,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 30
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7331,
+    "Count": 1,
+    "UnitId": 3460,
+    "Title": "Nymph",
+    "Position": {
+      "X": 14440.78,
+      "Y": 15397.31,
+      "Z": 131.1609,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 47
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2950,
+    "Count": 1,
+    "UnitId": 174,
+    "Title": "스킬 테스트 NPC",
+    "Position": {
+      "X": 14408.0,
+      "Y": 15580.0,
+      "Z": 162.361,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 3
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2423,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14424.0,
+      "Y": 15584.0,
+      "Z": 162.7331,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 1905,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14320.0,
+      "Y": 15596.0,
+      "Z": 175.9453,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 643,
+    "Count": 1,
+    "UnitId": 410,
+    "Title": "deer_male",
+    "Position": {
+      "X": 14404.0,
+      "Y": 15600.0,
+      "Z": 161.7599,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7103,
+    "Count": 1,
+    "UnitId": 10857,
+    "Title": "Auctioneer",
+    "Position": {
+      "X": 14371.09,
+      "Y": 15494.24,
+      "Z": 152.8714,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -14
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 451,
+    "Count": 1,
+    "UnitId": 171,
+    "Title": "Plains Wolf Pup",
+    "Position": {
+      "X": 14324.0,
+      "Y": 15616.0,
+      "Z": 176.1894,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6797,
+    "Count": 1,
+    "UnitId": 12546,
+    "Title": "Beiry",
+    "Position": {
+      "X": 14359.5,
+      "Y": 15499.57,
+      "Z": 152.8714,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 7126,
+    "Count": 1,
+    "UnitId": 12549,
+    "Title": "Freda",
+    "Position": {
+      "X": 14353.15,
+      "Y": 15504.84,
+      "Z": 152.8714,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -19
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6983,
+    "Count": 1,
+    "UnitId": 12547,
+    "Title": "Aerin",
+    "Position": {
+      "X": 14366.28,
+      "Y": 15504.1,
+      "Z": 152.8714,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 12
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6974,
+    "Count": 1,
+    "UnitId": 12545,
+    "Title": "Spen",
+    "Position": {
+      "X": 14343.95,
+      "Y": 15517.42,
+      "Z": 152.8714,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -19
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6761,
+    "Count": 1,
+    "UnitId": 12544,
+    "Title": "Chura",
+    "Position": {
+      "X": 14365.37,
+      "Y": 15519.09,
+      "Z": 152.8984,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 44
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2808,
+    "Count": 1,
+    "UnitId": 9900004,
+    "Position": {
+      "X": 14372.0,
+      "Y": 15640.0,
+      "Z": 176.1204,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 6925,
+    "Count": 1,
+    "UnitId": 12548,
+    "Title": "Cherribel",
+    "Position": {
+      "X": 14349.65,
+      "Y": 15523.8,
+      "Z": 152.8714,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -44
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2636,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14456.0,
+      "Y": 15632.0,
+      "Z": 161.5628,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 1904,
+    "Count": 1,
+    "UnitId": 435,
+    "Position": {
+      "X": 14344.0,
+      "Y": 15660.0,
+      "Z": 176.4375,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2631,
+    "Count": 1,
+    "UnitId": 89,
+    "Title": "Lord Joel Royster",
+    "Position": {
+      "X": 14428.0,
+      "Y": 15668.0,
+      "Z": 161.8449,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2630,
+    "Count": 1,
+    "UnitId": 396,
+    "Title": "Whispering Wind Elemental",
+    "Position": {
+      "X": 14452.0,
+      "Y": 15660.0,
+      "Z": 161.7238,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2771,
+    "Count": 1,
+    "UnitId": 9900004,
+    "Position": {
+      "X": 14284.0,
+      "Y": 15680.0,
+      "Z": 199.4115,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 83788,
+    "Count": 1,
+    "UnitId": 396,
+    "Title": "Whispering Wind Elemental",
+    "Position": {
+      "X": 14408.0,
+      "Y": 15692.0,
+      "Z": 161.6908,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2805,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14428.0,
+      "Y": 15684.0,
+      "Z": 161.6258,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 1903,
+    "Count": 1,
+    "UnitId": 432,
+    "Position": {
+      "X": 14340.0,
+      "Y": 15708.0,
+      "Z": 176.2404,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2772,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14428.0,
+      "Y": 15700.0,
+      "Z": 161.6258,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2633,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14452.0,
+      "Y": 15692.0,
+      "Z": 161.7809,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2693,
+    "Count": 1,
+    "UnitId": 395,
+    "Position": {
+      "X": 14408.0,
+      "Y": 15716.0,
+      "Z": 161.8309,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 1901,
+    "Count": 1,
+    "UnitId": 433,
+    "Title": "test",
+    "Position": {
+      "X": 14324.0,
+      "Y": 15732.0,
+      "Z": 176.2404,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2626,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14428.0,
+      "Y": 15716.0,
+      "Z": 161.5628,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 1900,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14304.0,
+      "Y": 15744.0,
+      "Z": 176.2434,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": -1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2692,
+    "Count": 1,
+    "UnitId": 434,
+    "Title": "누온 연구자test",
+    "Position": {
+      "X": 14384.0,
+      "Y": 15744.0,
+      "Z": 161.5608,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2621,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14428.0,
+      "Y": 15732.0,
+      "Z": 161.5628,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2817,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14412.0,
+      "Y": 15740.0,
+      "Z": 161.5628,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2625,
+    "Count": 1,
+    "UnitId": 434,
+    "Title": "누온 연구자test",
+    "Position": {
+      "X": 14480.0,
+      "Y": 15716.0,
+      "Z": 161.7098,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2635,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14428.0,
+      "Y": 15748.0,
+      "Z": 161.4737,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2691,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14412.0,
+      "Y": 15756.0,
+      "Z": 161.4737,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2619,
+    "Count": 1,
+    "UnitId": 434,
+    "Title": "누온 연구자test",
+    "Position": {
+      "X": 14480.0,
+      "Y": 15740.0,
+      "Z": 161.5558,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 1
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 2809,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14428.0,
+      "Y": 15764.0,
+      "Z": 161.3527,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  },
+  {
+    "Id": 3277,
+    "Count": 1,
+    "UnitId": 9900005,
+    "Position": {
+      "X": 14412.0,
+      "Y": 15772.0,
+      "Z": 161.3527,
+      "RotationX": 0,
+      "RotationY": 0,
+      "RotationZ": 0
+    },
+    "Scale": 0.0
+  }
+]

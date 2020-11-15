@@ -165,7 +165,7 @@ namespace AAEmu.Game.Models.Game.AI
             //        break;
             //    case BaseUnitType.Housing:
             //        break;
-            //    case BaseUnitType.Transfer:
+            //    case BaseUnitType.TransfersPath:
             //        break;
             //    case BaseUnitType.Mate:
             //        break;
@@ -198,7 +198,7 @@ namespace AAEmu.Game.Models.Game.AI
             //        break;
             //    case BaseUnitType.Housing:
             //        break;
-            //    case BaseUnitType.Transfer:
+            //    case BaseUnitType.TransfersPath:
             //        break;
             //    case BaseUnitType.Mate:
             //        break;

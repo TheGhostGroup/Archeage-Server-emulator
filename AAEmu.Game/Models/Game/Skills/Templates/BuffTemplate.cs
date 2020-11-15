@@ -53,7 +53,7 @@ namespace AAEmu.Game.Models.Game.Skills.Templates
         public int ReflectionRatio { get; set; }
         public int ReflectionTargetRatio { get; set; }
         public bool KnockbackImmune { get; set; }
-        public uint ImmuneBuffTagId { get; set; }
+        //public uint ImmuneBuffTagId { get; set; }  // there is no such field in the database for version 3030
         public uint AuraRelationId { get; set; }
         public uint GroupId { get; set; }
         public int GroupRank { get; set; }
@@ -93,7 +93,7 @@ namespace AAEmu.Game.Models.Game.Skills.Templates
         public bool SlaveApplicable { get; set; }
         public bool Pacifist { get; set; }
         public bool RemoveOnInteraction { get; set; }
-        public bool Crime { get; set; }
+        //public bool Crime { get; set; } // there is no such field in the database for version 3030
         public bool RemoveOnUnmount { get; set; }
         public bool AuraChildOnly { get; set; }
         public bool RemoveOnMount { get; set; }
@@ -165,8 +165,8 @@ namespace AAEmu.Game.Models.Game.Skills.Templates
         {
             if (RequireBuffId > 0 && !target.Effects.CheckBuff(RequireBuffId))
                 return; //TODO send error?
-            if (target.Effects.CheckBuffImmune(Id))
-                return; //TODO  error of immune?
+            //if (target.Effects.CheckBuffImmune(Id))
+            //    return; //TODO  error of immune?
             target.Effects.AddEffect(new Effect(target, caster, casterObj, this, skill, time));
         }
 

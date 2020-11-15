@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using AAEmu.Commons.Network;
 using AAEmu.Commons.Utils;
@@ -155,20 +156,60 @@ namespace AAEmu.Game.Core.Packets.G2C
                     index++;
                 }
                 stream.Write((uint)validFlags); // validFlags for 3.0.3.0
+                var itemSlot = EquipmentItemSlot.Head;
                 foreach (var item in items)
                 {
-                    if (item != null)
+                    if (item == null)
                     {
-                        stream.Write(item);
+                        itemSlot++;
+                        continue;
                     }
+                    switch (itemSlot)
+                    {
+                        case EquipmentItemSlot.Head:
+                        case EquipmentItemSlot.Neck:
+                        case EquipmentItemSlot.Chest:
+                        case EquipmentItemSlot.Waist:
+                        case EquipmentItemSlot.Legs:
+                        case EquipmentItemSlot.Hands:
+                        case EquipmentItemSlot.Feet:
+                        case EquipmentItemSlot.Arms:
+                        case EquipmentItemSlot.Back:
+                        case EquipmentItemSlot.Undershirt:
+                        case EquipmentItemSlot.Underpants:
+                        case EquipmentItemSlot.Mainhand:
+                        case EquipmentItemSlot.Offhand:
+                        case EquipmentItemSlot.Ranged:
+                        case EquipmentItemSlot.Musical:
+                        case EquipmentItemSlot.Cosplay:
+                            stream.Write(item);
+                            break;
+                        case EquipmentItemSlot.Face:
+                        case EquipmentItemSlot.Hair:
+                        case EquipmentItemSlot.Glasses:
+                        case EquipmentItemSlot.Horns:
+                        case EquipmentItemSlot.Tail:
+                        case EquipmentItemSlot.Body:
+                        case EquipmentItemSlot.Beard:
+                            stream.Write(item.TemplateId);
+                            break;
+                        case EquipmentItemSlot.Ear1:
+                        case EquipmentItemSlot.Ear2:
+                        case EquipmentItemSlot.Finger1:
+                        case EquipmentItemSlot.Finger2:
+                        case EquipmentItemSlot.Backpack:
+                        case EquipmentItemSlot.Stabilizer:
+                            break;
+                    }
+                    itemSlot++;
                 }
             }
             else if (_unit is Npc npc)
             {
                 // calculate validFlags for 3.0.3.0
-                var items = npc.Equipment.GetSlottedItemsList();
-                foreach (var item in items)
+                for (var i = 0; i < npc.Equipment.GetSlottedItemsList().Count; i++)
                 {
+                    var item = npc.Equipment.GetItemBySlot(i);
                     if (item != null)
                     {
                         validFlags |= 1 << index;
@@ -177,29 +218,87 @@ namespace AAEmu.Game.Core.Packets.G2C
                     index++;
                 }
                 stream.Write((uint)validFlags); // validFlags for 3.0.3.0
-
-                for (var i = 0; i < npc.Equipment.GetSlottedItemsList().Count; i++)
+                var itemSlot = EquipmentItemSlot.Head;
+                var items = npc.Equipment.GetSlottedItemsList();
+                foreach (var item in items)
                 {
-                    var item = npc.Equipment.GetItemBySlot(i);
-
-                    if (item is BodyPart)
+                    if (item == null)
                     {
-                        stream.Write(item.TemplateId);
+                        itemSlot++;
+                        continue;
                     }
-                    else if (item != null)
+                    switch (itemSlot)
                     {
-                        if (i == 27) // Cosplay
-                        {
-                            stream.Write(item);
-                        }
-                        else
-                        {
+                        case EquipmentItemSlot.Head:
+                        case EquipmentItemSlot.Neck:
+                        case EquipmentItemSlot.Chest:
+                        case EquipmentItemSlot.Waist:
+                        case EquipmentItemSlot.Legs:
+                        case EquipmentItemSlot.Hands:
+                        case EquipmentItemSlot.Feet:
+                        case EquipmentItemSlot.Arms:
+                        case EquipmentItemSlot.Back:
+                        case EquipmentItemSlot.Undershirt:
+                        case EquipmentItemSlot.Underpants:
+                        case EquipmentItemSlot.Mainhand:
+                        case EquipmentItemSlot.Offhand:
+                        case EquipmentItemSlot.Ranged:
+                        case EquipmentItemSlot.Musical:
                             stream.Write(item.TemplateId);
                             stream.Write(0L);
                             stream.Write((byte)0);
-                        }
+                            break;
+                        case EquipmentItemSlot.Cosplay:
+                            stream.Write(item);
+                            break;
+                        case EquipmentItemSlot.Face:
+                        case EquipmentItemSlot.Hair:
+                        case EquipmentItemSlot.Glasses:
+                        case EquipmentItemSlot.Horns:
+                        case EquipmentItemSlot.Tail:
+                        case EquipmentItemSlot.Body:
+                        case EquipmentItemSlot.Beard:
+                            stream.Write(item.TemplateId);
+                            break;
+                        case EquipmentItemSlot.Ear1:
+                        case EquipmentItemSlot.Ear2:
+                        case EquipmentItemSlot.Finger1:
+                        case EquipmentItemSlot.Finger2:
+                        case EquipmentItemSlot.Backpack:
+                        case EquipmentItemSlot.Stabilizer:
+                            break;
                     }
+                    itemSlot++;
                 }
+
+                //for (var i = 0; i < npc.Equipment.GetSlottedItemsList().Count; i++)
+                //{
+                //    var item = npc.Equipment.GetItemBySlot(i);
+
+                //    if (item == null)
+                //        continue;
+
+                //    //if (item is BodyPart)
+                //    //{
+                //        if (i> 19 && i < 26)
+                //        {
+                //            stream.Write(item.TemplateId);
+                //        }
+                //    //}
+                //    else
+                //    {
+                //        if (i == (int)EquipmentItemSlot.Cosplay)
+                //        {
+                //            stream.Write(item);
+                //        }
+                //        else
+                //        {
+                //            stream.Write(item.TemplateId);
+                //            stream.Write(0L);
+                //            stream.Write((byte)0);
+                //        }
+                //    }
+                //}
             }
             else // for transfer and other
             {
@@ -220,7 +319,7 @@ namespace AAEmu.Game.Core.Packets.G2C
                         ItemFlags |= v15;
                     }
                 }
-                stream.Write(0u); //  ItemFlags flags for 3.0.3.0
+                stream.Write(ItemFlags); //  ItemFlags flags for 3.0.3.0
             }
             #endregion Inventory_Equip
 

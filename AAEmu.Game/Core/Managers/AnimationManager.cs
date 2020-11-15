@@ -15,14 +15,14 @@ namespace AAEmu.Game.Core.Managers
         private static Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<uint, Anim> _animations = new Dictionary<uint, Anim>();
-        private Dictionary<string, Anim> _animationsByName = new Dictionary<string, Anim>();
+        private Dictionary<string, List<Anim>> _animationsByName = new Dictionary<string, List<Anim>>();
 
         public Anim GetAnimation(uint id)
         {
             return _animations.ContainsKey(id) ? _animations[id] : null;
         }
 
-        public Anim GetAnimation(string name)
+        public List<Anim> GetAnimation(string name)
         {
             return _animationsByName.ContainsKey(name) ? _animationsByName[name] : null;
         }
@@ -30,7 +30,7 @@ namespace AAEmu.Game.Core.Managers
         public void Load()
         {
             _animations = new Dictionary<uint, Anim>();
-            _animationsByName = new Dictionary<string, Anim>();
+            _animationsByName = new Dictionary<string, List<Anim>>();
 
             _log.Info("Loading animations...");
 
@@ -60,12 +60,20 @@ namespace AAEmu.Game.Core.Managers
                             };
 
                             _animations.Add(template.Id, template);
-                            _animationsByName.Add(template.Name, template);
+                            //_animationsByName.Add(template.Name, template); // в наличии дубли Name
+                            List<Anim> tempListAnim;
+                            if (_animationsByName.ContainsKey(template.Name))
+                                tempListAnim = _animationsByName[template.Name];
+                            else
+                            {
+                                tempListAnim = new List<Anim>();
+                                _animationsByName.Add(template.Name, tempListAnim);
+                            }
+                            tempListAnim.Add(template);
                         }
                     }
                 }
             }
-
 
             var contents = FileManager.GetFileContents($"{FileManager.AppPath}Data/anim_durations.json");
             if (string.IsNullOrWhiteSpace(contents))
@@ -76,11 +84,13 @@ namespace AAEmu.Game.Core.Managers
                 if (JsonHelper.TryDeserializeObject(contents, out Dictionary<string, AnimDuration> animDurations, out _))
                     foreach (var key in animDurations.Keys)
                     {
-                        if (!_animationsByName.ContainsKey(key)) continue;
-
-                        var anim = _animationsByName[key];
-                        anim.Duration = animDurations[key].total_time;
-                        anim.CombatSyncTime = animDurations[key].combat_sync_time;
+                        foreach (var anim in _animationsByName[key])
+                        {
+                            //if (!_animationsByName.ContainsKey(key)) continue;
+                            //var anim = _animationsByName[key];
+                            anim.Duration = animDurations[key].total_time;
+                            anim.CombatSyncTime = animDurations[key].combat_sync_time;
+                        }
                     }
                 else
                     throw new Exception(

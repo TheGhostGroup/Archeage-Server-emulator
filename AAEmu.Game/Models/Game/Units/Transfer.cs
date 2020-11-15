@@ -34,17 +34,17 @@ namespace AAEmu.Game.Models.Game.Units
         public DateTime GameTime { get; set; }
         public float RotationDegrees { get; set; }
         public Quaternion Rot { get; set; } // значение поворота по оси Z должно быть в радианах
-        //public short RotationX { get; set; }
-        //public short RotationY { get; set; }
-        //public ushort RotationZ { get; set; }
+        public short RotationX { get; set; }
+        public short RotationY { get; set; }
+        public short RotationZ { get; set; }
         public Vector3 Velocity { get; set; }
-        //public short VelX { get; set; }
-        //public short VelY { get; set; }
-        //public short VelZ { get; set; }
+        public short VelX { get; set; }
+        public short VelY { get; set; }
+        public short VelZ { get; set; }
         public Vector3 AngVel { get; set; }
-        //public float AngVelX { get; set; }
-        //public float AngVelY { get; set; }
-        //public float AngVelZ { get; set; }
+        public float AngVelX { get; set; }
+        public float AngVelY { get; set; }
+        public float AngVelZ { get; set; }
         public int Steering { get; set; } = 1;
         public sbyte Throttle { get; set; } // ?
         public int PathPointIndex { get; set; }

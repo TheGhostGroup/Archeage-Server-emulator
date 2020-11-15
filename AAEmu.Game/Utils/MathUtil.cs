@@ -8,6 +8,8 @@ namespace AAEmu.Game.Utils
 {
     public static class MathUtil
     {
+        private const double Pi = 3.14159;
+
         // Return degree value of object 2 to the horizontal line with object 1 being the origin
         public static double CalculateAngleFrom(GameObject obj1, GameObject obj2)
         {
@@ -44,12 +46,12 @@ namespace AAEmu.Game.Utils
 
         public static double RadianToDegree(double angle)
         {
-            return angle * (180.0 / Math.PI);
+            return angle * (180.0 / Pi);
         }
 
         public static double DegreeToRadian(double angle)
         {
-            return angle * (Math.PI / 180.0);
+            return angle * (Pi / 180.0);
         }
 
         public static double ConvertDirectionToDegree(sbyte direction)
@@ -83,8 +85,8 @@ namespace AAEmu.Game.Utils
         public static short UpdateHeading(Vector3 point, Vector3 target)
         {
             var rad = Math.Atan2(target.Y - point.Y, target.X - point.X);
-            rad -= Math.PI / 2; // 12 o'clock == 0°
-            var heading = (short)(rad * 32767 / Math.PI);
+            rad -= Pi / 2; // 12 o'clock == 0°
+            var heading = (short)(rad * 32767 / Pi);
 
             return heading;
         }
@@ -93,8 +95,8 @@ namespace AAEmu.Game.Utils
             ushort heading;
             if (radian)
             {
-                degree -= Math.PI / 2; // 12 o'clock == 0°
-                heading = (ushort)(degree * 32767 / Math.PI);
+                degree -= Pi / 2; // 12 o'clock == 0°
+                heading = (ushort)(degree * 32767 / Pi);
             }
             else
             {
@@ -162,7 +164,7 @@ namespace AAEmu.Game.Utils
 
         public static double ConvertDirectionToRadian(sbyte direction)
         {
-            return ConvertDirectionToDegree(direction) * Math.PI / 180.0;
+            return ConvertDirectionToDegree(direction) * Pi / 180.0;
         }
 
         public static (float, float) AddDistanceToFront(float distance, float x, float y, sbyte rotZ)
@@ -175,7 +177,7 @@ namespace AAEmu.Game.Utils
 
         public static (float, float) AddDistanceToRight(float distance, float x, float y, sbyte rotZ)
         {
-            var rad = ConvertDirectionToRadian(rotZ) - (Math.PI / 2);
+            var rad = ConvertDirectionToRadian(rotZ) - (Pi / 2);
             var newX = (distance * (float)Math.Cos(rad)) + x;
             var newY = (distance * (float)Math.Sin(rad)) + y;
             return (newX, newY);
@@ -231,7 +233,7 @@ namespace AAEmu.Game.Utils
 
         public static short UpdateHeading(Unit obj, Vector3 target)
         {
-            return (short)(Math.Atan2(target.Y - obj.Position.Y, target.X - obj.Position.X) * 32768 / Math.PI);
+            return (short)(Math.Atan2(target.Y - obj.Position.Y, target.X - obj.Position.X) * 32768 / Pi);
         }
 
         // ===========================================================================================================
