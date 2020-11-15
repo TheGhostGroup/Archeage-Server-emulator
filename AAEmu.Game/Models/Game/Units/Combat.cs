@@ -30,7 +30,7 @@ namespace AAEmu.Game.Models.Game.Units
                 // Abandon tracking to stop moving beyond specified length
                 Stop(npc);
 
-                // Create Linear Cruise Return to Last Cruise Stop TransfersPathPoint
+                // Create Linear Cruise Return to Last Cruise Stop Point
                 // Uninterruptible, unaffected by external forces and attacks, similar to being out of combat
                 var line = new Line
                 {

@@ -18,7 +18,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
     /// </summary>
     internal class Line : Patrol
     {
-        //public TransfersPathPoint LastPatrolPosition { get; set; }
+        //public Point LastPatrolPosition { get; set; }
 
         private bool move;
         //private float returnDistance;
