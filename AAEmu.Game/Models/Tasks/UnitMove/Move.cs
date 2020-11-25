@@ -47,8 +47,8 @@ namespace AAEmu.Game.Models.Tasks.UnitMove
                     _patrol?.MoveTo(_patrol, _gimmick, _targetX, _targetY, _targetZ);
                     break;
                 case Transfer _transfer:
-                    //_patrol?.MoveTo(_patrol, _transfer, _targetX, _targetY, _targetZ);
-                    _patrol?.MoveToPath(_patrol, _transfer, _targetX, _targetY, _targetZ, _pp);
+                    _patrol?.MoveTo(_patrol, _transfer, _targetX, _targetY, _targetZ);
+                    //_patrol?.MoveToPath(_patrol, _transfer, _targetX, _targetY, _targetZ, _pp);
                     break;
             }
         }

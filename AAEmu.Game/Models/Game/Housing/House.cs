@@ -30,6 +30,7 @@ namespace AAEmu.Game.Models.Game.Housing
     public sealed class House : Unit
     {
         private static Logger _log = LogManager.GetCurrentClassLogger();
+
         private object _lock = new object();
         private HousingTemplate _template;
         private int _currentStep;
@@ -117,6 +118,7 @@ namespace AAEmu.Game.Models.Game.Housing
             ModelParams = new UnitCustomModelParams();
             AttachedDoodads = new List<Doodad>();
             IsDirty = true;
+            UnitType = BaseUnitType.Housing;
         }
 
         public void AddBuildAction()

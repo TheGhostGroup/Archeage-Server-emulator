@@ -72,127 +72,76 @@ namespace AAEmu.Game.Models.Game.Transfers
             }
 
             // использование путей из логов с помощью файла transfer_paths.json
-            if (transfer.TemplateId != 46 && transfer.TemplateId != 4 && transfer.TemplateId != 122)
-            {
-                if (
-                    //transfer.TemplateId == 52
-                    //|| transfer.TemplateId == 8
-                    //|| transfer.TemplateId == 10
-                    //|| transfer.TemplateId == 49
-                    //|| transfer.TemplateId == 50
-                    //|| transfer.TemplateId == 52
-                    //|| transfer.TemplateId == 65
-                    //|| transfer.TemplateId == 103
-                    //|| transfer.TemplateId == 110
-                    //|| transfer.TemplateId == 114
-                    //|| transfer.TemplateId == 120
-                    //|| transfer.TemplateId == 130
-                    //|| transfer.TemplateId == 131
-                    //|| transfer.TemplateId == 132
-                    //|| transfer.TemplateId == 133
-                    //|| 
-                transfer.TemplateId == 134
-                    )
-                {
-                    if (!transfer.IsInPatrol)
-                    {
-                        var path = new Simulation(transfer, transfer.Template.PathSmoothing);
-                        // организуем последовательность "Дорог" для следования "Транспорта"
-                        //for (var i = 0; i < TransfersPath.Paths.Count; i++)
-                        //{
-                        var idxSteering = 0;
-                        //var idxPathPointIndex = 0;
-                        var lpp = new List<TransfersPathPoint>();
-                        foreach (var p in TransfersPath.Paths)
-                        {
-                            if (p.Type != transfer.TemplateId) { continue; }
-
-                            foreach (var pp in p.Pos)
-                            {
-                                if (pp.Steering == idxSteering)
-                                {
-                                    lpp.Add(pp);
-                                }
-                                else
-                                {
-                                    path.Routes2.TryAdd(idxSteering, lpp);
-                                    idxSteering = pp.Steering;
-                                    lpp = new List<TransfersPathPoint>();
-                                }
-                            }
-                            path.Routes2.TryAdd(idxSteering, lpp);
-                            break;
-                        }
-                        //}
-                        path.LoadTransferPathFromRoutes2(0); // начнем с самого начала
-
-                        if (path.Routes2[0] != null)
-                        {
-                            //_log.Warn("TransfersPath #" + transfer.TemplateId);
-                            //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
-                            transfer.IsInPatrol = true; // so as not to run the route a second time
-
-                            transfer.Steering = 0;
-                            transfer.PathPointIndex = 0;
-
-                            // попробуем заспавнить в последней точке пути (она как раз напротив стоянки)
-                            // попробуем смотреть на следующую точку
-
-                            var point = path.Routes2[0][0];
-                            var point2 = path.Routes2[0][1];
-
-                            var vPosition = new Vector3(point.X, point.Y, point.Z);
-                            var vTarget = new Vector3(point2.X, point2.Y, point2.Z);
-                            path.Angle = MathUtil.CalculateDirection(vPosition, vTarget);
-                            transfer.Position.RotationZ = MathUtil.ConvertDegreeToDirection(MathUtil.RadianToDegree(path.Angle));
-                            transfer.RotationZ = (short)point.RotationZ;
-
-                            transfer.Position.WorldId = 1;
-                            transfer.Position.ZoneId = transfer.Template.TransferRoads[0].ZoneId;
-                            transfer.Position.ZoneId = WorldManager.Instance.GetZoneId(transfer.Position.WorldId, point.X, point.Y);
-                            transfer.Position.X = point.X;
-                            transfer.Position.Y = point.Y;
-                            transfer.Position.Z = point.Z;
-
-                            transfer.WorldPos = new WorldPos(Helpers.ConvertLongY(point.X), Helpers.ConvertLongY(point.Y), point.Z);
-                            _log.Warn("TransfersPath #" + transfer.TemplateId);
-                            _log.Warn("New spawn X={0}", transfer.Position.X);
-                            _log.Warn("New spawn Y={0}", transfer.Position.Y);
-                            _log.Warn("New spawn Z={0}", transfer.Position.Z);
-                            _log.Warn("transfer.RotationZ={0}, rotZ={1}, zoneId={2}", transfer.RotationZ, transfer.Position.RotationZ, transfer.Position.ZoneId);
-
-                            path.InPatrol = false;
-
-                            path.GoToPath2(transfer, true);
-                        }
-                        else
-                        {
-                            _log.Warn("PathName: " + transfer.Template.TransferPaths[0].PathName + " not found!");
-                        }
-                    }
-
-                }
-            }
-
-            // использование путей из клиента
             //if (transfer.TemplateId != 46 && transfer.TemplateId != 4 && transfer.TemplateId != 122)
             //{
-            //    if (transfer.TemplateId == 6)
+            //    //if (
+            //    //transfer.TemplateId == 52
+            //    //|| transfer.TemplateId == 8
+            //    //|| transfer.TemplateId == 10
+            //    //|| transfer.TemplateId == 49
+            //    //|| transfer.TemplateId == 50
+            //    //|| transfer.TemplateId == 52
+            //    //|| transfer.TemplateId == 65
+            //    //|| transfer.TemplateId == 103
+            //    //|| transfer.TemplateId == 110
+            //    //|| transfer.TemplateId == 114
+            //    //|| transfer.TemplateId == 120
+            //    //|| transfer.TemplateId == 130
+            //    //|| transfer.TemplateId == 131
+            //    //|| transfer.TemplateId == 132
+            //    //|| transfer.TemplateId == 133
+            //    //|| transfer.TemplateId == 134
+            //    //    )
             //    {
             //        if (!transfer.IsInPatrol)
             //        {
             //            var path = new Simulation(transfer, transfer.Template.PathSmoothing);
             //            // организуем последовательность "Дорог" для следования "Транспорта"
-            //            for (var i = 0; i < transfer.Template.TransferRoads.Count; i++)
+            //            //for (var i = 0; i < TransfersPath.Paths.Count; i++)
+            //            //{
+            //            var idxSteering = 0;
+            //            //var idxPathPointIndex = 0;
+            //            var lpp = new List<TransfersPathPoint>();
+            //            foreach (var p in TransfersPath.Paths)
             //            {
-            //                path.Routes.TryAdd(i, transfer.Template.TransferRoads[i].Pos);
-            //            }
-            //            path.LoadTransferPathFromRoutes(0); // начнем с самого начала
+            //                if (p.Type != transfer.TemplateId) { continue; }
 
-            //            if (path.Routes[0] != null)
+            //                foreach (var pp in p.Pos)
+            //                {
+            //                    if (pp.Steering == idxSteering)
+            //                    {
+            //                        lpp.Add(pp);
+            //                    }
+            //                    else
+            //                    {
+            //                        path.Routes2.TryAdd(idxSteering, lpp);
+            //                        idxSteering = pp.Steering;
+            //                        lpp = new List<TransfersPathPoint>();
+            //                    }
+            //                }
+            //                path.Routes2.TryAdd(idxSteering, lpp);
+            //                break;
+            //            }
+            //            //}
+            //            var go = true;
+            //            if (path.Routes2.Count == 0)
             //            {
-            //                //_log.Warn("TransfersPath #" + transfer.TemplateId);
-            //                //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
+            //                go = false;
+            //            }
+            //            else
+            //            {
+            //                if (path.Routes2.Any(route => route.Value.Count == 0))
+            //                {
+            //                    go = false;
+            //                }
+            //            }
+            //            //if (path.Routes2.Count != 0)
+            //            if(go)
+            //            {
+
+            //                path.LoadTransferPathFromRoutes2(0); // начнем с самого начала
+            //                                                     //_log.Warn("TransfersPath #" + transfer.TemplateId);
+            //                                                     //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
             //                transfer.IsInPatrol = true; // so as not to run the route a second time
 
             //                transfer.Steering = 0;
@@ -201,14 +150,14 @@ namespace AAEmu.Game.Models.Game.Transfers
             //                // попробуем заспавнить в последней точке пути (она как раз напротив стоянки)
             //                // попробуем смотреть на следующую точку
 
-            //                var point = path.Routes[path.Routes.Count - 1][path.Routes[path.Routes.Count - 1].Count - 1];
-            //                var point2 = path.Routes[0][0];
+            //                var point = path.Routes2[0][0];
+            //                var point2 = path.Routes2[0][1];
 
             //                var vPosition = new Vector3(point.X, point.Y, point.Z);
             //                var vTarget = new Vector3(point2.X, point2.Y, point2.Z);
             //                path.Angle = MathUtil.CalculateDirection(vPosition, vTarget);
             //                transfer.Position.RotationZ = MathUtil.ConvertDegreeToDirection(MathUtil.RadianToDegree(path.Angle));
-            //                transfer.Rot = new Quaternion(0f, 0f, MathUtil.ConvertToDirection(path.Angle), 1f);
+            //                transfer.RotationZ = (short)point.RotationZ;
 
             //                transfer.Position.WorldId = 1;
             //                transfer.Position.ZoneId = transfer.Template.TransferRoads[0].ZoneId;
@@ -222,11 +171,11 @@ namespace AAEmu.Game.Models.Game.Transfers
             //                _log.Warn("New spawn X={0}", transfer.Position.X);
             //                _log.Warn("New spawn Y={0}", transfer.Position.Y);
             //                _log.Warn("New spawn Z={0}", transfer.Position.Z);
-            //                _log.Warn("transfer.Rot={0}, rotZ={1}, zoneId={2}", transfer.Rot, transfer.Position.RotationZ, transfer.Position.ZoneId);
+            //                _log.Warn("transfer.RotationZ={0}, rotZ={1}, zoneId={2}", transfer.RotationZ, transfer.Position.RotationZ, transfer.Position.ZoneId);
 
             //                path.InPatrol = false;
 
-            //                path.GoToPath(transfer, true);
+            //                path.GoToPath2(transfer, true);
             //            }
             //            else
             //            {
@@ -236,6 +185,72 @@ namespace AAEmu.Game.Models.Game.Transfers
 
             //    }
             //}
+
+            // использование путей из клиента
+            if (transfer.TemplateId != 46 && transfer.TemplateId != 4 && transfer.TemplateId != 122)
+            {
+                //if (transfer.TemplateId == 64)
+                {
+                    if (!transfer.IsInPatrol)
+                    {
+                        var path = new Simulation(transfer, transfer.Template.PathSmoothing);
+                        // организуем последовательность "Дорог" для следования "Транспорта"
+                        for (var i = 0; i < transfer.Template.TransferRoads.Count; i++)
+                        {
+                            path.Routes.TryAdd(i, transfer.Template.TransferRoads[i].Pos);
+                        }
+                        path.LoadTransferPathFromRoutes(0); // начнем с самого начала
+
+                        if (path.Routes[0] != null)
+                        {
+                            //_log.Warn("TransfersPath #" + transfer.TemplateId);
+                            //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
+                            transfer.IsInPatrol = true; // so as not to run the route a second time
+
+                            transfer.Steering = 0;
+                            transfer.PathPointIndex = 0;
+
+                            // попробуем заспавнить в последней точке пути (она как раз напротив стоянки)
+                            // попробуем смотреть на следующую точку
+
+                            var point = path.Routes[path.Routes.Count - 1][path.Routes[path.Routes.Count - 1].Count - 1];
+                            var point2 = path.Routes[0][0];
+
+                            var vPosition = new Vector3(point.X, point.Y, point.Z);
+                            var vTarget = new Vector3(point2.X, point2.Y, point2.Z);
+                            path.Angle = MathUtil.CalculateDirection(vPosition, vTarget);
+
+                            transfer.Position.RotationZ = MathUtil.ConvertDegreeToDirection(MathUtil.RadianToDegree(path.Angle));
+
+                            var quat = Quaternion.CreateFromYawPitchRoll((float)path.Angle, 0.0f, 0.0f);
+                            transfer.Rot = new Quaternion(quat.X, quat.Z, quat.Y, quat.W);
+
+                            transfer.Position.WorldId = 1;
+                            transfer.Position.ZoneId = transfer.Template.TransferRoads[0].ZoneId;
+                            transfer.Position.ZoneId = WorldManager.Instance.GetZoneId(transfer.Position.WorldId, point.X, point.Y);
+                            transfer.Position.X = point.X;
+                            transfer.Position.Y = point.Y;
+                            transfer.Position.Z = point.Z;
+
+                            transfer.WorldPos = new WorldPos(Helpers.ConvertLongY(point.X), Helpers.ConvertLongY(point.Y), point.Z);
+                            _log.Warn("TransfersPath #" + transfer.TemplateId);
+                            _log.Warn("New spawn X={0}", transfer.Position.X);
+                            _log.Warn("New spawn Y={0}", transfer.Position.Y);
+                            _log.Warn("New spawn Z={0}", transfer.Position.Z);
+                            _log.Warn("transfer.Rot={0}, rotZ={1}, zoneId={2}", transfer.Rot, transfer.Position.RotationZ, transfer.Position.ZoneId);
+
+                            path.InPatrol = false;
+
+                            path.GoToPath(transfer, true);
+                        }
+                        else
+                        {
+                            _log.Warn("PathName: " + transfer.Template.TransferPaths[0].PathName + " not found!");
+                        }
+                    }
+
+                }
+            }
 
 
             #region transfer_paths_original.json
@@ -352,9 +367,9 @@ namespace AAEmu.Game.Models.Game.Transfers
                 //p.VelX = position2.VelX;
                 //p.VelY = position2.VelY;
                 //p.VelZ = position2.VelZ;
-//                p.RotationX = position2.RotationY;
-//                p.RotationY = position2.RotationY;
-//                p.RotationZ = position2.RotationZ;
+                //                p.RotationX = position2.RotationY;
+                //                p.RotationY = position2.RotationY;
+                //                p.RotationZ = position2.RotationZ;
                 //p.AngVelX = position2.AngVelX;
                 //p.AngVelY = position2.AngVelY;
                 //p.AngVelZ = position2.AngVelZ;

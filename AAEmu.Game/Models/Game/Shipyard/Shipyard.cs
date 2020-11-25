@@ -18,6 +18,7 @@ namespace AAEmu.Game.Models.Game.Shipyard
         public Shipyard()
         {
             ModelParams = new UnitCustomModelParams();
+            UnitType = BaseUnitType.Shipyard;
         }
 
         public override void AddVisibleObject(Character character)

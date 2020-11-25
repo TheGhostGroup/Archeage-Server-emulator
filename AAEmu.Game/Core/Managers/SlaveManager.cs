@@ -168,8 +168,10 @@ namespace AAEmu.Game.Core.Managers
             var spawnPos = owner.Position.Clone();
             spawnPos.X += slaveTemplate.SpawnXOffset;
             spawnPos.Y += slaveTemplate.SpawnYOffset;
-            // if boat
-            spawnPos.Z = 100f;
+            if (slaveTemplate.SlaveKind == SlaveKind.Boat)
+            {
+                spawnPos.Z = 100.0f;
+            }
 
             // TODO
             owner.BroadcastPacket(new SCSlaveCreatedPacket(owner.ObjId, tlId, objId, false, 0, owner.Name), true);
@@ -263,23 +265,22 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new SlaveTemplate
-                            {
-                                Id = reader.GetUInt32("id"),
-                                Name = reader.GetString("name"),
-                                ModelId = reader.GetUInt32("model_id"),
-                                Mountable = reader.GetBoolean("mountable"),
-                                SpawnXOffset = reader.GetFloat("spawn_x_offset"),
-                                SpawnYOffset = reader.GetFloat("spawn_y_offset"),
-                                FactionId = reader.GetUInt32("faction_id", 0),
-                                Level = reader.GetUInt32("level"),
-                                Cost = reader.GetInt32("cost"),
-                                SlaveKind = (SlaveKind)reader.GetUInt32("slave_kind_id"),
-                                SpawnValidAreaRance = reader.GetUInt32("spawn_valid_area_range", 0),
-                                SlaveInitialItemPackId = reader.GetUInt32("slave_initial_item_pack_id", 0),
-                                SlaveCustomizingId = reader.GetUInt32("slave_customizing_id", 0),
-                                Customizable = reader.GetBoolean("customizable", false)
-                            };
+                            var template = new SlaveTemplate();
+                            template.Id = reader.GetUInt32("id");
+                            //template.Name = reader.GetString("name");
+                            template.Name = LocalizationManager.Instance.Get("slaves", "name", template.Id);
+                            template.ModelId = reader.GetUInt32("model_id");
+                            template.Mountable = reader.GetBoolean("mountable");
+                            template.SpawnXOffset = reader.GetFloat("spawn_x_offset");
+                            template.SpawnYOffset = reader.GetFloat("spawn_y_offset");
+                            template.FactionId = reader.GetUInt32("faction_id", 0);
+                            template.Level = reader.GetUInt32("level");
+                            template.Cost = reader.GetInt32("cost");
+                            template.SlaveKind = (SlaveKind)reader.GetUInt32("slave_kind_id");
+                            template.SpawnValidAreaRance = reader.GetUInt32("spawn_valid_area_range", 0);
+                            template.SlaveInitialItemPackId = reader.GetUInt32("slave_initial_item_pack_id", 0);
+                            template.SlaveCustomizingId = reader.GetUInt32("slave_customizing_id", 0);
+                            template.Customizable = reader.GetBoolean("customizable", false);
                             _slaveTemplates.Add(template.Id, template);
                         }
                     }

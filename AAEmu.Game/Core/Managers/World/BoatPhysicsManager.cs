@@ -36,14 +36,15 @@ namespace AAEmu.Game.Core.Managers.World
 
         public void BoatPhysicsTick(Slave slave)
         {
+            var moveType = (Ship)UnitMovement.GetType(UnitMovementType.Ship);
+            moveType.UseSlaveBase(slave);
             var velAccel = 2.0f; //per s
             var maxVelForward = 12.9f; //per s
             var maxVelBackward = -5.0f;
 
-            // TODO : We'll need to compute the ship's center of mass, based on the table ship_models
-
             ComputeThrottle(slave);
             ComputeSteering(slave);
+
             //                                 1/127
             slave.Speed += (slave.Throttle * 0.00787401575f) * (velAccel / 20f);
             slave.Speed = Math.Min(slave.Speed, maxVelForward);
@@ -59,43 +60,47 @@ namespace AAEmu.Game.Core.Managers.World
             if (slave.Throttle == 0) // this needs to be fixed : ships need to apply a static drag, and slowly ship away at the speed instead of doing it like this
                 slave.Speed -= (slave.Speed / 10);
 
+            slave.Position.RotationZ = MathUtil.ConvertDegreeToDirection(slave.RotationDegrees);
 
-
-            slave.Position.RotationZ = MathUtil.ConvertDegreeToDirection(-slave.RotationDegrees);
-            var rotationZ = (short)(slave.Position.RotationZ * 1024);
-            slave.Rot = new Quaternion(0, 0, Helpers.ConvertDirectionToRadian(rotationZ), 1f); // TODO проверить
-
-            var (newX, newY) = MathUtil.AddDistanceToFront(-(slave.Speed / 20f), slave.Position.X, slave.Position.Y,
-                slave.Position.RotationZ);
+            var (newX, newY) = MathUtil.AddDistanceToFrontDeg(-(slave.Speed / 20f), slave.Position.X, slave.Position.Y,
+                slave.RotationDegrees - 90.0f);
 
             var diffX = newX - slave.Position.X;
             var diffY = newY - slave.Position.Y;
-
             slave.Position.X = newX;
             slave.Position.Y = newY;
 
+            // This works when going staight Y, it displays the correct speed. Didn't add rotation yet so i don't know 
+            moveType.VelX = (short)(diffX * 21900);
+            moveType.VelY = (short)(diffY * 21900);
+
             slave.RotationDegrees -= slave.RotSpeed;
-            slave.RotationDegrees %= 360f;
+            if (slave.RotationDegrees < -180.0f)
+                slave.RotationDegrees = 180.0f;
+            if (slave.RotationDegrees > 180.0f)
+                slave.RotationDegrees = -180.0f;
+            // slave.RotationDegrees %= 360f;
 
-            var velX = (short)(diffX * 21900);
-            var velY = (short)(diffY * 21900);
-            var velZ = slave.RotSpeed;
-            slave.AngVel = new Vector3(velX, velY, velZ); // TODO проверить
-
-            var moveType = (Ship)UnitMovement.GetType(UnitMovementType.Ship);
-            moveType.UseSlaveBase(slave);
+            // TODO: Replace 0 with ship's rotation in degrees [-180, 180]
+            var yaw = (float)(slave.RotationDegrees * (Math.PI / 180));
+            var quat = Quaternion.CreateFromYawPitchRoll(yaw, 0.0003f, -0.002f);
+            
+            moveType.Rot = new Quaternion(quat.X, quat.Y, quat.Z, 1.0f);
+            //moveType.RotationX = (short)(quat.X * 32767);
+            //moveType.RotationY = (short)(quat.Z * 32767);
+            //moveType.RotationZ = (short)(quat.Y * 32767);
             slave.BroadcastPacket(new SCOneUnitMovementPacket(slave.ObjId, moveType), false);
         }
 
         public void ComputeThrottle(Slave slave)
         {
             int throttleAccel = 6;
-            if (slave.RequestThrottle > slave.Throttle)
+            if (slave.ThrottleRequest > slave.Throttle)
             {
                 slave.Throttle = (sbyte)Math.Min(sbyte.MaxValue, slave.Throttle + throttleAccel);
 
             }
-            else if (slave.RequestThrottle < slave.Throttle && slave.RequestThrottle != 0)
+            else if (slave.ThrottleRequest < slave.Throttle && slave.ThrottleRequest != 0)
             {
                 slave.Throttle = (sbyte)Math.Max(sbyte.MinValue, slave.Throttle - throttleAccel);
             }
@@ -115,12 +120,12 @@ namespace AAEmu.Game.Core.Managers.World
         public void ComputeSteering(Slave slave)
         {
             int steeringAccel = 6;
-            if (slave.RequestSteering > slave.Steering)
+            if (slave.SteeringRequest > slave.Steering)
             {
                 slave.Steering = (sbyte)Math.Min(sbyte.MaxValue, slave.Steering + steeringAccel);
 
             }
-            else if (slave.RequestSteering < slave.Steering && slave.RequestSteering != 0)
+            else if (slave.SteeringRequest < slave.Steering && slave.SteeringRequest != 0)
             {
                 slave.Steering = (sbyte)Math.Max(sbyte.MinValue, slave.Steering - steeringAccel);
             }
@@ -136,6 +141,5 @@ namespace AAEmu.Game.Core.Managers.World
                 }
             }
         }
-
     }
 }

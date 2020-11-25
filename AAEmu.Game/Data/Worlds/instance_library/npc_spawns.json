@@ -33491,7 +33491,7 @@
     "Id": 2094,
     "Count": 1,
     "UnitId": 14332,
-    "Title": "268658 DO NOT TRANSLATE",
+    "Title": "Alexander Rally Point Marking NPC",
     "Position": {
       "X": 2618.305,
       "Y": 2542.846,
@@ -33507,7 +33507,7 @@
     "Id": 2095,
     "Count": 1,
     "UnitId": 14332,
-    "Title": "268658 DO NOT TRANSLATE",
+    "Title": "Alexander Rally Point Marking NPC",
     "Position": {
       "X": 2642.736,
       "Y": 2563.829,
@@ -33523,7 +33523,7 @@
     "Id": 2096,
     "Count": 1,
     "UnitId": 14332,
-    "Title": "268658 DO NOT TRANSLATE",
+    "Title": "Alexander Rally Point Marking NPC",
     "Position": {
       "X": 2612.656,
       "Y": 2575.169,
@@ -35795,7 +35795,7 @@
     "Id": 2238,
     "Count": 1,
     "UnitId": 14641,
-    "Title": "272349 DO NOT TRANSLATE",
+    "Title": "등불의 npc",
     "Position": {
       "X": 3697.811,
       "Y": 440.752,
@@ -36275,7 +36275,7 @@
     "Id": 2268,
     "Count": 1,
     "UnitId": 14651,
-    "Title": "272850 DO NOT TRANSLATE",
+    "Title": "Rank 1 Summon NPC",
     "Position": {
       "X": 3689.558,
       "Y": 413.682,
@@ -36291,7 +36291,7 @@
     "Id": 2269,
     "Count": 1,
     "UnitId": 14652,
-    "Title": "272853 DO NOT TRANSLATE",
+    "Title": "Rank 2 Summon NPC",
     "Position": {
       "X": 3689.491,
       "Y": 414.971,
@@ -36307,7 +36307,7 @@
     "Id": 2270,
     "Count": 1,
     "UnitId": 14653,
-    "Title": "272854 DO NOT TRANSLATE",
+    "Title": "Rank 3 Summon NPC",
     "Position": {
       "X": 3689.41,
       "Y": 416.484,
@@ -36323,7 +36323,7 @@
     "Id": 2271,
     "Count": 1,
     "UnitId": 14654,
-    "Title": "272855 DO NOT TRANSLATE",
+    "Title": "Rank 4 Summon NPC",
     "Position": {
       "X": 3686.34,
       "Y": 413.497,
@@ -36339,7 +36339,7 @@
     "Id": 2272,
     "Count": 1,
     "UnitId": 14655,
-    "Title": "272856 DO NOT TRANSLATE",
+    "Title": "Rank 5 Summon NPC",
     "Position": {
       "X": 3686.206,
       "Y": 415.575,
@@ -36355,7 +36355,7 @@
     "Id": 2273,
     "Count": 1,
     "UnitId": 14656,
-    "Title": "272857 DO NOT TRANSLATE",
+    "Title": "Rank 1 Summoner NPC",
     "Position": {
       "X": 3687.886,
       "Y": 413.626,
@@ -36371,7 +36371,7 @@
     "Id": 2274,
     "Count": 1,
     "UnitId": 14657,
-    "Title": "272858 DO NOT TRANSLATE",
+    "Title": "Rank 2 Summoner NPC",
     "Position": {
       "X": 3687.866,
       "Y": 414.984,
@@ -36387,7 +36387,7 @@
     "Id": 2275,
     "Count": 1,
     "UnitId": 14658,
-    "Title": "272859 DO NOT TRANSLATE",
+    "Title": "Rank 3 Summoner NPC",
     "Position": {
       "X": 3687.655,
       "Y": 416.688,
@@ -36403,7 +36403,7 @@
     "Id": 2276,
     "Count": 1,
     "UnitId": 14659,
-    "Title": "272860 DO NOT TRANSLATE",
+    "Title": "Rank 4 Summoner NPC",
     "Position": {
       "X": 3684.496,
       "Y": 413.444,
@@ -36419,7 +36419,7 @@
     "Id": 2277,
     "Count": 1,
     "UnitId": 14660,
-    "Title": "272861 DO NOT TRANSLATE",
+    "Title": "Rank 5 Summoner NPC",
     "Position": {
       "X": 3684.347,
       "Y": 415.837,

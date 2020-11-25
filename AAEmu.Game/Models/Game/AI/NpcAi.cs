@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 using AAEmu.Commons.Utils;
@@ -115,74 +116,91 @@ namespace AAEmu.Game.Models.Game.AI
                                 moveType.Time = seq;
                                 chr.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
                             }
-                            else if (npc.Template.AiFileId == AiFilesType.Roaming || npc.Template.AiFileId == AiFilesType.BigMonsterRoaming || npc.Template.AiFileId == AiFilesType.ArcherRoaming || npc.Template.AiFileId == AiFilesType.WildBoarRoaming)
-                            {   // Npc roams around the spawn point in random directions
-                                if (npc.CurrentTarget != null)
-                                {
-                                    chr.BroadcastPacket(new SCTargetChangedPacket(npc.ObjId, 0), true);
-                                    npc.CurrentTarget = null;
-                                }
-                                if (npc.Patrol == null)
-                                {
-                                    npc.IsInBattle = false;
-                                    npc.Patrol = new Roaming { Interrupt = true, Loop = true, Abandon = false };
-                                    npc.Patrol.Interrupt = true; // можно прервать
-                                    npc.Patrol.Loop = true;      // повторять в цикле
-                                    npc.Patrol.Abandon = false;  // не прерванный
-                                    npc.Patrol.Pause(npc);
-                                    npc.Patrol.LastPatrol = null; // предыдущего патруля нет
-                                    npc.Patrol.Recovery(npc);     // запустим патруль
-                                }
-                                else
-                                {
-                                    npc.Patrol.Recovery(npc);
-                                }
-                            }
                         }
-                        // использование путей из логов с помощью файла npc_paths.json
-                        if (
-                            npc.TemplateId == 11999
-                            || npc.TemplateId == 8172
-                            || npc.TemplateId == 8176
-                            || npc.TemplateId == 3576
-                            || npc.TemplateId == 918
-                            || npc.TemplateId == 3626
-                            || npc.TemplateId == 7660
-                            || npc.TemplateId == 12143
-                            )
+                        else if (npc.SimulationNpc != null && npc.SimulationNpc.FollowPath)
                         {
-                            if (!npc.IsInPatrol)
+                            npc.SimulationNpc.GoToPath(npc, true);
+                        }
+                        else if (npc.Template.AiFileId == AiFilesType.Roaming || npc.Template.AiFileId == AiFilesType.BigMonsterRoaming || npc.Template.AiFileId == AiFilesType.ArcherRoaming || npc.Template.AiFileId == AiFilesType.WildBoarRoaming)
+                        {   // Npc roams around the spawn point in random directions
+                            if (npc.CurrentTarget != null)
                             {
-                                var path = new SimulationNpc(npc);
-                                // организуем последовательность "Дорог" для следования "Гвардов"
-                                var lnpp = new List<NpcsPathPoint>();
-                                foreach (var np in NpcsPath.NpcsPaths)
-                                {
-                                    if (np.Type != npc.TemplateId) { continue; }
-
-                                    foreach (var npp in np.Pos)
-                                    {
-                                        lnpp.Add(npp);
-                                    }
-                                    path.NpcsRoutes.TryAdd(npc.TemplateId, lnpp);
-                                    break;
-                                }
-                                path.LoadNpcPathFromNpcsRoutes(npc.TemplateId); // начнем с самого начала
-
-                                if (path.NpcsRoutes[npc.TemplateId] != null)
-                                {
-                                    //_log.Warn("TransfersPath #" + transfer.TemplateId);
-                                    //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
-                                    npc.IsInPatrol = true; // so as not to run the route a second time
-
-                                    path.GoToPath(npc, true);
-                                }
-                                else
-                                {
-                                    //_log.Warn("PathName: " + npc.Template.TransferPaths[0].PathName + " not found!");
-                                }
+                                chr.BroadcastPacket(new SCTargetChangedPacket(npc.ObjId, 0), true);
+                                npc.CurrentTarget = null;
+                            }
+                            if (npc.Patrol == null)
+                            {
+                                npc.IsInBattle = false;
+                                npc.Patrol = new Roaming { Interrupt = true, Loop = true, Abandon = false };
+                                npc.Patrol.Interrupt = true; // можно прервать
+                                npc.Patrol.Loop = true;      // повторять в цикле
+                                npc.Patrol.Abandon = false;  // не прерванный
+                                npc.Patrol.Pause(npc);
+                                npc.Patrol.LastPatrol = null; // предыдущего патруля нет
+                                npc.Patrol.Recovery(npc);     // запустим патруль
+                            }
+                            else
+                            {
+                                npc.Patrol.Recovery(npc);
                             }
                         }
+                        //// использование путей из логов с помощью файла npc_paths.json
+                        ////if (
+                        ////    npc.TemplateId == 11999
+                        ////    || npc.TemplateId == 8172
+                        ////    || npc.TemplateId == 8176
+                        ////    || npc.TemplateId == 3576
+                        ////    || npc.TemplateId == 918
+                        ////    || npc.TemplateId == 3626
+                        ////    || npc.TemplateId == 7660
+                        ////    || npc.TemplateId == 12143
+                        ////    )
+                        //{
+                        //    if (!npc.IsInPatrol)
+                        //    {
+                        //        var path = new SimulationNpc(npc);
+                        //        // организуем последовательность "Дорог" для следования "Гвардов"
+                        //        var lnpp = new List<NpcsPathPoint>();
+                        //        foreach (var np in NpcsPath.NpcsPaths)
+                        //        {
+                        //            if (np.ObjId != npc.ObjId) { continue; }
+
+                        //            foreach (var npp in np.Pos)
+                        //            {
+                        //                lnpp.Add(npp);
+                        //            }
+                        //            path.NpcsRoutes.TryAdd(npc.TemplateId, lnpp);
+                        //            break;
+                        //        }
+
+                        //        var go = true;
+                        //        if (path.NpcsRoutes.Count == 0)
+                        //        {
+                        //            go = false;
+                        //        }
+                        //        else
+                        //        {
+                        //            if (path.NpcsRoutes.Any(route => route.Value.Count == 0))
+                        //            {
+                        //                go = false;
+                        //            }
+                        //        }
+                        //        //if (path.Routes2.Count != 0)
+                        //        if (go)
+                        //        {
+                        //            path.LoadNpcPathFromNpcsRoutes(npc.TemplateId); // начнем с самого начала
+                        //            //_log.Warn("TransfersPath #" + transfer.TemplateId);
+                        //                                                            //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
+                        //            npc.IsInPatrol = true; // so as not to run the route a second time
+
+                        //            path.GoToPath(npc, true);
+                        //        }
+                        //        else
+                        //        {
+                        //            //_log.Warn("PathName: " + npc.Template.TransferPaths[0].PathName + " not found!");
+                        //        }
+                        //    }
+                        //}
                     }
                     break;
                 case BaseUnitType.Npc:

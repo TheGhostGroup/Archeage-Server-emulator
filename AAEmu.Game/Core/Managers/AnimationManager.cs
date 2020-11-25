@@ -45,19 +45,17 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new Anim()
-                            {
-                                Id = reader.GetUInt32("id"),
-                                Name = reader.GetString("name"),
-                                Loop = reader.GetBoolean("loop"),
-                                Category = (AnimCategory)reader.GetUInt32("category_id"),
-                                RideUB = reader.GetString("ride_ub"),
-                                HangUB = reader.GetString("hang_ub"),
-                                SwimUB = reader.GetString("swim_ub"),
-                                MoveUB = reader.GetString("move_ub"),
-                                RelaxedUB = reader.GetString("relaxed_ub"),
-                                SwimMoveUB = reader.GetString("swim_move_ub")
-                            };
+                            var template = new Anim();
+                            template.Id = reader.GetUInt32("id");
+                            template.Name = reader.GetString("name");
+                            template.Loop = reader.GetBoolean("loop");
+                            template.Category = (AnimCategory)reader.GetUInt32("category_id");
+                            template.RideUB = reader.GetString("ride_ub");
+                            template.HangUB = reader.GetString("hang_ub");
+                            template.SwimUB = reader.GetString("swim_ub");
+                            template.MoveUB = reader.GetString("move_ub");
+                            template.RelaxedUB = reader.GetString("relaxed_ub");
+                            template.SwimMoveUB = reader.GetString("swim_move_ub");
 
                             _animations.Add(template.Id, template);
                             //_animationsByName.Add(template.Name, template); // в наличии дубли Name

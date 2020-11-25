@@ -5,6 +5,7 @@ using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Network.Game;
 using AAEmu.Game.Core.Packets.G2C;
+using AAEmu.Game.Models.Game.AI;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.DoodadObj.Static;
 using AAEmu.Game.Models.Game.Formulas;
@@ -354,6 +355,7 @@ namespace AAEmu.Game.Models.Game.Units
             UnitType = BaseUnitType.Mate;
             WorldPos = new WorldPos();
             Position = new Point();
+            Ai = new TransferAi(this, 500f);
         }
 
         public override void AddVisibleObject(Character character)
@@ -386,10 +388,15 @@ namespace AAEmu.Game.Models.Game.Units
             character.SendPacket(new SCUnitsRemovedPacket(new[] { ObjId }));
         }
 
-        public void BroadcastPacket(GamePacket packet, uint objId)
+        public override void BroadcastPacket(GamePacket packet, bool self)
         {
             foreach (var character in WorldManager.Instance.GetAround<Character>(this))
-                if (objId != character.ObjId) character.SendPacket(packet);
+            {
+                if (OwnerObjId == character.ObjId && self)
+                    character.SendPacket(packet);
+                else if (OwnerObjId != character.ObjId)
+                    character.SendPacket(packet);
+            }
         }
     }
 }

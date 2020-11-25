@@ -91,6 +91,14 @@ namespace AAEmu.Game.Core.Managers
                         {
                             foreach (var path in transfer.Where(path => path.Name == transferPaths.PathName))
                             {
+                                var exist = false;
+                                foreach (var tr in transferTemplate.TransferRoads.Where(tr => tr.Name == transferPaths.PathName))
+                                {
+                                    exist = true;
+                                }
+
+                                if (exist) { continue; }
+
                                 var tmp = new TransferRoads()
                                 {
                                     Name = path.Name,
@@ -636,8 +644,6 @@ namespace AAEmu.Game.Core.Managers
             transfer.ModelParams = new UnitCustomModelParams();
             transfer.Position = spawner.Position.Clone();
             transfer.Position.RotationZ = spawner.Position.RotationZ;
-
-            transfer.Rot = new Quaternion(0f, 0f, spawner.RotationZ, 1f);
             transfer.Rot = new Quaternion(0f, 0f, 0, 1f);
 
             (transfer.Position.X, transfer.Position.Y) = MathUtil.AddDistanceToFront(-9.24417f, transfer.Position.X, transfer.Position.Y, transfer.Position.RotationZ);

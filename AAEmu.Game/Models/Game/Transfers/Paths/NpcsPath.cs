@@ -55,9 +55,9 @@ namespace AAEmu.Game.Models.Game.Transfers.Paths
         }
         public static void AddNpc(NpcsPath spawner)
         {
-            if (!npcsPaths.ContainsKey(spawner.Type))
+            if (!npcsPaths.ContainsKey(spawner.ObjId))
             {
-                npcsPaths.Add(spawner.Type, spawner);
+                npcsPaths.Add(spawner.ObjId, spawner);
             }
             // сортируем по Steering и PathPointIndex
             //spawner.Pos = spawner.Pos.OrderBy(x => x.Steering).ThenBy(x => x.PathPointIndex).ToList();

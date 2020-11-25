@@ -60,8 +60,7 @@ namespace AAEmu.Game.Core.Managers
                 throw new IOException($"File {FileManager.AppPath}Data/expedition.json doesn't exists or is empty.");
 
             if (!JsonHelper.TryDeserializeObject(contents, out _config, out _)) // TODO here can out Exception
-                throw new Exception(
-                    $"ExpeditionManager: Parse {FileManager.AppPath}Data/expedition.json file");
+                throw new Exception($"ExpeditionManager: Parse {FileManager.AppPath}Data/expedition.json file");
             _nameRegex = new Regex(_config.NameRegex, RegexOptions.Compiled);
 
             using (var connection = MySQL.CreateConnection())

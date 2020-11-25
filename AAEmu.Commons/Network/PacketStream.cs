@@ -602,26 +602,41 @@ namespace AAEmu.Commons.Network
 
         public Quaternion ReadQuaternionShort()
         {
-            var x = Convert.ToSingle(ReadInt16() * 0.000030518509f);
-            var y = Convert.ToSingle(ReadInt16() * 0.000030518509f);
-            var z = Convert.ToSingle(ReadInt16() * 0.000030518509f);
+            //var x = Convert.ToSingle(ReadInt16() * 0.000030518509f);
+            //var y = Convert.ToSingle(ReadInt16() * 0.000030518509f);
+            //var z = Convert.ToSingle(ReadInt16() * 0.000030518509f);
 
-            x *= (float)Math.PI * 2; // переводим в радианы
-            y *= (float)Math.PI * 2;
-            z *= (float)Math.PI * 2;
+            //x *= (float)Math.PI * 2; // переводим в радианы
+            //y *= (float)Math.PI * 2;
+            //z *= (float)Math.PI * 2;
 
-            var temp2 = Quaternion.CreateFromYawPitchRoll(x, y, z);
+            //var temp2 = Quaternion.CreateFromYawPitchRoll(x, y, z);
 
-            var halfAngle = z * 0.5f;
-            var w = (float)Math.Cos(halfAngle);
+            //var halfAngle = z * 0.5f;
+            //var w = (float)Math.Cos(halfAngle);
 
-            x = (float)(Math.Sin(halfAngle) * x);
-            y = (float)(Math.Sin(halfAngle) * y);
-            z = (float)(Math.Sin(halfAngle) * z);
+            //x = (float)(Math.Sin(halfAngle) * x);
+            //y = (float)(Math.Sin(halfAngle) * y);
+            //z = (float)(Math.Sin(halfAngle) * z);
 
-            var temp = new Quaternion(x, y, z, w);
+            //var temp = new Quaternion(x, y, z, w);
 
-            return temp;
+            //return temp;
+
+            var quatX = Convert.ToSingle(ReadInt16() * 0.000030518509f);
+            var quatY = Convert.ToSingle(ReadInt16() * 0.000030518509f);
+            var quatZ = Convert.ToSingle(ReadInt16() * 0.000030518509f);
+            var quatNorm = quatX * quatX + quatY * quatY + quatZ * quatZ;
+
+            var quatW = 0.0f;
+            if (quatNorm < 0.99750)
+            {
+                quatW = (float)Math.Sqrt(1.0 - quatNorm);
+            }
+
+            var quat = new Quaternion(quatX, quatY, quatZ, quatW);
+            
+            return quat;
         }
         public Quaternion ReadQuaternionSbyte()
         {
@@ -892,13 +907,17 @@ namespace AAEmu.Commons.Network
         {
             var temp = new PacketStream();
 
-            var x = values.X * 0.15915494309189533576888376337251; // values.X / (float)Math.PI * 2; // переводим из радиан в направление
-            var y = values.Y * 0.15915494309189533576888376337251;
-            var z = values.Z * 0.15915494309189533576888376337251;
+            //var x = values.X * 0.15915494309189533576888376337251; // values.X / (float)Math.PI * 2; // переводим из радиан в направление
+            //var y = values.Y * 0.15915494309189533576888376337251;
+            //var z = values.Z * 0.15915494309189533576888376337251;
 
-            temp.Write(Convert.ToInt16(x * 32767f));
-            temp.Write(Convert.ToInt16(y * 32767f));
-            temp.Write(Convert.ToInt16(z * 32767f));
+            //temp.Write(Convert.ToInt16(x * 32767f));
+            //temp.Write(Convert.ToInt16(y * 32767f));
+            //temp.Write(Convert.ToInt16(z * 32767f));
+
+            temp.Write(Convert.ToInt16(values.X * 32767f));
+            temp.Write(Convert.ToInt16(values.Y * 32767f));
+            temp.Write(Convert.ToInt16(values.Z * 32767f));
 
             if (scalar)
             {

@@ -166,7 +166,10 @@ namespace AAEmu.Game.Core.Managers.World
         {
             foreach (var (worldId, worldSpawners) in _npcSpawners)
                 foreach (var spawner in worldSpawners.Values)
-                    spawner.SpawnAll();
+                {
+                    //spawner.SpawnAll();
+                    spawner.Spawn(spawner.Id);
+                }
 
             foreach (var (worldId, worldSpawners) in _doodadSpawners)
                 foreach (var spawner in worldSpawners.Values)

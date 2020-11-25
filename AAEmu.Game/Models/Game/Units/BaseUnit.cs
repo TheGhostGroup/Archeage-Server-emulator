@@ -6,6 +6,19 @@ using AAEmu.Game.Models.Game.World;
 
 namespace AAEmu.Game.Models.Game.Units
 {
+    public enum UnitTypeFlag
+    {
+        None = 0,
+        Character = 1,
+        Npc = 2,
+        Slave = 4,
+        Housing = 8,
+        Transfer = 16,
+        Mate = 32,
+        Shipyard = 64
+        //128 Unused?
+    }
+
     public enum BaseUnitType : byte
     {
         Character = 0,
@@ -44,6 +57,7 @@ namespace AAEmu.Game.Models.Game.Units
         /// </summary>
         public Patrol Patrol { get; set; }
         public Simulation Simulation { get; set; }
+        public SimulationNpc SimulationNpc { get; set; }
 
         public BaseUnit()
         {

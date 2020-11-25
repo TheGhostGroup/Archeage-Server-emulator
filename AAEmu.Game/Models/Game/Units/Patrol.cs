@@ -57,6 +57,7 @@ namespace AAEmu.Game.Models.Game.Units
         public Vector3 vDistance { get; set; }
         public float RangeToCheckPoint { get; set; } = 0.5f; // distance to checkpoint at which it is considered that we have reached it
         public Vector3 vRangeToCheckPoint { get; set; } = new Vector3(0.5f, 0.5f, 0f); // distance to checkpoint at which it is considered that we have reached it
+        public bool FollowPath { get; set; } = false;
 
         /// <summary>
         /// Are patrols under way?
@@ -104,7 +105,7 @@ namespace AAEmu.Game.Models.Game.Units
         /// </summary>
         public bool Abandon { get; set; } = false;
 
-        protected const float Tolerance = 1.401298E-45f;	// Погрешность
+        protected const float Tolerance = 0.5f;	// 1.401298E-45f Погрешность
 
         /// <summary>
         /// Perform patrol missions
@@ -209,6 +210,11 @@ namespace AAEmu.Game.Models.Game.Units
             Abandon = true;
 
             Recovery(unit);
+        }
+
+        public void GotoPath(Npc npc)
+        {
+                npc.SimulationNpc.GoToPath(npc, true);
         }
 
         public void Recovery(BaseUnit unit)

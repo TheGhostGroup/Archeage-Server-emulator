@@ -5,6 +5,7 @@ using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Network.Game;
 using AAEmu.Game.Core.Packets.G2C;
+using AAEmu.Game.Models.Game.AI;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.Slaves;
 using AAEmu.Game.Models.Game.DoodadObj;
@@ -41,8 +42,8 @@ namespace AAEmu.Game.Models.Game.Units
 
         public sbyte Steering { get; set; }
         public sbyte Throttle { get; set; }
-        public sbyte RequestThrottle { get; set; }
-        public sbyte RequestSteering { get; set; }
+        public sbyte ThrottleRequest { get; set; }
+        public sbyte SteeringRequest { get; set; }
         public bool Stuck { get; set; }
         public float Speed { get; set; }
         public float RotSpeed { get; set; }
@@ -56,6 +57,7 @@ namespace AAEmu.Game.Models.Game.Units
             UnitType = BaseUnitType.Slave;
             WorldPos = new WorldPos();
             Position = new Point();
+            Ai = new TransferAi(this, 500f);
         }
 
         #region Attributes
