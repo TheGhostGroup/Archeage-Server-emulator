@@ -4,7 +4,6 @@ using System.Numerics;
 using AAEmu.Commons.Network;
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Models.Game.World;
-using AAEmu.Game.Utils;
 
 namespace AAEmu.Game.Models.Game.Units.Movements
 {
@@ -116,7 +115,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //Velocity = new Vector3(tempX, tempY, tempZ);
 
             var tempVelocity = stream.ReadVector3Short();
-            Velocity = new Vector3(tempVelocity.X * 30f, tempVelocity.Y * 30f, tempVelocity.Z * 30f);
+            Velocity = new Vector3(tempVelocity.X * 50f, tempVelocity.Y * 50f, tempVelocity.Z * 50f);
             VelX = (short)Velocity.X;
             VelY = (short)Velocity.Y;
             VelZ = (short)Velocity.Z;
@@ -201,8 +200,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //stream.Write(VelY);
             //stream.Write(VelZ);
             //var tempVelocity = new Vector3(Velocity.X / 50f, Velocity.Y / 50f, Velocity.Z / 50f);
-            var tempVelocity = new Vector3(Velocity.X * 0.02f, Velocity.Y * 0.02f, Velocity.Z * 0.02f);
-            stream.WriteVector3Short(tempVelocity);
+            stream.WriteVector3Short(new Vector3(Velocity.X * 0.02f, Velocity.Y * 0.02f, Velocity.Z * 0.02f));
 
             //stream.Write(RotationX);
             //stream.Write(RotationY);

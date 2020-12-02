@@ -9,6 +9,8 @@ namespace AAEmu.Game.Utils
     public static class MathUtil
     {
         private const double Pi = 3.14159;
+        private const double Pi2 = 3.14159 * 2;
+        private const double Pi12 = 3.14159 * 0.5;
 
         // Return degree value of object 2 to the horizontal line with object 1 being the origin
         public static double CalculateAngleFrom(GameObject obj1, GameObject obj2)
@@ -80,6 +82,25 @@ namespace AAEmu.Game.Utils
             }
 
             return res;
+        }
+        public static Quaternion ConvertRadianToDirectionShort(double radian)
+        {
+            if (radian < 0)
+            {
+                radian = Pi2 + radian;
+            }
+            radian -= Pi12;
+            if (radian > Pi)
+            {
+                radian -= Pi2;
+            }
+            //if (degree < -Pi)
+            //{
+            //    degree += Pi2;
+            //}
+            var quat = Quaternion.CreateFromYawPitchRoll((float)radian, 0.0f, 0.0f);
+
+            return quat;
         }
 
         public static short UpdateHeading(Vector3 point, Vector3 target)
@@ -426,7 +447,6 @@ namespace AAEmu.Game.Utils
         }
 
         // взял из Math (.Net 3.1)
-
         public static double CopySign(double x, double y)
         {
             return SoftwareFallback(x, y);

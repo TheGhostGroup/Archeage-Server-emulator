@@ -232,7 +232,7 @@ namespace AAEmu.Game.Models.Game.Transfers
                             transfer.Position.Y = point.Y;
                             transfer.Position.Z = point.Z;
 
-                            transfer.WorldPos = new WorldPos(Helpers.ConvertLongY(point.X), Helpers.ConvertLongY(point.Y), point.Z);
+                            transfer.WorldPos = new WorldPos(Helpers.ConvertLongX(point.X), Helpers.ConvertLongY(point.Y), point.Z);
                             _log.Warn("TransfersPath #" + transfer.TemplateId);
                             _log.Warn("New spawn X={0}", transfer.Position.X);
                             _log.Warn("New spawn Y={0}", transfer.Position.Y);

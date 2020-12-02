@@ -473,33 +473,33 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                 SetEquipItemTemplate(character.Inventory, items.Items.Ranged, EquipmentItemSlot.Ranged, items.Items.RangedGrade);
                 SetEquipItemTemplate(character.Inventory, items.Items.Musical, EquipmentItemSlot.Musical, items.Items.MusicalGrade);
                 SetEquipItemTemplate(character.Inventory, items.Items.Cosplay, EquipmentItemSlot.Cosplay, items.Items.CosplayGrade);
-                //for (var i = 0; i < 7; i++)
-                //{
-                //    if (body[i] == 0 && template.Items[i] > 0)
-                //    {
-                //        body[i] = template.Items[i]; // somehow_special
-                //    }
-
-                //    SetEquipItemTemplate(character.Inventory, body[i], (EquipmentItemSlot)(i + 19), 0);
-                //}
-
-                var itemSlot = EquipmentItemSlot.Face;
-                foreach (var itemId in template.Items)
+                for (var i = 0; i < 7; i++)
                 {
-                    switch (itemSlot)
-                    {
-                        case EquipmentItemSlot.Face:
-                        case EquipmentItemSlot.Hair:
-                        case EquipmentItemSlot.Glasses:
-                        case EquipmentItemSlot.Horns:
-                        case EquipmentItemSlot.Tail:
-                        case EquipmentItemSlot.Body:
-                        case EquipmentItemSlot.Beard:
-                            SetEquipItemTemplate(character.Inventory, itemId, itemSlot, 0);
-                            break;
-                    }
-                    itemSlot++;
+                    //if (body[i] == 0 && template.Items[i] > 0)
+                    //{
+                    //    body[i] = template.Items[i]; // somehow_special
+                    //}
+
+                    SetEquipItemTemplate(character.Inventory, body[i], (EquipmentItemSlot)(i + 19), 0);
                 }
+
+                //var itemSlot = EquipmentItemSlot.Face;
+                //foreach (var itemId in template.Items)
+                //{
+                //    switch (itemSlot)
+                //    {
+                //        case EquipmentItemSlot.Face:
+                //        case EquipmentItemSlot.Hair:
+                //        case EquipmentItemSlot.Glasses:
+                //        case EquipmentItemSlot.Horns:
+                //        case EquipmentItemSlot.Tail:
+                //        case EquipmentItemSlot.Body:
+                //        case EquipmentItemSlot.Beard:
+                //            SetEquipItemTemplate(character.Inventory, itemId, itemSlot, 0);
+                //            break;
+                //    }
+                //    itemSlot++;
+                //}
 
 
                 byte slot = 10;
