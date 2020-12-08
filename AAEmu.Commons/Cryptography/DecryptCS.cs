@@ -1,8 +1,8 @@
 ﻿/*
  * by uranusq https://github.com/NL0bP/aaa_emulator
  *
- * by NLObP: метод шифрации для ВСЕХ
- */
+ * by NLObP: оригинальный метод шифрации (как в crynetwork.dll)
+*/
 
 using System;
 using System.Collections.Generic;
@@ -13,73 +13,51 @@ namespace AAEmu.Commons.Cryptography
 {
 	public class DecryptCs
 	{
+		//--------------------------------------------------------------------------------------
 		public static byte[] Decode(byte[] data, uint xorKey, byte[] aesKey, byte[] iv, uint num)
 		{
 			//------------------------------
-			//здесь распаковка пакетов от клиента 0005
-			//для дешифрации следующих пакетов iv = шифрованный предыдущий пакет
+			// здесь распаковка пакетов от клиента 0005
+			// для дешифрации следующих пакетов iv = шифрованный предыдущий пакет
 			byte[] plaintext;
 			byte[] ciphertext;
-			var data5 = new byte[data.Length];
-			var mIv = new byte[16];
-			var cnt = new int[16];
-			Buffer.BlockCopy(iv, 0, mIv, 0, 16); // сохраним
-			//подбираем наилучшее смещение для правильной дешифровки пакета
-			for (var offset = 0; offset < 16; offset++)
+			if (num == 0)
 			{
-				Buffer.BlockCopy(data, 0, data5, 0, data.Length); //получим тело пакета
-				Buffer.BlockCopy(mIv, 0, iv, 0, 16); // восстановим IV
-				ciphertext = DecodeXor(data5, xorKey, offset);
-				plaintext = DecodeAes(ciphertext, aesKey, iv);
-				cnt[offset] = CountZero(plaintext);
+				Seq = 0;
+				seq = 0;
 			}
-			//окончательный вывод
-			Buffer.BlockCopy(data, 0, data5, 0, data.Length); //получим тело пакета
-			Buffer.BlockCopy(mIv, 0, iv, 0, 16); // восстановим IV
-			var offs = IndexMaxCountZero(cnt);
-			if (num == 0) { Seq = 0; }
-			ciphertext = DecodeXor(data, xorKey, offs);
+			ciphertext = DecodeXor(data, xorKey);
 			plaintext = DecodeAes(ciphertext, aesKey, iv);
 			return plaintext;
 		}
+        //--------------------------------------------------------------------------------------
+        /// <summary>
+        /// Подсчет контрольной суммы пакета, используется в шифровании пакетов DD05 и 0005
+        /// </summary>
+        public byte Crc8(byte[] data, int size)
+        {
+            var len = size;
+            uint checksum = 0;
+            for (var i = 0; i <= len - 1; i++)
+            {
+                checksum *= 0x13;
+                checksum += data[i];
+            }
+            return (byte)(checksum);
+        }
 
+        public byte Crc8(byte[] data)
+        {
+            var size = data.Length;
+            return Crc8(data, size);
+        }
 		//--------------------------------------------------------------------------------------
-		private static int CountZero(byte[] pck)
-		{
-			var countZero = 0;
-			for (var i = 2; i < pck.Length; i++)
-			{
-				if (pck[i] == 0)
-				{
-					countZero++;
-				}
-			}
-			return countZero;
-		}
-		//--------------------------------------------------------------------------------------
-		private static int IndexMaxCountZero(int[] countZero)
-		{
-			var index = 0;
-			var n = 0;
-			for (var i = 0; i < countZero.Length; i++)
-			{
-				if (countZero[i] <= n)
-				{
-					continue;
-				}
-
-				n = countZero[i];
-				index = i;
-			}
-			return index;
-		}
-		//--------------------------------------------------------------------------------------
-		/// <summary>
-		///  toClientEncr help function
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		private static byte Add(ref uint cry)
+        /// <summary>
+        ///  toClientEncr help function
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private static byte Add(ref uint cry)
 		{
 			cry += 0x2FCBD5;
 			var n = (byte)(cry >> 0x10);
@@ -87,64 +65,77 @@ namespace AAEmu.Commons.Cryptography
 			return (byte)(n == 0 ? 0x0FE : n);
 		}
 		//--------------------------------------------------------------------------------------
-		internal static uint XorKey;
-		internal static byte Seq;
-		//--------------------------------------------------------------------------------------
 		/// <summary>
-		/// decXor packet
+		///  toClientEncr help function
 		/// </summary>
-		/// <param name="bodyPacket">packet data, starting after message-key byte</param>
-		/// <param name="msgKey">unique key for each message</param>
-		/// <param name="xorKey">xor key </param>
-		/// <param name="offset">xor decryption can start from some offset)</param>
-		/// <returns>xor decrypted packet</returns>
-		//--------------------------------------------------------------------------------------
-		private static byte[] DeXor(byte[] bodyPacket, uint xorKey, uint msgKey, int offset = 0)
+		/// <returns></returns>
+		private static byte MakeSeq(ref uint seq)
 		{
-			var length = bodyPacket.Length;
-			var array = new byte[length];
-
-			XorKey = xorKey * xorKey & 0xffffffff;
-			var mul = XorKey * msgKey;
-
-			var cry = (0x75a024a4 ^ mul) ^ 0xC3903b6a;   // 3.0.3.0 archerage.to
-			var n = 4 * (length / 4);
-			for (var i = n - 1 - offset; i >= 0; i--)
-			{
-				array[i] = (byte)(bodyPacket[i] ^ (uint)Add(ref cry));
-			}
-
-			for (var i = n - offset; i < length; i++)
-			{
-				array[i] = (byte)(bodyPacket[i] ^ (uint)Add(ref cry));
-			}
-
-			return array;
+			seq += 0x2FA245;
+			byte result = (byte)(seq >> 0xE & 0x73);
+			if (result == 0)
+				result = (byte)0xFEu;
+			return result;
 		}
 		//--------------------------------------------------------------------------------------
-		/// <summary>
-		///  DecodeXor: расшифровка пакета от клиента XOR ключом
-		/// </summary>
-		/// <param name="bodyPacket">тело пакета начиная сразу за 0005</param>
-		/// <param name="xorKey"></param>
-		/// <param name="offset"></param>
-		/// <returns></returns>
+		internal static uint XorKey;
+		internal static byte Seq;
+		internal static uint seq;
 		//--------------------------------------------------------------------------------------
-		public static byte[] DecodeXor(byte[] bodyPacket, uint xorKey, int offset)
+		public static byte[] DecodeXor(byte[] bodyPacket, uint xorKey)
 		{
+			//          +-Hash начало блока для DecodeXOR, где второе число, в данном случае F(16 байт)-реальная длина данных в пакете, к примеру A(10 байт)-реальная длина данных в пакете
+			//          |  +-начало блока для DecodeAES
+			//          V  V
+			//1300 0005 3F D831012E6DFA489A268BC6AD5BC69263
 			var map = new Dictionary<int, int>
 			{
-				{0x30, 0x01}, {0x31, 0x02}, {0x32, 0x03}, {0x33, 0x04}, {0x34, 0x05}, {0x35, 0x06}, {0x36, 0x07}, {0x37, 0x08},
-				{0x38, 0x09}, {0x39, 0x0a}, {0x3a, 0x0b}, {0x3b, 0x0c}, {0x3c, 0x0d}, {0x3d, 0x0e}, {0x3e, 0x0f}, {0x3f, 0x10}
+				{0x30, 0x1}, {0x31, 0x2}, {0x32, 0x3}, {0x33, 0x4}, {0x34, 0x5}, {0x35, 0x6}, {0x36, 0x7}, {0x37, 0x8},
+				{0x38, 0x9}, {0x39, 0xa}, {0x3a, 0xb}, {0x3b, 0xc}, {0x3c, 0xd}, {0x3d, 0xe}, {0x3e, 0xf}, {0x3f, 0x10}
 			};
-			var length = bodyPacket.Length;
-			var mBodyPacket = new byte[length - 3];
-			Buffer.BlockCopy(bodyPacket, 3, mBodyPacket, 0, length - 3);
-			var packet = new byte[mBodyPacket.Length];
+			var mBodyPacket = new byte[bodyPacket.Length - 3];
+			Buffer.BlockCopy(bodyPacket, 3, mBodyPacket, 0, bodyPacket.Length - 3);
 			var msgKey = (uint)(bodyPacket.Length / 16 - 1) << 4;
-			msgKey += (uint)map[bodyPacket[2]];
-			packet = DeXor(mBodyPacket, xorKey, msgKey, offset);
-			return packet;
+			msgKey += (uint)map[bodyPacket[2]]; // это реальная длина данных в пакете
+			var array = new byte[mBodyPacket.Length];
+			XorKey = xorKey * xorKey & 0xffffffff;
+			var mul = msgKey * XorKey;
+			var cry = mul ^ ((uint)MakeSeq(ref seq) + 0x75a024a4) ^ 0xc3903b6a; // 3.0.3.0 archerage.to
+			var offset = 4;
+			if (Seq != 0)
+			{
+				if (Seq % 3 != 0)
+				{
+					if (Seq % 5 != 0)
+					{
+						if (Seq % 7 != 0)
+						{
+							if (Seq % 9 != 0)
+							{
+								if (!(Seq % 11 != 0)) { offset = 7; }
+							}
+							else { offset = 3; }
+						}
+						else { offset = 11; }
+					}
+					else { offset = 2; }
+				}
+				else { offset = 5; }
+			}
+			else { offset = 9; }
+			var n = offset * (mBodyPacket.Length / offset);
+			for (var i = n - 1; i >= 0; i--)
+			{
+				array[i] = (byte)(mBodyPacket[i] ^ (uint)Add(ref cry));
+			}
+			for (var i = n; i < mBodyPacket.Length; i++)
+			{
+				array[i] = (byte)(mBodyPacket[i] ^ (uint)Add(ref cry));
+			}
+			Seq += MakeSeq(ref seq);
+			Seq += 1;
+
+			return array;
 		}
 		//--------------------------------------------------------------------------------------
 		private const int Size = 16;
