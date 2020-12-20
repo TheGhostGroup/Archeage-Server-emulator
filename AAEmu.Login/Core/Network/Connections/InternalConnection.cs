@@ -1,4 +1,5 @@
 using System.Net;
+
 using AAEmu.Commons.Network;
 using AAEmu.Login.Core.Network.Internal;
 using AAEmu.Login.Models;
@@ -7,7 +8,7 @@ namespace AAEmu.Login.Core.Network.Connections
 {
     public class InternalConnection
     {
-        private Session _session;
+        private readonly Session _session;
 
         public uint Id => _session.Id;
         public IPAddress Ip => _session.Ip;
@@ -27,7 +28,10 @@ namespace AAEmu.Login.Core.Network.Connections
         public void SendPacket(InternalPacket packet)
         {
             if (Block)
+            {
                 return;
+            }
+
             packet.Connection = this;
             byte[] buf = packet.Encode();
             _session.SendPacket(buf);

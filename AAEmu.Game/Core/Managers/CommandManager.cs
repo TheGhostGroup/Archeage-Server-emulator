@@ -13,8 +13,8 @@ namespace AAEmu.Game.Core.Managers
     {
         public const string CommandPrefix = "/";
 
-        private Dictionary<string, ICommand> _commands;
-        private Dictionary<string, string> _commandAliases;
+        private readonly Dictionary<string, ICommand> _commands;
+        private readonly Dictionary<string, string> _commandAliases;
 
         private CommandManager()
         {
@@ -36,22 +36,34 @@ namespace AAEmu.Game.Core.Managers
         public void Register(string name, ICommand command)
         {
             if (_commands.ContainsKey(name.ToLower()))
+            {
                 _commands.Remove(name.ToLower());
+            }
+
             _commands.Add(name.ToLower(), command);
         }
 
         public void Register(string[] names, ICommand command)
         {
             if (names.Length <= 0)
+            {
                 return;
+            }
+
             if (_commands.ContainsKey(names[0].ToLower()))
+            {
                 _commands.Remove(names[0].ToLower());
+            }
+
             _commands.Add(names[0].ToLower(), command);
 
             for (int i = 1; i < names.Length; i++)
             {
                 if (_commandAliases.ContainsKey(names[i].ToLower()))
+                {
                     _commandAliases.Remove(names[i].ToLower());
+                }
+
                 _commandAliases.Add(names[i].ToLower(), names[0].ToLower());
             }
         }
@@ -95,7 +107,9 @@ namespace AAEmu.Game.Core.Managers
             }
 
             if (command == null)
+            {
                 return false;
+            }
 
             if (AccessLevel.getLevel(thisCommand) > character.AccessLevel)
             {
@@ -105,7 +119,10 @@ namespace AAEmu.Game.Core.Managers
 
             var args = new string[words.Length - 1];
             if (words.Length > 1)
+            {
                 Array.Copy(words, 1, args, 0, words.Length - 1);
+            }
+
             command.Execute(character, args);
             return true;
         }

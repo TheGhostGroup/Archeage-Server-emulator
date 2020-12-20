@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
 using AAEmu.Commons.Utils;
-using AAEmu.Game.Models.Game.DoodadObj.Funcs;
 using AAEmu.Game.Models.Game.World.Zones;
 using AAEmu.Game.Utils.DB;
 
@@ -14,7 +12,7 @@ namespace AAEmu.Game.Core.Managers.World
 {
     public class ZoneManager : Singleton<ZoneManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<uint, uint> _zoneIdToKey;
         private Dictionary<uint, Zone> _zones;
@@ -44,8 +42,12 @@ namespace AAEmu.Game.Core.Managers.World
         {
             var res = new List<uint>();
             foreach (var z in _zones)
+            {
                 if (z.Value.GroupId == zoneGroupId)
+                {
                     res.Add(z.Value.ZoneKey);
+                }
+            }
 
             return res;
         }
@@ -53,7 +55,11 @@ namespace AAEmu.Game.Core.Managers.World
         public uint GetTargetIdByZoneId(uint zoneId)
         {
             var zone = GetZoneByKey(zoneId);
-            if (zone == null) return 0;
+            if (zone == null)
+            {
+                return 0;
+            }
+
             var zoneGroup = GetZoneGroupById(zone.GroupId);
             return zoneGroup?.TargetId ?? 0;
         }
@@ -464,14 +470,16 @@ namespace AAEmu.Game.Core.Managers.World
                     {
                         while (reader.Read())
                         {
-                            var template = new Zone();
-                            template.Id = reader.GetUInt32("id");
-                            template.Name = (string)reader.GetValue("name");
-                            template.ZoneKey = reader.GetUInt32("zone_key");
-                            template.GroupId = reader.GetUInt32("group_id", 0);
-                            template.Closed = reader.GetBoolean("closed", true);
-                            template.FactionId = reader.GetUInt32("faction_id", 0);
-                            template.ZoneClimateId = reader.GetUInt32("zone_climate_id", 0);
+                            var template = new Zone
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Name = (string)reader.GetValue("name"),
+                                ZoneKey = reader.GetUInt32("zone_key"),
+                                GroupId = reader.GetUInt32("group_id", 0),
+                                Closed = reader.GetBoolean("closed", true),
+                                FactionId = reader.GetUInt32("faction_id", 0),
+                                ZoneClimateId = reader.GetUInt32("zone_climate_id", 0)
+                            };
                             _zoneIdToKey.Add(template.Id, template.ZoneKey);
                             _zones.Add(template.ZoneKey, template);
                         }
@@ -488,18 +496,20 @@ namespace AAEmu.Game.Core.Managers.World
                     {
                         while (reader.Read())
                         {
-                            var template = new ZoneGroup();
-                            template.Id = reader.GetUInt32("id");
-                            template.Name = (string)reader.GetValue("name");
-                            template.X = reader.GetFloat("x");
-                            template.Y = reader.GetFloat("y");
-                            template.Width = reader.GetFloat("w");
-                            template.Hight = reader.GetFloat("h");
-                            template.TargetId = reader.GetUInt32("target_id");
-                            template.FactionChatRegionId = reader.GetUInt32("faction_chat_region_id");
-                            template.PirateDesperado = reader.GetBoolean("pirate_desperado", true);
-                            template.FishingSeaLootPackId = reader.GetUInt32("fishing_sea_loot_pack_id", 0);
-                            template.FishingLandLootPackId = reader.GetUInt32("fishing_land_loot_pack_id", 0);
+                            var template = new ZoneGroup
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Name = (string)reader.GetValue("name"),
+                                X = reader.GetFloat("x"),
+                                Y = reader.GetFloat("y"),
+                                Width = reader.GetFloat("w"),
+                                Hight = reader.GetFloat("h"),
+                                TargetId = reader.GetUInt32("target_id"),
+                                FactionChatRegionId = reader.GetUInt32("faction_chat_region_id"),
+                                PirateDesperado = reader.GetBoolean("pirate_desperado", true),
+                                FishingSeaLootPackId = reader.GetUInt32("fishing_sea_loot_pack_id", 0),
+                                FishingLandLootPackId = reader.GetUInt32("fishing_land_loot_pack_id", 0)
+                            };
                             // TODO 1.2 // template.BuffId = reader.GetUInt32("buff_id", 0);
                             _groups.Add(template.Id, template);
                         }
@@ -519,8 +529,10 @@ namespace AAEmu.Game.Core.Managers.World
                             var zoneGroupId = reader.GetUInt16("zone_group_id");
                             if (_groups.ContainsKey(zoneGroupId))
                             {
-                                var template = new ZoneConflict(_groups[zoneGroupId]);
-                                template.ZoneGroupId = zoneGroupId;
+                                var template = new ZoneConflict(_groups[zoneGroupId])
+                                {
+                                    ZoneGroupId = zoneGroupId
+                                };
 
                                 for (var i = 0; i < 5; i++)
                                 {
@@ -544,10 +556,14 @@ namespace AAEmu.Game.Core.Managers.World
 
                                 // Only do intial setup when the zone isn't closed
                                 if (!template.Closed)
+                                {
                                     template.SetState(ZoneConflictType.Conflict); // Set to Conflict for testing, normally it should start at Tension
+                                }
                             }
                             else
+                            {
                                 _log.Warn("ZoneGroupId: {1} doesn't exist for conflict", zoneGroupId);
+                            }
                         }
                     }
                 }
@@ -560,10 +576,12 @@ namespace AAEmu.Game.Core.Managers.World
                     {
                         while (reader.Read())
                         {
-                            var template = new ZoneGroupBannedTag();
-                            template.Id = reader.GetUInt32("id");
-                            template.ZoneGroupId = reader.GetUInt32("zone_group_id");
-                            template.TagId = reader.GetUInt32("tag_id");
+                            var template = new ZoneGroupBannedTag
+                            {
+                                Id = reader.GetUInt32("id"),
+                                ZoneGroupId = reader.GetUInt32("zone_group_id"),
+                                TagId = reader.GetUInt32("tag_id")
+                            };
                             // TODO 1.2 // template.BannedPeriodsId = reader.GetUInt32("banned_periods_id");
                             _groupBannedTags.Add(template.Id, template);
                         }
@@ -579,10 +597,12 @@ namespace AAEmu.Game.Core.Managers.World
                     {
                         while (reader.Read())
                         {
-                            var template = new ZoneClimateElem();
-                            template.Id = reader.GetUInt32("id");
-                            template.ZoneClimateId = reader.GetUInt32("zone_climate_id");
-                            template.ClimateId = reader.GetUInt32("climate_id");
+                            var template = new ZoneClimateElem
+                            {
+                                Id = reader.GetUInt32("id"),
+                                ZoneClimateId = reader.GetUInt32("zone_climate_id"),
+                                ClimateId = reader.GetUInt32("climate_id")
+                            };
                             _climateElem.Add(template.Id, template);
                         }
                     }

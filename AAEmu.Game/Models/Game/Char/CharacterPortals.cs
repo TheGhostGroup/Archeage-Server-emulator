@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+
+using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Packets.G2C;
+
 using MySql.Data.MySqlClient;
+
 using NLog;
-using AAEmu.Commons.Utils;
 
 namespace AAEmu.Game.Models.Game.Char
 {
@@ -32,7 +35,10 @@ namespace AAEmu.Game.Models.Game.Char
         public Portal GetPortalInfo(uint id)
         {
             if (DistrictPortals.ContainsKey(id))
+            {
                 return DistrictPortals[id];
+            }
+
             return PrivatePortals.ContainsKey(id) ? PrivatePortals[id] : null;
         }
 

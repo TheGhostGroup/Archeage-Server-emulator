@@ -6,18 +6,14 @@ using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.UnitManagers;
 using AAEmu.Game.Core.Managers.World;
-using AAEmu.Game.Core.Network.Connections;
 using AAEmu.Game.Core.Network.Game;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.AI;
 using AAEmu.Game.Models.Game.Chat;
 using AAEmu.Game.Models.Game.DoodadObj;
-using AAEmu.Game.Models.Game.Expeditions;
-using AAEmu.Game.Models.Game.Faction;
 using AAEmu.Game.Models.Game.Formulas;
 using AAEmu.Game.Models.Game.Items;
 using AAEmu.Game.Models.Game.Items.Actions;
-using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Static;
 using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.World;
@@ -50,10 +46,10 @@ namespace AAEmu.Game.Models.Game.Char
 
     public class Character : Unit
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public static Dictionary<uint, uint> _usedCharacterObjIds = new Dictionary<uint, uint>();
-        private Dictionary<ushort, string> _options;
+        private readonly Dictionary<ushort, string> _options;
         public List<IDisposable> Subscribers { get; set; }
         public uint Id { get; set; }
         public ulong AccountId { get; set; }
@@ -141,7 +137,10 @@ namespace AAEmu.Game.Models.Game.Char
             get => _inParty;
             set
             {
-                if (_inParty == value) return;
+                if (_inParty == value)
+                {
+                    return;
+                }
                 // TODO - GUILD STATUS CHANGE
                 FriendMananger.Instance.SendStatusChange(this, false, value);
                 _inParty = value;
@@ -153,10 +152,17 @@ namespace AAEmu.Game.Models.Game.Char
             get => _isOnline;
             set
             {
-                if (_isOnline == value) return;
+                if (_isOnline == value)
+                {
+                    return;
+                }
                 // TODO - GUILD STATUS CHANGE
                 FriendMananger.Instance.SendStatusChange(this, true, value);
-                if (!value) TeamManager.Instance.SetOffline(this);
+                if (!value)
+                {
+                    TeamManager.Instance.SetOffline(this);
+                }
+
                 _isOnline = value;
             }
         }
@@ -172,14 +178,23 @@ namespace AAEmu.Game.Models.Game.Char
                 var result = formula.Evaluate(parameters);
                 var res = (int)result;
                 foreach (var item in Inventory.Equipment.Items)
+                {
                     if (item is EquipItem equip)
+                    {
                         res += equip.Str;
+                    }
+                }
+
                 foreach (var bonus in GetBonuses(UnitAttribute.Str))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -194,14 +209,23 @@ namespace AAEmu.Game.Models.Game.Char
                 var parameters = new Dictionary<string, double> { ["level"] = Level };
                 var res = (int)formula.Evaluate(parameters);
                 foreach (var item in Inventory.Equipment.Items)
+                {
                     if (item is EquipItem equip)
+                    {
                         res += equip.Dex;
+                    }
+                }
+
                 foreach (var bonus in GetBonuses(UnitAttribute.Dex))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -216,14 +240,23 @@ namespace AAEmu.Game.Models.Game.Char
                 var parameters = new Dictionary<string, double> { ["level"] = Level };
                 var res = (int)formula.Evaluate(parameters);
                 foreach (var item in Inventory.Equipment.Items)
+                {
                     if (item is EquipItem equip)
+                    {
                         res += equip.Sta;
+                    }
+                }
+
                 foreach (var bonus in GetBonuses(UnitAttribute.Sta))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -238,14 +271,23 @@ namespace AAEmu.Game.Models.Game.Char
                 var parameters = new Dictionary<string, double> { ["level"] = Level };
                 var res = (int)formula.Evaluate(parameters);
                 foreach (var item in Inventory.Equipment.Items)
+                {
                     if (item is EquipItem equip)
+                    {
                         res += equip.Int;
+                    }
+                }
+
                 foreach (var bonus in GetBonuses(UnitAttribute.Int))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -260,14 +302,23 @@ namespace AAEmu.Game.Models.Game.Char
                 var parameters = new Dictionary<string, double> { ["level"] = Level };
                 var res = (int)formula.Evaluate(parameters);
                 foreach (var item in Inventory.Equipment.Items)
+                {
                     if (item is EquipItem equip)
+                    {
                         res += equip.Spi;
+                    }
+                }
+
                 foreach (var bonus in GetBonuses(UnitAttribute.Spi))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -284,9 +335,13 @@ namespace AAEmu.Game.Models.Game.Char
                 foreach (var bonus in GetBonuses(UnitAttribute.Fai))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -299,21 +354,27 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.MaxHealth);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = (int)formula.Evaluate(parameters);
                 foreach (var bonus in GetBonuses(UnitAttribute.MaxHealth))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -326,22 +387,28 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.HealthRegen);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = (int)formula.Evaluate(parameters);
                 res += Spi / 10;
                 foreach (var bonus in GetBonuses(UnitAttribute.HealthRegen))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -354,22 +421,28 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula = FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character,
                     UnitFormulaKind.PersistentHealthRegen);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = (int)formula.Evaluate(parameters);
                 res /= 5; // TODO ...
                 foreach (var bonus in GetBonuses(UnitAttribute.PersistentHealthRegen))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -382,21 +455,27 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.MaxMana);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = (int)formula.Evaluate(parameters);
                 foreach (var bonus in GetBonuses(UnitAttribute.MaxMana))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -409,22 +488,28 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.ManaRegen);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = (int)formula.Evaluate(parameters);
                 res += Spi / 10;
                 foreach (var bonus in GetBonuses(UnitAttribute.ManaRegen))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -437,22 +522,28 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula = FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character,
                     UnitFormulaKind.PersistentManaRegen);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = (int)formula.Evaluate(parameters);
                 res /= 5; // TODO ...
                 foreach (var bonus in GetBonuses(UnitAttribute.PersistentManaRegen))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -465,15 +556,17 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.LevelDps);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
-                parameters["ab_level"] = 0;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai,
+                    ["ab_level"] = 0
+                };
                 var res = formula.Evaluate(parameters);
                 return (float)res;
             }
@@ -489,9 +582,13 @@ namespace AAEmu.Game.Models.Game.Char
                 foreach (var bonus in GetBonuses(UnitAttribute.MainhandDps))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return (int)(res * 1000);
@@ -504,21 +601,27 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.MeleeDpsInc);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = formula.Evaluate(parameters);
                 foreach (var bonus in GetBonuses(UnitAttribute.MeleeDpsInc))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return (int)res;
@@ -535,9 +638,13 @@ namespace AAEmu.Game.Models.Game.Char
                 foreach (var bonus in GetBonuses(UnitAttribute.OffhandDps))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return (int)(res * 1000);
@@ -554,9 +661,13 @@ namespace AAEmu.Game.Models.Game.Char
                 foreach (var bonus in GetBonuses(UnitAttribute.RangedDps))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return (int)(res * 1000);
@@ -569,21 +680,27 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.RangedDpsInc);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = formula.Evaluate(parameters);
                 foreach (var bonus in GetBonuses(UnitAttribute.RangedDpsInc))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return (int)res;
@@ -600,9 +717,13 @@ namespace AAEmu.Game.Models.Game.Char
                 foreach (var bonus in GetBonuses(UnitAttribute.SpellDps))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return (int)(res * 1000);
@@ -615,21 +736,27 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.SpellDpsInc);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = formula.Evaluate(parameters);
                 foreach (var bonus in GetBonuses(UnitAttribute.SpellDpsInc))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return (int)res;
@@ -646,9 +773,13 @@ namespace AAEmu.Game.Models.Game.Char
                 foreach (var bonus in GetBonuses(UnitAttribute.HealDps))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
                 return (int)(res * 1000);
             }
@@ -660,21 +791,27 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.HealDpsInc);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = formula.Evaluate(parameters);
                 foreach (var bonus in GetBonuses(UnitAttribute.SpellDpsInc))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
                 return (int)res;
             }
@@ -685,14 +822,16 @@ namespace AAEmu.Game.Models.Game.Char
             get
             {
                 var formula = FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.Armor);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = (int)formula.Evaluate(parameters);
                 foreach (var item in Inventory.Equipment.Items)
                 {
@@ -713,9 +852,13 @@ namespace AAEmu.Game.Models.Game.Char
                 foreach (var bonus in GetBonuses(UnitAttribute.Armor))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -728,14 +871,16 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 var formula =
                     FormulaManager.Instance.GetUnitFormula(UnitOwnerType.Character, UnitFormulaKind.MagicResist);
-                var parameters = new Dictionary<string, double>();
-                parameters["level"] = Level;
-                parameters["str"] = Str;
-                parameters["dex"] = Dex;
-                parameters["sta"] = Sta;
-                parameters["int"] = Int;
-                parameters["spi"] = Spi;
-                parameters["fai"] = Fai;
+                var parameters = new Dictionary<string, double>
+                {
+                    ["level"] = Level,
+                    ["str"] = Str,
+                    ["dex"] = Dex,
+                    ["sta"] = Sta,
+                    ["int"] = Int,
+                    ["spi"] = Spi,
+                    ["fai"] = Fai
+                };
                 var res = (int)formula.Evaluate(parameters);
                 foreach (var item in Inventory.Equipment.Items)
                 {
@@ -753,9 +898,13 @@ namespace AAEmu.Game.Models.Game.Char
                 foreach (var bonus in GetBonuses(UnitAttribute.MagicResist))
                 {
                     if (bonus.Template.ModifierType == UnitModifierType.Percent)
+                    {
                         res += (int)(res * bonus.Value / 100f);
+                    }
                     else
+                    {
                         res += bonus.Value;
+                    }
                 }
 
                 return res;
@@ -779,14 +928,23 @@ namespace AAEmu.Game.Models.Game.Char
         {
             var expMultiplier = 1d;
             if (exp == 0)
+            {
                 return;
+            }
+
             if (float.TryParse(ConfigurationManager.Instance.GetConfiguration("ExperienceMultiplierInPercent"), out var xpm))
+            {
                 expMultiplier = xpm / 100f;
+            }
+
             var totalExp = Math.Round(expMultiplier * exp);
             exp = (int)totalExp;
             Expirience += exp;
             if (shouldAddAbilityExp)
+            {
                 Abilities.AddActiveExp(exp); // TODO ... or all?
+            }
+
             SendPacket(new SCExpChangedPacket(ObjId, exp, shouldAddAbilityExp));
             CheckLevelUp();
         }
@@ -815,7 +973,10 @@ namespace AAEmu.Game.Models.Game.Char
         {
             var needExp = ExpirienceManager.Instance.GetExpForLevel(Level);
             if (Expirience < needExp)
+            {
                 Expirience = needExp;
+            }
+
             needExp = ExpirienceManager.Instance.GetExpForLevel((byte)(Level + 1));
             while (Expirience >= needExp)
             {
@@ -868,14 +1029,20 @@ namespace AAEmu.Game.Models.Game.Char
         public bool AddMoney(SlotType moneyLocation, int amount)
         {
             if (amount < 0)
+            {
                 return false;
+            }
+
             return ChangeMoney(SlotType.None, moneyLocation, amount);
         }
 
         public bool SubtractMoney(SlotType moneyLocation, int amount)
         {
             if (amount < 0)
+            {
                 return false;
+            }
+
             return ChangeMoney(SlotType.None, moneyLocation, -amount);
         }
 
@@ -904,15 +1071,22 @@ namespace AAEmu.Game.Models.Game.Char
         public void SetOption(ushort key, string value)
         {
             if (_options.ContainsKey(key))
+            {
                 _options[key] = value;
+            }
             else
+            {
                 _options.Add(key, value);
+            }
         }
 
         public string GetOption(ushort key)
         {
             if (_options.ContainsKey(key))
+            {
                 return _options[key];
+            }
+
             return "";
         }
 
@@ -944,21 +1118,30 @@ namespace AAEmu.Game.Models.Game.Char
         public override void BroadcastPacket(GamePacket packet, bool self)
         {
             foreach (var character in WorldManager.Instance.GetAround<Character>(this))
+            {
                 character.SendPacket(packet);
+            }
+
             if (self)
+            {
                 SendPacket(packet);
+            }
         }
 
         public static Character Load(uint characterId, ulong accountId)
         {
             using (var connection = MySQL.CreateConnection())
+            {
                 return Load(connection, characterId, accountId);
+            }
         }
 
         public static Character Load(uint characterId)
         {
             using (var connection = MySQL.CreateConnection())
+            {
                 return Load(connection, characterId);
+            }
         }
 
         #region Database
@@ -980,26 +1163,28 @@ namespace AAEmu.Game.Models.Game.Char
                         var modelParams = new UnitCustomModelParams();
                         modelParams.Read(stream);
 
-                        character = new Character(modelParams);
-                        character.Position = new Point();
-                        character.WorldPos = new WorldPos();
-                        character.AccountId = accountId;
-                        character.Id = reader.GetUInt32("id");
-                        character.Name = reader.GetString("name");
-                        character.AccessLevel = reader.GetInt32("access_level");
-                        character.Race = (Race)reader.GetByte("race");
-                        character.Gender = (Gender)reader.GetByte("gender");
-                        character.Level = reader.GetByte("level");
-                        character.Expirience = reader.GetInt32("expirience");
-                        character.RecoverableExp = reader.GetInt32("recoverable_exp");
-                        character.Hp = reader.GetInt32("hp");
-                        character.Mp = reader.GetInt32("mp");
-                        character.LaborPower = reader.GetInt16("labor_power");
-                        character.LaborPowerModified = reader.GetDateTime("labor_power_modified");
-                        character.ConsumedLaborPower = reader.GetInt32("consumed_lp");
-                        character.Ability1 = (AbilityType)reader.GetByte("ability1");
-                        character.Ability2 = (AbilityType)reader.GetByte("ability2");
-                        character.Ability3 = (AbilityType)reader.GetByte("ability3");
+                        character = new Character(modelParams)
+                        {
+                            Position = new Point(),
+                            WorldPos = new WorldPos(),
+                            AccountId = accountId,
+                            Id = reader.GetUInt32("id"),
+                            Name = reader.GetString("name"),
+                            AccessLevel = reader.GetInt32("access_level"),
+                            Race = (Race)reader.GetByte("race"),
+                            Gender = (Gender)reader.GetByte("gender"),
+                            Level = reader.GetByte("level"),
+                            Expirience = reader.GetInt32("expirience"),
+                            RecoverableExp = reader.GetInt32("recoverable_exp"),
+                            Hp = reader.GetInt32("hp"),
+                            Mp = reader.GetInt32("mp"),
+                            LaborPower = reader.GetInt16("labor_power"),
+                            LaborPowerModified = reader.GetDateTime("labor_power_modified"),
+                            ConsumedLaborPower = reader.GetInt32("consumed_lp"),
+                            Ability1 = (AbilityType)reader.GetByte("ability1"),
+                            Ability2 = (AbilityType)reader.GetByte("ability2"),
+                            Ability3 = (AbilityType)reader.GetByte("ability3")
+                        };
                         character.Position.WorldId = reader.GetUInt32("world_id");
                         character.Position.ZoneId = reader.GetUInt32("zone_id");
                         character.Position.X = reader.GetFloat("x");
@@ -1045,16 +1230,24 @@ namespace AAEmu.Game.Models.Game.Char
                         character.Inventory = new Inventory(character);
 
                         if (character.Hp > character.MaxHp)
+                        {
                             character.Hp = character.MaxHp;
+                        }
+
                         if (character.Mp > character.MaxMp)
+                        {
                             character.Mp = character.MaxMp;
+                        }
+
                         character.CheckExp();
                     }
                 }
             }
 
             if (character == null)
+            {
                 return null;
+            }
 
             using (var command = connection.CreateCommand())
             {
@@ -1091,26 +1284,28 @@ namespace AAEmu.Game.Models.Game.Char
                         var modelParams = new UnitCustomModelParams();
                         modelParams.Read(stream);
 
-                        character = new Character(modelParams);
-                        character.Position = new Point();
-                        character.WorldPos = new WorldPos();
-                        character.Id = reader.GetUInt32("id");
-                        character.AccountId = reader.GetUInt64("account_id");
-                        character.Name = reader.GetString("name");
-                        character.AccessLevel = reader.GetInt32("access_level");
-                        character.Race = (Race)reader.GetByte("race");
-                        character.Gender = (Gender)reader.GetByte("gender");
-                        character.Level = reader.GetByte("level");
-                        character.Expirience = reader.GetInt32("expirience");
-                        character.RecoverableExp = reader.GetInt32("recoverable_exp");
-                        character.Hp = reader.GetInt32("hp");
-                        character.Mp = reader.GetInt32("mp");
-                        character.LaborPower = reader.GetInt16("labor_power");
-                        character.LaborPowerModified = reader.GetDateTime("labor_power_modified");
-                        character.ConsumedLaborPower = reader.GetInt32("consumed_lp");
-                        character.Ability1 = (AbilityType)reader.GetByte("ability1");
-                        character.Ability2 = (AbilityType)reader.GetByte("ability2");
-                        character.Ability3 = (AbilityType)reader.GetByte("ability3");
+                        character = new Character(modelParams)
+                        {
+                            Position = new Point(),
+                            WorldPos = new WorldPos(),
+                            Id = reader.GetUInt32("id"),
+                            AccountId = reader.GetUInt64("account_id"),
+                            Name = reader.GetString("name"),
+                            AccessLevel = reader.GetInt32("access_level"),
+                            Race = (Race)reader.GetByte("race"),
+                            Gender = (Gender)reader.GetByte("gender"),
+                            Level = reader.GetByte("level"),
+                            Expirience = reader.GetInt32("expirience"),
+                            RecoverableExp = reader.GetInt32("recoverable_exp"),
+                            Hp = reader.GetInt32("hp"),
+                            Mp = reader.GetInt32("mp"),
+                            LaborPower = reader.GetInt16("labor_power"),
+                            LaborPowerModified = reader.GetDateTime("labor_power_modified"),
+                            ConsumedLaborPower = reader.GetInt32("consumed_lp"),
+                            Ability1 = (AbilityType)reader.GetByte("ability1"),
+                            Ability2 = (AbilityType)reader.GetByte("ability2"),
+                            Ability3 = (AbilityType)reader.GetByte("ability3")
+                        };
                         character.Position.WorldId = reader.GetUInt32("world_id");
                         character.Position.ZoneId = reader.GetUInt32("zone_id");
                         character.Position.X = reader.GetFloat("x");
@@ -1151,16 +1346,24 @@ namespace AAEmu.Game.Models.Game.Char
                         character.Inventory = new Inventory(character);
 
                         if (character.Hp > character.MaxHp)
+                        {
                             character.Hp = character.MaxHp;
+                        }
+
                         if (character.Mp > character.MaxMp)
+                        {
                             character.Mp = character.MaxMp;
+                        }
+
                         character.CheckExp();
                     }
                 }
             }
 
             if (character == null)
+            {
                 return null;
+            }
 
             return character;
         }
@@ -1172,7 +1375,9 @@ namespace AAEmu.Game.Models.Game.Char
             BuyBackItems = new ItemContainer(this, SlotType.None, false);
             Slots = new ActionSlot[85];
             for (var i = 0; i < Slots.Length; i++)
+            {
                 Slots[i] = new ActionSlot();
+            }
 
             Craft = new CharacterCraft(this);
             LocalPingPosition = new Point();
@@ -1217,7 +1422,9 @@ namespace AAEmu.Game.Models.Game.Char
                             {
                                 slot.Type = (ActionSlotType)slots.ReadByte();
                                 if (slot.Type != ActionSlotType.None)
+                                {
                                     slot.ActionId = slots.ReadUInt32();
+                                }
                             }
                         }
                     }
@@ -1272,7 +1479,9 @@ namespace AAEmu.Game.Models.Game.Char
                 {
                     slots.Write((byte)slot.Type);
                     if (slot.Type != ActionSlotType.None)
+                    {
                         slots.Write(slot.ActionId);
+                    }
                 }
 
                 using (var command = connection.CreateCommand())

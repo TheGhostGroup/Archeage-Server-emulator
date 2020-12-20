@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AAEmu.Commons.Cryptography;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Managers.UnitManagers;
@@ -20,7 +21,7 @@ namespace AAEmu.Game
 {
     public class GameService : IHostedService, IDisposable
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         public static DateTime StartTime { get; set; }
         public static DateTime EndTime { get; set; }
 
@@ -28,16 +29,21 @@ namespace AAEmu.Game
         {
             _log.Info("Starting daemon: AAEmu.Game");
 
+            // проверка чтения areasmission0.bai файла
+            //NavigationSystem.ReadFromFile(@"g:\Games\Archeage1.2\game_0\main_world\paths\119_034\areasmission0.bai");
+
             var stopWatch = new Stopwatch();
 
             stopWatch.Start();
+            #region Id Managers
             TaskIdManager.Instance.Initialize();
             TaskManager.Instance.Initialize();
-
             LocalizationManager.Instance.Load();
             ObjectIdManager.Instance.Initialize();
             TradeIdManager.Instance.Initialize();
+            #endregion
 
+            #region Gameplay Managers
             ItemIdManager.Instance.Initialize();
             ChatManager.Instance.Initialize();
             CharacterIdManager.Instance.Initialize();
@@ -95,11 +101,13 @@ namespace AAEmu.Game
             SpawnManager.Instance.SpawnAll();
             HousingManager.Instance.SpawnAll();
             //TransferManager.Instance.SpawnAll();
+            #endregion
 
+            #region Other Managers
             AccessLevelManager.Instance.Load();
             CashShopManager.Instance.Load();
             ScriptCompiler.Compile();
-
+            EncryptionManager.Instance.Load();
             TimeManager.Instance.Start();
             TaskManager.Instance.Start();
             GameNetwork.Instance.Start();
@@ -110,6 +118,7 @@ namespace AAEmu.Game
             SpecialtyManager.Instance.Initialize();
             BoatPhysicsManager.Instance.Initialize();
             SlaveManager.Instance.Initialize();
+            #endregion
             stopWatch.Stop();
 
             _log.Info("Server started! Took {0}", stopWatch.Elapsed);

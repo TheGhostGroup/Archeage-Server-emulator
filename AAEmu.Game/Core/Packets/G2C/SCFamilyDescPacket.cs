@@ -7,7 +7,7 @@ namespace AAEmu.Game.Core.Packets.G2C
     public class SCFamilyDescPacket : GamePacket
     {
         private readonly Family _family;
-        
+
         public SCFamilyDescPacket(Family family) : base(SCOffsets.SCFamilyDescPacket, 5)
         {
             _family = family;

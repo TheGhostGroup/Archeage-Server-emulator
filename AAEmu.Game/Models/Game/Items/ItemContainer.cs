@@ -236,19 +236,19 @@ namespace AAEmu.Game.Models.Game.Items
             var sourceItemTasks = new List<ItemTask>();
 
             // Only trigger when moving between container with different owners with the exception of this being move to Mail container
-            if ((sourceContainer != this) && (item.OwnerId != Owner?.Id) && (this.ContainerType != SlotType.Mail))
+            if ((sourceContainer != this) && (item.OwnerId != Owner?.Id) && (ContainerType != SlotType.Mail))
             {
                 Owner?.Inventory.OnAcquiredItem(item, item.Count);
             }
             else
             // Got attachment from Mail
-            if ((item.SlotType == SlotType.Mail) && (this.ContainerType != SlotType.Mail))
+            if ((item.SlotType == SlotType.Mail) && (ContainerType != SlotType.Mail))
             {
                 Owner?.Inventory.OnAcquiredItem(item, item.Count);
             }
             else
             // Adding mail attachment
-            if ((item.SlotType != SlotType.Mail) && (this.ContainerType == SlotType.Mail))
+            if ((item.SlotType != SlotType.Mail) && (ContainerType == SlotType.Mail))
             {
                 Owner?.Inventory.OnConsumedItem(item, item.Count);
             }
@@ -256,9 +256,9 @@ namespace AAEmu.Game.Models.Game.Items
             item.SlotType = ContainerType;
             item.Slot = newSlot;
             item.HoldingContainer = this;
-            if (this.Owner != null)
+            if (Owner != null)
             {
-                item.OwnerId = this.Owner.Id;
+                item.OwnerId = Owner.Id;
             }
             else
             {
@@ -269,7 +269,7 @@ namespace AAEmu.Game.Models.Game.Items
             //Items.Add(item);
             UpdateFreeSlotCount();
             // Note we use SlotType.None for things like the Item BuyBack Container. Make sure to manually handle the remove for these
-            if (this.ContainerType != SlotType.None)
+            if (ContainerType != SlotType.None)
             {
                 itemTasks.Add(new ItemAdd(item));
             }

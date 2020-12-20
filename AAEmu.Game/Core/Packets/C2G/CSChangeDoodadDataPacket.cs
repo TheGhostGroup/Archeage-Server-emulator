@@ -13,7 +13,7 @@ namespace AAEmu.Game.Core.Packets.C2G
         {
             var objId = stream.ReadBc();
             var data = stream.ReadInt32();
-            
+
             _log.Warn("ChangeDoodadData, ObjId: {0}, Data: {1}", objId, data);
         }
     }

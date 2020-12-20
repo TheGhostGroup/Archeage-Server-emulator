@@ -6,7 +6,7 @@ namespace AAEmu.Commons.Network
     {
         protected static Logger _log = LogManager.GetCurrentClassLogger();
 
-        public virtual void Read(PacketStream stream) 
+        public virtual void Read(PacketStream stream)
         {
             _log.Warn("{0} doesn't inherit Read()", GetType().FullName);
         }

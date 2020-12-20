@@ -11,7 +11,6 @@ using AAEmu.Game.Models.Game.Items;
 using AAEmu.Game.Models.Game.Items.Actions;
 using AAEmu.Game.Models.Game.Items.Templates;
 using AAEmu.Game.Models.Game.Units;
-using AAEmu.Game.Utils;
 
 using NLog;
 
@@ -151,7 +150,9 @@ namespace AAEmu.Game.Models.Game.Skills.Effects.SpecialEffects
             // TODO: Handled by skill already, do more tests
             // character.Inventory.PlayerInventory.ConsumeItem(ItemTaskType.GradeEnchant, scroll.ItemTemplateId, 1, character.Inventory.GetItemById(scroll.ItemId));
             if (useCharm)
+            {
                 character.Inventory.Bag.ConsumeItem(ItemTaskType.GradeEnchant, charmItem.TemplateId, 1, charmItem);
+            }
 
             character.SendPacket(new SCGradeEnchantResultPacket((byte)result, item, initialGrade, item.Grade));
 
@@ -251,10 +252,12 @@ namespace AAEmu.Game.Models.Game.Skills.Effects.SpecialEffects
             var itemLevel = item.Template.Level;
             var equipSlotEnchantCost = enchantingCost.Cost;
 
-            var parameters = new Dictionary<string, double>();
-            parameters.Add("item_grade", itemGrade);
-            parameters.Add("item_level", itemLevel);
-            parameters.Add("equip_slot_enchant_cost", equipSlotEnchantCost);
+            var parameters = new Dictionary<string, double>
+            {
+                { "item_grade", itemGrade },
+                { "item_level", itemLevel },
+                { "equip_slot_enchant_cost", equipSlotEnchantCost }
+            };
             var formula = FormulaManager.Instance.GetFormula((uint)FormulaKind.GradeEnchantCost);
 
             var cost = (int)formula.Evaluate(parameters);

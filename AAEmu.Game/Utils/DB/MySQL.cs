@@ -1,6 +1,9 @@
 using System;
+
 using AAEmu.Game.Models;
+
 using MySql.Data.MySqlClient;
+
 using NLog;
 
 namespace AAEmu.Game.Utils.DB

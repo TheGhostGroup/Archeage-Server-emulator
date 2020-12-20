@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using AAEmu.Game.Models.Game.Units;
 
 namespace AAEmu.Game.Models.Game.Skills.Plots
@@ -38,7 +39,10 @@ namespace AAEmu.Game.Models.Game.Skills.Plots
             foreach (var condition in Conditions)
             {
                 if (condition.Condition.Check(caster, casterCaster, target, targetCaster, skillObject))
+                {
                     continue;
+                }
+
                 result = false;
                 break;
             }

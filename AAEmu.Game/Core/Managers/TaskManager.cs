@@ -1,29 +1,35 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ThreadTask = System.Threading.Tasks.Task;
+
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Models;
+
 using NLog;
+
 using Quartz;
 using Quartz.Impl;
 using Quartz.Simpl;
+
 using Task = AAEmu.Game.Models.Tasks.Task;
+using ThreadTask = System.Threading.Tasks.Task;
 
 namespace AAEmu.Game.Core.Managers
 {
     public class TaskManager : Singleton<TaskManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private DefaultThreadPool _generalPool;
         private IScheduler _generalScheduler;
 
         public async void Initialize()
         {
-            _generalPool = new DefaultThreadPool();
-            _generalPool.MaxConcurency = AppConfiguration.Instance.MaxConcurencyThreadPool;
+            _generalPool = new DefaultThreadPool
+            {
+                MaxConcurency = AppConfiguration.Instance.MaxConcurencyThreadPool
+            };
             _generalPool.Initialize();
 
             DirectSchedulerFactory
@@ -46,12 +52,16 @@ namespace AAEmu.Game.Core.Managers
             int count = -1)
         {
             if (_generalScheduler.IsShutdown)
+            {
                 return;
+            }
 
             task.Id = TaskIdManager.Instance.GetNextId();
             while (await _generalScheduler.CheckExists(new JobKey(task.Name + task.Id, task.Name)))
+            {
                 task.Id = TaskIdManager.Instance.GetNextId();
-            
+            }
+
             var job = JobBuilder
                 .Create<TaskJob>()
                 .WithIdentity(task.Name + task.Id, task.Name)
@@ -65,27 +75,39 @@ namespace AAEmu.Game.Core.Managers
                 .WithIdentity(job.Key.Name, job.Key.Group);
 
             if (startTime == null)
+            {
                 triggerBuild.StartNow();
+            }
             else
-                triggerBuild.StartAt(DateTime.Now.Add((TimeSpan) startTime));
+            {
+                triggerBuild.StartAt(DateTime.Now.Add((TimeSpan)startTime));
+            }
 
             if (task.Scheduler == null)
             {
                 triggerBuild.WithSimpleSchedule(scheduler =>
                 {
                     if (repeatInterval == null)
+                    {
                         return;
+                    }
 
-                    scheduler.WithInterval((TimeSpan) repeatInterval);
+                    scheduler.WithInterval((TimeSpan)repeatInterval);
 
                     if (count > 0)
+                    {
                         scheduler.WithRepeatCount(count);
+                    }
                     else if (count == -1)
+                    {
                         scheduler.RepeatForever();
+                    }
                 });
             }
             else
+            {
                 triggerBuild.WithSchedule(task.Scheduler);
+            }
 
             task.Trigger = triggerBuild.Build();
             task.ExecuteCount = 0;
@@ -98,7 +120,10 @@ namespace AAEmu.Game.Core.Managers
         public async Task<bool> Cancel(Task task)
         {
             if (task?.JobDetail == null)
+            {
                 return true;
+            }
+
             try
             {
                 var result = await _generalScheduler.DeleteJob(task.JobDetail.Key);
@@ -125,18 +150,22 @@ namespace AAEmu.Game.Core.Managers
     {
         public ThreadTask Execute(IJobExecutionContext context)
         {
-            var log = (Logger) context.MergedJobDataMap.Get("Logger");
+            var log = (Logger)context.MergedJobDataMap.Get("Logger");
             try
             {
-                var task = (Task) context.MergedJobDataMap.Get("Task");
+                var task = (Task)context.MergedJobDataMap.Get("Task");
                 if (task.Cancelled)
+                {
                     return ThreadTask.CompletedTask;
+                }
 
                 task.Execute();
                 task.ExecuteCount++;
 
                 if (task.MaxCount != -1 && task.ExecuteCount > task.MaxCount)
+                {
                     Clear(task.Id);
+                }
             }
             catch (Exception e)
             {
@@ -149,7 +178,7 @@ namespace AAEmu.Game.Core.Managers
         private void Clear(uint taskId)
         {
             var thread = new Thread(id =>
-                TaskIdManager.Instance.ReleaseId((uint) id)
+                TaskIdManager.Instance.ReleaseId((uint)id)
             );
             thread.Start(taskId);
         }

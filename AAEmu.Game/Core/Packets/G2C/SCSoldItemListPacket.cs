@@ -8,7 +8,7 @@ namespace AAEmu.Game.Core.Packets.G2C
 {
     public class SCSoldItemListPacket : GamePacket
     {
-        private List<Item> _items;
+        private readonly List<Item> _items;
 
         public SCSoldItemListPacket(List<Item> items) : base(SCOffsets.SCSoldItemListPacket, 5)
         {
@@ -25,7 +25,10 @@ namespace AAEmu.Game.Core.Packets.G2C
         {
             stream.Write(_items.Count);
             foreach (var item in _items)
+            {
                 stream.Write(item);
+            }
+
             return stream;
         }
     }

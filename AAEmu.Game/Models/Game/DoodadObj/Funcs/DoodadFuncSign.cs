@@ -7,7 +7,7 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
     {
         public string Name { get; set; }
         public int PickNum { get; set; }
-        
+
         public override void Use(Unit caster, Doodad owner, uint skillId)
         {
             _log.Debug("DoodadFuncSign");

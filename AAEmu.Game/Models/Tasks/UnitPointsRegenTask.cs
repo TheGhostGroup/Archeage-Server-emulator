@@ -1,4 +1,5 @@
 ﻿using System;
+
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Units;
 
@@ -6,7 +7,7 @@ namespace AAEmu.Game.Models.Tasks
 {
     public class UnitPointsRegenTask : Task
     {
-        private Unit _unit;
+        private readonly Unit _unit;
 
         public UnitPointsRegenTask(Unit unit)
         {

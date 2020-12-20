@@ -10,7 +10,7 @@ namespace AAEmu.Game.Core.Managers
 {
     public class ExpirienceManager : Singleton<ExpirienceManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<byte, ExpirienceLevelTemplate> _levels;
         public uint maxLevel = 55;
@@ -27,15 +27,21 @@ namespace AAEmu.Game.Core.Managers
             for (byte lv = 1; lv < _levels.Count; lv++)
             {
                 if (exp >= (mate ? _levels[lv].TotalMateExp : _levels[lv].TotalExp))
+                {
                     return lv;
+                }
             }
             return 1;
         }
         public int GetLevelFromExp(int exp)
         {
             for (var i = 1; i <= maxLevel; i++)
+            {
                 if (_levels[(byte)i].TotalExp <= exp && exp < _levels[(byte)(i + 1)].TotalExp)
+                {
                     return i + 1;
+                }
+            }
 
             return 1;
         }
@@ -50,10 +56,16 @@ namespace AAEmu.Game.Core.Managers
         public int GetSkillPointsForLevel(byte level)
         {
             if (level > _levels.Count)
+            {
                 return 0;
+            }
+
             var points = 0;
             for (var i = 1; i <= level; i++)
+            {
                 points += _levels[level].SkillPoints;
+            }
+
             return points;
         }
 
@@ -72,11 +84,13 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var level = new ExpirienceLevelTemplate();
-                            level.Level = reader.GetByte("id");
-                            level.TotalExp = reader.GetInt32("total_exp");
-                            level.TotalMateExp = reader.GetInt32("total_mate_exp");
-                            level.SkillPoints = reader.GetInt32("skill_points");
+                            var level = new ExpirienceLevelTemplate
+                            {
+                                Level = reader.GetByte("id"),
+                                TotalExp = reader.GetInt32("total_exp"),
+                                TotalMateExp = reader.GetInt32("total_mate_exp"),
+                                SkillPoints = reader.GetInt32("skill_points")
+                            };
                             _levels.Add(level.Level, level);
                         }
                     }

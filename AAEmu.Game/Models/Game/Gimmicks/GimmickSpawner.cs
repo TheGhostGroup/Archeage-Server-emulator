@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers;
@@ -14,7 +13,7 @@ namespace AAEmu.Game.Models.Game.Gimmicks
 {
     public class GimmickSpawner : Spawner<Gimmick>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         public long EntityGuid { get; set; }
         public float WaitTime { get; set; }
         public float TopZ { get; set; }
@@ -27,7 +26,7 @@ namespace AAEmu.Game.Models.Game.Gimmicks
         //public Quaternion Rot { get; set; }
         public float Scale { get; set; }
         public Gimmick Last { get; set; }
-        private List<Gimmick> _spawned;
+        private readonly List<Gimmick> _spawned;
         public uint Count { get; set; }
 
         public GimmickSpawner()

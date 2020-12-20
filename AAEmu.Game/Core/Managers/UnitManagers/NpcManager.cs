@@ -21,7 +21,7 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
 {
     public class NpcManager : Singleton<NpcManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<uint, NpcTemplate> _templates;
         private Dictionary<uint, MerchantGoods> _goods;
@@ -60,14 +60,16 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
 
             var template = _templates[id];
 
-            var npc = new Npc();
-            npc.ObjId = objectId > 0 ? objectId : ObjectIdManager.Instance.GetNextId();
-            npc.TemplateId = id;
-            npc.Template = template;
-            npc.ModelId = template.ModelId;
-            npc.Faction = FactionManager.Instance.GetFaction(template.FactionId);
-            npc.Level = template.Level;
-            npc.Patrol = null;
+            var npc = new Npc
+            {
+                ObjId = objectId > 0 ? objectId : ObjectIdManager.Instance.GetNextId(),
+                TemplateId = id,
+                Template = template,
+                ModelId = template.ModelId,
+                Faction = FactionManager.Instance.GetFaction(template.FactionId),
+                Level = template.Level,
+                Patrol = null
+            };
 
             SetEquipItemTemplate(npc, template.Items.Headgear, EquipmentItemSlot.Head);
             SetEquipItemTemplate(npc, template.Items.Necklace, EquipmentItemSlot.Neck);
@@ -137,9 +139,11 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
 
             foreach (var bonusTemplate in template.Bonuses)
             {
-                var bonus = new Bonus();
-                bonus.Template = bonusTemplate;
-                bonus.Value = bonusTemplate.Value; // TODO using LinearLevelBonus
+                var bonus = new Bonus
+                {
+                    Template = bonusTemplate,
+                    Value = bonusTemplate.Value // TODO using LinearLevelBonus
+                };
                 npc.AddBonus(0, bonus);
             }
 
@@ -165,8 +169,10 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                     {
                         while (reader.Read())
                         {
-                            var template = new NpcTemplate();
-                            template.Id = reader.GetUInt32("id");
+                            var template = new NpcTemplate
+                            {
+                                Id = reader.GetUInt32("id")
+                            };
                             template.Name = LocalizationManager.Instance.Get("npcs", "name", template.Id);
                             template.CharRaceId = reader.GetInt32("char_race_id");
                             template.NpcGradeId = (NpcGradeType)reader.GetByte("npc_grade_id");
@@ -460,11 +466,13 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                             }
 
                             var npc = _templates[npcId];
-                            var template = new BonusTemplate();
-                            template.Attribute = (UnitAttribute)reader.GetByte("unit_attribute_id");
-                            template.ModifierType = (UnitModifierType)reader.GetByte("unit_modifier_type_id");
-                            template.Value = reader.GetInt32("value");
-                            template.LinearLevelBonus = reader.GetInt32("linear_level_bonus");
+                            var template = new BonusTemplate
+                            {
+                                Attribute = (UnitAttribute)reader.GetByte("unit_attribute_id"),
+                                ModifierType = (UnitModifierType)reader.GetByte("unit_modifier_type_id"),
+                                Value = reader.GetInt32("value"),
+                                LinearLevelBonus = reader.GetInt32("linear_level_bonus")
+                            };
                             npc.Bonuses.Add(template);
                         }
                     }

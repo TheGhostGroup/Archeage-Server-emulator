@@ -31,7 +31,10 @@ namespace AAEmu.Game.Models.Tasks.UnitMove
             {
                 case Npc _npc:
                     if (_npc.Hp > 0)
+                    {
                         _patrol?.LoopAuto(_npc);
+                    }
+
                     break;
                 case Gimmick _gimmick:
                     _patrol?.LoopAuto(_gimmick);

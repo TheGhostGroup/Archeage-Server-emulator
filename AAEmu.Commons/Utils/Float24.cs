@@ -60,7 +60,7 @@ namespace AAEmu.Commons.Utils
         {
             byte[] threeByteArray = BitConverter.GetBytes(value);
             Array.Reverse(threeByteArray);
-            byte[] byteArray = new byte[] {0}.Concat(threeByteArray).ToArray();
+            byte[] byteArray = new byte[] { 0 }.Concat(threeByteArray).ToArray();
             Array.Reverse(byteArray);
             int val = BitConverter.ToInt32(byteArray, 0);
             return val;

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
+
+using AAEmu.Commons.Cryptography;
 using AAEmu.Commons.Network;
-using AAEmu.Game.Core.Network.Connections;
 using AAEmu.Game.Core.Network.Game;
-using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Char;
-using NLog;
 
 namespace AAEmu.Game.Core.Packets.C2G
 {
@@ -19,18 +18,11 @@ namespace AAEmu.Game.Core.Packets.C2G
         public override void Read(PacketStream stream)
         {
             var len = stream.ReadInt32();    // lenAES?
-            var len2 = stream.ReadInt16(); // lenXOR?
+            var len2 = stream.ReadInt16();  // lenXOR?
 
-            if (len != 0 && len2 != 0)
-            {
-                var encAes = stream.ReadBytes(len / 2);
-                var encXor = stream.ReadBytes(len2 / 2);
-                GameConnection.CryptRsa.GetAesKey(encAes);
-                GameConnection.CryptRsa.GetXorKey(encXor);
-                GameConnection.CryptRsa.GetNevIv();
-            }
-
-            _log.Info("AES: {0} XOR: {1}", Helpers.ByteArrayToString(GameConnection.CryptRsa.AesKey), GameConnection.CryptRsa.XorKey);
+            var encAes = stream.ReadBytes(128);
+            var encXor = stream.ReadBytes(128);
+            EncryptionManager.Instance.StoreClientKeys(encAes, encXor, Connection.AccountId, Connection.Id);
 
             Connection.SendPacket(new SCGetSlotCountPacket(0));
             Connection.SendPacket(new SCAccountInfoPacket((int)Connection.Payment.Method, Connection.Payment.Location, Connection.Payment.StartTime, Connection.Payment.EndTime));
@@ -41,8 +33,11 @@ namespace AAEmu.Game.Core.Packets.C2G
             var characters = Connection.Characters.Values.ToArray();
 
             if (characters.Length == 0)
+            {
                 Connection.SendPacket(new SCCharacterListPacket(true, characters));
+            }
             else
+            {
                 for (var i = 0; i < characters.Length; i += 2)
                 {
                     var last = characters.Length - i <= 2;
@@ -50,6 +45,7 @@ namespace AAEmu.Game.Core.Packets.C2G
                     Array.Copy(characters, i, temp, 0, temp.Length);
                     Connection.SendPacket(new SCCharacterListPacket(last, temp));
                 }
+            }
 
             Connection.SendPacket(new SCUnknownPacket_0x14F());
 

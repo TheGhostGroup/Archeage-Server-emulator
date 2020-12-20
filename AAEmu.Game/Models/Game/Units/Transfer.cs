@@ -19,7 +19,7 @@ namespace AAEmu.Game.Models.Game.Units
 {
     public class Transfer : Unit
     {
-        private static Logger s_log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public uint Id { get; set; }
         public uint TemplateId { get; set; }

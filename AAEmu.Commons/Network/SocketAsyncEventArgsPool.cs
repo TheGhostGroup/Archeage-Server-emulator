@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
+
 using NLog;
 
 namespace AAEmu.Commons.Network
 {
     public class SocketAsyncEventArgsPool
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
-        private ConcurrentStack<SocketAsyncEventArgs> _pool;
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private readonly ConcurrentStack<SocketAsyncEventArgs> _pool;
 
         public int Count => _pool.Count;
         public bool IsEmpty => _pool.IsEmpty;
@@ -33,7 +34,10 @@ namespace AAEmu.Commons.Network
         public SocketAsyncEventArgs Pop()
         {
             if (!_pool.TryPop(out var output))
+            {
                 _log.Error("TryPop from SocketAsyncEventArgs ConcurrentStack failed.");
+            }
+
             return output;
         }
     }

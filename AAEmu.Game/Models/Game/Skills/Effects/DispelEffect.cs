@@ -1,4 +1,5 @@
 ﻿using System;
+
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Models.Game.Skills.Static;
 using AAEmu.Game.Models.Game.Skills.Templates;
@@ -20,11 +21,19 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             _log.Debug("DispelEffect");
 
             if (BuffTagId > 0 && !target.Effects.CheckBuffs(SkillManager.Instance.GetBuffsByTagId(BuffTagId)))
+            {
                 return;
+            }
+
             if (DispelCount > 0)
+            {
                 target.Effects.RemoveBuffs(BuffKind.Good, DispelCount); //TODO ....
+            }
+
             if (CureCount > 0)
+            {
                 target.Effects.RemoveBuffs(BuffKind.Bad, CureCount);
+            }
         }
     }
 }

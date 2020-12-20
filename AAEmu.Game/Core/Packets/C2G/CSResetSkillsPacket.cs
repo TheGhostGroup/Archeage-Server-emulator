@@ -1,6 +1,5 @@
 ﻿using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Network.Game;
-using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Static;
 
 namespace AAEmu.Game.Core.Packets.C2G
@@ -16,7 +15,7 @@ namespace AAEmu.Game.Core.Packets.C2G
             var abilityId = stream.ReadByte();
             var ausp = stream.ReadBoolean();
 
-            Connection.ActiveChar.Skills.Reset((AbilityType) abilityId);
+            Connection.ActiveChar.Skills.Reset((AbilityType)abilityId);
         }
     }
 }

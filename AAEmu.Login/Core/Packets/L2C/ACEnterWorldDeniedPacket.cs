@@ -6,7 +6,7 @@ namespace AAEmu.Login.Core.Packets.L2C
     public class ACEnterWorldDeniedPacket : LoginPacket
     {
         private readonly byte _reason;
-        
+
         public ACEnterWorldDeniedPacket(byte reason) : base(0x0B)
         {
             _reason = reason;

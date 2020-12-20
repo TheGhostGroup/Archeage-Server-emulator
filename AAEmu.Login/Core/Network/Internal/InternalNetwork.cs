@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Net;
+
 using AAEmu.Commons.Network.Type;
 using AAEmu.Commons.Utils;
 using AAEmu.Login.Core.Packets.G2L;
 using AAEmu.Login.Models;
+
 using NLog;
 
 namespace AAEmu.Login.Core.Network.Internal
 {
     public class InternalNetwork : Singleton<InternalNetwork>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Server _server;
-        private InternalProtocolHandler _handler;
+        private readonly InternalProtocolHandler _handler;
 
         public InternalNetwork()
         {
@@ -41,7 +43,9 @@ namespace AAEmu.Login.Core.Network.Internal
         public void Stop()
         {
             if (_server.IsStarted)
+            {
                 _server.Stop();
+            }
 
             _log.Info("InternalNetwork stoped");
         }

@@ -2,8 +2,6 @@
 using AAEmu.Game.Models.Game.NPChar;
 using AAEmu.Game.Models.Game.Units;
 
-using SQLitePCL;
-
 namespace AAEmu.Game.Models.Tasks.UnitMove
 {
     public class UnitMove : Task

@@ -56,16 +56,22 @@ namespace AAEmu.Game.Core.Managers
             var contents = FileManager.GetFileContents(filePath);
 
             if (string.IsNullOrWhiteSpace(contents))
+            {
                 throw new IOException($"File {filePath} doesn't exists or is empty.");
+            }
 
             if (JsonHelper.TryDeserializeObject(contents, out List<Portal> portals, out _))
+            {
                 foreach (var portal in portals)
                 {
                     _allDistrictPortals.Add(portal.SubZoneId, portal);
                     _allDistrictPortalsKey.Add(portal.Id, portal.SubZoneId);
                 }
+            }
             else
+            {
                 throw new Exception($"PortalManager: Parse {filePath} file");
+            }
 
             _log.Info("Loaded {0} District Portals", _allDistrictPortals.Count);
 
@@ -126,7 +132,11 @@ namespace AAEmu.Game.Core.Managers
 
         private static bool CheckItemAndRemove(Character owner, uint itemId, int amount)
         {
-            if (!owner.Inventory.CheckItems(SlotType.Inventory, itemId, amount)) return false;
+            if (!owner.Inventory.CheckItems(SlotType.Inventory, itemId, amount))
+            {
+                return false;
+            }
+
             owner.Inventory.Bag.ConsumeItem(ItemTaskType.Teleport, itemId, amount, null);
             return true;
             /*
@@ -153,14 +163,20 @@ namespace AAEmu.Game.Core.Managers
             {
                 foreach (var (_, value) in _openPortalInlandReagents)
                 {
-                    if (CheckItemAndRemove(owner, value.ItemId, value.Amount)) return true;
+                    if (CheckItemAndRemove(owner, value.ItemId, value.Amount))
+                    {
+                        return true;
+                    }
                 }
             }
             else
             {
                 foreach (var (_, value) in _openPortalOutlandReagents)
                 {
-                    if (CheckItemAndRemove(owner, value.ItemId, value.Amount)) return true;
+                    if (CheckItemAndRemove(owner, value.ItemId, value.Amount))
+                    {
+                        return true;
+                    }
                 }
             }
             return false; // Not enough items
@@ -211,7 +227,10 @@ namespace AAEmu.Game.Core.Managers
         public void OpenPortal(Character owner, SkillObjectUnk1 portalEffectObj)
         {
             var portalInfo = owner.Portals.GetPortalInfo((uint)portalEffectObj.Id);
-            if (!CheckCanOpenPortal(owner, portalInfo.ZoneId)) return;
+            if (!CheckCanOpenPortal(owner, portalInfo.ZoneId))
+            {
+                return;
+            }
 
             MakePortal(owner, false, portalInfo, portalEffectObj);   // Entrance (green)
             MakePortal(owner, true, portalInfo, portalEffectObj);    // Exit (yellow)
@@ -221,13 +240,16 @@ namespace AAEmu.Game.Core.Managers
         {
             // TODO - Cooldown between portals
             var portalInfo = (Models.Game.Units.Portal)WorldManager.Instance.GetNpc(objId);
-            if (portalInfo == null) return;
+            if (portalInfo == null)
+            {
+                return;
+            }
 
             character.DisabledSetPosition = true;
             // TODO - UnitPortalUsed
             // TODO - Maybe need unitstate?
             // TODO - Reason, ErrorMessage
-            character.SendPacket(new SCTeleportUnitPacket(0, 0, portalInfo.TeleportPosition.X,
+            character.SendPacket(new SCUnitTeleportPacket(0, 0, portalInfo.TeleportPosition.X,
                 portalInfo.TeleportPosition.Y, portalInfo.TeleportPosition.Z, portalInfo.TeleportPosition.RotationZ));
         }
 
@@ -235,7 +257,11 @@ namespace AAEmu.Game.Core.Managers
         {
             var isPrivate = type != 1;
             var portalInfo = owner.Portals.GetPortalInfo(id);
-            if (portalInfo == null) return;
+            if (portalInfo == null)
+            {
+                return;
+            }
+
             owner.Portals.RemoveFromBookPortal(portalInfo, isPrivate);
         }
     }

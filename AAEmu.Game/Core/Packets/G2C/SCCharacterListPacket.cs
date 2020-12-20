@@ -22,9 +22,11 @@ namespace AAEmu.Game.Core.Packets.G2C
             //Test: посылаем 0 персонажей
             //stream.Write(new byte[] { 0x01, 0x00 });
             stream.Write(_last);
-            stream.Write((byte) _characters.Length);
+            stream.Write((byte)_characters.Length);
             foreach (var character in _characters)
+            {
                 character.Write(stream);
+            }
 
             return stream;
         }

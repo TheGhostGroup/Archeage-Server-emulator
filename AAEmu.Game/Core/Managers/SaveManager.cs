@@ -17,7 +17,7 @@ namespace AAEmu.Game.Core.Managers
         private double Delay = 1; // TODO: 1 minute for debugging, should likely be more like 5 or 10 on production, maybe add to configuration ?
         private bool _enabled;
         private bool _isSaving;
-        private object _lock = new object();
+        private readonly object _lock = new object();
         private SaveTickStartTask saveTask;
 
         public SaveManager()

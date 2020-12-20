@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using AAEmu.Commons.Network;
 
 namespace AAEmu.Game.Models.Game.Faction
@@ -29,7 +30,10 @@ namespace AAEmu.Game.Models.Game.Faction
         public RelationState GetRelationState(uint id)
         {
             if (id == Id)
+            {
                 return RelationState.Friendly;
+            }
+
             return Relations.ContainsKey(id) ? Relations[id].State : RelationState.Neutral;
         }
 

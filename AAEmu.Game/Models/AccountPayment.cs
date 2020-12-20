@@ -1,11 +1,12 @@
 using System;
+
 using AAEmu.Game.Core.Network.Connections;
 
 namespace AAEmu.Game.Models
 {
     public class AccountPayment
     {
-        private GameConnection _connection;
+        private readonly GameConnection _connection;
 
         public PaymentMethodType Method { get; set; } = PaymentMethodType.Premium;
         public int Location { get; set; } = 1;

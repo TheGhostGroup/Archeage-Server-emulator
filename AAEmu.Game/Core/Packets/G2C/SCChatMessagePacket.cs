@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Network.Game;
 using AAEmu.Game.Models.Game.Char;
@@ -14,11 +15,11 @@ namespace AAEmu.Game.Core.Packets.G2C
         private readonly int _ability;
         private readonly byte _languageType;
         private readonly byte[] _linkType;
-        private readonly short[] _start;
-        private readonly short[] _lenght;
+        private readonly ushort[] _start;
+        private readonly ushort[] _lenght;
         private readonly Dictionary<int, byte[]> _data;
-        private readonly int[] _qType;
-        private readonly long[] _itemId;
+        private readonly uint[] _qType;
+        private readonly ulong[] _itemId;
 
         public SCChatMessagePacket(ChatType type, string message, byte[] linkType = null) :
             base(SCOffsets.SCChatMessagePacket, 5)
@@ -40,8 +41,7 @@ namespace AAEmu.Game.Core.Packets.G2C
         }
 
         public SCChatMessagePacket(
-            ChatType type, Character character, string message, int ability, byte languageType, byte[] linkType, short[] start, short[] lenght,
-            Dictionary<int, byte[]> data, int[] qType, long[] itemId) :
+            ChatType type, Character character, string message, int ability, byte languageType, byte[] linkType, ushort[] start, ushort[] lenght, Dictionary<int, byte[]> data, uint[] qType, ulong[] itemId) :
             base(SCOffsets.SCChatMessagePacket, 5)
         {
             _type = type;
@@ -56,7 +56,7 @@ namespace AAEmu.Game.Core.Packets.G2C
             _qType = qType;
             _itemId = itemId;
         }
-        
+
         public SCChatMessagePacket(ChatType type, string message) : base(SCOffsets.SCChatMessagePacket, 5)
         {
             _type = type;
@@ -76,8 +76,8 @@ namespace AAEmu.Game.Core.Packets.G2C
         public override PacketStream Write(PacketStream stream)
         {
             #region Int64_chat
-            stream.Write((short) _type);                         // ChatType -> ChatChannelNo
-            stream.Write((short) (_character?.Faction.Id ?? 0)); // chat, subType
+            stream.Write((short)_type);                         // ChatType -> ChatChannelNo
+            stream.Write((short)(_character?.Faction.Id ?? 0)); // chat, subType
             stream.Write(_character?.Faction.Id ?? 0);           // chat, factionId
             #endregion Int64_chat
 
@@ -113,8 +113,8 @@ namespace AAEmu.Game.Core.Packets.G2C
                 }
             }
 
-            stream.Write(_ability);
-            stream.Write((byte)0); //option
+            stream.Write(_character != null ? _ability : 0);
+            stream.Write((byte)0); //option int in 1.2, byte in 3+
             return stream;
         }
     }

@@ -26,7 +26,7 @@ namespace AAEmu.Game.Models.Game.Skills
 {
     public class Skill
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public uint TemplateId { get; set; }
         public SkillTemplate Template { get; set; }
@@ -230,8 +230,10 @@ namespace AAEmu.Game.Models.Game.Skills
             else if (Template.TargetType == SkillTargetType.Pos)
             {
                 var positionTarget = (SkillCastPositionTarget)targetType;
-                var positionUnit = new BaseUnit();
-                positionUnit.Position = new Point(positionTarget.PosX, positionTarget.PosY, positionTarget.PosZ);
+                var positionUnit = new BaseUnit
+                {
+                    Position = new Point(positionTarget.PosX, positionTarget.PosY, positionTarget.PosZ)
+                };
                 positionUnit.Position.ZoneId = caster.Position.ZoneId;
                 positionUnit.Position.WorldId = caster.Position.WorldId;
                 positionUnit.Region = caster.Region;
@@ -247,9 +249,11 @@ namespace AAEmu.Game.Models.Game.Skills
             if (Template.Plot != null)
             {
                 var eventTemplate = Template.Plot.EventTemplate;
-                var step = new PlotStep();
-                step.Event = eventTemplate;
-                step.Flag = 2;
+                var step = new PlotStep
+                {
+                    Event = eventTemplate,
+                    Flag = 2
+                };
 
                 if (!eventTemplate.СheckСonditions(caster, casterType, target, targetType, skillObject))
                 {
@@ -259,8 +263,10 @@ namespace AAEmu.Game.Models.Game.Skills
                 var res = true;
                 if (step.Flag != 0)
                 {
-                    var callCounter = new Dictionary<uint, int>();
-                    callCounter.Add(step.Event.Id, 1);
+                    var callCounter = new Dictionary<uint, int>
+                    {
+                        { step.Event.Id, 1 }
+                    };
                     foreach (var evnt in eventTemplate.NextEvents)
                     {
                         res = res && BuildPlot(caster, casterType, target, targetType, skillObject, evnt, step, callCounter);
@@ -324,11 +330,13 @@ namespace AAEmu.Game.Models.Game.Skills
                 return false;
             }
 
-            var step = new PlotStep();
-            step.Event = nextEvent.Event;
-            step.Flag = 2;
-            step.Casting = nextEvent.Casting;
-            step.Channeling = nextEvent.Channeling;
+            var step = new PlotStep
+            {
+                Event = nextEvent.Event,
+                Flag = 2,
+                Casting = nextEvent.Casting,
+                Channeling = nextEvent.Channeling
+            };
             foreach (var condition in nextEvent.Event.Conditions)
             {
                 if (condition.Condition.Check(caster, casterCaster, target, targetCaster, skillObject))

@@ -11,8 +11,8 @@ namespace AAEmu.Game.Core.Packets.S2C
 
         public override PacketStream Write(PacketStream stream)
         {
-            stream.Write((byte) 0); // status
-            stream.Write((int) 0); // count
+            stream.Write((byte)0); // status
+            stream.Write(0); // count
             /*
             a2->Reader->ReadInt32("count", v2 + 692, 0);
             v4 = 0;

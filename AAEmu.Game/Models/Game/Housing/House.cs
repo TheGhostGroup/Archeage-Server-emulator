@@ -11,7 +11,6 @@ using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.DoodadObj;
 using AAEmu.Game.Models.Game.Units;
-using AAEmu.Game.Utils.DB;
 
 using MySql.Data.MySqlClient;
 
@@ -29,9 +28,9 @@ namespace AAEmu.Game.Models.Game.Housing
 
     public sealed class House : Unit
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private object _lock = new object();
+        private readonly object _lock = new object();
         private HousingTemplate _template;
         private int _currentStep;
         private int _allAction;
@@ -92,8 +91,12 @@ namespace AAEmu.Game.Models.Game.Housing
                 else if (AttachedDoodads.Count > 0)
                 {
                     foreach (var doodad in AttachedDoodads)
+                    {
                         if (doodad.ObjId > 0)
+                        {
                             ObjectIdManager.Instance.ReleaseId(doodad.ObjId);
+                        }
+                    }
 
                     AttachedDoodads.Clear();
                 }
@@ -102,7 +105,9 @@ namespace AAEmu.Game.Models.Game.Housing
                 {
                     BaseAction = 0;
                     for (var i = 0; i < _currentStep; i++)
+                    {
                         BaseAction += Template.BuildSteps[i].NumActions;
+                    }
                 }
             }
         }
@@ -124,19 +129,25 @@ namespace AAEmu.Game.Models.Game.Housing
         public void AddBuildAction()
         {
             if (CurrentStep == -1)
+            {
                 return;
+            }
 
             lock (_lock)
             {
                 var nextAction = NumAction + 1;
                 if (Template.BuildSteps[CurrentStep].NumActions > nextAction)
+                {
                     NumAction = nextAction;
+                }
                 else
                 {
                     NumAction = 0;
                     var nextStep = CurrentStep + 1;
                     if (Template.BuildSteps.Count > nextStep)
+                    {
                         CurrentStep = nextStep;
+                    }
                     else
                     {
                         CurrentStep = -1;
@@ -154,13 +165,18 @@ namespace AAEmu.Game.Models.Game.Housing
         {
             base.Spawn();
             foreach (var doodad in AttachedDoodads)
+            {
                 doodad.Spawn();
+            }
         }
 
         public override void Delete()
         {
             foreach (var doodad in AttachedDoodads)
+            {
                 doodad.Delete();
+            }
+
             base.Delete();
         }
 
@@ -168,13 +184,18 @@ namespace AAEmu.Game.Models.Game.Housing
         {
             base.Show();
             foreach (var doodad in AttachedDoodads)
+            {
                 doodad.Show();
+            }
         }
 
         public override void Hide()
         {
             foreach (var doodad in AttachedDoodads)
+            {
                 doodad.Hide();
+            }
+
             base.Hide();
         }
 
@@ -205,7 +226,9 @@ namespace AAEmu.Game.Models.Game.Housing
 
             var doodadIds = new uint[AttachedDoodads.Count];
             for (var i = 0; i < AttachedDoodads.Count; i++)
+            {
                 doodadIds[i] = AttachedDoodads[i].ObjId;
+            }
 
             for (var i = 0; i < doodadIds.Length; i += 400)
             {
@@ -222,7 +245,10 @@ namespace AAEmu.Game.Models.Game.Housing
         public bool Save(MySqlConnection connection, MySqlTransaction transaction = null)
         {
             if (!IsDirty)
+            {
                 return false;
+            }
+
             using (var command = connection.CreateCommand())
             {
                 command.Connection = connection;

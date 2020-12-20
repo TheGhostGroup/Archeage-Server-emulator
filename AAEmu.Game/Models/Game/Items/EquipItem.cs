@@ -1,4 +1,5 @@
 ﻿using System;
+
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Models.Game.Items.Templates;
@@ -8,7 +9,7 @@ namespace AAEmu.Game.Models.Game.Items
     public class EquipItem : Item
     {
         public override byte DetailType => 1;
-        
+
         //public byte Durability { get; set; }
         //public short ChargeCount { get; set; }
         //public DateTime ChargeTime { get; set; } = DateTime.MinValue;
@@ -34,7 +35,10 @@ namespace AAEmu.Game.Models.Game.Items
                 cost = cost * grade.RefundMultiplier * 0.0099999998f;
                 cost = (float)Math.Ceiling(cost);
                 if (cost < 0 || cost < int.MinValue || cost > int.MaxValue)
+                {
                     cost = 0;
+                }
+
                 return (int)cost;
             }
         }

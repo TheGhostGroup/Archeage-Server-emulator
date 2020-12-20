@@ -7,7 +7,7 @@ namespace AAEmu.Game.Models.Tasks.Doodads
 {
     public class DoodadFuncTimerTask : DoodadFuncTask
     {
-        private uint _nextPhase;
+        private readonly uint _nextPhase;
 
         public DoodadFuncTimerTask(Unit caster, Doodad owner, uint skillId, uint nextPhase) : base(caster, owner, skillId)
         {
@@ -20,7 +20,10 @@ namespace AAEmu.Game.Models.Tasks.Doodads
             _owner.FuncGroupId = _nextPhase;
             var funcs = DoodadManager.Instance.GetPhaseFunc(_owner.FuncGroupId);
             foreach (var func in funcs)
+            {
                 func.Use(_caster, _owner, _skillId);
+            }
+
             _owner.BroadcastPacket(new SCDoodadPhaseChangedPacket(_owner), true);
         }
     }

@@ -6,6 +6,34 @@ using AAEmu.Game.Models.Game.World;
 
 namespace AAEmu.Game.Models.Game.Units.Movements
 {
+    public enum EStance : sbyte
+    {
+        Null = -1,
+        Combat = 0,
+        Idle = 1,
+        Swim = 2,
+        Coswim = 3,
+        Zerog = 4,
+        Stealth = 5,
+        Climb = 6,
+        Prone = 7,
+        Fly = 8,
+        Last = 9
+    }
+    public enum AiAlertness : sbyte
+    {
+        Idle = 0,
+        Alert = 1,
+        Combat = 2
+    }
+    public enum ActorMoveType : ushort
+    {
+        StandStill = 3,
+        Run = 4,
+        Walk = 5,
+    }
+
+
     public class ActorData : UnitMovement
     {
         public Vector3 DeltaMovement { get; set; }
@@ -13,8 +41,8 @@ namespace AAEmu.Game.Models.Game.Units.Movements
         //public sbyte[] DeltaMovement { get; set; }
         // ---
         public ushort FallVel { get; set; }
-        public sbyte Stance { get; set; }
-        public sbyte Alertness { get; set; }
+        public EStance Stance { get; set; }
+        public AiAlertness Alertness { get; set; }
         public byte GcFlags { get; set; }
         public ushort GcPart { get; set; }
         public ushort GcPartId { get; set; }
@@ -69,15 +97,15 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //DeltaMovement[2] = stream.ReadSByte();
             DeltaMovement = stream.ReadVector3Sbyte();
 
-            Stance = stream.ReadSByte();
-            Alertness = stream.ReadSByte();
-            actorFlags = stream.ReadUInt16(); // short in 3.0.3.0, sbyte in 1.2
-            if ((actorFlags & 0x80) == 0x80) // TODO если падает и ударяется об землю, видимо Значение нужно вычитать от текущего HP
+            Stance = (EStance)stream.ReadSByte();
+            Alertness = (AiAlertness)stream.ReadSByte();
+            actorFlags = (ActorMoveType)stream.ReadUInt16(); // short in 3.0.3.0, sbyte in 1.2
+            if (((ushort)actorFlags & 0x80) == 0x80) // TODO если падает и ударяется об землю, видимо Значение нужно вычитать от текущего HP
             {
                 FallVel = stream.ReadUInt16(); // actor.fallVel
             }
 
-            if ((actorFlags & 0x20) == 0x20) // TODO если находится на движущейся повозке/лифте/корабле? то здесь координаты персонажа
+            if (((ushort)actorFlags & 0x20) == 0x20) // TODO если находится на движущейся повозке/лифте/корабле, то здесь координаты персонажа
             {
                 GcFlags = stream.ReadByte();    // actor.gcFlags
                 GcPart = stream.ReadUInt16(); // actor.gcPart
@@ -92,16 +120,16 @@ namespace AAEmu.Game.Models.Game.Units.Movements
                 //RotationZ2 = stream.ReadSByte();
                 GcWorldRot = stream.ReadQuaternionSbyte();
             }
-            if ((actorFlags & 0x60) != 0)
+            if (((ushort)actorFlags & 0x60) != 0)
             {
                 GcId = stream.ReadUInt32(); // actor.gcId
             }
 
-            if ((actorFlags & 0x40) == 0x40)
+            if (((ushort)actorFlags & 0x40) == 0x40)
             {
                 ClimbData = stream.ReadUInt32(); // actor.climbData
             }
-            if ((actorFlags & 0x100) == 0x100)
+            if (((ushort)actorFlags & 0x100) == 0x100)
             {
                 MaxPushedUnitId = stream.ReadUInt32(); // actor.maxPushedUnitId
             }
@@ -130,15 +158,15 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //stream.Write(DeltaMovement[2]);
             stream.WriteVector3Sbyte(DeltaMovement);
 
-            stream.Write(Stance);
-            stream.Write(Alertness);
-            stream.Write(actorFlags);
-            if ((actorFlags & 0x80) == 0x80)
+            stream.Write((sbyte)Stance);
+            stream.Write((sbyte)Alertness);
+            stream.Write((ushort)actorFlags);
+            if (((ushort)actorFlags & 0x80) == 0x80)
             {
                 stream.Write(FallVel);
             }
 
-            if ((actorFlags & 0x20) == 0x20)
+            if (((ushort)actorFlags & 0x20) == 0x20)
             {
                 stream.Write(GcFlags);
                 stream.Write(GcPart);
@@ -154,16 +182,16 @@ namespace AAEmu.Game.Models.Game.Units.Movements
                 stream.WriteQuaternionSbyte(GcWorldRot);
 
             }
-            if ((actorFlags & 0x60) != 0)
+            if (((ushort)actorFlags & 0x60) != 0)
             {
                 stream.Write(GcId);
             }
 
-            if ((actorFlags & 0x40) == 0x40)
+            if (((ushort)actorFlags & 0x40) == 0x40)
             {
                 stream.Write(ClimbData);
             }
-            if ((actorFlags & 0x100) == 0x100)
+            if (((ushort)actorFlags & 0x100) == 0x100)
             {
                 stream.Write(MaxPushedUnitId);
             }

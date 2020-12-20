@@ -14,8 +14,8 @@ namespace AAEmu.Game.Models.Game.Units.Route
     /// </summary>
     public class QuillZ : Patrol
     {
-        private float _maxVelocityForward = 4.5f;
-        private float _maxVelocityBackward = -4.5f;
+        private readonly float _maxVelocityForward = 4.5f;
+        private readonly float _maxVelocityBackward = -4.5f;
         private bool down = false;
 
         /// <summary>

@@ -3,13 +3,13 @@ using AAEmu.Game.Core.Network.Game;
 
 namespace AAEmu.Game.Core.Packets.G2C
 {
-    class SCLootItemTookPacket : GamePacket
+    internal class SCLootItemTookPacket : GamePacket
     {
         private readonly uint _id;
         private readonly ulong _iId;
         private readonly int _count;
 
-        public SCLootItemTookPacket(uint id, ulong iId, int count) : base(SCOffsets.SCLootItemTookPacket,1)
+        public SCLootItemTookPacket(uint id, ulong iId, int count) : base(SCOffsets.SCLootItemTookPacket, 1)
         {
             _id = id;
             _iId = iId;

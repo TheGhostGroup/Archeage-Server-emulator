@@ -55,10 +55,14 @@ namespace AAEmu.Game.Core.Managers.World
             slave.RotSpeed = Math.Max(slave.RotSpeed, -1);
 
             if (slave.Steering == 0)
+            {
                 slave.RotSpeed -= (slave.RotSpeed / 10);
+            }
 
             if (slave.Throttle == 0) // this needs to be fixed : ships need to apply a static drag, and slowly ship away at the speed instead of doing it like this
+            {
                 slave.Speed -= (slave.Speed / 10);
+            }
 
             slave.Position.RotationZ = MathUtil.ConvertDegreeToDirection(slave.RotationDegrees);
 
@@ -76,15 +80,20 @@ namespace AAEmu.Game.Core.Managers.World
 
             slave.RotationDegrees -= slave.RotSpeed;
             if (slave.RotationDegrees < -180.0f)
+            {
                 slave.RotationDegrees = 180.0f;
+            }
+
             if (slave.RotationDegrees > 180.0f)
+            {
                 slave.RotationDegrees = -180.0f;
+            }
             // slave.RotationDegrees %= 360f;
 
             // TODO: Replace 0 with ship's rotation in degrees [-180, 180]
             var yaw = (float)(slave.RotationDegrees * (Math.PI / 180));
             var quat = Quaternion.CreateFromYawPitchRoll(yaw, 0.0003f, -0.002f);
-            
+
             moveType.Rot = new Quaternion(quat.X, quat.Y, quat.Z, 1.0f);
             //moveType.RotationX = (short)(quat.X * 32767);
             //moveType.RotationY = (short)(quat.Z * 32767);

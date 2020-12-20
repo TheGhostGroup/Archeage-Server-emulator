@@ -25,7 +25,7 @@ namespace AAEmu.Game.Core.Managers
 
     public class MailManager : Singleton<MailManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public Dictionary<long, Mail> _allPlayerMails;
         private List<long> _deletedMailIds;
@@ -34,9 +34,11 @@ namespace AAEmu.Game.Core.Managers
 
         public void SendMail(byte type, string receiverName, string senderName, string title, string text, byte attachments, int[] moneyAmounts, long extra, List<Item> items)
         {
-            var mailTemplate = new Mail();
-            // TODO: get this from a ID manager ?
-            mailTemplate.Id = highestMailID += 1;
+            var mailTemplate = new Mail
+            {
+                // TODO: get this from a ID manager ?
+                Id = highestMailID += 1
+            };
             var senderId = NameManager.Instance.GetCharacterId(senderName);
             var receiverId = NameManager.Instance.GetCharacterId(receiverName);
 
@@ -128,8 +130,10 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var tempMail = new Mail();
-                            tempMail.Id = reader.GetInt32("id");
+                            var tempMail = new Mail
+                            {
+                                Id = reader.GetInt32("id")
+                            };
 
                             tempMail.Header = new MailHeader()
                             {

@@ -6,16 +6,16 @@ namespace AAEmu.Game.Core.Packets.G2C
 {
     public class SCSkillFiredPacket : GamePacket
     {
-        private uint _id;
-        private ushort _tl;
-        private SkillCaster _caster;
-        private SkillCastTarget _target;
-        private SkillObject _skillObject;
-        private Skill _skill;
+        private readonly uint _id;
+        private readonly ushort _tl;
+        private readonly SkillCaster _caster;
+        private readonly SkillCastTarget _target;
+        private readonly SkillObject _skillObject;
+        private readonly Skill _skill;
 
-        private short _effectDelay = 37;
-        private int _fireAnimId = 2;
-        private bool _dist;
+        private readonly short _effectDelay = 37;
+        private readonly int _fireAnimId = 2;
+        private readonly bool _dist;
 
         public SCSkillFiredPacket(uint id, ushort tl, SkillCaster caster, SkillCastTarget target, Skill skill, SkillObject skillObject)
             : base(SCOffsets.SCSkillFiredPacket, 5)

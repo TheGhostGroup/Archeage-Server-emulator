@@ -6,11 +6,11 @@ namespace AAEmu.Commons.Network
 {
     public class BufferManager
     {
-        private int _numBytes;
+        private readonly int _numBytes;
         private byte[] _buffer;
-        private ConcurrentStack<int> _freeIndexPool;
+        private readonly ConcurrentStack<int> _freeIndexPool;
         private int _currentIndex;
-        private int _bufferSize;
+        private readonly int _bufferSize;
 
         public BufferManager(int totalBytes, int bufferSize)
         {
@@ -33,14 +33,19 @@ namespace AAEmu.Commons.Network
                 {
                     int offset;
                     if (!_freeIndexPool.TryPop(out offset))
+                    {
                         Console.WriteLine("TryPop from _freeIndexPool ConcurrentStack failed.");
+                    }
 
                     args.SetBuffer(_buffer, offset, _bufferSize);
                 }
                 else
                 {
                     if ((_numBytes - _bufferSize) < _currentIndex)
+                    {
                         return false;
+                    }
+
                     args.SetBuffer(_buffer, _currentIndex, _bufferSize);
                     _currentIndex += _bufferSize;
                 }

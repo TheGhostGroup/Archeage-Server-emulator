@@ -17,7 +17,9 @@ namespace AAEmu.Game.Core.Packets.C2G
 
             if (Connection.ActiveChar.ObjId != characterObjId ||
                 Connection.ActiveChar.Bonding == null || Connection.ActiveChar.Bonding.ObjId != doodadObjId)
+            {
                 return;
+            }
 
             Connection.ActiveChar.Bonding.SetOwner(null);
             Connection.ActiveChar.Bonding = null;

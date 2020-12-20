@@ -27,7 +27,7 @@ namespace AAEmu.Game.Core.Managers
 {
     public class SlaveManager : Singleton<SlaveManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private Dictionary<uint, SlaveTemplate> _slaveTemplates;
         private Dictionary<uint, Slave> _activeSlaves;
         public Dictionary<uint, Dictionary<int, Point>> _attachPoints;
@@ -265,8 +265,10 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new SlaveTemplate();
-                            template.Id = reader.GetUInt32("id");
+                            var template = new SlaveTemplate
+                            {
+                                Id = reader.GetUInt32("id")
+                            };
                             //template.Name = reader.GetString("name");
                             template.Name = LocalizationManager.Instance.Get("slaves", "name", template.Id);
                             template.ModelId = reader.GetUInt32("model_id");
@@ -296,11 +298,13 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new SlaveInitialBuffs();
-                            //template.Id = reader.GetUInt32("id");
-                            template.Id = step++;
-                            template.SlaveId = reader.GetUInt32("slave_id");
-                            template.BuffId = reader.GetUInt32("buff_id");
+                            var template = new SlaveInitialBuffs
+                            {
+                                //template.Id = reader.GetUInt32("id");
+                                Id = step++,
+                                SlaveId = reader.GetUInt32("slave_id"),
+                                BuffId = reader.GetUInt32("buff_id")
+                            };
                             if (_slaveTemplates.ContainsKey(template.SlaveId))
                             {
                                 _slaveTemplates[template.SlaveId].InitialBuffs.Add(template);
@@ -319,12 +323,14 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new SlavePassiveBuffs();
-                            //template.Id = reader.GetUInt32("id");
-                            template.Id = step++;
-                            template.OwnerId = reader.GetUInt32("owner_id");
-                            template.OwnerType = reader.GetString("owner_type");
-                            template.PassiveBuffId = reader.GetUInt32("passive_buff_id");
+                            var template = new SlavePassiveBuffs
+                            {
+                                //template.Id = reader.GetUInt32("id");
+                                Id = step++,
+                                OwnerId = reader.GetUInt32("owner_id"),
+                                OwnerType = reader.GetString("owner_type"),
+                                PassiveBuffId = reader.GetUInt32("passive_buff_id")
+                            };
                             if (_slaveTemplates.ContainsKey(template.OwnerId))
                             {
                                 _slaveTemplates[template.OwnerId].PassiveBuffs.Add(template);
@@ -343,15 +349,17 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new SlaveDoodadBindings();
-                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
-                            template.Id = step++;
-                            template.OwnerId = reader.GetUInt32("owner_id");
-                            template.OwnerType = reader.GetString("owner_type");
-                            template.AttachPointId = reader.GetInt32("attach_point_id");
-                            template.DoodadId = reader.GetUInt32("doodad_id");
-                            template.Persist = reader.GetBoolean("persist");
-                            template.Scale = reader.GetFloat("scale");
+                            var template = new SlaveDoodadBindings
+                            {
+                                //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                                Id = step++,
+                                OwnerId = reader.GetUInt32("owner_id"),
+                                OwnerType = reader.GetString("owner_type"),
+                                AttachPointId = reader.GetInt32("attach_point_id"),
+                                DoodadId = reader.GetUInt32("doodad_id"),
+                                Persist = reader.GetBoolean("persist"),
+                                Scale = reader.GetFloat("scale")
+                            };
                             if (_slaveTemplates.ContainsKey(template.OwnerId))
                             {
                                 _slaveTemplates[template.OwnerId].DoodadBindings.Add(template);

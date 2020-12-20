@@ -1,5 +1,5 @@
-using AAEmu.Game.Models.Game.Quests.Templates;
 using AAEmu.Game.Models.Game.Char;
+using AAEmu.Game.Models.Game.Quests.Templates;
 
 namespace AAEmu.Game.Models.Game.Quests.Acts
 {
@@ -17,9 +17,13 @@ namespace AAEmu.Game.Models.Game.Quests.Acts
         {
             _log.Warn("QuestActObjItemUse");
             if (objective >= Count)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 }

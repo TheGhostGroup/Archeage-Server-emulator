@@ -15,7 +15,7 @@ namespace AAEmu.Game.Core.Packets.C2G
 
         public override void Read(PacketStream stream)
         {
-            var type = (ChatType) stream.ReadInt16();
+            var type = (ChatType)stream.ReadInt16();
             var unk1 = stream.ReadInt16();
             var unk2 = stream.ReadInt32();
 

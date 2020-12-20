@@ -12,8 +12,11 @@ namespace AAEmu.Game.Core.Packets.S2C
         public override PacketStream Write(PacketStream stream)
         {
             for (var i = 0; i < 4; i++)
-                stream.Write((long) 0); // type
-            stream.Write((ulong) 0); // modified
+            {
+                stream.Write((long)0); // type
+            }
+
+            stream.Write((ulong)0); // modified
 
             return stream;
         }

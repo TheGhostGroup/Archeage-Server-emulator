@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+
+using AAEmu.Commons.Cryptography;
 using AAEmu.Commons.Network;
-using AAEmu.Game.Core.Network.Connections;
 using AAEmu.Game.Core.Network.Game;
-using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Char;
 
@@ -24,12 +24,8 @@ namespace AAEmu.Game.Core.Packets.C2G
             {
                 var encAes = stream.ReadBytes(len / 2);
                 var encXor = stream.ReadBytes(len2 / 2);
-                GameConnection.CryptRsa.GetAesKey(encAes);
-                GameConnection.CryptRsa.GetXorKey(encXor);
-                GameConnection.CryptRsa.GetNevIv();
+                EncryptionManager.Instance.StoreClientKeys(encAes, encXor, Connection.AccountId, Connection.Id);
             }
-
-            _log.Debug("AES: {0} XOR: {1}", Helpers.ByteArrayToString(GameConnection.CryptRsa.AesKey), GameConnection.CryptRsa.XorKey);
 
             Connection.SendPacket(new SCGetSlotCountPacket(0));
             Connection.SendPacket(new SCAccountInfoPacket((int)Connection.Payment.Method, Connection.Payment.Location, Connection.Payment.StartTime, Connection.Payment.EndTime));
@@ -40,8 +36,11 @@ namespace AAEmu.Game.Core.Packets.C2G
             var characters = Connection.Characters.Values.ToArray();
 
             if (characters.Length == 0)
+            {
                 Connection.SendPacket(new SCCharacterListPacket(true, characters));
+            }
             else
+            {
                 for (var i = 0; i < characters.Length; i += 2)
                 {
                     var last = characters.Length - i <= 2;
@@ -49,6 +48,7 @@ namespace AAEmu.Game.Core.Packets.C2G
                     Array.Copy(characters, i, temp, 0, temp.Length);
                     Connection.SendPacket(new SCCharacterListPacket(last, temp));
                 }
+            }
 
             Connection.SendPacket(new SCUnknownPacket_0x14F());
 

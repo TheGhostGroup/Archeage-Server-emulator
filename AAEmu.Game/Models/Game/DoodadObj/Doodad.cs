@@ -19,8 +19,8 @@ namespace AAEmu.Game.Models.Game.DoodadObj
     {
         private float _scale;
 
-        private static Logger _log = LogManager.GetCurrentClassLogger();
-        
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+
         public byte Flag { get; set; }
         public uint TemplateId { get; set; }
         public DoodadTemplate Template { get; set; }
@@ -65,7 +65,9 @@ namespace AAEmu.Game.Models.Game.DoodadObj
             foreach (var funcGroup in Template.FuncGroups)
             {
                 if (funcGroup.GroupKindId == DoodadFuncGroups.DoodadFuncGroupKind.Start)
+                {
                     return funcGroup.Id;
+                }
             }
             return 0;
         }
@@ -73,7 +75,9 @@ namespace AAEmu.Game.Models.Game.DoodadObj
         public override void BroadcastPacket(GamePacket packet, bool self)
         {
             foreach (var character in WorldManager.Instance.GetAround<Character>(this))
+            {
                 character.SendPacket(packet);
+            }
         }
 
         public override void AddVisibleObject(Character character)
@@ -93,15 +97,20 @@ namespace AAEmu.Game.Models.Game.DoodadObj
 
         public PacketStream Write(PacketStream stream)
         {
-            stream.WriteBc(ObjId);
+            stream.WriteBc(ObjId); //The object # in the list
 
             var hasLootItrem = 0; //false;
+            // TemplateId - The template id needed for that object, the client then uses the template configurations, not the server
+            // FuncGroupId - doodad_func_group_id
+            // QuestGlow - When this is higher than 0 it shows a blue orb over the doodad
             stream.WritePisc(TemplateId, FuncGroupId, hasLootItrem, QuestGlow);
+            //stream.WritePisc(TemplateId, FuncGroupId, 0, 0);
+
 
             stream.Write(Flag);
-            stream.WriteBc(OwnerObjId);
-            stream.WriteBc(ParentObjId);
-            stream.Write(AttachPoint); // attachPoint
+            stream.WriteBc(OwnerObjId);  //The creator of the object
+            stream.WriteBc(ParentObjId); //Things like boats or cars,
+            stream.Write(AttachPoint);   // attachPoint, relative to the parentObj, (Door or window on a house)
 
             stream.WritePositionBc(Position.X, Position.Y, Position.Z);
 
@@ -109,7 +118,7 @@ namespace AAEmu.Game.Models.Game.DoodadObj
             stream.Write(Helpers.ConvertRotation(Position.RotationY));
             stream.Write(Helpers.ConvertRotation(Position.RotationZ));
 
-            stream.Write(Scale);
+            stream.Write(Scale);           //The size of the object
             stream.Write(OwnerId);         // characterId
             stream.Write(ItemId);          // type(id)
             stream.Write(0u);              // type(id)

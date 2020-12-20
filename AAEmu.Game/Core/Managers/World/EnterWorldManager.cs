@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Network.Connections;
 using AAEmu.Game.Core.Network.Login;
@@ -8,15 +9,16 @@ using AAEmu.Game.Core.Packets.G2L;
 using AAEmu.Game.Core.Packets.Proxy;
 using AAEmu.Game.Models;
 using AAEmu.Game.Models.Tasks;
+
 using NLog;
 
 namespace AAEmu.Game.Core.Managers.World
 {
     public class EnterWorldManager : Singleton<EnterWorldManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private Dictionary<uint, ulong> _accounts;
+        private readonly Dictionary<uint, ulong> _accounts;
 
         protected EnterWorldManager()
         {
@@ -29,7 +31,9 @@ namespace AAEmu.Game.Core.Managers.World
             var gsId = AppConfiguration.Instance.Id;
 
             if (AccountManager.Instance.Contains(accountId))
+            {
                 connection.SendPacket(new GLPlayerEnterPacket(connectionId, gsId, 1));
+            }
             else
             {
                 _accounts.Add(connectionId, accountId);

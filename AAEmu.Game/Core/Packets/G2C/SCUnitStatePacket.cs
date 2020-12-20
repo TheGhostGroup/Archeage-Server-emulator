@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using AAEmu.Commons.Network;
 using AAEmu.Commons.Utils;
@@ -20,7 +19,7 @@ namespace AAEmu.Game.Core.Packets.G2C
     {
         private readonly Unit _unit;
         private readonly BaseUnitType _baseUnitType;
-        private UnitModelPostureType _unitModelPostureType;
+        private readonly UnitModelPostureType _unitModelPostureType;
 
         public SCUnitStatePacket(Unit unit) : base(SCOffsets.SCUnitStatePacket, 5)
         {
@@ -495,10 +494,14 @@ namespace AAEmu.Game.Core.Packets.G2C
             stream.WritePisc(_unit.Faction?.Id ?? 0, _unit.Expedition?.Id ?? 0, 0, 0); // pisc
 
             if (_unit is Transfer)
+            {
                 //stream.WritePisc(0, 0, 0, 808); // pisc
                 stream.WritePisc(0, 0, 0, 0); // pisc
+            }
             else
+            {
                 stream.WritePisc(0, 0, 0, 0); // pisc
+            }
 
             if (_unit is Character character5)
             {

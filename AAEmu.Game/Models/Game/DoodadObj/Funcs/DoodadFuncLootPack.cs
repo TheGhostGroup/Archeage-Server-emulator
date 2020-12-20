@@ -1,4 +1,5 @@
 ﻿using System;
+
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.UnitManagers;
 using AAEmu.Game.Models.Game.Char;
@@ -6,7 +7,6 @@ using AAEmu.Game.Models.Game.DoodadObj.Templates;
 using AAEmu.Game.Models.Game.Items;
 using AAEmu.Game.Models.Game.Items.Actions;
 using AAEmu.Game.Models.Game.Units;
-using AAEmu.Game.Utils;
 
 namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
 {
@@ -43,7 +43,9 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
                 DoodadManager.Instance.TriggerPhases(GetType().Name, caster, owner, skillId);
             }
             else
+            {
                 character.SendErrorMessage(ErrorMessageType.BagFull);
+            }
         }
     }
 }

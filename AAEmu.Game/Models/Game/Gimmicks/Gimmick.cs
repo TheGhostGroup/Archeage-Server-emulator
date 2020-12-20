@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 
 using AAEmu.Commons.Network;
-using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Network.Game;
 using AAEmu.Game.Core.Packets.G2C;
@@ -19,7 +16,7 @@ namespace AAEmu.Game.Models.Game.Gimmicks
 {
     public class Gimmick : Unit
     {
-        private static Logger s_log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger s_log = LogManager.GetCurrentClassLogger();
 
         public uint GimmickId { get; set; } // obj
         public uint TemplateId { get; set; }

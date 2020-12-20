@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+
 using AAEmu.Commons.Network.Type;
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Network.Connections;
@@ -11,7 +12,7 @@ namespace AAEmu.Game.Core.Network.Login
     public class LoginNetwork : Singleton<LoginNetwork>
     {
         private Client _client;
-        private LoginProtocolHandler _handler;
+        private readonly LoginProtocolHandler _handler;
         private LoginConnection _connection;
 
         private LoginNetwork()
@@ -35,7 +36,9 @@ namespace AAEmu.Game.Core.Network.Login
         public void Stop()
         {
             if (_client.IsStarted)
+            {
                 _client.Stop();
+            }
         }
 
         public void SetConnection(LoginConnection con)

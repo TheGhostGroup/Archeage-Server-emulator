@@ -41,7 +41,9 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
                     character.Position.WorldId = world.Id;
                 }
                 else
+                {
                     _log.Warn("World #.{0}, not have default spawn position.", world.Id);
+                }
             }
         }
     }

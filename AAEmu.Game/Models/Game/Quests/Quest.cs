@@ -330,7 +330,10 @@ namespace AAEmu.Game.Models.Game.Quests
             }
 
             if (update)
+            {
                 Owner.SendPacket(new SCQuestContextUpdatedPacket(this, 0));
+            }
+
             RemoveQuestItems();
         }
 

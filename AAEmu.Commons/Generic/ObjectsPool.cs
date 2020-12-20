@@ -49,11 +49,15 @@ namespace AAEmu.Commons.Generics
         public ObjectsPool(int size)
         {
             if (size <= 0)
+            {
                 throw new ArgumentException("Pool size can't be lesser or equal zero", "size");
+            }
 
             _poolFree = new Queue<TPoolObject>(size);
             for (int i = 0; i < size; i++)
+            {
                 _poolFree.Enqueue(Activator.CreateInstance<TPoolObject>());
+            }
 
             _used = new HashSet<TPoolObject>();
         }
@@ -67,7 +71,9 @@ namespace AAEmu.Commons.Generics
             lock (_poolLock)
             {
                 if (_poolFree.Count == 0)
+                {
                     return default(TPoolObject);
+                }
 
                 var ret = _poolFree.Dequeue();
                 _used.Add(ret);
@@ -101,7 +107,9 @@ namespace AAEmu.Commons.Generics
         public List<TPoolObject> GetUsedObjects()
         {
             lock (_poolLock)
+            {
                 return new List<TPoolObject>(_used);
+            }
         }
     }
 }

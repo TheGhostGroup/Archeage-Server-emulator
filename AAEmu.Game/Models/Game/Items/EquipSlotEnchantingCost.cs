@@ -1,6 +1,4 @@
-﻿using AAEmu.Game.Models.Game.Formulas;
-
-namespace AAEmu.Game.Models.Game.Items
+﻿namespace AAEmu.Game.Models.Game.Items
 {
     public class EquipSlotEnchantingCost
     {

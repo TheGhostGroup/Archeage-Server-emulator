@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace AAEmu.Game.Core.Packets.G2C
+﻿namespace AAEmu.Game.Core.Packets.G2C
 {
     public static class SCOffsets
     {
@@ -307,7 +305,7 @@ namespace AAEmu.Game.Core.Packets.G2C
         public const ushort SCGmDumpBuycodePacket = 0x26d;
         public const ushort SCKickedPacket = 0x18d;
         public const ushort SCAccountWarnedPacket = 0x27a;
-		public const ushort SCAccountWarnedCodePacket = 0x15b;
+        public const ushort SCAccountWarnedCodePacket = 0x15b;
         public const ushort SCAboxTeleportPacket = 0x2b9;
         public const ushort SCPortalDeletedPacket = 0x236;
         public const ushort SCUnitPortalUsedPacket = 0x277;
@@ -595,7 +593,7 @@ namespace AAEmu.Game.Core.Packets.G2C
         public const ushort SCUnknownPacket_0x0A6 = 0x0a6;
         public const ushort SCListSkillActiveTypsPacket = 0x173;
         public const ushort SCUpdateSkillActiveTypePacket = 0x0ef;
-		public const ushort SCGachaLootPackItemLogPacket = 0x241;
+        public const ushort SCGachaLootPackItemLogPacket = 0x241;
         public const ushort SCUnknownPacket_0x1C6 = 0x1c6;
         public const ushort SCUnknownPacket_0x2DD = 0x2dd;
         public const ushort SCUnknownPacket_0x2B0 = 0x2b0;
@@ -744,7 +742,6 @@ namespace AAEmu.Game.Core.Packets.G2C
         public const ushort SCPlaytimePacket = 0x0ffff;
         public const ushort SCCharacterPortalsPacket = 0x0ffff;
         public const ushort SCPortalInfoSavedPacket = 0x0ffff;
-        public const ushort SCTeleportUnitPacket = 0x0ffff;
         public const ushort SCBlinkUnitPacket = 0x0ffff;
         public const ushort SCKnockBackUnitPacket = 0x0ffff;
         public const ushort SCUnitImpulsePacket = 0x0ffff;

@@ -3,6 +3,7 @@
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Static;
+
 using MySql.Data.MySqlClient;
 
 namespace AAEmu.Game.Models.Game.Char
@@ -34,11 +35,20 @@ namespace AAEmu.Game.Models.Game.Char
         {
             var list = new List<AbilityType>();
             if (Owner.Ability1 != AbilityType.None)
+            {
                 list.Add(Owner.Ability1);
+            }
+
             if (Owner.Ability2 != AbilityType.None)
+            {
                 list.Add(Owner.Ability2);
+            }
+
             if (Owner.Ability3 != AbilityType.None)
+            {
                 list.Add(Owner.Ability3);
+            }
+
             return list;
         }
 
@@ -46,18 +56,28 @@ namespace AAEmu.Game.Models.Game.Char
         {
             // TODO SCAbilityExpChangedPacket
             if (type != AbilityType.None)
+            {
                 Abilities[type].Exp += exp;
+            }
         }
 
         public void AddActiveExp(int exp)
         {
             // TODO SCExpChangedPacket
             if (Owner.Ability1 != AbilityType.None)
+            {
                 Abilities[Owner.Ability1].Exp += exp;
+            }
+
             if (Owner.Ability2 != AbilityType.None)
+            {
                 Abilities[Owner.Ability2].Exp += exp;
+            }
+
             if (Owner.Ability3 != AbilityType.None)
+            {
                 Abilities[Owner.Ability3].Exp += exp;
+            }
         }
 
         public void Swap(AbilityType oldAbilityId, AbilityType abilityId)
@@ -101,7 +121,10 @@ namespace AAEmu.Game.Models.Game.Char
             }
 
             if (oldAbilityId != AbilityType.None)
+            {
                 Abilities[oldAbilityId].Order = 255;
+            }
+
             Owner.BroadcastPacket(new SCAbilitySwappedPacket(Owner.ObjId, oldAbilityId, abilityId), true);
         }
 
@@ -121,11 +144,20 @@ namespace AAEmu.Game.Models.Game.Char
                             Exp = reader.GetInt32("exp")
                         };
                         if (ability.Id == Owner.Ability1)
+                        {
                             ability.Order = 0;
+                        }
+
                         if (ability.Id == Owner.Ability2)
+                        {
                             ability.Order = 1;
+                        }
+
                         if (ability.Id == Owner.Ability3)
+                        {
                             ability.Order = 2;
+                        }
+
                         Abilities[ability.Id] = ability;
                     }
                 }

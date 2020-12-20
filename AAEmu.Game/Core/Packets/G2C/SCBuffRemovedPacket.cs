@@ -5,8 +5,8 @@ namespace AAEmu.Game.Core.Packets.G2C
 {
     public class SCBuffRemovedPacket : GamePacket
     {
-        private uint _objId;
-        private uint _index;
+        private readonly uint _objId;
+        private readonly uint _index;
 
         public SCBuffRemovedPacket(uint objId, uint index) : base(SCOffsets.SCBuffRemovedPacket, 5)
         {

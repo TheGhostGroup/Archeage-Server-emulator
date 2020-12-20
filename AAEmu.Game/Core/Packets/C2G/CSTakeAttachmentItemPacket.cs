@@ -48,7 +48,9 @@ namespace AAEmu.Game.Core.Packets.C2G
                 }
 
                 if (detailLength > 0)
+                {
                     stream.ReadBytes(detailLength); // detail
+                }
 
                 var creationTime = stream.ReadDateTime();
                 var lifespanMins = stream.ReadUInt32();

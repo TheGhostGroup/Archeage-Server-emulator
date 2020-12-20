@@ -11,7 +11,7 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
         public uint QuestTriggerPhase { get; set; }
         public uint ItemId { get; set; }
         public uint ItemTriggerPhase { get; set; }
-        
+
         public override void Use(Unit caster, Doodad owner, uint skillId)
         {
             _log.Debug("DoodadFuncConditionalUse");

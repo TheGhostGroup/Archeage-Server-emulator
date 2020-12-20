@@ -7,7 +7,7 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
     {
         public uint FuncCloutId { get; set; }
         public uint EffectId { get; set; }
-        
+
         public override void Use(Unit caster, Doodad owner, uint skillId)
         {
             _log.Debug("DoodadFuncCloutEffect");

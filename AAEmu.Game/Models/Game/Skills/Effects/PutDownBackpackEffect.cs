@@ -40,10 +40,12 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             if (character.Inventory.Equipment.RemoveItem(Items.Actions.ItemTaskType.DropBackpack, item, true))
             {
                 // Spawn doodad
-                var doodadSpawner = new DoodadSpawner();
-                doodadSpawner.Id = 0;
-                doodadSpawner.UnitId = BackpackDoodadId;
-                doodadSpawner.Position = character.Position.Clone();
+                var doodadSpawner = new DoodadSpawner
+                {
+                    Id = 0,
+                    UnitId = BackpackDoodadId,
+                    Position = character.Position.Clone()
+                };
                 doodadSpawner.Spawn(0);
             }
         }

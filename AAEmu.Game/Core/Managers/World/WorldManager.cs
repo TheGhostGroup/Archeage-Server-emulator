@@ -3,28 +3,31 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using AAEmu.Commons.IO;
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Network.Game;
+using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.DoodadObj;
+using AAEmu.Game.Models.Game.Gimmicks;
+using AAEmu.Game.Models.Game.Housing;
 using AAEmu.Game.Models.Game.NPChar;
+using AAEmu.Game.Models.Game.Shipyard;
 using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.World;
 using AAEmu.Game.Utils.DB;
-using AAEmu.Game.Core.Packets.G2C;
-using AAEmu.Game.Models.Game.Gimmicks;
+
 using NLog;
+
 using InstanceWorld = AAEmu.Game.Models.Game.World.World;
-using AAEmu.Game.Models.Game.Housing;
-using AAEmu.Game.Models.Game.Shipyard;
 
 namespace AAEmu.Game.Core.Managers.World
 {
     public class WorldManager : Singleton<WorldManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<uint, InstanceWorld> _worlds;
         private Dictionary<uint, uint> _worldIdByZoneId;
@@ -63,7 +66,10 @@ namespace AAEmu.Game.Core.Managers.World
         public WorldInteractionGroup? GetWorldInteractionGroup(uint worldInteractionType)
         {
             if (_worldInteractionGroups.ContainsKey(worldInteractionType))
+            {
                 return _worldInteractionGroups[worldInteractionType];
+            }
+
             return null;
         }
 
@@ -80,14 +86,18 @@ namespace AAEmu.Game.Core.Managers.World
             var pathFile = $"{FileManager.AppPath}Data/worlds.json";
             var contents = FileManager.GetFileContents(pathFile);
             if (string.IsNullOrWhiteSpace(contents))
+            {
                 throw new IOException($"File {pathFile} doesn't exists or is empty.");
+            }
 
             if (JsonHelper.TryDeserializeObject(contents, out List<InstanceWorld> worlds, out _))
             {
                 foreach (var world in worlds)
                 {
                     if (_worlds.ContainsKey(world.Id))
+                    {
                         throw new Exception("WorldManager: there are duplicates in world ids");
+                    }
 
                     world.Regions = new Region[world.CellX * CELL_SIZE, world.CellY * CELL_SIZE];
                     world.ZoneIds = new uint[world.CellX * CELL_SIZE, world.CellY * CELL_SIZE];
@@ -98,16 +108,21 @@ namespace AAEmu.Game.Core.Managers.World
                 }
             }
             else
+            {
                 throw new Exception($"WorldManager: Parse {pathFile} file");
+            }
 
             foreach (var world in _worlds.Values)
             {
                 pathFile = $"{FileManager.AppPath}Data/Worlds/{world.Name}/zones.json";
                 contents = FileManager.GetFileContents(pathFile);
                 if (string.IsNullOrWhiteSpace(contents))
+                {
                     throw new IOException($"File {pathFile} doesn't exists or is empty.");
+                }
 
                 if (JsonHelper.TryDeserializeObject(contents, out List<ZoneConfig> zones, out _))
+                {
                     foreach (var zone in zones)
                     {
                         _worldIdByZoneId.Add(zone.Id, world.Id);
@@ -125,8 +140,11 @@ namespace AAEmu.Game.Core.Managers.World
                             }
                         }
                     }
+                }
                 else
+                {
                     throw new Exception($"WorldManager: Parse {pathFile} file");
+                }
             }
 
             if (AppConfiguration.Instance.HeightMapsEnable) // TODO fastboot if HeightMapsEnable = false!
@@ -156,13 +174,20 @@ namespace AAEmu.Game.Core.Managers.World
                             if (hMapCellX == world.CellX && hMapCellY == world.CellY)
                             {
                                 for (var cellX = 0; cellX < world.CellX; cellX++)
+                                {
                                     for (var cellY = 0; cellY < world.CellY; cellY++)
                                     {
                                         if (br.ReadBoolean())
+                                        {
                                             continue;
+                                        }
+
                                         for (var i = 0; i < 16; i++)
+                                        {
                                             for (var j = 0; j < 16; j++)
+                                            {
                                                 for (var x = 0; x < 32; x++)
+                                                {
                                                     for (var y = 0; y < 32; y++)
                                                     {
                                                         var sx = cellX * 512 + i * 32 + x;
@@ -170,13 +195,21 @@ namespace AAEmu.Game.Core.Managers.World
 
                                                         world.HeightMaps[sx, sy] = br.ReadUInt16();
                                                     }
+                                                }
+                                            }
+                                        }
                                     }
+                                }
                             }
                             else
+                            {
                                 _log.Warn("{0}: Invalid heightmap cells...", world.Name);
+                            }
                         }
                         else
+                        {
                             _log.Warn("{0}: Heightmap not correct version", world.Name);
+                        }
                     }
 
                     _log.Info("Heightmap {0} loaded", world.Name);
@@ -272,9 +305,15 @@ namespace AAEmu.Game.Core.Managers.World
 
             var result = new List<Region>();
             for (var a = -REGION_NEIGHBORHOOD_SIZE; a <= REGION_NEIGHBORHOOD_SIZE; a++)
+            {
                 for (var b = -REGION_NEIGHBORHOOD_SIZE; b <= REGION_NEIGHBORHOOD_SIZE; b++)
+                {
                     if (ValidRegion(world.Id, x + a, y + b) && world.Regions[x + a, y + b] != null)
+                    {
                         result.Add(world.Regions[x + a, y + b]);
+                    }
+                }
+            }
 
             return result.ToArray();
         }
@@ -306,8 +345,13 @@ namespace AAEmu.Game.Core.Managers.World
         public Character GetCharacter(string name)
         {
             foreach (var player in _characters.Values)
+            {
                 if (name.ToLower().Equals(player.Name.ToLower()))
+                {
                     return player;
+                }
+            }
+
             return null;
         }
 
@@ -332,7 +376,10 @@ namespace AAEmu.Game.Core.Managers.World
                 }
             }
             if ((character.CurrentTarget != null) && (character.CurrentTarget is Character))
+            {
                 return (Character)character.CurrentTarget;
+            }
+
             return character;
         }
 
@@ -345,72 +392,127 @@ namespace AAEmu.Game.Core.Managers.World
         public Character GetCharacterById(uint id)
         {
             foreach (var player in _characters.Values)
+            {
                 if (player.Id.Equals(id))
+                {
                     return player;
+                }
+            }
+
             return null;
         }
 
         public void AddObject(GameObject obj)
         {
             if (obj == null)
+            {
                 return;
+            }
 
             _objects.TryAdd(obj.ObjId, obj);
 
             if (obj is BaseUnit baseUnit)
+            {
                 _baseUnits.TryAdd(baseUnit.ObjId, baseUnit);
+            }
+
             if (obj is Unit unit)
+            {
                 _units.TryAdd(unit.ObjId, unit);
+            }
+
             if (obj is Doodad doodad)
+            {
                 _doodads.TryAdd(doodad.ObjId, doodad);
+            }
+
             if (obj is Npc npc)
+            {
                 _npcs.TryAdd(npc.ObjId, npc);
+            }
+
             if (obj is Character character)
+            {
                 _characters.TryAdd(character.ObjId, character);
+            }
+
             if (obj is Transfer transfer)
+            {
                 _transfers.TryAdd(transfer.ObjId, transfer);
+            }
+
             if (obj is Gimmick gimmick)
+            {
                 _gimmicks.TryAdd(gimmick.ObjId, gimmick);
+            }
         }
 
         public void RemoveObject(GameObject obj)
         {
             if (obj == null)
+            {
                 return;
+            }
 
             _objects.TryRemove(obj.ObjId, out _);
 
             if (obj is BaseUnit)
+            {
                 _baseUnits.TryRemove(obj.ObjId, out _);
+            }
+
             if (obj is Unit)
+            {
                 _units.TryRemove(obj.ObjId, out _);
+            }
+
             if (obj is Doodad)
+            {
                 _doodads.TryRemove(obj.ObjId, out _);
+            }
+
             if (obj is Npc)
+            {
                 _npcs.TryRemove(obj.ObjId, out _);
+            }
+
             if (obj is Character)
+            {
                 _characters.TryRemove(obj.ObjId, out _);
+            }
+
             if (obj is Transfer)
+            {
                 _transfers.TryRemove(obj.ObjId, out _);
+            }
+
             if (obj is Gimmick)
+            {
                 _gimmicks.TryRemove(obj.ObjId, out _);
+            }
         }
 
         public void AddVisibleObject(GameObject obj)
         {
             if (obj == null || !obj.IsVisible)
+            {
                 return;
+            }
 
             var region = GetRegion(obj);
             var currentRegion = obj.Region;
 
             if (region == null || currentRegion != null && currentRegion.Equals(region))
+            {
                 return;
+            }
 
             if (currentRegion == null)
             {
                 foreach (var neighbor in region.GetNeighbors())
+                {
                     neighbor.AddToCharacters(obj);
+                }
 
                 region.AddObject(obj);
                 obj.Region = region;
@@ -424,28 +526,36 @@ namespace AAEmu.Game.Core.Managers.World
                 {
                     var remove = true;
                     foreach (var newNeighbor in newNeighbors)
+                    {
                         if (newNeighbor.Equals(neighbor))
                         {
                             remove = false;
                             break;
                         }
+                    }
 
                     if (remove)
+                    {
                         neighbor.RemoveFromCharacters(obj);
+                    }
                 }
 
                 foreach (var neighbor in newNeighbors)
                 {
                     var add = true;
                     foreach (var oldNeighbor in oldNeighbors)
+                    {
                         if (oldNeighbor.Equals(neighbor))
                         {
                             add = false;
                             break;
                         }
+                    }
 
                     if (add)
+                    {
                         neighbor.AddToCharacters(obj);
+                    }
                 }
 
                 region.AddObject(obj);
@@ -458,12 +568,16 @@ namespace AAEmu.Game.Core.Managers.World
         public void RemoveVisibleObject(GameObject obj)
         {
             if (obj?.Region == null)
+            {
                 return;
+            }
 
             obj.Region.RemoveObject(obj);
 
             foreach (var neighbor in obj.Region.GetNeighbors())
+            {
                 neighbor.RemoveFromCharacters(obj);
+            }
 
             obj.Region = null;
         }
@@ -472,10 +586,14 @@ namespace AAEmu.Game.Core.Managers.World
         {
             var result = new List<T>();
             if (obj.Region == null)
+            {
                 return result;
+            }
 
             foreach (var neighbor in obj.Region.GetNeighbors())
+            {
                 neighbor.GetList(result, obj.ObjId);
+            }
 
             return result;
         }
@@ -484,10 +602,14 @@ namespace AAEmu.Game.Core.Managers.World
         {
             var result = new List<T>();
             if (obj.Region == null)
+            {
                 return result;
+            }
 
             foreach (var neighbor in obj.Region.GetNeighbors())
+            {
                 neighbor.GetList(result, obj.ObjId, obj.Position.X, obj.Position.Y, radius * radius);
+            }
 
             return result;
         }
@@ -496,13 +618,19 @@ namespace AAEmu.Game.Core.Managers.World
         {
             var result = new List<T>();
             if (obj.Region == null)
+            {
                 return result;
+            }
 
             foreach (var neighbor in obj.Region.GetNeighbors())
+            {
                 neighbor.GetList(result, obj.ObjId, obj.Position.X, obj.Position.Y, radius * radius);
+            }
 
             if (result.Count > limit)
+            {
                 result.RemoveRange(limit - 1, result.Count - limit - 1);
+            }
 
             return result;
         }
@@ -512,14 +640,21 @@ namespace AAEmu.Game.Core.Managers.World
             var result = new List<T>();
             var regions = new List<Region>();
             for (var a = x * CELL_SIZE; a < (x + 1) * CELL_SIZE; a++)
+            {
                 for (var b = y * CELL_SIZE; b < (y + 1) * CELL_SIZE; b++)
                 {
                     if (ValidRegion(worldId, a, b) && _worlds[worldId].Regions[a, b] != null)
+                    {
                         regions.Add(_worlds[worldId].Regions[a, b]);
+                    }
                 }
+            }
 
             foreach (var region in regions)
+            {
                 region.GetList(result, 0);
+            }
+
             return result;
         }
 
@@ -531,7 +666,10 @@ namespace AAEmu.Game.Core.Managers.World
             {
                 var cmRace = (((byte)character.Race - 1) & 0xFC);
                 if (mRace != cmRace)
+                {
                     continue;
+                }
+
                 character.SendPacket(packet);
             }
         }
@@ -542,7 +680,10 @@ namespace AAEmu.Game.Core.Managers.World
             foreach (var character in _characters.Values)
             {
                 if (character.Faction.MotherId != factionMotherId)
+                {
                     continue;
+                }
+
                 character.SendPacket(packet);
             }
         }
@@ -557,7 +698,10 @@ namespace AAEmu.Game.Core.Managers.World
             foreach (var character in _characters.Values)
             {
                 if (!validZones.Contains(character.Position.ZoneId))
+                {
                     continue;
+                }
+
                 character.SendPacket(packet);
             }
         }
@@ -613,7 +757,7 @@ namespace AAEmu.Game.Core.Managers.World
         public void ResendVisibleObjectsToCharacter(Character character)
         {
             // Re-send visible flags to character getting out of cinema
-            var stuffs = WorldManager.Instance.GetAround<Unit>(character, 1000f);
+            var stuffs = Instance.GetAround<Unit>(character, 1000f);
             foreach (var stuff in stuffs)
             {
                 switch (stuff)
@@ -629,6 +773,7 @@ namespace AAEmu.Game.Core.Managers.World
                         break;
                     case Transfer transfer:
                         character.SendPacket(new SCUnitStatePacket(transfer));
+                        character.SendPacket(new SCUnitPointsPacket(transfer.ObjId, transfer.Hp, transfer.Mp, transfer.HighAbilityRsc));
                         break;
                     case Mount mount:
                         character.SendPacket(new SCUnitStatePacket(mount));

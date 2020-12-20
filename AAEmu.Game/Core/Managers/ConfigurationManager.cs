@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
-using AAEmu.Commons.IO;
-using AAEmu.Commons.Utils;
-using Newtonsoft.Json;
-using NLog;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+
+using AAEmu.Commons.Utils;
+
+using Newtonsoft.Json;
+
+using NLog;
 
 namespace AAEmu.Game.Core.Managers
 {
     public class ConfigurationManager : Singleton<ConfigurationManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<string, string> _configurations;
 
@@ -26,7 +28,9 @@ namespace AAEmu.Game.Core.Managers
                 string data = File.ReadAllText("Data/configurations.json");
                 d = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
                 foreach (var entry in d)
+                {
                     _configurations.Add(entry.Key, entry.Value);
+                }
             }
             catch (Exception e)
             {

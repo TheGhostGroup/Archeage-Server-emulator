@@ -115,7 +115,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //Velocity = new Vector3(tempX, tempY, tempZ);
 
             var tempVelocity = stream.ReadVector3Short();
-            Velocity = new Vector3(tempVelocity.X * 50f, tempVelocity.Y * 50f, tempVelocity.Z * 50f);
+            Velocity = new Vector3(tempVelocity.X * 30f, tempVelocity.Y * 30f, tempVelocity.Z * 30f);
             VelX = (short)Velocity.X;
             VelY = (short)Velocity.Y;
             VelZ = (short)Velocity.Z;
@@ -167,7 +167,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
         //    stream.Write(VelY);
         //    stream.Write(VelZ);
         //    //Velocity = new Vector3(VelX, VelY, VelZ);
-        //    //var tempVelocity = new Vector3(Velocity.X / 50f, Velocity.Y / 50f, Velocity.Z / 50f);
+        //    //var tempVelocity = new Vector3(Velocity.X / 30f, Velocity.Y / 30f, Velocity.Z / 30f);
         //    //stream.WriteVector3Short(tempVelocity);
 
         //    stream.Write(RotationX);
@@ -199,8 +199,8 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //stream.Write(VelX);
             //stream.Write(VelY);
             //stream.Write(VelZ);
-            //var tempVelocity = new Vector3(Velocity.X / 50f, Velocity.Y / 50f, Velocity.Z / 50f);
-            stream.WriteVector3Short(new Vector3(Velocity.X * 0.02f, Velocity.Y * 0.02f, Velocity.Z * 0.02f));
+            //var tempVelocity = new Vector3(Velocity.X / 30f, Velocity.Y / 30f, Velocity.Z / 30f);
+            stream.WriteVector3Short(new Vector3(Velocity.X * 0.033333f, Velocity.Y * 0.033333f, Velocity.Z * 0.033333f));
 
             //stream.Write(RotationX);
             //stream.Write(RotationY);

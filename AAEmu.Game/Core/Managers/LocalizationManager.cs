@@ -10,13 +10,13 @@ namespace AAEmu.Game.Core.Managers
 
     public class LocalizationManager : Singleton<LocalizationManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private Dictionary<string, string> _translations;
+        private readonly Dictionary<string, string> _translations;
         /// <summary>
         /// If you want Russian as default server language, use "ru" here instead of "en_us"
         /// </summary>
-        private static string DefaultLanguage = "en_us"; // TODO: Add this to config
+        private static readonly string DefaultLanguage = "en_us"; // TODO: Add this to config
 
 
         public LocalizationManager()

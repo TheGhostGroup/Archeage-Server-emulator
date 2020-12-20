@@ -2,18 +2,19 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+
 using NLog;
 
 namespace AAEmu.Commons.Network.Type
 {
     public class Client : INetBase
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private const int ReceiveBufferSize = 8096;
-        private IPEndPoint _remoteEndPoint;
-        private BufferManager _bufferManager;
-        private Socket _connectSocket;
+        private readonly IPEndPoint _remoteEndPoint;
+        private readonly BufferManager _bufferManager;
+        private readonly Socket _connectSocket;
         private BaseProtocolHandler _protocolHandler;
 
         public bool IsStarted { get; private set; }
@@ -52,7 +53,10 @@ namespace AAEmu.Commons.Network.Type
         {
             IsStarted = false;
             if (_connectSocket.Connected)
+            {
                 _connectSocket.Disconnect(true);
+            }
+
             _connectSocket.Close();
             _log.Info("Network stoped");
         }
@@ -63,11 +67,13 @@ namespace AAEmu.Commons.Network.Type
         private void StartConnect()
         {
             _log.Info("Connecting to {0}", _remoteEndPoint.ToString());
-            var connectEventArg = new SocketAsyncEventArgs {RemoteEndPoint = _remoteEndPoint};
+            var connectEventArg = new SocketAsyncEventArgs { RemoteEndPoint = _remoteEndPoint };
             connectEventArg.Completed += AcceptEventArg_Completed;
             var willRaiseEvent = _connectSocket.ConnectAsync(connectEventArg);
             if (!willRaiseEvent)
+            {
                 ProcessConnect(connectEventArg);
+            }
         }
 
         /// <summary>
@@ -96,7 +102,9 @@ namespace AAEmu.Commons.Network.Type
             }
 
             if (errorCode != SocketError.Success)
-                throw new SocketException((int) errorCode);
+            {
+                throw new SocketException((int)errorCode);
+            }
 
             // Get the socket for the accepted client connection and put it into the 
             // ReadEventArg object user token
@@ -121,7 +129,9 @@ namespace AAEmu.Commons.Network.Type
             // As soon as the client is connected, post a receive to the connection
             var willRaiseEvent = _connectSocket.ReceiveAsync(readEventArg);
             if (!willRaiseEvent)
+            {
                 ProcessReceive(readEventArg);
+            }
         }
 
         /// <summary>
@@ -150,7 +160,7 @@ namespace AAEmu.Commons.Network.Type
         private void ProcessReceive(SocketAsyncEventArgs e)
         {
             // check if the remote host closed the connection
-            var session = (Session) e.UserToken;
+            var session = (Session)e.UserToken;
             if (e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
             {
                 var buf = new byte[e.BytesTransferred];
@@ -162,7 +172,9 @@ namespace AAEmu.Commons.Network.Type
                 {
                     var willRaiseEvent = session.Socket.ReceiveAsync(e);
                     if (!willRaiseEvent)
+                    {
                         ProcessReceive(e);
+                    }
                 }
                 catch (ObjectDisposedException)
                 {
@@ -173,7 +185,10 @@ namespace AAEmu.Commons.Network.Type
             {
                 if (e.SocketError != SocketError.Success && e.SocketError != SocketError.OperationAborted &&
                     e.SocketError != SocketError.ConnectionReset)
+                {
                     _log.Error("Error on ProcessReceive: {0}", e.SocketError.ToString());
+                }
+
                 session.Close();
             }
         }

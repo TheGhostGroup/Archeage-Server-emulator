@@ -27,11 +27,18 @@ namespace AAEmu.Game.Core.Packets.C2G
                         Connection.ActiveChar.CurrentTarget?.ObjId ?? 0), true);
 
             if (Connection.ActiveChar.CurrentTarget == null)
+            {
                 return;
+            }
+
             if (Connection.ActiveChar.CurrentTarget is Npc npc)
+            {
                 Connection.ActiveChar.SendMessage("ObjId: {0}, TemplateId: {1}", targetId, npc.TemplateId);
+            }
             else if (Connection.ActiveChar.CurrentTarget is Character character)
+            {
                 Connection.ActiveChar.SendMessage("ObjId: {0}, CharacterId: {1}", targetId, character.Id);
+            }
         }
     }
 }

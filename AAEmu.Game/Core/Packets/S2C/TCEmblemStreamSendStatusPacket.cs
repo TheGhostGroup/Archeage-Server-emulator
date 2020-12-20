@@ -11,8 +11,8 @@ namespace AAEmu.Game.Core.Packets.S2C
 
         public override PacketStream Write(PacketStream stream)
         {
-            stream.Write((long) 0); // type
-            stream.Write((int) 0); // total
+            stream.Write((long)0); // type
+            stream.Write(0); // total
             // ----------------
             /*
             v2 = (char *)this;
@@ -30,9 +30,9 @@ namespace AAEmu.Game.Core.Packets.S2C
             return a2->Reader->ReadInt32("b", v2 + 8, 0);
             */
             // ----------------
-            stream.Write((ulong) 0); // modified
-            
-            stream.Write((byte) 0); // status
+            stream.Write((ulong)0); // modified
+
+            stream.Write((byte)0); // status
 
             return stream;
         }

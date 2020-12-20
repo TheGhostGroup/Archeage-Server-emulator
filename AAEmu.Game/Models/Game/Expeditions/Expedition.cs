@@ -14,7 +14,7 @@ namespace AAEmu.Game.Models.Game.Expeditions
 {
     public class Expedition : SystemFaction
     {
-        private List<uint> _removedMembers;
+        private readonly List<uint> _removedMembers;
 
         public List<ExpeditionMember> Members { get; set; }
         public List<ExpeditionRolePolicy> Policies { get; set; }
@@ -42,7 +42,9 @@ namespace AAEmu.Game.Models.Game.Expeditions
         {
             var member = GetMember(character);
             if (member == null)
+            {
                 return;
+            }
 
             member.Refresh(character);
 
@@ -66,8 +68,12 @@ namespace AAEmu.Game.Models.Game.Expeditions
         public ExpeditionRolePolicy GetPolicyByRole(byte role)
         {
             foreach (var policy in Policies)
+            {
                 if (policy.Role == role)
+                {
                     return policy;
+                }
+            }
 
             return null;
         }
@@ -75,23 +81,35 @@ namespace AAEmu.Game.Models.Game.Expeditions
         public ExpeditionMember GetMember(Character character)
         {
             foreach (var member in Members)
+            {
                 if (member.CharacterId == character.Id)
+                {
                     return member;
+                }
+            }
+
             return null;
         }
 
         public ExpeditionMember GetMember(uint characterId)
         {
             foreach (var member in Members)
+            {
                 if (member.CharacterId == characterId)
+                {
                     return member;
+                }
+            }
+
             return null;
         }
 
         public void SendPacket(GamePacket packet)
         {
             foreach (var member in Members)
+            {
                 WorldManager.Instance.GetCharacterById(member.CharacterId)?.SendPacket(packet);
+            }
         }
 
         public void Save(MySqlConnection connection, MySqlTransaction transaction)
@@ -131,7 +149,7 @@ namespace AAEmu.Game.Models.Game.Expeditions
                     command.Connection = connection;
                     command.Transaction = transaction;
                     command.CommandText = "DELETE FROM expeditions WHERE `id` = @id";
-                    command.Parameters.AddWithValue("@id", this.Id);
+                    command.Parameters.AddWithValue("@id", Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -140,7 +158,7 @@ namespace AAEmu.Game.Models.Game.Expeditions
                     command.Connection = connection;
                     command.Transaction = transaction;
                     command.CommandText = "DELETE FROM expedition_role_policies WHERE `expedition_id` = @id";
-                    command.Parameters.AddWithValue("@id", this.Id);
+                    command.Parameters.AddWithValue("@id", Id);
                     command.ExecuteNonQuery();
                 }
 
@@ -149,7 +167,7 @@ namespace AAEmu.Game.Models.Game.Expeditions
                     command.Connection = connection;
                     command.Transaction = transaction;
                     command.CommandText = "DELETE FROM expedition_members WHERE `expedition_id` = @id";
-                    command.Parameters.AddWithValue("@id", this.Id);
+                    command.Parameters.AddWithValue("@id", Id);
                     command.ExecuteNonQuery();
                 }
             }
@@ -162,20 +180,24 @@ namespace AAEmu.Game.Models.Game.Expeditions
 
                     command.CommandText =
                         "REPLACE INTO expeditions(`id`,`owner`,`owner_name`,`name`,`mother`,`created_at`) VALUES (@id, @owner, @owner_name, @name, @mother, @created_at)";
-                    command.Parameters.AddWithValue("@id", this.Id);
-                    command.Parameters.AddWithValue("@owner", this.OwnerId);
-                    command.Parameters.AddWithValue("@owner_name", this.OwnerName);
-                    command.Parameters.AddWithValue("@name", this.Name);
-                    command.Parameters.AddWithValue("@mother", this.MotherId);
-                    command.Parameters.AddWithValue("@created_at", this.Created);
+                    command.Parameters.AddWithValue("@id", Id);
+                    command.Parameters.AddWithValue("@owner", OwnerId);
+                    command.Parameters.AddWithValue("@owner_name", OwnerName);
+                    command.Parameters.AddWithValue("@name", Name);
+                    command.Parameters.AddWithValue("@mother", MotherId);
+                    command.Parameters.AddWithValue("@created_at", Created);
                     command.ExecuteNonQuery();
                 }
 
                 foreach (var member in Members)
+                {
                     member.Save(connection, transaction);
+                }
 
                 foreach (var policy in Policies)
+                {
                     policy.Save(connection, transaction);
+                }
             }
         }
     }

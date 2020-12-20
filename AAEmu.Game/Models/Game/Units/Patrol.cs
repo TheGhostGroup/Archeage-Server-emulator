@@ -214,7 +214,7 @@ namespace AAEmu.Game.Models.Game.Units
 
         public void GotoPath(Npc npc)
         {
-                npc.SimulationNpc.GoToPath(npc, true);
+            npc.SimulationNpc.GoToPath(npc, true);
         }
 
         public void Recovery(BaseUnit unit)
@@ -240,14 +240,16 @@ namespace AAEmu.Game.Models.Game.Units
             else
             {
                 // Create a straight cruise to return to the last cruise pause
-                var line = new Line();
-                // Uninterrupted, unaffected by external forces and attacks
-                line.Interrupt = true;
-                line.Loop = false;
-                line.Abandon = false;
-                line.LastPatrol = LastPatrol;
-                // Specify target point
-                line.PausePosition = LastPatrol.PausePosition;
+                var line = new Line
+                {
+                    // Uninterrupted, unaffected by external forces and attacks
+                    Interrupt = true,
+                    Loop = false,
+                    Abandon = false,
+                    LastPatrol = LastPatrol,
+                    // Specify target point
+                    PausePosition = LastPatrol.PausePosition
+                };
                 // Resume last cruise
                 Repeat(unit, 100, line);
             }

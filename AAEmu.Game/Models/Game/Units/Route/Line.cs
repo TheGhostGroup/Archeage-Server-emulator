@@ -32,7 +32,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
         private Vector3 diff;
         //private float newx;
         //private float newy;
-        private float newz;
+        private readonly float newz;
         //private float x;
         //private float y;
         //private float z;
@@ -123,10 +123,10 @@ namespace AAEmu.Game.Models.Game.Units.Route
             moveType.Rot = new Quaternion(0f, 0f, Helpers.ConvertDirectionToRadian(rotZ), 1f);
             npc.Rot = moveType.Rot;
             moveType.DeltaMovement = new Vector3(0, 1.0f, 0);
-            moveType.actorFlags = 5;// 5-walk, 4-run, 3-stand still
-            moveType.Stance = 1;    // COMBAT = 0x0, IDLE = 0x1
-            moveType.Alertness = 0; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-            moveType.Time = Seq;    // has to change all the time for normal motion.
+            moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
+            moveType.Stance = EStance.Idle;           // COMBAT = 0x0, IDLE = 0x1
+            moveType.Alertness = AiAlertness.Idle;    // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+            moveType.Time = Seq;                      // has to change all the time for normal motion.
 
             if (move)
             {

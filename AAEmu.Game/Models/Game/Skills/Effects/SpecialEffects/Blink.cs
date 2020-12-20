@@ -11,7 +11,7 @@ namespace AAEmu.Game.Models.Game.Skills.Effects.SpecialEffects
 {
     public class Blink : SpecialEffectAction
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public override void Execute(Unit caster,
             SkillCaster casterObj,

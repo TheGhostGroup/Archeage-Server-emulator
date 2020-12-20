@@ -4,13 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Security.AccessControl;
 
 namespace AAEmu.Commons.Utils
 {
     public static class Helpers
     {
-        private static DateTime _unixDate = new DateTime(1970, 1, 1, 0, 0, 0);
+        private static readonly DateTime _unixDate = new DateTime(1970, 1, 1, 0, 0, 0);
         private static Assembly _assembly;
         private static string _exePath;
         private static string _baseDirectory;
@@ -29,7 +28,9 @@ namespace AAEmu.Commons.Utils
                         _baseDirectory = ExePath;
 
                         if (_baseDirectory.Length > 0)
+                        {
                             _baseDirectory = Path.GetDirectoryName(_baseDirectory);
+                        }
                     }
                     catch
                     {
@@ -51,9 +52,15 @@ namespace AAEmu.Commons.Utils
         public static long UnixTime(DateTime time)
         {
             if (time <= DateTime.MinValue)
+            {
                 return 0;
+            }
+
             if (time < _unixDate)
+            {
                 return 0;
+            }
+
             var timeSpan = (time - _unixDate);
             return (long)timeSpan.TotalSeconds;
         }

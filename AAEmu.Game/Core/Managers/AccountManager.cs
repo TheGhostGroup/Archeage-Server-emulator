@@ -1,15 +1,17 @@
 ﻿using System.Collections.Concurrent;
+
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Network.Connections;
+
 using NLog;
 
 namespace AAEmu.Game.Core.Managers
 {
     public class AccountManager : Singleton<AccountManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private ConcurrentDictionary<ulong, GameConnection> _accounts;
+        private readonly ConcurrentDictionary<ulong, GameConnection> _accounts;
 
         public AccountManager()
         {
@@ -19,7 +21,10 @@ namespace AAEmu.Game.Core.Managers
         public void Add(GameConnection connection)
         {
             if (_accounts.ContainsKey(connection.AccountId))
+            {
                 return;
+            }
+
             _accounts.TryAdd(connection.AccountId, connection);
         }
 

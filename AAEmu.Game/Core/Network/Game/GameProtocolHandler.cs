@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Text;
+
 using AAEmu.Commons.Cryptography;
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Network.Connections;
+
 using NLog;
 
 namespace AAEmu.Game.Core.Network.Game
 {
     public class GameProtocolHandler : BaseProtocolHandler
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private ConcurrentDictionary<byte, ConcurrentDictionary<uint, Type>> _packets;
+        private readonly ConcurrentDictionary<byte, ConcurrentDictionary<uint, Type>> _packets;
 
         public GameProtocolHandler()
         {
@@ -35,7 +37,7 @@ namespace AAEmu.Game.Core.Network.Game
                 con.OnConnect();
                 GameConnectionTable.Instance.AddConnection(con);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 session.Close();
                 _log.Error(e);
@@ -49,8 +51,8 @@ namespace AAEmu.Game.Core.Network.Game
                 var con = GameConnectionTable.Instance.GetConnection(session.Id);
                 if (con != null)
                 {
-//                    if(con.ActiveChar != null)
-//                        ObjectIdManager.Instance.ReleaseId(con.ActiveChar.BcId);
+                    //                    if(con.ActiveChar != null)
+                    //                        ObjectIdManager.Instance.ReleaseId(con.ActiveChar.BcId);
                     con.OnDisconnect();
                     StreamManager.Instance.RemoveToken(con.Id);
                     GameConnectionTable.Instance.RemoveConnection(session.Id);
@@ -70,18 +72,20 @@ namespace AAEmu.Game.Core.Network.Game
             try
             {
                 var connection = GameConnectionTable.Instance.GetConnection(session.Id);
-                if(connection == null)
+                if (connection == null)
+                {
                     return;
+                }
+
                 OnReceive(connection, buf, bytes);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 session.Close();
                 _log.Error(e);
             }
         }
 
-        internal uint m_numPck;
         // получаем пакеты от клиента
         public void OnReceive(GameConnection connection, byte[] buf, int bytes)
         {
@@ -89,7 +93,7 @@ namespace AAEmu.Game.Core.Network.Game
             try
             {
                 var stream = new PacketStream();
-                if(connection.LastPacket != null)
+                if (connection.LastPacket != null)
                 {
                     stream.Insert(0, connection.LastPacket);
                     connection.LastPacket = null;
@@ -103,7 +107,7 @@ namespace AAEmu.Game.Core.Network.Game
                     {
                         len = stream.ReadUInt16();
                     }
-                    catch(MarshalException)
+                    catch (MarshalException)
                     {
                         //_log.Warn("Error on reading type {0}", type);
                         stream.Rollback();
@@ -112,12 +116,12 @@ namespace AAEmu.Game.Core.Network.Game
                         continue;
                     }
                     var packetLen = len + stream.Pos;
-                    if(packetLen <= stream.Count)
+                    if (packetLen <= stream.Count)
                     {
                         stream.Rollback();
                         var stream2 = new PacketStream();
                         stream2.Replace(stream, 0, packetLen);
-                        if(stream.Count > packetLen)
+                        if (stream.Count > packetLen)
                         {
                             var stream3 = new PacketStream();
                             stream3.Replace(stream, packetLen, stream.Count - packetLen);
@@ -145,10 +149,8 @@ namespace AAEmu.Game.Core.Network.Game
                             //------------------------------
                             var input = new byte[stream2.Count - 2];
                             Buffer.BlockCopy(stream2, 2, input, 0, stream2.Count - 2);
-                            var output = DecryptCs.Decode(input, GameConnection.CryptRsa.XorKey, GameConnection.CryptRsa.AesKey, GameConnection.CryptRsa.Iv, m_numPck);
-                            m_numPck++; //увеличим номер пакета от клиента
+                            var output = EncryptionManager.Instance.Decode(input, connection.Id, connection.AccountId);
                             var OutBytes = new byte[output.Length + 5];
-                            //Buffer.BlockCopy(stream2, offset, OutBytes, 0, 5); // скопируем (ushort)len, 0005 
                             Buffer.BlockCopy(stream2, 0, OutBytes, 0, 5);
                             Buffer.BlockCopy(output, 1, OutBytes, 5, output.Length - 1); // сформируем полный расшифрованные пакет
                             // заменим шифрованные данные на дешифрованные
@@ -156,12 +158,11 @@ namespace AAEmu.Game.Core.Network.Game
                             strm.Write(OutBytes);
                             stream2.Replace(strm, 0, OutBytes.Length);
                             stream2.ReadUInt16();
-                            //------------------------------
                         }
                         type = stream2.ReadUInt16();
 
                         _packets[level].TryGetValue(type, out var classType);
-                        if(classType == null)
+                        if (classType == null)
                         {
                             HandleUnknownPacket(connection, type, level, stream2);
                         }
@@ -181,7 +182,7 @@ namespace AAEmu.Game.Core.Network.Game
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 connection?.Shutdown();
                 _log.Error(e);
@@ -204,7 +205,7 @@ namespace AAEmu.Game.Core.Network.Game
             {
                 dump.AppendFormat("{0:x2} ", stream.Buffer[i]);
             }
-            _log.Error("Unknown packet 0x{0:x2}({3}) from {1}:\n{2}", (object)type, (object)connection.Ip, (object)dump, level);
+            _log.Error("Unknown packet 0x{0:x2}({3}) from {1}:\n{2}", type, connection.Ip, dump, level);
         }
     }
 }

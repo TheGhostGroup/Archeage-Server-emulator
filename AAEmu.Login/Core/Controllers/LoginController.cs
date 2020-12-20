@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using AAEmu.Commons.Utils;
 using AAEmu.Login.Core.Network.Connections;
 using AAEmu.Login.Core.Packets.L2C;
 using AAEmu.Login.Core.Packets.L2G;
 using AAEmu.Login.Models;
 using AAEmu.Login.Utils;
+
 using MySql.Data.MySqlClient;
+
 using NLog;
 
 namespace AAEmu.Login.Core.Controllers
 {
     public class LoginController : Singleton<LoginController>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private Dictionary<byte, Dictionary<uint, ulong>> _tokens; // gsId, [token, accountId]
-        private static bool _autoAccount = AppConfiguration.Instance.AutoAccount;
+        private readonly Dictionary<byte, Dictionary<uint, ulong>> _tokens; // gsId, [token, accountId]
+        private static readonly bool _autoAccount = AppConfiguration.Instance.AutoAccount;
 
         protected LoginController()
         {

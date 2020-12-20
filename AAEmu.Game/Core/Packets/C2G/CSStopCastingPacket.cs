@@ -17,7 +17,10 @@ namespace AAEmu.Game.Core.Packets.C2G
 
             if (Connection.ActiveChar.ObjId != objId || Connection.ActiveChar.SkillTask == null ||
                 Connection.ActiveChar.SkillTask.Skill.TlId != tl)
+            {
                 return;
+            }
+
             await Connection.ActiveChar.SkillTask.Cancel();
             Connection.ActiveChar.SkillTask.Skill.Stop(Connection.ActiveChar);
         }

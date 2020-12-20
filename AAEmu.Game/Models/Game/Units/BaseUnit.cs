@@ -81,7 +81,9 @@ namespace AAEmu.Game.Models.Game.Units
         public virtual SkillTargetRelation GetRelationTo(BaseUnit other)
         {
             if (Faction.Id == other.Faction.Id)
+            {
                 return SkillTargetRelation.Friendly;
+            }
 
             var relation = other.Faction.GetRelationState(Faction.Id);
             switch (relation)

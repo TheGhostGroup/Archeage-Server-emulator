@@ -28,7 +28,7 @@ namespace AAEmu.Game.Models.Game.AI
                     var gimmick = (Gimmick)Owner;
                     if (gimmick.Patrol != null) { return; }
 
-                    var quill = new QuillZ { Interrupt = false, Loop = true, Abandon = false};
+                    var quill = new QuillZ { Interrupt = false, Loop = true, Abandon = false };
                     patrol = quill;
                     patrol.Pause(gimmick);
                     gimmick.Patrol = patrol;

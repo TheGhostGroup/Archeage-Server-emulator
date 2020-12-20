@@ -69,8 +69,10 @@ namespace AAEmu.Game.Models.Game.Char
 
         public bool SendMail(byte type, string receiverName, string senderName, string title, string text, byte attachments, int money0, int money1, int money2, long extra, List<(Items.SlotType, byte)> itemSlots)
         {
-            var mailTemplate = new Mail();
-            mailTemplate.Id = MailManager.Instance.highestMailID += 1;
+            var mailTemplate = new Mail
+            {
+                Id = MailManager.Instance.highestMailID += 1
+            };
             uint senderId;
             uint receiverId;
 
@@ -207,10 +209,12 @@ namespace AAEmu.Game.Models.Game.Char
                             if (Self.Inventory.Bag.FreeSlotCount > 0)
                             {
                                 Self.Inventory.Bag.AddOrMoveExistingItem(ItemTaskType.Mail, itemAttachment);
-                                var iial = new ItemIdAndLocation();
-                                iial.Id = itemAttachment.Id;
-                                iial.SlotType = itemAttachment.SlotType;
-                                iial.Slot = (byte)itemAttachment.Slot;
+                                var iial = new ItemIdAndLocation
+                                {
+                                    Id = itemAttachment.Id,
+                                    SlotType = itemAttachment.SlotType,
+                                    Slot = (byte)itemAttachment.Slot
+                                };
                                 itemSlotList.Add(iial);
                                 //itemSlotList.Add((itemAttachment.SlotType, (byte)itemAttachment.Slot));
                                 //itemIDList.Add(itemAttachment.Id);

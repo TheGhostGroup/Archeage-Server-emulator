@@ -27,7 +27,10 @@ namespace AAEmu.Game.Core.Packets.C2G
             var flag = stream.ReadByte();
             var flagType = flag & 15;
             var skillObject = SkillObject.GetByType((SkillObjectType)flagType);
-            if (flagType > 0) skillObject.Read(stream);
+            if (flagType > 0)
+            {
+                skillObject.Read(stream);
+            }
 
             _log.Debug("StartSkill: Id {0}, flag {1}", skillId, flag);
 
@@ -40,7 +43,10 @@ namespace AAEmu.Game.Core.Packets.C2G
             {
                 var item = Connection.ActiveChar.Inventory.GetItemById(((CasterEffectBuff)skillCaster).ItemId);
                 if (item == null || skillId != item.Template.UseSkillId)
+                {
                     return;
+                }
+
                 Connection.ActiveChar.Quests.OnItemUse(item);
                 var skill = new Skill(SkillManager.Instance.GetSkillTemplate(skillId));
                 skill.Use(Connection.ActiveChar, skillCaster, skillCastTarget, skillObject);
@@ -56,7 +62,9 @@ namespace AAEmu.Game.Core.Packets.C2G
                 skill.Use(Connection.ActiveChar, skillCaster, skillCastTarget, skillObject);
             }
             else
+            {
                 _log.Warn("StartSkill: Id {0}, undefined use type", skillId);
+            }
         }
     }
 }

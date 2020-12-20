@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+
 using AAEmu.Game.Core.Packets.G2C;
+
 using MySql.Data.MySqlClient;
+
 using NLog;
 
 namespace AAEmu.Game.Models.Game.Char
@@ -8,7 +11,7 @@ namespace AAEmu.Game.Models.Game.Char
     public class CharacterAppellations
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        
+
         public List<uint> Appellations { get; set; }
         public uint ActiveAppellation { get; set; }
 
@@ -64,7 +67,9 @@ namespace AAEmu.Game.Models.Game.Char
                 var result = new (uint, bool)[Appellations.Count - i <= 512 ? Appellations.Count - i : 512];
 
                 for (var j = 0; j < result.Length; j++)
+                {
                     result[j] = (Appellations[i + j], Appellations[i + j] == ActiveAppellation);
+                }
 
                 Owner.SendPacket(new SCAppellationsPacket(result));
             }
@@ -85,7 +90,9 @@ namespace AAEmu.Game.Models.Game.Char
 
                         Appellations.Add(id);
                         if (active)
+                        {
                             ActiveAppellation = id; // TODO нужно повесить баф
+                        }
                     }
                 }
             }

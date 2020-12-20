@@ -10,7 +10,7 @@ namespace AAEmu.Game.Models.Game.Items.Actions
         {
             stream.Write(_type);
             stream.Write(_type); // tLogt
-            
+
             return stream;
         }
     }

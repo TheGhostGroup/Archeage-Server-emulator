@@ -1,12 +1,13 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+
 using AAEmu.Commons.Utils;
 
 namespace AAEmu.Game.Core.Network.Connections
 {
     public class StreamConnectionTable : Singleton<StreamConnectionTable>
     {
-        private ConcurrentDictionary<uint, StreamConnection> _connections;
+        private readonly ConcurrentDictionary<uint, StreamConnection> _connections;
 
         private StreamConnectionTable()
         {

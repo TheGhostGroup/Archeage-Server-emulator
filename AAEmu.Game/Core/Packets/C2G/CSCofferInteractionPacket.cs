@@ -13,7 +13,7 @@ namespace AAEmu.Game.Core.Packets.C2G
         {
             var cofferDbDoodadId = stream.ReadBc();
             var start = stream.ReadBoolean();
-            
+
             _log.Warn("CofferInteraction, cofferDbDoodadId: {0}, start: {1}", cofferDbDoodadId, start);
         }
     }

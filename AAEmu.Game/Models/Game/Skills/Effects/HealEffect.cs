@@ -1,4 +1,5 @@
 ﻿using System;
+
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Skills.Templates;
@@ -35,7 +36,10 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             _log.Debug("HealEffect");
 
             if (!(target is Unit))
+            {
                 return;
+            }
+
             var trg = (Unit)target;
             var min = 0;
             var max = 0;
@@ -52,7 +56,10 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             {
                 skillLevel = (skill.Level - 1) * skill.Template.LevelStep + skill.Template.AbilityLevel;
                 if (skillLevel >= skill.Template.AbilityLevel)
+                {
                     unk = 0.15f * (skillLevel - skill.Template.AbilityLevel + 1);
+                }
+
                 unk2 = (1 + unk) * 1.3f;
             }
 

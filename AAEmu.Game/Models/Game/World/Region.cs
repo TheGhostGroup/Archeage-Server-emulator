@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Char;
@@ -19,7 +18,7 @@ namespace AAEmu.Game.Models.Game.World
 {
     public class Region
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private readonly uint _worldId;
         private readonly object _objectsLock = new object();
@@ -198,7 +197,7 @@ namespace AAEmu.Game.Models.Game.World
                             // Stop NPCs that players don't see
                             npc.IsInPatrol = false;
                             //npc.Patrol = null;
-                            //npc.Patrol?.Stop(npc);
+                            //npc.Patrol.Pause(npc);
                             npc.RemoveVisibleObject(character);
                             break;
                         case Gimmick gimmick:
@@ -223,10 +222,10 @@ namespace AAEmu.Game.Models.Game.World
                     character.CurrentTarget = null;
                     character.SendPacket(new SCTargetChangedPacket(character.ObjId, 0));
                 }
-                for (var offset = 0; offset < unitIds.Length; offset += 500)
+                for (var offset = 0; offset < unitIds.Length; offset += 350)
                 {
                     var length = unitIds.Length - offset;
-                    var temp = new uint[length > 500 ? 500 : length];
+                    var temp = new uint[length > 350 ? 350 : length];
                     Array.Copy(unitIds, offset, temp, 0, temp.Length);
                     character.SendPacket(new SCUnitsRemovedPacket(temp));
                 }

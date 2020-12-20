@@ -23,7 +23,7 @@ namespace AAEmu.Game.Core.Managers
 {
     public class ItemManager : Singleton<ItemManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<int, GradeTemplate> _grades;
         private Dictionary<uint, Holdable> _holdables;
@@ -158,13 +158,15 @@ namespace AAEmu.Game.Core.Managers
                 {
                     if (lootPacks[uii].DropRate + dropRateItemId >= dropRateItem)
                     {
-                        Item item = new Item();
-                        item.TemplateId = lootPacks[uii].ItemId;
-                        item.WorldId = 1;
-                        item.CreateTime = DateTime.Now;
-                        item.Id = ++itemId;
-                        item.MadeUnitId = npcId;
-                        item.Count = Rand.Next(lootPacks[uii].MinAmount, lootPacks[uii].MaxAmount);
+                        Item item = new Item
+                        {
+                            TemplateId = lootPacks[uii].ItemId,
+                            WorldId = 1,
+                            CreateTime = DateTime.Now,
+                            Id = ++itemId,
+                            MadeUnitId = npcId,
+                            Count = Rand.Next(lootPacks[uii].MinAmount, lootPacks[uii].MaxAmount)
+                        };
                         items.Add(item);
                         break;
                     }
@@ -419,7 +421,7 @@ namespace AAEmu.Game.Core.Managers
 
         public Item Create(uint templateId, int count, byte grade, bool generateId = true)
         {
-            var id = generateId ? ItemManager.Instance.GetNewId() : 0u;
+            var id = generateId ? Instance.GetNewId() : 0u;
             var template = GetTemplate(templateId);
             if (template == null)
             {
@@ -527,10 +529,12 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ItemLookConvert();
-                            template.Id = reader.GetUInt32("item_look_convert_id");
-                            template.RequiredItemId = reader.GetUInt32("item_id");
-                            template.RequiredItemCount = reader.GetInt32("item_count");
+                            var template = new ItemLookConvert
+                            {
+                                Id = reader.GetUInt32("item_look_convert_id"),
+                                RequiredItemId = reader.GetUInt32("item_id"),
+                                RequiredItemCount = reader.GetInt32("item_count")
+                            };
                             if (!_itemLookConverts.ContainsKey(template.Id))
                             {
                                 _itemLookConverts.Add(template.Id, template);
@@ -587,18 +591,20 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new GradeTemplate();
-                            template.Grade = reader.GetInt32("id");
-                            template.GradeOrder = reader.GetInt32("grade_order");
-                            template.HoldableDps = reader.GetFloat("var_holdable_dps");
-                            template.HoldableArmor = reader.GetFloat("var_holdable_armor");
-                            template.HoldableMagicDps = reader.GetFloat("var_holdable_magic_dps");
-                            template.WearableArmor = reader.GetFloat("var_wearable_armor");
-                            template.WearableMagicResistance = reader.GetFloat("var_wearable_magic_resistance");
-                            template.Durability = reader.GetFloat("durability_value");
-                            template.UpgradeRatio = reader.GetInt32("upgrade_ratio");
-                            template.StatMultiplier = reader.GetInt32("stat_multiplier");
-                            template.RefundMultiplier = reader.GetInt32("refund_multiplier");
+                            var template = new GradeTemplate
+                            {
+                                Grade = reader.GetInt32("id"),
+                                GradeOrder = reader.GetInt32("grade_order"),
+                                HoldableDps = reader.GetFloat("var_holdable_dps"),
+                                HoldableArmor = reader.GetFloat("var_holdable_armor"),
+                                HoldableMagicDps = reader.GetFloat("var_holdable_magic_dps"),
+                                WearableArmor = reader.GetFloat("var_wearable_armor"),
+                                WearableMagicResistance = reader.GetFloat("var_wearable_magic_resistance"),
+                                Durability = reader.GetFloat("durability_value"),
+                                UpgradeRatio = reader.GetInt32("upgrade_ratio"),
+                                StatMultiplier = reader.GetInt32("stat_multiplier"),
+                                RefundMultiplier = reader.GetInt32("refund_multiplier")
+                            };
                             //template.EnchantSuccessRatio = reader.GetInt32("grade_enchant_success_ratio"); // there is no such field in the database for version 3030
                             //template.EnchantGreatSuccessRatio = reader.GetInt32("grade_enchant_great_success_ratio"); // there is no such field in the database for version 3030
                             //template.EnchantBreakRatio = reader.GetInt32("grade_enchant_break_ratio"); // there is no such field in the database for version 3030
@@ -624,28 +630,30 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new Holdable();
-                            template.Id = reader.GetUInt32("id");
-                            //template.KindId = reader.GetUInt32("kind_id");
-                            template.Speed = reader.GetInt32("speed");
-                            template.ExtraDamagePierceFactor = reader.GetInt32("extra_damage_pierce_factor");
-                            template.ExtraDamageSlashFactor = reader.GetInt32("extra_damage_slash_factor");
-                            template.ExtraDamageBluntFactor = reader.GetInt32("extra_damage_blunt_factor");
-                            template.MaxRange = reader.GetInt32("max_range");
-                            template.Angle = reader.GetInt32("angle");
-                            template.EnchantedDps1000 = reader.GetInt32("enchanted_dps1000");
-                            template.SlotTypeId = reader.GetUInt32("slot_type_id");
-                            template.DamageScale = reader.GetInt32("damage_scale");
-                            template.FormulaDps = new Formula(reader.GetString("formula_dps"));
-                            template.FormulaMDps = new Formula(reader.GetString("formula_mdps"));
-                            template.FormulaArmor = new Formula(reader.GetString("formula_armor"));
-                            template.MinRange = reader.GetInt32("min_range");
-                            template.SheathePriority = reader.GetInt32("sheathe_priority");
-                            template.DurabilityRatio = reader.GetFloat("durability_ratio");
-                            template.RenewCategory = reader.GetInt32("renew_category");
-                            template.ItemProcId = reader.GetInt32("item_proc_id");
-                            template.StatMultiplier = reader.GetInt32("stat_multiplier");
-                            template.FormulaHDps = new Formula(reader.GetString("formula_hdps"));
+                            var template = new Holdable
+                            {
+                                Id = reader.GetUInt32("id"),
+                                //template.KindId = reader.GetUInt32("kind_id");
+                                Speed = reader.GetInt32("speed"),
+                                ExtraDamagePierceFactor = reader.GetInt32("extra_damage_pierce_factor"),
+                                ExtraDamageSlashFactor = reader.GetInt32("extra_damage_slash_factor"),
+                                ExtraDamageBluntFactor = reader.GetInt32("extra_damage_blunt_factor"),
+                                MaxRange = reader.GetInt32("max_range"),
+                                Angle = reader.GetInt32("angle"),
+                                EnchantedDps1000 = reader.GetInt32("enchanted_dps1000"),
+                                SlotTypeId = reader.GetUInt32("slot_type_id"),
+                                DamageScale = reader.GetInt32("damage_scale"),
+                                FormulaDps = new Formula(reader.GetString("formula_dps")),
+                                FormulaMDps = new Formula(reader.GetString("formula_mdps")),
+                                FormulaArmor = new Formula(reader.GetString("formula_armor")),
+                                MinRange = reader.GetInt32("min_range"),
+                                SheathePriority = reader.GetInt32("sheathe_priority"),
+                                DurabilityRatio = reader.GetFloat("durability_ratio"),
+                                RenewCategory = reader.GetInt32("renew_category"),
+                                ItemProcId = reader.GetInt32("item_proc_id"),
+                                StatMultiplier = reader.GetInt32("stat_multiplier"),
+                                FormulaHDps = new Formula(reader.GetString("formula_hdps"))
+                            };
 
                             _holdables.Add(template.Id, template);
                         }
@@ -662,10 +670,12 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new Wearable();
-                            template.TypeId = reader.GetUInt32("armor_type_id");
-                            template.SlotTypeId = reader.GetUInt32("slot_type_id");
-                            template.ArmorBp = reader.GetInt32("armor_bp");
+                            var template = new Wearable
+                            {
+                                TypeId = reader.GetUInt32("armor_type_id"),
+                                SlotTypeId = reader.GetUInt32("slot_type_id"),
+                                ArmorBp = reader.GetInt32("armor_bp")
+                            };
                             //template.MagicResistanceBp = reader.GetInt32("magic_resistance_bp"); // there is no such field in the database for version 3030
                             _wearables.Add(template.TypeId * 128 + template.SlotTypeId, template);
                         }
@@ -681,16 +691,18 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new WearableKind();
-                            template.TypeId = reader.GetUInt32("armor_type_id");
-                            //template.ArmorRatio = reader.GetInt32("armor_ratio"); // there is no such field in the database for version 3030
-                            //template.MagicResistanceRatio = reader.GetInt32("magic_resistance_ratio"); // there is no such field in the database for version 3030
-                            template.FullBufId = reader.GetUInt32("full_buff_id");
-                            template.HalfBufId = reader.GetUInt32("half_buff_id");
-                            template.ExtraDamagePierce = reader.GetInt32("extra_damage_pierce");
-                            template.ExtraDamageSlash = reader.GetInt32("extra_damage_slash");
-                            template.ExtraDamageBlunt = reader.GetInt32("extra_damage_blunt");
-                            template.DurabilityRatio = reader.GetFloat("durability_ratio");
+                            var template = new WearableKind
+                            {
+                                TypeId = reader.GetUInt32("armor_type_id"),
+                                //template.ArmorRatio = reader.GetInt32("armor_ratio"); // there is no such field in the database for version 3030
+                                //template.MagicResistanceRatio = reader.GetInt32("magic_resistance_ratio"); // there is no such field in the database for version 3030
+                                FullBufId = reader.GetUInt32("full_buff_id"),
+                                HalfBufId = reader.GetUInt32("half_buff_id"),
+                                ExtraDamagePierce = reader.GetInt32("extra_damage_pierce"),
+                                ExtraDamageSlash = reader.GetInt32("extra_damage_slash"),
+                                ExtraDamageBlunt = reader.GetInt32("extra_damage_blunt"),
+                                DurabilityRatio = reader.GetFloat("durability_ratio")
+                            };
                             _wearableKinds.Add(template.TypeId, template);
                         }
                     }
@@ -751,21 +763,23 @@ namespace AAEmu.Game.Core.Managers
                             var slotTypeId = reader.GetUInt32("slot_type_id");
                             var typeId = reader.GetUInt32("type_id");
 
-                            var template = new ArmorTemplate();
-                            template.Id = reader.GetUInt32("item_id");
-                            template.WearableTemplate = _wearables[typeId * 128 + slotTypeId];
-                            template.KindTemplate = _wearableKinds[typeId];
-                            template.SlotTemplate = _wearableSlots[slotTypeId];
-                            template.BaseEnchantable = reader.GetBoolean("base_enchantable", true);
-                            template.ModSetId = reader.GetUInt32("mod_set_id", 0);
-                            template.EquipSetId = reader.GetUInt32("eiset_id", 0);
-                            template.Repairable = reader.GetBoolean("repairable", true);
-                            template.DurabilityMultiplier = reader.GetInt32("durability_multiplier");
-                            template.BaseEquipment = reader.GetBoolean("base_equipment", true);
-                            template.RechargeBuffId = reader.GetUInt32("recharge_buff_id", 0);
-                            template.ChargeLifetime = reader.GetInt32("charge_lifetime");
-                            template.ChargeCount = reader.GetInt32("charge_count");
-                            template.ItemLookConvert = GetWearableItemLookConvert(slotTypeId);
+                            var template = new ArmorTemplate
+                            {
+                                Id = reader.GetUInt32("item_id"),
+                                WearableTemplate = _wearables[typeId * 128 + slotTypeId],
+                                KindTemplate = _wearableKinds[typeId],
+                                SlotTemplate = _wearableSlots[slotTypeId],
+                                BaseEnchantable = reader.GetBoolean("base_enchantable", true),
+                                ModSetId = reader.GetUInt32("mod_set_id", 0),
+                                EquipSetId = reader.GetUInt32("eiset_id", 0),
+                                Repairable = reader.GetBoolean("repairable", true),
+                                DurabilityMultiplier = reader.GetInt32("durability_multiplier"),
+                                BaseEquipment = reader.GetBoolean("base_equipment", true),
+                                RechargeBuffId = reader.GetUInt32("recharge_buff_id", 0),
+                                ChargeLifetime = reader.GetInt32("charge_lifetime"),
+                                ChargeCount = reader.GetInt32("charge_count"),
+                                ItemLookConvert = GetWearableItemLookConvert(slotTypeId)
+                            };
                             _templates.Add(template.Id, template);
                         }
                     }
@@ -870,31 +884,32 @@ namespace AAEmu.Game.Core.Managers
                     }
                 }
 
-                //using (var command = connection.CreateCommand()) // there is no in the database for version 3030
-                //{
-                //    command.CommandText = "SELECT * FROM item_body_parts";
-                //    command.Prepare();
-                //    using (var sqliteReader = command.ExecuteReader())
-                //    using (var reader = new SQLiteWrapperReader(sqliteReader))
-                //    {
-                //        while (reader.Read())
-                //        {
-                //            if (reader.IsDBNull("item_id"))
-                //            {
-                //                continue;
-                //            }
+                using (var command = connection.CreateCommand()) // there is no in the database for version 3030
+                {
+                    command.CommandText = "SELECT * FROM item_body_parts";
+                    command.Prepare();
+                    using (var sqliteReader = command.ExecuteReader())
+                    using (var reader = new SQLiteWrapperReader(sqliteReader))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.IsDBNull("item_id"))
+                            {
+                                continue;
+                            }
 
-                //            var template = new BodyPartTemplate
-                //            {
-                //                Id = reader.GetUInt32("item_id"),
-                //                ModelId = reader.GetUInt32("model_id"),
-                //                NpcOnly = reader.GetBoolean("npc_only", true),
-                //                BeautyShopOnly = reader.GetBoolean("beautyshop_only", true)
-                //            };
-                //            _templates.Add(template.Id, template);
-                //        }
-                //    }
-                //}
+                            var template = new BodyPartTemplate
+                            {
+                                Id = reader.GetUInt32("item_id"),
+                                ModelId = reader.GetUInt32("model_id"),
+                                NpcOnly = reader.GetBoolean("npc_only", true),
+                                SlotTypeId = reader.GetUInt32("slot_type_id")
+                                //BeautyShopOnly = reader.GetBoolean("beautyshop_only", true)
+                            };
+                            _templates.Add(template.Id, template);
+                        }
+                    }
+                }
 
                 using (var command = connection.CreateCommand())
                 {
@@ -1001,11 +1016,13 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new EquipSlotEnchantingCost();
-                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
-                            template.Id = step++;
-                            template.SlotTypeId = reader.GetUInt32("slot_type_id");
-                            template.Cost = reader.GetInt32("cost");
+                            var template = new EquipSlotEnchantingCost
+                            {
+                                //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                                Id = step++,
+                                SlotTypeId = reader.GetUInt32("slot_type_id"),
+                                Cost = reader.GetInt32("cost")
+                            };
                             if (!_enchantingCosts.ContainsKey(template.SlotTypeId))
                             {
                                 _enchantingCosts.Add(template.SlotTypeId, template);
@@ -1023,12 +1040,14 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new EquipItemSetBonusesTemplate();
-                            template.Id = reader.GetUInt32("id");
-                            template.SetId = reader.GetUInt32("equip_item_set_id");
-                            template.NumPieces = reader.GetUInt32("num_pieces");
-                            template.BuffId = reader.GetUInt32("buff_id", 0);
-                            template.ProcId = reader.GetUInt32("proc_id", 0);
+                            var template = new EquipItemSetBonusesTemplate
+                            {
+                                Id = reader.GetUInt32("id"),
+                                SetId = reader.GetUInt32("equip_item_set_id"),
+                                NumPieces = reader.GetUInt32("num_pieces"),
+                                BuffId = reader.GetUInt32("buff_id", 0),
+                                ProcId = reader.GetUInt32("proc_id", 0)
+                            };
 
                             if (!_itemSetBonuses.ContainsKey(template.SetId))
                             {
@@ -1054,21 +1073,23 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new ItemGradeEnchantingSupport();
-                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
-                            template.Id = step++;
-                            template.ItemId = reader.GetUInt32("item_id");
-                            template.RequireGradeMin = reader.GetInt32("require_grade_min");
-                            template.RequireGradeMax = reader.GetInt32("require_grade_max");
-                            template.AddSuccessRatio = reader.GetInt32("add_success_ratio");
-                            template.AddSuccessMul = reader.GetInt32("add_success_mul");
-                            template.AddGreatSuccessRatio = reader.GetInt32("add_great_success_ratio");
-                            template.AddGreatSuccessMul = reader.GetInt32("add_great_success_mul");
-                            template.AddBreakRatio = reader.GetInt32("add_break_ratio");
-                            template.AddBreakMul = reader.GetInt32("add_break_mul");
-                            template.AddDowngradeRatio = reader.GetInt32("add_downgrade_ratio");
-                            template.AddDowngradeMul = reader.GetInt32("add_downgrade_mul");
-                            template.AddGreatSuccessGrade = reader.GetInt32("add_great_success_grade");
+                            var template = new ItemGradeEnchantingSupport
+                            {
+                                //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                                Id = step++,
+                                ItemId = reader.GetUInt32("item_id"),
+                                RequireGradeMin = reader.GetInt32("require_grade_min"),
+                                RequireGradeMax = reader.GetInt32("require_grade_max"),
+                                AddSuccessRatio = reader.GetInt32("add_success_ratio"),
+                                AddSuccessMul = reader.GetInt32("add_success_mul"),
+                                AddGreatSuccessRatio = reader.GetInt32("add_great_success_ratio"),
+                                AddGreatSuccessMul = reader.GetInt32("add_great_success_mul"),
+                                AddBreakRatio = reader.GetInt32("add_break_ratio"),
+                                AddBreakMul = reader.GetInt32("add_break_mul"),
+                                AddDowngradeRatio = reader.GetInt32("add_downgrade_ratio"),
+                                AddDowngradeMul = reader.GetInt32("add_downgrade_mul"),
+                                AddGreatSuccessGrade = reader.GetInt32("add_great_success_grade")
+                            };
 
                             if (!_enchantingSupports.ContainsKey(template.ItemId))
                             {
@@ -1088,12 +1109,14 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new ItemCapScale();
-                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
-                            template.Id = step++;
-                            template.SkillId = reader.GetUInt32("skill_id");
-                            template.ScaleMin = reader.GetInt32("scale_min");
-                            template.ScaleMax = reader.GetInt32("scale_max");
+                            var template = new ItemCapScale
+                            {
+                                //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                                Id = step++,
+                                SkillId = reader.GetUInt32("skill_id"),
+                                ScaleMin = reader.GetInt32("scale_min"),
+                                ScaleMax = reader.GetInt32("scale_max")
+                            };
 
                             if (!_itemCapScales.ContainsKey(template.SkillId))
                             {
@@ -1112,11 +1135,13 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ItemGradeBuffTemplate();
-                            template.Id = reader.GetUInt32("id");
-                            template.ItemId = reader.GetUInt32("item_id");
-                            template.ItemGradeId = reader.GetUInt32("item_grade_id");
-                            template.BuffId = reader.GetUInt32("buff_id");
+                            var template = new ItemGradeBuffTemplate
+                            {
+                                Id = reader.GetUInt32("id"),
+                                ItemId = reader.GetUInt32("item_id"),
+                                ItemGradeId = reader.GetUInt32("item_grade_id"),
+                                BuffId = reader.GetUInt32("buff_id")
+                            };
 
                             if (!_itemGradeBuffs.ContainsKey(template.ItemId))
                             {
@@ -1136,11 +1161,13 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ArmorGradeBuffTemplate();
-                            template.Id = reader.GetUInt32("id");
-                            template.ArmorTypeId = reader.GetUInt32("armor_type_id");
-                            template.GradeId = reader.GetUInt32("item_grade_id");
-                            template.BuffId = reader.GetUInt32("buff_id");
+                            var template = new ArmorGradeBuffTemplate
+                            {
+                                Id = reader.GetUInt32("id"),
+                                ArmorTypeId = reader.GetUInt32("armor_type_id"),
+                                GradeId = reader.GetUInt32("item_grade_id"),
+                                BuffId = reader.GetUInt32("buff_id")
+                            };
 
                             if (!_armorGradeBuffs.ContainsKey(template.ArmorTypeId))
                             {
@@ -1160,16 +1187,18 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new LootPacks();
-                            template.Id = reader.GetUInt32("id");
-                            template.Group = reader.GetInt32("group");
-                            template.ItemId = reader.GetUInt32("item_id");
-                            template.DropRate = reader.GetUInt32("drop_rate");
-                            template.MinAmount = reader.GetInt32("min_amount");
-                            template.MaxAmount = reader.GetInt32("max_amount");
-                            template.LootPackId = reader.GetUInt32("loot_pack_id");
-                            template.GradeId = reader.GetByte("grade_id");
-                            template.AlwaysDrop = reader.GetBoolean("always_drop");
+                            var template = new LootPacks
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Group = reader.GetInt32("group"),
+                                ItemId = reader.GetUInt32("item_id"),
+                                DropRate = reader.GetUInt32("drop_rate"),
+                                MinAmount = reader.GetInt32("min_amount"),
+                                MaxAmount = reader.GetInt32("max_amount"),
+                                LootPackId = reader.GetUInt32("loot_pack_id"),
+                                GradeId = reader.GetByte("grade_id"),
+                                AlwaysDrop = reader.GetBoolean("always_drop")
+                            };
                             List<LootPacks> lootPacks;
                             if (_lootPacks.ContainsKey(template.LootPackId))
                             {
@@ -1194,12 +1223,14 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new LootGroups();
-                            template.Id = reader.GetUInt32("id");
-                            template.PackId = reader.GetUInt32("pack_id");
-                            template.GroupNo = reader.GetInt32("group_no");
-                            template.DropRate = reader.GetUInt32("drop_rate");
-                            template.ItemGradeDistributionId = reader.GetByte("item_grade_distribution_id");
+                            var template = new LootGroups
+                            {
+                                Id = reader.GetUInt32("id"),
+                                PackId = reader.GetUInt32("pack_id"),
+                                GroupNo = reader.GetInt32("group_no"),
+                                DropRate = reader.GetUInt32("drop_rate"),
+                                ItemGradeDistributionId = reader.GetByte("item_grade_distribution_id")
+                            };
                             List<LootGroups> lootGroups;
                             if (_lootGroups.ContainsKey(template.PackId))
                             {
@@ -1225,21 +1256,23 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new GradeDistributions();
-                            template.Id = reader.GetInt32("id");
-                            //template.Name = reader.GetString("name"); // there is no such field in the database for version 3030
-                            template.Weight0 = reader.GetInt32("weight_0");
-                            template.Weight1 = reader.GetInt32("weight_1");
-                            template.Weight2 = reader.GetInt32("weight_2");
-                            template.Weight3 = reader.GetInt32("weight_3");
-                            template.Weight4 = reader.GetInt32("weight_4");
-                            template.Weight5 = reader.GetInt32("weight_5");
-                            template.Weight6 = reader.GetInt32("weight_6");
-                            template.Weight7 = reader.GetInt32("weight_7");
-                            template.Weight8 = reader.GetInt32("weight_8");
-                            template.Weight9 = reader.GetInt32("weight_9");
-                            template.Weight10 = reader.GetInt32("weight_10");
-                            template.Weight11 = reader.GetInt32("weight_11");
+                            var template = new GradeDistributions
+                            {
+                                Id = reader.GetInt32("id"),
+                                //template.Name = reader.GetString("name"); // there is no such field in the database for version 3030
+                                Weight0 = reader.GetInt32("weight_0"),
+                                Weight1 = reader.GetInt32("weight_1"),
+                                Weight2 = reader.GetInt32("weight_2"),
+                                Weight3 = reader.GetInt32("weight_3"),
+                                Weight4 = reader.GetInt32("weight_4"),
+                                Weight5 = reader.GetInt32("weight_5"),
+                                Weight6 = reader.GetInt32("weight_6"),
+                                Weight7 = reader.GetInt32("weight_7"),
+                                Weight8 = reader.GetInt32("weight_8"),
+                                Weight9 = reader.GetInt32("weight_9"),
+                                Weight10 = reader.GetInt32("weight_10"),
+                                Weight11 = reader.GetInt32("weight_11")
+                            };
                             _itemGradeDistributions.Add(template.Id, template);
                         }
                     }
@@ -1253,11 +1286,13 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new LootPackDroppingNpc();
-                            template.Id = reader.GetUInt32("id");
-                            template.NpcId = reader.GetUInt32("npc_id");
-                            template.LootPackId = reader.GetUInt32("loot_pack_id");
-                            template.DefaultPack = reader.GetBoolean("default_pack");
+                            var template = new LootPackDroppingNpc
+                            {
+                                Id = reader.GetUInt32("id"),
+                                NpcId = reader.GetUInt32("npc_id"),
+                                LootPackId = reader.GetUInt32("loot_pack_id"),
+                                DefaultPack = reader.GetBoolean("default_pack")
+                            };
                             List<LootPackDroppingNpc> lootPackDroppingNpc;
                             if (_lootPackDroppingNpc.ContainsKey(template.NpcId))
                             {

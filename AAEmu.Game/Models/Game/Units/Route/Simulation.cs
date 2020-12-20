@@ -34,13 +34,13 @@ namespace AAEmu.Game.Models.Game.Units.Route
         public bool AbandonTo { get; set; } = false; // для прерывания repeat()
         // +++
         private float _maxVelocityForward;
-        private float _maxVelocityBackward;
-        private float _velAccel;
-        private float _angVel;
+        private readonly float _maxVelocityBackward;
+        private readonly float _velAccel;
+        private readonly float _angVel;
         private int Steering;
-        private float diffX;
-        private float diffY;
-        private float diffZ;
+        private readonly float diffX;
+        private readonly float diffY;
+        private readonly float diffZ;
 
         //
         public TransfersPathPoint pp;
@@ -84,8 +84,8 @@ namespace AAEmu.Game.Models.Game.Units.Route
         public string MoveFileExt = @".path";            // default extension
         public string MoveFileName = "";                 // default name
         private float _tempMovingDistance;
-        private float _rangeToCheckPoint = 0.5f; // distance to checkpoint at which it is considered that we have reached it
-        private int _moveTrigerDelay = 1000;     // triggering the timer for movement 1 sec
+        private readonly float _rangeToCheckPoint = 0.5f; // distance to checkpoint at which it is considered that we have reached it
+        private readonly int _moveTrigerDelay = 1000;     // triggering the timer for movement 1 sec
 
         //*******************************************************
         /*
@@ -933,14 +933,13 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 moveType.WorldPos = new WorldPos(npc.Pos.X, npc.Pos.Y, tmpZ);
 
                 moveType.Rot = new Quaternion(pp.RotationX, pp.RotationY, pp.RotationZ, 1);
-                moveType.Flags = pp.Flags;      // 5-walk, 4-run, 3-stand still
 
                 moveType.DeltaMovement = new Vector3(pp.ActorDeltaMovementX, pp.ActorDeltaMovementY, pp.ActorDeltaMovementZ);
 
-
-                moveType.Stance = pp.ActorStance;       // COMBAT = 0x0, IDLE = 0x1
-                moveType.Alertness = pp.ActorAlertness; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-                moveType.Time += 150;                   // has to change all the time for normal motion.
+                moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
+                moveType.Stance = pp.ActorStance;         // COMBAT = 0x0, IDLE = 0x1
+                moveType.Alertness = pp.ActorAlertness;   // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+                moveType.Time = Seq;                      // has to change all the time for normal motion.
                 // moving to the point #
                 npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
                 //RepeatMove(sim, npc, targetX, targetY, targetZ);
@@ -1183,19 +1182,18 @@ namespace AAEmu.Game.Models.Game.Units.Route
 
                 if (RunningMode)
                 {
-                    moveType.Flags = 4;      // 5-walk, 4-run, 3-stand still
+                    moveType.actorFlags = ActorMoveType.Run; // 5-walk, 4-run, 3-stand still
                 }
                 else
                 {
-                    moveType.Flags = 5;      // 5-walk, 4-run, 3-stand still
+                    moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
                 }
 
                 moveType.DeltaMovement = direction;
 
-
-                moveType.Stance = 1;     // COMBAT = 0x0, IDLE = 0x1
-                moveType.Alertness = 0;  // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-                moveType.Time += 100;    // has to change all the time for normal motion.
+                moveType.Stance = EStance.Idle;         // COMBAT = 0x0, IDLE = 0x1
+                moveType.Alertness = AiAlertness.Idle;  // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+                moveType.Time = Seq;                    // has to change all the time for normal motion.
                 if (move)
                 {
                     // moving to the point #
@@ -1221,7 +1219,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
 
                 // вектор направление на таргет (последовательность аргументов важно, чтобы смотреть на таргет)
                 vDistance = vTarget - vPosition; // dx, dy, dz
-                
+
                 // distance to the point where we are moving
                 Distance = MathUtil.GetDistance(vTarget, vPosition);
 
@@ -1241,10 +1239,10 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 }
 
                 _maxVelocityForward = 9.0f; // temporarily took a constant
-                
+
                 // accelerate to maximum speed
                 transfer.Speed += _velAccel * DeltaTime;
-                
+
                 //check that it is not more than the maximum forward or reverse speed
                 transfer.Speed = Math.Clamp(transfer.Speed, _maxVelocityBackward, _maxVelocityForward);
 
@@ -1267,8 +1265,11 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 var quat = MathUtil.ConvertRadianToDirectionShort(Angle);
                 transfer.Rot = new Quaternion(quat.X, quat.Z, quat.Y, quat.W);
 
+                //transfer.Velocity = new Vector3(diff.X * 21900, diff.Y * 21900, diff.Z * 21900);
+                transfer.Velocity = Vector3.Zero;
+
                 transfer.AngVel = new Vector3(0f, 0f, (float)Angle); // сюда записывать дельту, в радианах, угла поворота между начальным вектором и конечным
-                if (transfer.TemplateId == 49)
+                if (transfer.TemplateId == 49000)
                 {
                     // для проверки углов
                     var v1 = transfer.Position.RotationZ * 0.0078740157;
@@ -1286,7 +1287,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 if (!move)
                 {
                     //update class variables
-                    transfer.Velocity = vDistance;
+                    //transfer.Velocity = vDistance;
 
                     // update TransfersPath variable
                     transfer.PathPointIndex = MoveStepIndex; // текущая точка, куда движемся
@@ -1314,14 +1315,18 @@ namespace AAEmu.Game.Models.Game.Units.Route
         public Doodad SpawnFlag(float posX, float posY)
         {
             // spawn flag
-            var combatFlag = new DoodadSpawner();
-            combatFlag.Id = 0;
-            combatFlag.UnitId = 5014; // Combat Flag Id=5014;
-            combatFlag.Position = new Point();
-            combatFlag.Position.ZoneId = WorldManager.Instance.GetZoneId(1, posX, posY);
-            combatFlag.Position.WorldId = 1;
-            combatFlag.Position.X = posX;
-            combatFlag.Position.Y = posY;
+            var combatFlag = new DoodadSpawner
+            {
+                Id = 0,
+                UnitId = 5014, // Combat Flag Id=5014;
+                Position = new Point
+                {
+                    ZoneId = WorldManager.Instance.GetZoneId(1, posX, posY),
+                    WorldId = 1,
+                    X = posX,
+                    Y = posY
+                }
+            };
             combatFlag.Position.Z = WorldManager.Instance.GetHeight(combatFlag.Position.ZoneId, combatFlag.Position.X, combatFlag.Position.Y);
             return combatFlag.Spawn(0); // set CombatFlag
         }
@@ -1330,14 +1335,18 @@ namespace AAEmu.Game.Models.Game.Units.Route
         public Doodad SpawnFlag(Vector3 pos)
         {
             // spawn flag
-            var combatFlag = new DoodadSpawner();
-            combatFlag.Id = 0;
-            combatFlag.UnitId = 5014; // Combat Flag Id=5014;
-            combatFlag.Position = new Point();
-            combatFlag.Position.ZoneId = WorldManager.Instance.GetZoneId(1, pos.X, pos.Y);
-            combatFlag.Position.WorldId = 1;
-            combatFlag.Position.X = pos.X;
-            combatFlag.Position.Y = pos.Y;
+            var combatFlag = new DoodadSpawner
+            {
+                Id = 0,
+                UnitId = 5014, // Combat Flag Id=5014;
+                Position = new Point
+                {
+                    ZoneId = WorldManager.Instance.GetZoneId(1, pos.X, pos.Y),
+                    WorldId = 1,
+                    X = pos.X,
+                    Y = pos.Y
+                }
+            };
             combatFlag.Position.Z = WorldManager.Instance.GetHeight(combatFlag.Position.ZoneId, combatFlag.Position.X, combatFlag.Position.Y);
             return combatFlag.Spawn(0); // set CombatFlag
         }
@@ -1411,13 +1420,12 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 var rotation = (float)Math.Atan2(direction.Y, direction.X);
                 moveType.Rot = Quaternion.CreateFromAxisAngle(direction, rotation);
 
-                moveType.Flags = 5;
-
                 moveType.DeltaMovement = new Vector3();
 
-                moveType.Stance = 1;     // COMBAT = 0x0, IDLE = 0x1
-                moveType.Alertness = 0;  // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-                moveType.Time += 50;    // has to change all the time for normal motion.
+                moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
+                moveType.Stance = EStance.Idle;           // COMBAT = 0x0, IDLE = 0x1
+                moveType.Alertness = AiAlertness.Idle;    // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+                moveType.Time = Seq;                      // has to change all the time for normal motion.
                 npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
                 MoveToPathEnabled = false;
             }
@@ -1474,13 +1482,12 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 var rotation = (float)Math.Atan2(direction.Y, direction.X);
                 moveType.Rot = Quaternion.CreateFromAxisAngle(direction, rotation);
 
-                moveType.Flags = 5;
-
                 moveType.DeltaMovement = new Vector3();
 
-                moveType.Stance = 1;     // COMBAT = 0x0, IDLE = 0x1
-                moveType.Alertness = 0;  // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-                moveType.Time += 50;    // has to change all the time for normal motion.
+                moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
+                moveType.Stance = EStance.Idle;           // COMBAT = 0x0, IDLE = 0x1
+                moveType.Alertness = AiAlertness.Idle;    // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+                moveType.Time = Seq;                      // has to change all the time for normal motion.
                 npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
             }
             else if (unit is Transfer transfer)

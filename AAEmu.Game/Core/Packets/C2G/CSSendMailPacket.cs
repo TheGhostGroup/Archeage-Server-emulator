@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Network.Game;
@@ -24,7 +25,10 @@ namespace AAEmu.Game.Core.Packets.C2G
             var attachments = stream.ReadByte();
             var moneyAmounts = new int[3];
             for (var i = 0; i < 3; i++)
+            {
                 moneyAmounts[i] = stream.ReadInt32();
+            }
+
             var extra = stream.ReadInt64();
             var itemSlots = new List<(SlotType slotType, byte slot)>();
             for (var i = 0; i < 10; i++)
@@ -32,16 +36,19 @@ namespace AAEmu.Game.Core.Packets.C2G
                 var slotType = stream.ReadByte();
                 var slot = stream.ReadByte();
                 if (slotType == 0)
+                {
                     continue;
+                }
+
                 itemSlots.Add(((SlotType)slotType, slot));
             }
 
             var doodadObjId = stream.ReadBc();
             var doodad = WorldManager.Instance.GetDoodad(doodadObjId);
             if (doodad == null) // TODO validation || doodad.Template.GroupId == 6)
+            {
                 return;
-
-
+            }
         }
     }
 }

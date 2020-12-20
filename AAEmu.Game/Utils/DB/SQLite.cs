@@ -1,13 +1,16 @@
 using System;
+
 using AAEmu.Commons.IO;
+
 using Microsoft.Data.Sqlite;
+
 using NLog;
 
 namespace AAEmu.Game.Utils.DB
 {
     public static class SQLite
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public static SqliteConnection CreateConnection()
         {

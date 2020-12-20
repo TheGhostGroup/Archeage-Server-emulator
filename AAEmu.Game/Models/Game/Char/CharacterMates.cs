@@ -5,7 +5,6 @@ using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Managers.UnitManagers;
 using AAEmu.Game.Models.Game.Items.Templates;
-using AAEmu.Game.Models.Game.Mate;
 using AAEmu.Game.Models.Game.NPChar;
 using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Units;
@@ -43,7 +42,11 @@ namespace AAEmu.Game.Models.Game.Char
 
         private MateDb CreateNewMate(ulong itemId, NpcTemplate npctemplate)
         {
-            if (_mates.ContainsKey(itemId)) return null;
+            if (_mates.ContainsKey(itemId))
+            {
+                return null;
+            }
+
             var template = new MateDb
             {
                 // TODO
@@ -72,7 +75,10 @@ namespace AAEmu.Game.Models.Game.Char
             }
 
             var item = Owner.Inventory.GetItemById(skillData.ItemId);
-            if (item == null) return;
+            if (item == null)
+            {
+                return;
+            }
 
             var itemTemplate = (SummonMateTemplate)ItemManager.Instance.GetTemplate(item.TemplateId);
             var npcId = itemTemplate.NpcId;

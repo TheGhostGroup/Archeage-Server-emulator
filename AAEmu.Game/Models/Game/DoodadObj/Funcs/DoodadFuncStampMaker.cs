@@ -9,7 +9,7 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
         public uint ItemId { get; set; }
         public uint ConsumeItemId { get; set; }
         public int ConsumeCount { get; set; }
-        
+
         public override void Use(Unit caster, Doodad owner, uint skillId)
         {
             _log.Debug("DoodadFuncStampMaker");

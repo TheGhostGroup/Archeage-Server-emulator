@@ -9,8 +9,8 @@ namespace AAEmu.Game.Models.Game.Skills
 {
     public class SkillModifiers
     {
-        private Dictionary<uint, List<SkillModifier>> _modifiersBySkillId;
-        private Dictionary<uint, List<SkillModifier>> _modifiersByTagId;
+        private readonly Dictionary<uint, List<SkillModifier>> _modifiersBySkillId;
+        private readonly Dictionary<uint, List<SkillModifier>> _modifiersByTagId;
 
         public SkillModifiers()
         {
@@ -48,28 +48,42 @@ namespace AAEmu.Game.Models.Game.Skills
         public List<SkillModifier> GetModifiersForSkillIdWithAttribute(uint skillId, SkillAttribute attribute)
         {
             var modifiers = GetModifiersForSkillId(skillId);
-            if (modifiers == null) return new List<SkillModifier>();
+            if (modifiers == null)
+            {
+                return new List<SkillModifier>();
+            }
+
             return modifiers.Where(mod => mod.SkillAttribute == attribute).ToList();
         }
 
         public List<SkillModifier> GetModifiersForTagIdWithAttribute(uint tagId, SkillAttribute attribute)
         {
             var modifiers = GetModifiersForTagId(tagId);
-            if (modifiers == null) return new List<SkillModifier>();
+            if (modifiers == null)
+            {
+                return new List<SkillModifier>();
+            }
+
             return modifiers.Where(mod => mod.SkillAttribute == attribute).ToList();
         }
 
         public List<SkillModifier> GetModifiersForSkillId(uint skillId)
         {
             if (_modifiersBySkillId.ContainsKey(skillId))
+            {
                 return _modifiersBySkillId[skillId];
+            }
+
             return null;
         }
 
         public List<SkillModifier> GetModifiersForTagId(uint tagId)
         {
             if (_modifiersByTagId.ContainsKey(tagId))
+            {
                 return _modifiersByTagId[tagId];
+            }
+
             return null;
         }
 
@@ -99,14 +113,20 @@ namespace AAEmu.Game.Models.Game.Skills
             if (modifier.SkillId > 0)
             {
                 if (!_modifiersBySkillId.ContainsKey(modifier.SkillId))
+                {
                     _modifiersBySkillId.Add(modifier.SkillId, new List<SkillModifier>());
+                }
+
                 _modifiersBySkillId[modifier.SkillId].Add(modifier);
             }
 
             if (modifier.TagId > 0)
             {
                 if (!_modifiersByTagId.ContainsKey(modifier.TagId))
+                {
                     _modifiersByTagId.Add(modifier.TagId, new List<SkillModifier>());
+                }
+
                 _modifiersByTagId[modifier.TagId].Add(modifier);
             }
         }
@@ -114,10 +134,14 @@ namespace AAEmu.Game.Models.Game.Skills
         public void RemoveModifier(SkillModifier modifier)
         {
             if (_modifiersBySkillId.ContainsKey(modifier.SkillId))
+            {
                 _modifiersBySkillId[modifier.SkillId].Remove(modifier);
+            }
 
             if (_modifiersBySkillId.ContainsKey(modifier.TagId))
+            {
                 _modifiersByTagId[modifier.TagId].Remove(modifier);
+            }
         }
     }
 }

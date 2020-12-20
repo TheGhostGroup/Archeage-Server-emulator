@@ -1,7 +1,6 @@
 ﻿using System;
 
 using AAEmu.Game.Core.Managers;
-using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Network.Connections;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Core.Packets.Proxy;
@@ -58,7 +57,9 @@ namespace AAEmu.Game.Models.Tasks
 
                 // Handle Family
                 if (_connection.ActiveChar.Family > 0)
+                {
                     FamilyManager.Instance.OnCharacterLogout(_connection.ActiveChar);
+                }
 
                 // Handle Guild
                 _connection.ActiveChar.Expedition?.OnCharacterLogout(_connection.ActiveChar);
@@ -75,7 +76,9 @@ namespace AAEmu.Game.Models.Tasks
 
                 // Remove subscribers
                 foreach (var subscriber in _connection.ActiveChar.Subscribers)
+                {
                     subscriber.Dispose();
+                }
             }
 
             _connection.SaveAndRemoveFromWorld();

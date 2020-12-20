@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using System.Security.Principal;
+
 using NLog;
 
 namespace AAEmu.Commons.Utils
@@ -11,7 +12,7 @@ namespace AAEmu.Commons.Utils
     public static class CliUtil
     {
         private const string TitlePrefix = "ARCHEAGE SERVER : ";
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private static readonly string[] Logo = new string[]
         {
@@ -42,9 +43,9 @@ namespace AAEmu.Commons.Utils
         {
             Console.Title = TitlePrefix + consoleTitle;
 
-	        WriteSeperator();
+            WriteSeperator();
 
-	        Console.ForegroundColor = color;
+            Console.ForegroundColor = color;
             WriteLinesCentered(Logo);
 
             Console.WriteLine();
@@ -54,7 +55,7 @@ namespace AAEmu.Commons.Utils
 
             Console.ResetColor();
 
-	        WriteSeperator();
+            WriteSeperator();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 using System;
+
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Network.Game;
 
@@ -6,11 +7,11 @@ namespace AAEmu.Game.Core.Packets.Proxy
 {
     public class PongPacket : GamePacket
     {
-        private long _tm;
-        private long _when;
-        private long _remote;
-        private uint _local;
-        private uint _world;
+        private readonly long _tm;
+        private readonly long _when;
+        private readonly long _remote;
+        private readonly uint _local;
+        private readonly uint _world;
 
         public PongPacket(long tm, long when, uint local) : base(0x013, 2)
         {
@@ -25,7 +26,7 @@ namespace AAEmu.Game.Core.Packets.Proxy
         {
             stream.Write(_tm);
             stream.Write(_when);
-            stream.Write((long) 0); // elapsed
+            stream.Write((long)0); // elapsed
             stream.Write(_remote); // world * 1000; remote
             stream.Write(_local);
             stream.Write(_world); // TODO packet sleep 250ms...

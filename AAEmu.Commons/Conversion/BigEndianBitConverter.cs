@@ -53,7 +53,10 @@
         {
             long ret = 0;
             for (var i = 0; i < bytesToConvert; i++)
+            {
                 ret = unchecked((ret << 8) | buffer[startIndex + i]);
+            }
+
             return ret;
         }
     }

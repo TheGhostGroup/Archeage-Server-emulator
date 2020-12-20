@@ -6,7 +6,7 @@ namespace AAEmu.Game.Core.Packets.G2C
     public class SCUnitPortalUsedPacket : GamePacket
     {
         private readonly uint _unitId;
-        
+
         public SCUnitPortalUsedPacket(uint unitId) : base(SCOffsets.SCUnitPortalUsedPacket, 5)
         {
             _unitId = unitId;

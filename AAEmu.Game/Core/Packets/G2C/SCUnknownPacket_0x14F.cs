@@ -1,7 +1,7 @@
 ﻿using System;
+
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Network.Game;
-using AAEmu.Game.Models.Game.Skills;
 
 namespace AAEmu.Game.Core.Packets.G2C
 {
@@ -16,7 +16,7 @@ namespace AAEmu.Game.Core.Packets.G2C
 
         public SCUnknownPacket_0x14F() : base(SCOffsets.SCUnknownPacket_0x14F, 5)
         {
-            _AccountAttributeKind = (byte) 1;
+            _AccountAttributeKind = 1;
             _extraKind = 0;
             _worldId = 0x1;
             _count = 0;

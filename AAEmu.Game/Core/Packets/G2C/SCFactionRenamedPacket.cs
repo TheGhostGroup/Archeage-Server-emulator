@@ -8,7 +8,7 @@ namespace AAEmu.Game.Core.Packets.G2C
         private readonly uint _id;
         private readonly string _name;
         private readonly bool _byGm;
-        
+
         public SCFactionRenamedPacket(uint id, string name, bool byGm) : base(SCOffsets.SCFactionRenamedPacket, 5)
         {
             _id = id;

@@ -1,4 +1,5 @@
 using System;
+
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Char;
@@ -33,9 +34,13 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
                         break;
                     case WorldInteractionGroup.Building when target is House house: // TODO not done, debug only
                         if (house.Template.BuildSteps.Count == 0)
+                        {
                             house.CurrentStep = -1;
+                        }
                         else
+                        {
                             house.AddBuildAction();
+                        }
 
                         character.BroadcastPacket(
                             new SCHouseBuildProgressPacket(
@@ -51,7 +56,9 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
                         {
                             var doodads = house.AttachedDoodads.ToArray();
                             foreach (var doodad in doodads)
+                            {
                                 doodad.Spawn();
+                            }
                         }
 
                         break;

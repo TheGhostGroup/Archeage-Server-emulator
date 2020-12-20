@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Effects;
 using AAEmu.Game.Models.Game.Skills.Static;
@@ -62,34 +61,57 @@ namespace AAEmu.Game.Models.Game.Units
         {
             var temp = new List<Effect>();
             foreach (var effect in new List<Effect>(_effects))
+            {
                 if (effect.Template.GetType() == effectType)
+                {
                     temp.Add(effect);
+                }
+            }
+
             return temp;
         }
 
         public Effect GetEffectByIndex(uint index)
         {
             foreach (var effect in new List<Effect>(_effects))
+            {
                 if (effect.Index == index)
+                {
                     return effect;
+                }
+            }
+
             return null;
         }
 
         public bool CheckBuff(uint id)
         {
             foreach (var effect in new List<Effect>(_effects))
+            {
                 if (effect != null && effect.Template.BuffId > 0 && effect.Template.BuffId == id)
+                {
                     return true;
+                }
+            }
+
             return false;
         }
 
         public bool CheckBuffs(List<uint> ids)
         {
             if (ids == null)
+            {
                 return false;
+            }
+
             foreach (var effect in new List<Effect>(_effects))
+            {
                 if (effect != null && effect.Template.BuffId > 0 && ids.Contains(effect.Template.BuffId))
+                {
                     return true;
+                }
+            }
+
             return false;
         }
 
@@ -97,8 +119,13 @@ namespace AAEmu.Game.Models.Game.Units
         {
             var count = 0;
             foreach (var effect in new List<Effect>(_effects))
+            {
                 if (effect.Template.BuffId == buffId)
+                {
                     count++;
+                }
+            }
+
             return count;
         }
 
@@ -149,19 +176,25 @@ namespace AAEmu.Game.Models.Game.Units
         public void AddEffect(Effect effect)
         {
             if (effect.Template == null)
+            {
                 return;
+            }
 
             lock (_lock)
             {
                 var owner = GetOwner();
                 if (owner == null)
+                {
                     return;
+                }
 
                 effect.State = EffectState.Created;
                 effect.Index = _nextIndex; // TODO need safe increment...
 
                 if (++_nextIndex == uint.MaxValue)
+                {
                     _nextIndex = 1;
+                }
 
                 effect.Duration = effect.Template.GetDuration();
                 if (effect.Duration > 0 && effect.StartTime == DateTime.MinValue)
@@ -182,10 +215,19 @@ namespace AAEmu.Game.Models.Game.Units
                         {
                             Effect last = null;
                             if (buffTemplate.MaxStack > 0 && GetBuffCountById(effect.Template.BuffId) >= buffTemplate.MaxStack)
+                            {
                                 foreach (var e in new List<Effect>(_effects))
+                                {
                                     if (e != null && e.InUse && e.Template.BuffId == effect.Template.BuffId)
+                                    {
                                         if (e.GetTimeLeft() < effect.GetTimeLeft())
+                                        {
                                             last = e;
+                                        }
+                                    }
+                                }
+                            }
+
                             last?.Exit();
                             break;
                         }
@@ -193,10 +235,19 @@ namespace AAEmu.Game.Models.Game.Units
                         {
                             Effect last = null;
                             if (buffEffect.Buff.MaxStack > 0 && GetBuffCountById(effect.Template.BuffId) >= buffEffect.Buff.MaxStack)
+                            {
                                 foreach (var e in new List<Effect>(_effects))
+                                {
                                     if (e != null && e.InUse && e.Template.BuffId == effect.Template.BuffId)
+                                    {
                                         if (last == null || e.GetTimeLeft() < last.GetTimeLeft())
+                                        {
                                             last = e;
+                                        }
+                                    }
+                                }
+                            }
+
                             last?.Exit();
                             break;
                         }
@@ -205,10 +256,14 @@ namespace AAEmu.Game.Models.Game.Units
                 _effects.Add(effect);
 
                 if (effect.Template.BuffId > 0)
+                {
                     owner.Modifiers.AddModifiers(effect.Template.BuffId);
+                }
 
                 if (effect.Duration > 0)
+                {
                     effect.SetInUse(true, false);
+                }
                 else
                 {
                     effect.InUse = true;
@@ -226,10 +281,14 @@ namespace AAEmu.Game.Models.Game.Units
             {
                 var own = GetOwner();
                 if (own == null)
+                {
                     return;
+                }
 
                 if (effect == null || _effects == null || !_effects.Contains(effect))
+                {
                     return;
+                }
 
                 effect.SetInUse(false, false);
                 _effects.Remove(effect);
@@ -241,7 +300,9 @@ namespace AAEmu.Game.Models.Game.Units
         {
             var own = GetOwner();
             if (own == null)
+            {
                 return;
+            }
 
             if (_effects != null)
             {
@@ -262,7 +323,9 @@ namespace AAEmu.Game.Models.Game.Units
         {
             var own = GetOwner();
             if (own == null)
+            {
                 return;
+            }
 
             if (_effects != null)
             {
@@ -284,10 +347,15 @@ namespace AAEmu.Game.Models.Game.Units
         {
             var own = GetOwner();
             if (own == null)
+            {
                 return;
+            }
 
             if (_effects == null)
+            {
                 return;
+            }
+
             foreach (var e in new List<Effect>(_effects))
             {
                 if (e != null && e.Template.BuffId == buffId)
@@ -305,45 +373,72 @@ namespace AAEmu.Game.Models.Game.Units
         {
             var own = GetOwner();
             if (own == null)
+            {
                 return;
+            }
 
             if (_effects == null)
+            {
                 return;
+            }
+
             foreach (var e in new List<Effect>(_effects))
+            {
                 if (e != null)
                 {
                     if (e.Template is BuffTemplate template && template.Kind != kind)
+                    {
                         continue;
+                    }
+
                     if (e.Template is BuffEffect effect && effect.Buff.Kind != kind)
+                    {
                         continue;
+                    }
+
                     e.Exit();
                     count--;
                     if (count == 0)
+                    {
                         return;
+                    }
                 }
+            }
         }
 
         public void RemoveAllEffects()
         {
             var own = GetOwner();
             if (own == null)
+            {
                 return;
+            }
 
             foreach (var e in new List<Effect>(_effects))
+            {
                 if (e != null /* && (e.Template.Skill == null || e.Template.Skill.Type != SkillTypes.Passive)*/)
+                {
                     e.Exit();
+                }
+            }
         }
 
         public void RemoveEffectsOnDeath()
         {
             var own = GetOwner();
             if (own == null)
+            {
                 return;
+            }
 
             foreach (var e in new List<Effect>(_effects))
+            {
                 if (e != null && (e.Template is BuffTemplate template && template.RemoveOnDeath ||
                                   e.Template is BuffEffect effect && effect.Buff.RemoveOnDeath))
+                {
                     e.Exit();
+                }
+            }
         }
 
         public void SetOwner(BaseUnit owner)
@@ -355,12 +450,18 @@ namespace AAEmu.Game.Models.Game.Units
         {
             var own = GetOwner();
             if (own == null)
+            {
                 return;
+            }
 
             foreach (var e in new List<Effect>(_effects))
+            {
                 if (e != null && (e.Template is BuffTemplate template && template.Stealth ||
                                   e.Template is BuffEffect effect && effect.Buff.Stealth))
+                {
                     e.Exit();
+                }
+            }
         }
 
         private BaseUnit GetOwner()

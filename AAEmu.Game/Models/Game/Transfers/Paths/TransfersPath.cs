@@ -12,7 +12,7 @@ namespace AAEmu.Game.Models.Game.Transfers.Paths
     [Serializable]
     public sealed class TransfersPath : IComparable<TransfersPath>, IComparable
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         // это нужно записывать в json
         public uint ObjId { get; set; }     // здесь будет objId
         public string Name { get; set; }
@@ -64,10 +64,11 @@ namespace AAEmu.Game.Models.Game.Transfers.Paths
 
         public static void AddTransfer(uint objid, TransfersPathPoint position)
         {
-            var transfer = new TransfersPath();
-
-            transfer.ObjId = objid;
-            transfer.Name = "";
+            var transfer = new TransfersPath
+            {
+                ObjId = objid,
+                Name = ""
+            };
             try
             {
                 transfer.Type = types[objid]; // get templateId

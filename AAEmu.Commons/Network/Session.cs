@@ -3,13 +3,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+
 using NLog;
 
 namespace AAEmu.Commons.Network
 {
     public class Session : IDisposable
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private readonly INetBase _server;
         private readonly Dictionary<string, object> _attributes = new Dictionary<string, object>();
@@ -59,19 +60,27 @@ namespace AAEmu.Commons.Network
         public void SendPacket(byte[] packet)
         {
             if (_packetQueue == null)
+            {
                 return;
+            }
+
             _packetQueue.Enqueue(packet);
             lock (Socket)
             {
                 if (!_sending)
+                {
                     ProccessPackets();
+                }
             }
         }
 
         private byte[] GetNextPacket()
         {
             if (_packetQueue == null)
+            {
                 return null;
+            }
+
             _packetQueue.TryDequeue(out var result);
             return result;
         }
@@ -99,7 +108,9 @@ namespace AAEmu.Commons.Network
             {
                 var willRaise = Socket.SendAsync(_writeEventArg);
                 if (!willRaise)
+                {
                     ProcessSend(_writeEventArg);
+                }
             }
             catch (ObjectDisposedException)
             {
@@ -138,7 +149,9 @@ namespace AAEmu.Commons.Network
         public void Close()
         {
             if (_closed)
+            {
                 return;
+            }
 
             _closed = true;
             _packetQueue = null;

@@ -15,7 +15,7 @@ namespace AAEmu.Game.Core.Managers
 {
     public class FormulaManager : Singleton<FormulaManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<UnitOwnerType, Dictionary<UnitFormulaKind, UnitFormula>> _unitFormulas;
         private Dictionary<WearableFormulaType, WearableFormula> _wearableFormulas;
@@ -26,7 +26,10 @@ namespace AAEmu.Game.Core.Managers
         public UnitFormula GetUnitFormula(UnitOwnerType owner, UnitFormulaKind kind)
         {
             if (_unitFormulas.ContainsKey(owner) && _unitFormulas[owner].ContainsKey(kind))
+            {
                 return _unitFormulas[owner][kind];
+            }
+
             return null;
         }
 
@@ -34,7 +37,10 @@ namespace AAEmu.Game.Core.Managers
         {
             if (_unitVariables.ContainsKey(formulaId) && _unitVariables[formulaId].ContainsKey(type) &&
                 _unitVariables[formulaId][type].ContainsKey(key))
+            {
                 return _unitVariables[formulaId][type][key].Value;
+            }
+
             return 0f;
         }
 
@@ -59,7 +65,10 @@ namespace AAEmu.Game.Core.Managers
 
             _unitFormulas = new Dictionary<UnitOwnerType, Dictionary<UnitFormulaKind, UnitFormula>>();
             foreach (var owner in Enum.GetValues(typeof(UnitOwnerType)))
+            {
                 _unitFormulas.Add((UnitOwnerType)owner, new Dictionary<UnitFormulaKind, UnitFormula>());
+            }
+
             _wearableFormulas = new Dictionary<WearableFormulaType, WearableFormula>();
             _unitVariables =
                 new Dictionary<uint, Dictionary<UnitFormulaVariableType, Dictionary<uint, UnitFormulaVariable>>>();
@@ -85,7 +94,9 @@ namespace AAEmu.Game.Core.Managers
                                 Owner = (UnitOwnerType)reader.GetByte("owner_type_id")
                             };
                             if (formula.Prepare())
+                            {
                                 _unitFormulas[formula.Owner].Add(formula.Kind, formula);
+                            }
                         }
                     }
                 }
@@ -107,9 +118,15 @@ namespace AAEmu.Game.Core.Managers
                                 Value = reader.GetFloat("value")
                             };
                             if (!_unitVariables.ContainsKey(variable.FormulaId))
+                            {
                                 _unitVariables.Add(variable.FormulaId, new Dictionary<UnitFormulaVariableType, Dictionary<uint, UnitFormulaVariable>>());
+                            }
+
                             if (!_unitVariables[variable.FormulaId].ContainsKey(variable.Type))
+                            {
                                 _unitVariables[variable.FormulaId].Add(variable.Type, new Dictionary<uint, UnitFormulaVariable>());
+                            }
+
                             _unitVariables[variable.FormulaId][variable.Type].Add(variable.Key, variable);
                         }
                     }
@@ -125,11 +142,13 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var formula = new WearableFormula();
-                            //formula.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
-                            formula.Id = step++;
-                            formula.Type = (WearableFormulaType)reader.GetByte("kind_id");
-                            formula.TextFormula = reader.GetString("formula");
+                            var formula = new WearableFormula
+                            {
+                                //formula.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                                Id = step++,
+                                Type = (WearableFormulaType)reader.GetByte("kind_id"),
+                                TextFormula = reader.GetString("formula")
+                            };
                             if (formula.Prepare())
                             {
                                 _wearableFormulas.Add(formula.Type, formula);
@@ -153,7 +172,9 @@ namespace AAEmu.Game.Core.Managers
                                 TextFormula = reader.GetString("formula")
                             };
                             if (formula.Prepare())
+                            {
                                 _formulas.Add(formula.Id, formula);
+                            }
                         }
                     }
                 }

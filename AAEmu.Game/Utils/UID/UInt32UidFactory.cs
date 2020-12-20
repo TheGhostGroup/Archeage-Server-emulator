@@ -13,14 +13,18 @@ namespace AAEmu.Game.Utils.UID
 
         public UInt32UidFactory(uint val = 1U)
         {
-            if(val != 1)
-              _nextUid = val + 1;
+            if (val != 1)
+            {
+                _nextUid = val + 1;
+            }
         }
 
         public uint Next()
         {
             if (_freeUidList.TryDequeue(out var result))
+            {
                 return result;
+            }
 
             return _nextUid++;
         }
@@ -28,7 +32,9 @@ namespace AAEmu.Game.Utils.UID
         public void ReleaseUniqueInt(uint uid)
         {
             if ((int)uid == 0)
+            {
                 return;
+            }
 
             _freeUidList.Enqueue(uid);
         }

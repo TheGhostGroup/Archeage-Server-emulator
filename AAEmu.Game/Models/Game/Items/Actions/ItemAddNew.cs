@@ -31,7 +31,7 @@ namespace AAEmu.Game.Models.Game.Items.Actions
             stream.Write((short)128);
             stream.Write(details, false);
             stream.Write(new byte[128 - details.Count]);
-            
+
             stream.Write(_item.CreateTime);
             stream.Write(_item.LifespanMins);
             stream.Write(_item.MadeUnitId);
@@ -39,7 +39,7 @@ namespace AAEmu.Game.Models.Game.Items.Actions
             stream.Write(_item.UnsecureTime);
             stream.Write(_item.UnpackTime);
             stream.Write(_item.ChargeUseSkillTime);
-            
+
             return stream;
         }
     }

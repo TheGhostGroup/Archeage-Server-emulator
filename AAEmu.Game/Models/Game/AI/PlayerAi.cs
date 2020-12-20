@@ -1,9 +1,5 @@
-﻿using System;
-
+﻿
 using AAEmu.Game.Models.Game.AI.Abstracts;
-using AAEmu.Game.Models.Game.Char;
-using AAEmu.Game.Models.Game.NPChar;
-using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.Units.Movements;
 using AAEmu.Game.Models.Game.World;
 

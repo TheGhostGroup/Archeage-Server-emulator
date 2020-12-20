@@ -4,10 +4,13 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+
 using AAEmu.Commons.Database;
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Utils.DB;
+
 using MySql.Data.MySqlClient;
+
 using NLog;
 
 namespace AAEmu.Game.Core.Managers
@@ -15,7 +18,7 @@ namespace AAEmu.Game.Core.Managers
     public class UpdatesManager : Singleton<UpdatesManager>
     {
 
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Checks whether the SQL update file has already been applied.

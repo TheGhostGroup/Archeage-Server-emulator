@@ -14,7 +14,7 @@ namespace AAEmu.Game.Core.Packets.C2G
             var tl = stream.ReadUInt16();
             var moneyAmount = stream.ReadInt32();
             var sellTo = stream.ReadString();
-            
+
             _log.Debug("SellHouse, Tl: {0}, MoneyAmount: {1}, SellTo: {2}", tl, moneyAmount, sellTo);
         }
     }

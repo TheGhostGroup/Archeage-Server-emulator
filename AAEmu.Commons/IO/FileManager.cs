@@ -22,18 +22,26 @@ namespace AAEmu.Commons.IO
             get
             {
                 if (!string.IsNullOrEmpty(_appPath))
+                {
                     return _appPath;
+                }
+
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
                     if (assembly.EntryPoint == null)
+                    {
                         continue;
+                    }
+
                     _appPath = Path.GetDirectoryName(new Uri(assembly.CodeBase).LocalPath);
                     break;
                 }
 
                 if (_appPath != null &&
                     _appPath.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture)) == false)
+                {
                     _appPath += Path.DirectorySeparatorChar;
+                }
 
                 return _appPath;
             }
@@ -70,13 +78,20 @@ namespace AAEmu.Commons.IO
             {
                 var index = file.LastIndexOf(Path.DirectorySeparatorChar);
                 if (index <= 0)
+                {
                     index = file.LastIndexOf(Path.AltDirectorySeparatorChar);
+                }
+
                 if (index <= 0)
+                {
                     throw new Exception("Directory must be specified for the file");
+                }
 
                 var directory = file.Remove(index) + Path.DirectorySeparatorChar;
                 if (!DirectoryExists(directory))
+                {
                     CreateDirectory(directory);
+                }
 
                 var opened = false;
                 while (!opened)
@@ -157,13 +172,18 @@ namespace AAEmu.Commons.IO
             try
             {
                 if (!FileExists(file))
+                {
                     return string.Empty;
+                }
 
                 var opened = false;
                 while (!opened)
                 {
                     if (Environment.TickCount - startTime >= timeOut)
+                    {
                         throw new IOException("File opening timed out");
+                    }
+
                     reader = File.OpenText(file);
                     opened = true;
                 }

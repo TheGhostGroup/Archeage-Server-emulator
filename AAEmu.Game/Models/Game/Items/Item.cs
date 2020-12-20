@@ -112,7 +112,7 @@ namespace AAEmu.Game.Models.Game.Items
                 return 1;
             }
 
-            return this.Slot.CompareTo(otherItem.Slot);
+            return Slot.CompareTo(otherItem.Slot);
         }
 
         public Item()
@@ -273,7 +273,10 @@ namespace AAEmu.Game.Models.Game.Items
 Label_32:
                     mDetailLength -= 1;
                     if (mDetailLength > 0)
+                    {
                         Detail = stream.ReadBytes(mDetailLength);
+                    }
+
                     break;
                 default:
                     break;
@@ -326,7 +329,10 @@ Label_32:
 Label_32:
                     mDetailLength -= 1;
                     if (mDetailLength > 0)
+                    {
                         stream.Write(Detail);
+                    }
+
                     break;
                 default:
                     break;

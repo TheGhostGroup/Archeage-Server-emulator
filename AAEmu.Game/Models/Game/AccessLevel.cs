@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+
 using AAEmu.Commons.Network;
-using System;
 
 namespace AAEmu.Game.Models.Game
 {
@@ -8,11 +8,14 @@ namespace AAEmu.Game.Models.Game
     {
         public static List<Command> CMD = new List<Command>();
 
-        public static int getLevel(string commandstr){
+        public static int getLevel(string commandstr)
+        {
             Command result = CMD.Find(o => o.command == commandstr);
-                if(result != null)
-                    return result.level;
-            
+            if (result != null)
+            {
+                return result.level;
+            }
+
             return 0;
         }
 
@@ -25,7 +28,7 @@ namespace AAEmu.Game.Models.Game
         }
     }
 
-    public class Command : PacketMarshaler 
+    public class Command : PacketMarshaler
     {
 
         public string command { get; set; }

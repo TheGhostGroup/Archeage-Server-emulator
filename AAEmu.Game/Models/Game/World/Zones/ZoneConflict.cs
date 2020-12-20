@@ -1,15 +1,15 @@
 ﻿using System;
-using AAEmu.Game.Core.Packets.G2C;
-using AAEmu.Game.Core.Managers.World;
-using AAEmu.Game.Models.Game.World.Zones;
-using AAEmu.Game.Models.Tasks.Zones;
+
 using AAEmu.Game.Core.Managers;
+using AAEmu.Game.Core.Managers.World;
+using AAEmu.Game.Core.Packets.G2C;
+using AAEmu.Game.Models.Tasks.Zones;
 
 namespace AAEmu.Game.Models.Game.World.Zones
 {
     public class ZoneConflict
     {
-        private ZoneGroup _owner;
+        private readonly ZoneGroup _owner;
 
         public ushort ZoneGroupId { get; set; }
         public int[] NumKills { get; }
@@ -50,11 +50,15 @@ namespace AAEmu.Game.Models.Game.World.Zones
         {
             // Ignore when in conflict, war or peace
             if (CurrentZoneState >= ZoneConflictType.Conflict)
+            {
                 return;
+            }
 
             // Ignore if this zone doesn't have a kill counter mechanic
             if ((NumKills[0] == 0) && (NumKills[1] == 0) && (NumKills[2] == 0) && (NumKills[3] == 0) && (NumKills[4] == 0))
+            {
                 return;
+            }
 
             var LastState = CurrentZoneState;
             KillCount += NumberOfKills;
@@ -96,7 +100,7 @@ namespace AAEmu.Game.Models.Game.World.Zones
             if (NextStateTime > DateTime.MinValue)
             {
                 var lpConflictStartTask = new ZoneStateChangeTask(this);
-                TaskManager.Instance.Schedule(lpConflictStartTask, this.NextStateTime - DateTime.Now);
+                TaskManager.Instance.Schedule(lpConflictStartTask, NextStateTime - DateTime.Now);
             }
         }
 
@@ -111,13 +115,18 @@ namespace AAEmu.Game.Models.Game.World.Zones
         public void CheckTimer()
         {
             if ((NextStateTime > DateTime.MinValue) && (DateTime.Now >= NextStateTime))
+            {
                 ForceNextState();
+            }
         }
 
         public void SetState(ZoneConflictType ct)
         {
             if (ct == CurrentZoneState)
+            {
                 return;
+            }
+
             switch (ct)
             {
                 case ZoneConflictType.Conflict:
@@ -158,9 +167,13 @@ namespace AAEmu.Game.Models.Game.World.Zones
             {
                 // If it doesn't have a killcounter, go directly back to conflict (ocean areas)
                 if ((NumKills[0] == 0) && (NumKills[1] == 0) && (NumKills[2] == 0) && (NumKills[3] == 0) && (NumKills[4] == 0))
+                {
                     SetState(ZoneConflictType.Conflict);
+                }
                 else
+                {
                     SetState(ZoneConflictType.Tension);
+                }
             }
         }
     }

@@ -1,17 +1,18 @@
 ﻿using System;
-using AAEmu.Commons.Network;
-using AAEmu.Game.Models.Game.Char;
+
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Managers.UnitManagers;
 using AAEmu.Game.Core.Managers.World;
+using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.World;
+
 using NLog;
 
 namespace AAEmu.Game.Models.Game.DoodadObj
 {
     public class DoodadSpawner : Spawner<Doodad>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         public float Scale { get; set; }
 
         public Doodad Last { get; set; }
@@ -34,7 +35,9 @@ namespace AAEmu.Game.Models.Game.DoodadObj
             doodad.ItemId = itemID;
 
             if (Scale > 0)
+            {
                 doodad.SetScale(Scale);
+            }
 
             if (doodad.Position == null)
             {
@@ -59,7 +62,10 @@ namespace AAEmu.Game.Models.Game.DoodadObj
             doodad.Spawner = this;
             doodad.Position = Position.Clone();
             if (Scale > 0)
+            {
                 doodad.SetScale(Scale);
+            }
+
             if (doodad.Position == null)
             {
                 _log.Error("Can't spawn doodad {1} from spawn {0}", Id, UnitId);
@@ -75,7 +81,10 @@ namespace AAEmu.Game.Models.Game.DoodadObj
         {
             doodad.Delete();
             if (doodad.Respawn == DateTime.MinValue)
+            {
                 ObjectIdManager.Instance.ReleaseId(doodad.ObjId);
+            }
+
             Last = null;
         }
 
@@ -87,7 +96,9 @@ namespace AAEmu.Game.Models.Game.DoodadObj
                 SpawnManager.Instance.AddRespawn(doodad);
             }
             else
+            {
                 Last = null;
+            }
 
             doodad.Delete();
         }

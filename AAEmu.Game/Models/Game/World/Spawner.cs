@@ -2,7 +2,8 @@
 {
     public class Spawner<T> where T : GameObject
     {
-        public uint Id { get; set; }     // id соответствует objId, id из файла npc_spawns.json
+        public uint Id { get; set; }     // id соответствует ObjId на сервере, id из файла npc_spawns.json
+        public uint ObjIdAtAAFree { get; set; }  // objId из файла npc_spawns.json для работы движения NPC и соответствует ObjId на сервере AAFree
         public uint UnitId { get; set; } // unitId соответствует templateId, unitId из файла npc_spawns.json
         public Point Position { get; set; }
         public int RespawnTime { get; set; } = 15;

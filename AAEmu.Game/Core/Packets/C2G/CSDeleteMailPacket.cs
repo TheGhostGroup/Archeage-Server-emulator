@@ -13,7 +13,7 @@ namespace AAEmu.Game.Core.Packets.C2G
         {
             var mailId = stream.ReadInt64();
             var isSent = stream.ReadBoolean();
-            
+
             _log.Debug("DeleteMail, mailId: {0}, isSent: {1}", mailId, isSent);
         }
     }

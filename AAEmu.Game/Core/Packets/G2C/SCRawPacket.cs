@@ -5,7 +5,7 @@ namespace AAEmu.Game.Core.Packets.G2C
 {
     public class SCRawPacket : GamePacket
     {
-        private byte[] _payload;
+        private readonly byte[] _payload;
         public SCRawPacket(ushort opcode, byte[] payload) : base(opcode, 5)
         {
             _payload = payload;

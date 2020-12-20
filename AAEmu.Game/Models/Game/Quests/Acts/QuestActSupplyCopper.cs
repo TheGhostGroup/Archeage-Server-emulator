@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+
 using AAEmu.Game.Core.Packets.G2C;
-using AAEmu.Game.Models.Game.Quests.Templates;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.Items.Actions;
+using AAEmu.Game.Models.Game.Quests.Templates;
 
 namespace AAEmu.Game.Models.Game.Quests.Acts
 {
@@ -15,7 +16,7 @@ namespace AAEmu.Game.Models.Game.Quests.Acts
             _log.Debug("QuestActSupplyCopper");
             character.Money += Amount;
             character.SendPacket(
-                new SCItemTaskSuccessPacket(ItemTaskType.QuestComplete, new List<ItemTask> {new MoneyChange(Amount)}, new List<ulong>()));
+                new SCItemTaskSuccessPacket(ItemTaskType.QuestComplete, new List<ItemTask> { new MoneyChange(Amount) }, new List<ulong>()));
             return true;
         }
     }

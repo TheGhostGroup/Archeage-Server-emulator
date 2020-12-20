@@ -71,8 +71,10 @@ namespace AAEmu.Game.Models.Game.Units
             Bonuses = new Dictionary<uint, List<Bonus>>();
             IsInBattle = false;
             // TODO 1.2 Equipment.ContainerSize = 28, at 3.0.3.0 Equipment.ContainerSize = 29
-            Equipment = new ItemContainer(null, SlotType.Equipment, true);
-            Equipment.ContainerSize = 29;
+            Equipment = new ItemContainer(null, SlotType.Equipment, true)
+            {
+                ContainerSize = 29
+            };
             WorldPos = new WorldPos();
             Position = new Point();
             CooldownsSkills = new Dictionary<uint, DateTime>();
@@ -95,7 +97,9 @@ namespace AAEmu.Game.Models.Game.Units
         public virtual void ReduceCurrentMp(Unit attacker, int value)
         {
             if (Hp <= 0) // если юнит мертв, то не надо менять MP
+            {
                 return;
+            }
 
             Mp = Math.Max(Mp - value, 0);
             if (Mp >= MaxMp)

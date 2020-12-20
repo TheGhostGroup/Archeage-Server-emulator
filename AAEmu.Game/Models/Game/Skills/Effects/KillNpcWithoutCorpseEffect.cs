@@ -1,4 +1,5 @@
 using System;
+
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Models.Game.NPChar;
 using AAEmu.Game.Models.Game.Skills.Templates;
@@ -23,7 +24,10 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             foreach (var npc in npcs)
             {
                 if (npc.TemplateId != NpcId)
+                {
                     continue;
+                }
+
                 npc.Effects.RemoveAllEffects();
                 npc.Delete();
             }

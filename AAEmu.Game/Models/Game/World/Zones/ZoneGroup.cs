@@ -14,7 +14,7 @@
         public uint FishingSeaLootPackId { get; set; }
         public uint FishingLandLootPackId { get; set; }
         // TODO 1.2 // public uint BuffId { get; set; }
-        
+
         public ZoneConflict Conflict { get; set; }
     }
 }

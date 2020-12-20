@@ -50,7 +50,9 @@ namespace AAEmu.Commons.Generics
 
             _lock = new object();
             lock (_lock)
+            {
                 _objects = new List<T>(source);
+            }
         }
 
         /// <summary>
@@ -62,7 +64,9 @@ namespace AAEmu.Commons.Generics
             List<T> sourceElements = ElementsCopy;
 
             foreach (T t in sourceElements)
+            {
                 elEvent.Invoke(t);
+            }
         }
 
         /// <summary>
@@ -100,10 +104,14 @@ namespace AAEmu.Commons.Generics
         public void Add(T element)
         {
             lock (_lock)
+            {
                 _objects.Add(element);
+            }
 
             if (ElementAddedEvent != null)
+            {
                 ElementAddedEvent(element);
+            }
         }
 
         /// <summary>
@@ -125,7 +133,9 @@ namespace AAEmu.Commons.Generics
             }
 
             if (result && ElementAddedEvent != null)
+            {
                 ElementAddedEvent(element);
+            }
 
             return result;
         }
@@ -154,7 +164,9 @@ namespace AAEmu.Commons.Generics
             }
 
             if (result && ElementAddedEvent != null)
+            {
                 ElementsAddedEvent(elements);
+            }
 
             return result;
         }
@@ -168,10 +180,14 @@ namespace AAEmu.Commons.Generics
         {
             bool result;
             lock (_lock)
+            {
                 result = _objects.Remove(element);
+            }
 
             if (result && ElementRemovedEvent != null)
+            {
                 ElementRemovedEvent(element);
+            }
 
             return result;
         }
@@ -186,7 +202,9 @@ namespace AAEmu.Commons.Generics
             bool result;
 
             lock (_lock)
+            {
                 result = _objects.Contains(element);
+            }
 
             return result;
         }
@@ -200,7 +218,9 @@ namespace AAEmu.Commons.Generics
             {
                 List<T> copy;
                 lock (_lock)
+                {
                     copy = new List<T>(_objects);
+                }
 
                 return copy;
             }
@@ -211,14 +231,18 @@ namespace AAEmu.Commons.Generics
             get
             {
                 lock (_lock)
+                {
                     return _objects.Count;
+                }
             }
         }
 
         public void Clear()
         {
             lock (_lock)
+            {
                 _objects.Clear();
+            }
         }
     }
 }

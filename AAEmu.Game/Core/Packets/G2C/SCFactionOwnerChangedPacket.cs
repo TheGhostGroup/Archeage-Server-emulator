@@ -8,7 +8,7 @@ namespace AAEmu.Game.Core.Packets.G2C
         private readonly uint _id;
         private readonly uint _id2;
         private readonly string _newOwnerName;
-        
+
         public SCFactionOwnerChangedPacket(uint id, uint id2, string newOwnerName) : base(SCOffsets.SCFactionOwnerChangedPacket, 5)
         {
             _id = id;

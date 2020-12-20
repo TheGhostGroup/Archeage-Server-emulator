@@ -4,7 +4,6 @@ using AAEmu.Game.Models.Game.Items;
 using AAEmu.Game.Models.Game.Items.Templates;
 using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Static;
-using AAEmu.Game.Utils;
 
 namespace AAEmu.Game.Models.Game.Char
 {
@@ -30,14 +29,16 @@ namespace AAEmu.Game.Models.Game.Char
             foreach (var craftMaterial in craft.CraftMaterials)
             {
                 if (Owner.Inventory.GetItemsCount(craftMaterial.ItemId) < craftMaterial.Amount)
-                    hasMaterials = false;
-                /*
-                var materialItem = Owner.Inventory.GetItemByTemplateId(craftMaterial.ItemId);
-                if (materialItem == null || materialItem.Count < craftMaterial.Amount)
                 {
                     hasMaterials = false;
                 }
-                */
+                /*
+var materialItem = Owner.Inventory.GetItemByTemplateId(craftMaterial.ItemId);
+if (materialItem == null || materialItem.Count < craftMaterial.Amount)
+{
+   hasMaterials = false;
+}
+*/
             }
 
             if (_craft.IsPack)
@@ -74,10 +75,14 @@ namespace AAEmu.Game.Models.Game.Char
             IsCrafting = false;
 
             if (_craft == null)
+            {
                 return;
+            }
 
             if (Owner.Inventory.FreeSlotCount(SlotType.Inventory) < _craft.CraftProducts.Count)
+            {
                 return;
+            }
 
             foreach (var material in _craft.CraftMaterials)
             {
@@ -92,7 +97,9 @@ namespace AAEmu.Game.Models.Game.Char
                 if ((productResultItemTemplate != null) && (productResultItemTemplate is BackpackTemplate bt))
                 {
                     if (bt.BackpackType == BackpackType.TradePack)
+                    {
                         isTradePack = true;
+                    }
                 }
                 if (isTradePack == false)
                 {
@@ -115,7 +122,9 @@ namespace AAEmu.Game.Models.Game.Char
             }
 
             if (_count > 0 && !_craft.IsPack)
+            {
                 Craft(_craft, _count, _doodadId);
+            }
             else
             {
                 CancelCraft();

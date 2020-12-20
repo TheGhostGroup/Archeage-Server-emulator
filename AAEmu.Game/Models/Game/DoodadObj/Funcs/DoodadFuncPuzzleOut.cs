@@ -13,7 +13,7 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
         public int Delay { get; set; }
         public uint NextPhase { get; set; }
         public int ProjectileDelay { get; set; }
-        
+
         public override void Use(Unit caster, Doodad owner, uint skillId)
         {
             _log.Debug("DoodadFuncPuzzleOut");

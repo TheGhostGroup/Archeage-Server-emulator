@@ -18,7 +18,7 @@ namespace AAEmu.Game.Core.Packets.C2G
             var hasPing = stream.ReadBoolean();
             var position = new Point(stream.ReadSingle(), stream.ReadSingle(), stream.ReadSingle());
             var insId = stream.ReadUInt32();
-            
+
             // _log.Warn("SetPingPos, teamId {0}, hasPing {1}, insId {2}", teamId, hasPing, insId);
             var owner = Connection.ActiveChar;
             if (teamId > 0)

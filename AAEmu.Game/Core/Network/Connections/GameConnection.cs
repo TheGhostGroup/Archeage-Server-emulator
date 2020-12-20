@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 
-using AAEmu.Commons.Cryptography;
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers;
-using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Network.Game;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models;
@@ -14,8 +12,6 @@ using AAEmu.Game.Models.Game.Housing;
 using AAEmu.Game.Models.Game.Items;
 using AAEmu.Game.Models.Tasks;
 using AAEmu.Game.Utils.DB;
-
-using MySql.Data.MySqlClient;
 
 namespace AAEmu.Game.Core.Network.Connections
 {
@@ -27,10 +23,7 @@ namespace AAEmu.Game.Core.Network.Connections
 
     public class GameConnection
     {
-        public static CryptRSA CryptRsa;
-        public static DecryptCs DecryptCs;
-        public static EncryptSc EncryptSc;
-        private Session _session;
+        private readonly Session _session;
         public uint Id => _session.Id;
         public ulong AccountId { get; set; }
         public IPAddress Ip => _session.Ip;
@@ -54,11 +47,6 @@ namespace AAEmu.Game.Core.Network.Connections
             Houses = new Dictionary<uint, House>();
             Payment = new AccountPayment(this);
             // AddAttribute("gmFlag", true);
-
-            //шифрация пакетов
-            CryptRsa = new CryptRSA();
-            DecryptCs = new DecryptCs();
-            EncryptSc = new EncryptSc {MNum = 0};
         }
 
         public void SendPacket(GamePacket packet)
@@ -81,11 +69,17 @@ namespace AAEmu.Game.Core.Network.Connections
             AccountManager.Instance.Remove(AccountId);
 
             if (ActiveChar != null)
+            {
                 foreach (var subscriber in ActiveChar.Subscribers)
+                {
                     subscriber.Dispose();
+                }
+            }
 
             foreach (var subscriber in Subscribers)
+            {
                 subscriber.Dispose();
+            }
 
             SaveAndRemoveFromWorld();
         }
@@ -124,7 +118,9 @@ namespace AAEmu.Game.Core.Network.Connections
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
+                        {
                             characterIds.Add(reader.GetUInt32("id"));
+                        }
                     }
                 }
 
@@ -132,7 +128,9 @@ namespace AAEmu.Game.Core.Network.Connections
                 {
                     var character = Character.Load(connection, id, AccountId);
                     if (character == null)
+                    {
                         continue; // TODO ...
+                    }
 
                     // Mark characters marked for deletion as deleted after their time is finished
                     if ((character.DeleteTime > DateTime.MinValue) && (character.DeleteTime < DateTime.UtcNow))
@@ -155,7 +153,9 @@ namespace AAEmu.Game.Core.Network.Connections
                 }
 
                 foreach (var character in Characters.Values)
+                {
                     character.Inventory.Load(connection, SlotType.Equipment);
+                }
             }
 
             Houses.Clear();
@@ -172,18 +172,28 @@ namespace AAEmu.Game.Core.Network.Connections
 
                 // TODO: We need a config for this, but for now I added a silly if/else group
                 if (character.Level <= 1)
+                {
                     character.DeleteTime = character.DeleteRequestTime.AddMinutes(5);
+                }
                 else
                 if (character.Level < 10)
+                {
                     character.DeleteTime = character.DeleteRequestTime.AddMinutes(30);
+                }
                 else
                 if (character.Level < 30)
+                {
                     character.DeleteTime = character.DeleteRequestTime.AddHours(4);
+                }
                 else
                 if (character.Level < 40)
+                {
                     character.DeleteTime = character.DeleteRequestTime.AddDays(1);
+                }
                 else
+                {
                     character.DeleteTime = character.DeleteRequestTime.AddDays(7);
+                }
 
                 // TODO: Delete leadership, set properties to public, remove from party/guild/family
                 SendPacket(new SCDeleteCharacterResponsePacket(character.Id, 2, character.DeleteRequestTime,
@@ -244,7 +254,9 @@ namespace AAEmu.Game.Core.Network.Connections
         {
             // TODO: this needs a rewrite
             if (ActiveChar == null)
+            {
                 return;
+            }
 
             ActiveChar.Delete();
             // Removed ReleaseId here to try and fix party/raid disconnect and reconnect issues. Replaced with saving the data

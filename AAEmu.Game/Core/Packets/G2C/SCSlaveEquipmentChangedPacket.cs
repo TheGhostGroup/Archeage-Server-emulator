@@ -6,8 +6,8 @@ namespace AAEmu.Game.Core.Packets.G2C
 {
     public class SCSlaveEquipmentChangedPacket : GamePacket
     {
-        private SlaveEquipment slaveEquipment;
-        private bool success;
+        private readonly SlaveEquipment slaveEquipment;
+        private readonly bool success;
 
         public SCSlaveEquipmentChangedPacket(SlaveEquipment slaveEquipment, bool success) : base(SCOffsets.SCSlaveEquipmentChangedPacket, 5)
         {

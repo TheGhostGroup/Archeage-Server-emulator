@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Net;
+
 using AAEmu.Commons.Network.Type;
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Packets.C2G;
 using AAEmu.Game.Core.Packets.Proxy;
 using AAEmu.Game.Models;
+
 using NLog;
 
 namespace AAEmu.Game.Core.Network.Game
@@ -12,8 +14,8 @@ namespace AAEmu.Game.Core.Network.Game
     public class GameNetwork : Singleton<GameNetwork>
     {
         private Server _server;
-        private GameProtocolHandler _handler;
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private readonly GameProtocolHandler _handler;
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private GameNetwork()
         {
@@ -124,7 +126,7 @@ namespace AAEmu.Game.Core.Network.Game
             RegisterPacket(CSOffsets.CSUnhangPacket, 5, typeof(CSUnhangPacket));
             RegisterPacket(CSOffsets.CSChangeAppellationPacket, 5, typeof(CSChangeAppellationPacket));
             RegisterPacket(CSOffsets.CSStartedCinemaPacket, 5, typeof(CSStartedCinemaPacket));
-            
+
             RegisterPacket(CSOffsets.CSHgResponsePacket, 1, typeof(CSHgResponsePacket)); // level = 1
             RegisterPacket(CSOffsets.CSBroadcastVisualOptionPacket, 5, typeof(CSBroadcastVisualOptionPacket));
             RegisterPacket(CSOffsets.CSBroadcastOpenEquipInfoPacket, 5, typeof(CSBroadcastOpenEquipInfoPacket));
@@ -254,7 +256,7 @@ namespace AAEmu.Game.Core.Network.Game
             RegisterPacket(CSOffsets.CSJoinTrialAudiencePacket, 5, typeof(CSJoinTrialAudiencePacket));
             RegisterPacket(CSOffsets.CSLeaveTrialAudiencePacket, 5, typeof(CSLeaveTrialAudiencePacket));
             //RegisterPacket(CSOffsets.CSUnmountMatePacket, 5, typeof(CSUnmountMatePacket));
-            //RegisterPacket(CSOffsets.CSUnbondPacket, 5, typeof(CSUnbondPacket));
+            RegisterPacket(CSOffsets.CSUnbondDoodadPacket, 5, typeof(CSUnbondDoodadPacket));
             RegisterPacket(CSOffsets.CSInstanceLoadedPacket, 5, typeof(CSInstanceLoadedPacket));
             RegisterPacket(CSOffsets.CSApplyToInstantGamePacket, 5, typeof(CSApplyToInstantGamePacket));
             RegisterPacket(CSOffsets.CSCancelInstantGamePacket, 5, typeof(CSCancelInstantGamePacket));
@@ -430,7 +432,9 @@ namespace AAEmu.Game.Core.Network.Game
         public void Stop()
         {
             if (_server.IsStarted)
+            {
                 _server.Stop();
+            }
 
             _log.Info("Network stoped");
         }

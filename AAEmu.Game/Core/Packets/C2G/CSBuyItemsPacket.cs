@@ -2,7 +2,6 @@
 
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers;
-using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Managers.UnitManagers;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Network.Game;
@@ -23,14 +22,18 @@ namespace AAEmu.Game.Core.Packets.C2G
             var npcObjId = stream.ReadBc();
             var npc = WorldManager.Instance.GetNpc(npcObjId);
             if (npc == null || !npc.Template.Merchant || npc.Template.MerchantPackId == 0)
+            {
                 return;
+            }
 
             var unkObjId = stream.ReadBc();
             var unkId = stream.ReadUInt32(); // type(id)
 
             var pack = NpcManager.Instance.GetGoods(npc.Template.MerchantPackId);
             if (pack == null)
+            {
                 return;
+            }
 
             var nBuy = stream.ReadByte();
             var nBuyBack = stream.ReadByte();
@@ -49,17 +52,25 @@ namespace AAEmu.Game.Core.Packets.C2G
                 var currency = (ShopCurrencyType)stream.ReadByte();
 
                 if (!pack.Items.ContainsKey(itemId) || pack.Items[itemId].IndexOf(grade) < 0)
+                {
                     continue;
+                }
 
                 itemsBuy.Add((itemId, grade, count));
                 var template = ItemManager.Instance.GetTemplate(itemId);
 
                 if (currency == ShopCurrencyType.Money)
+                {
                     money += template.Price * count;
+                }
                 else if (currency == ShopCurrencyType.Honor)
+                {
                     honor += template.HonorPrice * count;
+                }
                 else if (currency == ShopCurrencyType.VocationBadges)
+                {
                     living += template.LivingPointPrice * count;
+                }
                 else
                 {
                     _log.Error("Unknown currency type");
@@ -79,7 +90,10 @@ namespace AAEmu.Game.Core.Packets.C2G
                 var item = Connection.ActiveChar.BuyBack[index];
                 */
                 if (item == null)
+                {
                     continue;
+                }
+
                 itemsBuyBack.Add(item, index);
                 money += (int)(item.Template.Refund * ItemManager.Instance.GetGradeTemplate(item.Grade).RefundMultiplier / 100f) *
                          item.Count;
@@ -90,7 +104,9 @@ namespace AAEmu.Game.Core.Packets.C2G
             if (money > Connection.ActiveChar.Money &&
                 honor > Connection.ActiveChar.HonorPoint &&
                 living > Connection.ActiveChar.VocationPoint)
+            {
                 return;
+            }
 
             var tasks = new List<ItemTask>();
             foreach (var (itemId, grade, count) in itemsBuy)

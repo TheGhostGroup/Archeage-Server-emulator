@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Packets.G2C;
@@ -164,7 +165,9 @@ namespace AAEmu.Game.Models.Game.Skills.Templates
             Skill skill, SkillObject skillObject, DateTime time)
         {
             if (RequireBuffId > 0 && !target.Effects.CheckBuff(RequireBuffId))
+            {
                 return; //TODO send error?
+            }
             //if (target.Effects.CheckBuffImmune(Id))
             //    return; //TODO  error of immune?
             target.Effects.AddEffect(new Effect(target, caster, casterObj, this, skill, time));
@@ -174,9 +177,11 @@ namespace AAEmu.Game.Models.Game.Skills.Templates
         {
             foreach (var template in Bonuses)
             {
-                var bonus = new Bonus();
-                bonus.Template = template;
-                bonus.Value = template.Value; // TODO using LinearLevelBonus
+                var bonus = new Bonus
+                {
+                    Template = template,
+                    Value = template.Value // TODO using LinearLevelBonus
+                };
                 owner.AddBonus(effect.Index, bonus);
             }
 
@@ -189,10 +194,16 @@ namespace AAEmu.Game.Models.Game.Skills.Templates
             {
                 if (TickEffect.TargetBuffTagId > 0 &&
                     !owner.Effects.CheckBuffs(SkillManager.Instance.GetBuffsByTagId(TickEffect.TargetBuffTagId)))
+                {
                     return;
+                }
+
                 if (TickEffect.TargetNoBuffTagId > 0 &&
                     owner.Effects.CheckBuffs(SkillManager.Instance.GetBuffsByTagId(TickEffect.TargetNoBuffTagId)))
+                {
                     return;
+                }
+
                 var eff = SkillManager.Instance.GetEffectTemplate(TickEffect.EffectId);
                 var targetObj = new SkillCastUnitTarget(owner.ObjId);
                 var skillObj = new SkillObject(); // TODO ?
@@ -203,13 +214,16 @@ namespace AAEmu.Game.Models.Game.Skills.Templates
         public override void Dispel(Unit caster, BaseUnit owner, Effect effect)
         {
             foreach (var template in Bonuses)
+            {
                 owner.RemoveBonus(effect.Index, template.Attribute);
+            }
+
             owner.BroadcastPacket(new SCBuffRemovedPacket(owner.ObjId, effect.Index), true);
         }
 
         public override void WriteData(PacketStream stream)
         {
-            stream.WritePisc(0, Duration / 10, 0, (long) (Tick / 10)); // unk, Duration, unk / 10, Tick
+            stream.WritePisc(0, Duration / 10, 0, (long)(Tick / 10)); // unk, Duration, unk / 10, Tick
         }
 
         public override int GetDuration()

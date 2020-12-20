@@ -9,15 +9,15 @@ namespace AAEmu.Game.Models.Game.Skills
 
         public override PacketStream Write(PacketStream stream)
         {
-            stream.Write((byte) Type);
+            stream.Write((byte)Type);
             return stream;
         }
     }
 
     public class CastSkill : CastAction
     {
-        private uint _skillId;
-        private ushort _tlId;
+        private readonly uint _skillId;
+        private readonly ushort _tlId;
 
         public CastSkill(uint skillId, ushort tlId)
         {
@@ -37,10 +37,10 @@ namespace AAEmu.Game.Models.Game.Skills
 
     public class CastPlot : CastAction
     {
-        private uint _plotId;
-        private ushort _tlId;
-        private uint _eventId;
-        private uint _skillId;
+        private readonly uint _plotId;
+        private readonly ushort _tlId;
+        private readonly uint _eventId;
+        private readonly uint _skillId;
 
         public CastPlot(uint plotId, ushort tlId, uint eventId, uint skillId)
         {
@@ -64,7 +64,7 @@ namespace AAEmu.Game.Models.Game.Skills
 
     public class CastBuff : CastAction
     {
-        private Effect _effect;
+        private readonly Effect _effect;
 
         public CastBuff(Effect effect)
         {

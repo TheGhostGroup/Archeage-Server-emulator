@@ -13,7 +13,7 @@ namespace AAEmu.Game.Core.Packets.G2C
         {
             for (var i = 0; i < 9; i++)
             {
-                stream.Write((byte) 0);
+                stream.Write((byte)0);
             }
             // перенаселенность рас, также смотреть ACWorlList : RaceLoad[9]
             /*RACE_CONGESTION = {

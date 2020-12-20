@@ -29,7 +29,7 @@ namespace AAEmu.Commons.Conversion
 
         #region Factory properties
 
-        private static LittleEndianBitConverter _little = new LittleEndianBitConverter();
+        private static readonly LittleEndianBitConverter _little = new LittleEndianBitConverter();
 
         /// <summary>
         /// Returns a little-endian bit converter instance. The same instance is
@@ -40,7 +40,7 @@ namespace AAEmu.Commons.Conversion
             get { return _little; }
         }
 
-        private static BigEndianBitConverter _big = new BigEndianBitConverter();
+        private static readonly BigEndianBitConverter _big = new BigEndianBitConverter();
 
         /// <summary>
         /// Returns a big-endian bit converter instance. The same instance is
@@ -230,9 +230,14 @@ namespace AAEmu.Commons.Conversion
         private static void CheckByteArgument(byte[] value, int startIndex, int bytesRequired)
         {
             if (value == null)
+            {
                 throw new ArgumentNullException("value");
+            }
+
             if (startIndex < 0 || startIndex > value.Length - bytesRequired)
+            {
                 throw new ArgumentOutOfRangeException("startIndex");
+            }
         }
 
         /// <summary>
@@ -327,7 +332,10 @@ namespace AAEmu.Commons.Conversion
             // On the other hand, there's no real format specified...
             var parts = new int[4];
             for (var i = 0; i < 4; i++)
+            {
                 parts[i] = ToInt32(value, startIndex + i * 4);
+            }
+
             return new Decimal(parts);
         }
 
@@ -341,7 +349,10 @@ namespace AAEmu.Commons.Conversion
             var bytes = new byte[16];
             var parts = decimal.GetBits(value);
             for (var i = 0; i < 4; i++)
+            {
                 CopyBytesImpl(parts[i], 4, bytes, i * 4);
+            }
+
             return bytes;
         }
 
@@ -356,7 +367,9 @@ namespace AAEmu.Commons.Conversion
         {
             var parts = decimal.GetBits(value);
             for (var i = 0; i < 4; i++)
+            {
                 CopyBytesImpl(parts[i], 4, buffer, i * 4 + index);
+            }
         }
 
         #endregion
@@ -494,9 +507,15 @@ namespace AAEmu.Commons.Conversion
         private void CopyBytes(long value, int bytes, byte[] buffer, int index)
         {
             if (buffer == null)
+            {
                 throw new ArgumentNullException("buffer", "Byte array must not be null");
+            }
+
             if (buffer.Length < index + bytes)
+            {
                 throw new ArgumentOutOfRangeException("Buffer not big enough for value");
+            }
+
             CopyBytesImpl(value, bytes, buffer, index);
         }
 

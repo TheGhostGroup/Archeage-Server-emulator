@@ -4,7 +4,7 @@ namespace AAEmu.Commons.Utils
 {
     public sealed class BitSet
     {
-        private BitArray _bits;
+        private readonly BitArray _bits;
 
         public BitSet(int count)
         {
@@ -40,13 +40,19 @@ namespace AAEmu.Commons.Utils
         {
             var offset = startFrom;
             if (offset >= Count)
+            {
                 return -1;
+            }
+
             var res = _bits.Get(offset);
             // locate non-empty slot
             while (!res)
             {
                 if ((++offset) >= Count)
+                {
                     return -1;
+                }
+
                 res = _bits.Get(offset);
             }
 
@@ -57,13 +63,19 @@ namespace AAEmu.Commons.Utils
         {
             var offset = startFrom;
             if (offset >= Count)
+            {
                 return -1;
+            }
+
             var res = _bits.Get(offset);
             // locate non-empty slot
             while (res)
             {
                 if ((++offset) >= Count)
+                {
                     return -1;
+                }
+
                 res = _bits.Get(offset);
             }
 
@@ -73,7 +85,9 @@ namespace AAEmu.Commons.Utils
         public void Or(BitSet other)
         {
             for (var i = 0; i < other.Count; i++)
+            {
                 _bits[i] = other[i];
+            }
         }
 
         public int[] ToIntArray()

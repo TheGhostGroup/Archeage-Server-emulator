@@ -1,4 +1,5 @@
 ﻿using System;
+
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Packets.G2C;
@@ -20,7 +21,9 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             Skill skill, SkillObject skillObject, DateTime time)
         {
             if (Buff.RequireBuffId > 0 && !target.Effects.CheckBuff(Buff.RequireBuffId))
+            {
                 return; // TODO send error?
+            }
             //if (target.Effects.CheckBuffImmune(Buff.Id))
             //    return; // TODO send error of immune?
             target.Effects.AddEffect(new Effect(target, caster, casterObj, this, skill, time));
@@ -30,9 +33,11 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
         {
             foreach (var template in Buff.Bonuses)
             {
-                var bonus = new Bonus();
-                bonus.Template = template;
-                bonus.Value = template.Value; // TODO using LinearLevelBonus
+                var bonus = new Bonus
+                {
+                    Template = template,
+                    Value = template.Value // TODO using LinearLevelBonus
+                };
                 owner.AddBonus(effect.Index, bonus);
             }
 
@@ -42,13 +47,22 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
         public override void TimeToTimeApply(Unit caster, BaseUnit owner, Effect effect)
         {
             if (Buff.TickEffect == null)
+            {
                 return;
+            }
+
             if (Buff.TickEffect.TargetBuffTagId > 0 &&
                 !owner.Effects.CheckBuffs(SkillManager.Instance.GetBuffsByTagId(Buff.TickEffect.TargetBuffTagId)))
+            {
                 return;
+            }
+
             if (Buff.TickEffect.TargetNoBuffTagId > 0 &&
                 owner.Effects.CheckBuffs(SkillManager.Instance.GetBuffsByTagId(Buff.TickEffect.TargetNoBuffTagId)))
+            {
                 return;
+            }
+
             var eff = SkillManager.Instance.GetEffectTemplate(Buff.TickEffect.EffectId);
             var targetObj = new SkillCastUnitTarget(owner.ObjId);
             var skillObj = new SkillObject(); // TODO ?
@@ -58,7 +72,10 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
         public override void Dispel(Unit caster, BaseUnit owner, Effect effect)
         {
             foreach (var template in Buff.Bonuses)
+            {
                 owner.RemoveBonus(effect.Index, template.Attribute);
+            }
+
             owner.BroadcastPacket(new SCBuffRemovedPacket(owner.ObjId, effect.Index), true);
         }
 

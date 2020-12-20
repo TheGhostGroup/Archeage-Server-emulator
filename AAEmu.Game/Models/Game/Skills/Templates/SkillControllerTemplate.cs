@@ -1,4 +1,5 @@
 using System;
+
 using AAEmu.Game.Models.Game.Units;
 
 namespace AAEmu.Game.Models.Game.Skills.Templates

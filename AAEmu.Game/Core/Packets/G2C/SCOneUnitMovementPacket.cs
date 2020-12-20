@@ -37,7 +37,7 @@ namespace AAEmu.Game.Core.Packets.G2C
         public override PacketStream Write(PacketStream stream)
         {
             stream.WriteBc(_id);
-            stream.Write((byte) _type.ScType);
+            stream.Write((byte)_type.ScType);
             stream.Write(_type);
             return stream;
         }

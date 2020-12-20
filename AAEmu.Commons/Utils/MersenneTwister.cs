@@ -92,7 +92,7 @@ namespace AAEmu.Commons.Utils
         /// <param name="seed">A value to use as a seed.</param>
         public MersenneTwister(Int32 seed)
         {
-            init((UInt32) seed);
+            init((UInt32)seed);
         }
 
         /// <summary>
@@ -114,13 +114,15 @@ namespace AAEmu.Commons.Utils
         public MersenneTwister(Int32[] initKey)
         {
             if (initKey == null)
+            {
                 throw new ArgumentNullException("initKey");
+            }
 
             var initArray = new UInt32[initKey.Length];
 
             for (var i = 0; i < initKey.Length; ++i)
             {
-                initArray[i] = (UInt32) initKey[i];
+                initArray[i] = (UInt32)initKey[i];
             }
 
             init(initArray);
@@ -147,7 +149,7 @@ namespace AAEmu.Commons.Utils
         /// </returns>
         public virtual UInt32 NextUInt32(UInt32 maxValue)
         {
-            return (UInt32) (GenerateUInt32() / ((Double) UInt32.MaxValue / maxValue));
+            return (UInt32)(GenerateUInt32() / ((Double)UInt32.MaxValue / maxValue));
         }
 
         /// <summary>
@@ -166,9 +168,11 @@ namespace AAEmu.Commons.Utils
         public virtual UInt32 NextUInt32(UInt32 minValue, UInt32 maxValue) /* throws ArgumentOutOfRangeException */
         {
             if (minValue > maxValue)
+            {
                 throw new ArgumentOutOfRangeException();
+            }
 
-            return (UInt32) (GenerateUInt32() / ((Double) UInt32.MaxValue / (maxValue - minValue)) + minValue);
+            return (UInt32)(GenerateUInt32() / ((Double)UInt32.MaxValue / (maxValue - minValue)) + minValue);
         }
 
         /// <summary>
@@ -195,11 +199,14 @@ namespace AAEmu.Commons.Utils
             if (maxValue < 1)
             {
                 if (maxValue < 0)
+                {
                     throw new ArgumentOutOfRangeException();
+                }
+
                 return 0;
             }
 
-            return (Int32) (NextDouble() * maxValue);
+            return (Int32)(NextDouble() * maxValue);
         }
 
         /// <summary>
@@ -217,9 +224,15 @@ namespace AAEmu.Commons.Utils
         public override Int32 Next(Int32 minValue, Int32 maxValue)
         {
             if (maxValue < minValue)
+            {
                 throw new ArgumentOutOfRangeException();
+            }
+
             if (maxValue == minValue)
+            {
                 return minValue;
+            }
+
             return Next(maxValue - minValue) + minValue;
         }
 
@@ -234,11 +247,15 @@ namespace AAEmu.Commons.Utils
         {
             // [codekaizen: corrected this to check null before checking length.]
             if (buffer == null)
+            {
                 throw new ArgumentNullException();
+            }
 
             var bufLen = buffer.Length;
             for (var idx = 0; idx < bufLen; ++idx)
-                buffer[idx] = (Byte) Next(256);
+            {
+                buffer[idx] = (Byte)Next(256);
+            }
         }
 
         /// <summary>
@@ -315,7 +332,7 @@ namespace AAEmu.Commons.Utils
         /// </returns>
         public Single NextSingle()
         {
-            return (Single) NextDouble();
+            return (Single)NextDouble();
         }
 
         /// <summary>
@@ -337,7 +354,7 @@ namespace AAEmu.Commons.Utils
         /// </returns>
         public Single NextSingle(Boolean includeOne)
         {
-            return (Single) NextDouble(includeOne);
+            return (Single)NextDouble(includeOne);
         }
 
         /// <summary>
@@ -346,7 +363,7 @@ namespace AAEmu.Commons.Utils
         /// <returns>A pseudo-random number greater than 0.0 and less than 1.0.</returns>
         public Single NextSinglePositive()
         {
-            return (Single) NextDoublePositive();
+            return (Single)NextDoublePositive();
         }
 
         /// <summary>
@@ -423,7 +440,7 @@ namespace AAEmu.Commons.Utils
         private readonly uint[] _mt = new UInt32[N]; /* the array for the state vector  */
         private Int16 _mti;
 
-        private static readonly uint[] _mag01 = {0x0, MatrixA};
+        private static readonly uint[] _mag01 = { 0x0, MatrixA };
 
         private void init(uint seed)
         {
@@ -431,7 +448,7 @@ namespace AAEmu.Commons.Utils
 
             for (_mti = 1; _mti < N; _mti++)
             {
-                _mt[_mti] = (uint) (1812433253U * (_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + _mti);
+                _mt[_mti] = (uint)(1812433253U * (_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + _mti);
                 // See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. 
                 // In the previous versions, MSBs of the seed affect   
                 // only MSBs of the array _mt[].                        
@@ -452,7 +469,7 @@ namespace AAEmu.Commons.Utils
 
             for (; k > 0; k--)
             {
-                _mt[i] = (uint) ((_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30)) * 1664525U)) + key[j] +
+                _mt[i] = (uint)((_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30)) * 1664525U)) + key[j] +
                                  j); /* non linear */
                 _mt[i] &= 0xffffffffU; // for WORDSIZE > 32 machines
                 i++;
@@ -463,12 +480,15 @@ namespace AAEmu.Commons.Utils
                     i = 1;
                 }
 
-                if (j >= keyLength) j = 0;
+                if (j >= keyLength)
+                {
+                    j = 0;
+                }
             }
 
             for (k = N - 1; k > 0; k--)
             {
-                _mt[i] = (uint) ((_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30)) * 1566083941U)) - i); /* non linear */
+                _mt[i] = (uint)((_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30)) * 1566083941U)) - i); /* non linear */
                 _mt[i] &= 0xffffffffU; // for WORDSIZE > 32 machines
                 i++;
 
@@ -497,9 +517,9 @@ namespace AAEmu.Commons.Utils
         private double Compute53BitRandom(double translate, double scale)
         {
             // get 27 pseudo-random bits
-            var a = (ulong) GenerateUInt32() >> 5;
+            var a = (ulong)GenerateUInt32() >> 5;
             // get 26 pseudo-random bits
-            var b = (ulong) GenerateUInt32() >> 6;
+            var b = (ulong)GenerateUInt32() >> 6;
 
             // shift the 27 pseudo-random bits (a) over by 26 bits (* 67108864.0) and
             // add another pseudo-random 26 bits (+ b).

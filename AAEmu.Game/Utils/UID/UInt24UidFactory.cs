@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+
 using AAEmu.Commons.Utils;
 
 namespace AAEmu.Game.Utils.UID
@@ -10,22 +11,28 @@ namespace AAEmu.Game.Utils.UID
 
         public UInt24UidFactory(Uint24 val = default(Uint24))
         {
-            if(val != 1)
-              _nextUid = val + 1;
+            if (val != 1)
+            {
+                _nextUid = val + 1;
+            }
         }
 
         public Uint24 Next()
         {
             if (_freeUidList.TryDequeue(out var result))
+            {
                 return result;
+            }
 
             return _nextUid++;
         }
 
         public void ReleaseUniqueInt(Uint24 uid24)
         {
-            if ((Uint24)uid24 == 0)
+            if (uid24 == 0)
+            {
                 return;
+            }
 
             _freeUidList.Enqueue(uid24);
         }

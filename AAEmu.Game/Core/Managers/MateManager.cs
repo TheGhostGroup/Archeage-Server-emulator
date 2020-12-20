@@ -21,7 +21,7 @@ namespace AAEmu.Game.Core.Managers
 {
     public class MateManager : Singleton<MateManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private Regex _nameRegex;
 
         private Dictionary<uint, NpcMountSkills> _slaveMountSkills;
@@ -36,7 +36,10 @@ namespace AAEmu.Game.Core.Managers
         {
             foreach (var mate in _activeMates.Values)
             {
-                if (mate.TlId == tlId) return mate;
+                if (mate.TlId == tlId)
+                {
+                    return mate;
+                }
             }
 
             return null;
@@ -46,7 +49,10 @@ namespace AAEmu.Game.Core.Managers
         {
             foreach (var mate in _activeMates.Values)
             {
-                if (mate.ObjId == mateObjId) return mate;
+                if (mate.ObjId == mateObjId)
+                {
+                    return mate;
+                }
             }
 
             return null;
@@ -56,7 +62,10 @@ namespace AAEmu.Game.Core.Managers
         {
             foreach (var mate in _activeMates.Values)
             {
-                if (mate.Attached1 == objId || mate.Attached2 == objId) return mate;
+                if (mate.Attached1 == objId || mate.Attached2 == objId)
+                {
+                    return mate;
+                }
             }
 
             return null;
@@ -66,7 +75,10 @@ namespace AAEmu.Game.Core.Managers
         {
             var owner = connection.ActiveChar;
             var mateInfo = GetActiveMate(owner.ObjId);
-            if (mateInfo?.TlId != tlId) return;
+            if (mateInfo?.TlId != tlId)
+            {
+                return;
+            }
 
             mateInfo.UserState = newState; // TODO - Maybe verify range
             //owner.BroadcastPacket(new SCMateStatePacket(), );
@@ -76,7 +88,11 @@ namespace AAEmu.Game.Core.Managers
         {
             var owner = connection.ActiveChar;
             var mateInfo = GetActiveMateByTlId(tlId);
-            if (mateInfo == null) return;
+            if (mateInfo == null)
+            {
+                return;
+            }
+
             mateInfo.CurrentTarget = objId > 0 ? WorldManager.Instance.GetUnit(objId) : null;
             owner.BroadcastPacket(new SCTargetChangedPacket(mateInfo.ObjId, mateInfo.CurrentTarget?.ObjId ?? 0), true);
 
@@ -86,9 +102,17 @@ namespace AAEmu.Game.Core.Managers
         public Mount RenameMount(GameConnection connection, uint tlId, string newName)
         {
             var owner = connection.ActiveChar;
-            if (string.IsNullOrWhiteSpace(newName) || newName.Length == 0 || !_nameRegex.IsMatch(newName)) return null;
+            if (string.IsNullOrWhiteSpace(newName) || newName.Length == 0 || !_nameRegex.IsMatch(newName))
+            {
+                return null;
+            }
+
             var mateInfo = GetActiveMate(owner.ObjId);
-            if (mateInfo == null || mateInfo.TlId != tlId) return null;
+            if (mateInfo == null || mateInfo.TlId != tlId)
+            {
+                return null;
+            }
+
             mateInfo.Name = newName.FirstCharToUpper();
             owner.BroadcastPacket(new SCUnitNameChangedPacket(mateInfo.ObjId, newName), true);
             return mateInfo;
@@ -98,18 +122,29 @@ namespace AAEmu.Game.Core.Managers
         {
             var character = connection.ActiveChar;
             var mateInfo = GetActiveMateByTlId(tlId);
-            if (mateInfo == null) return;
+            if (mateInfo == null)
+            {
+                return;
+            }
 
             if (mateInfo.OwnerObjId != character.ObjId)
             {
-                if (mateInfo.Attached2 > 0) return;
+                if (mateInfo.Attached2 > 0)
+                {
+                    return;
+                }
+
                 character.BroadcastPacket(new SCUnitAttachedPacket(character.ObjId, ap, reason, mateInfo.ObjId), true);
                 mateInfo.Attached2 = character.ObjId;
                 mateInfo.Reason2 = reason;
             }
             else
             {
-                if (mateInfo.Attached1 > 0) return;
+                if (mateInfo.Attached1 > 0)
+                {
+                    return;
+                }
+
                 character.BroadcastPacket(new SCUnitAttachedPacket(character.ObjId, ap, reason, mateInfo.ObjId), true);
                 mateInfo.Attached1 = character.ObjId;
                 mateInfo.Reason1 = reason;
@@ -121,7 +156,10 @@ namespace AAEmu.Game.Core.Managers
         public void UnMountMate(Character character, uint tlId, AttachPoint ap, AttachUnitReason reason)
         {
             var mateInfo = GetActiveMateByTlId(tlId);
-            if (mateInfo == null) return;
+            if (mateInfo == null)
+            {
+                return;
+            }
 
             var unMounted = 0;
             Character targetObj = null;
@@ -140,7 +178,10 @@ namespace AAEmu.Game.Core.Managers
                 unMounted = 2;
             }
 
-            if ((unMounted != 1 && unMounted != 2) || targetObj == null) return;
+            if ((unMounted != 1 && unMounted != 2) || targetObj == null)
+            {
+                return;
+            }
 
             character.BroadcastPacket(new SCUnitDetachedPacket(targetObj.ObjId, reason), true);
             _log.Debug("UnMountMate. mountTlId: {0}, objId: {1}, att: {2}, attachPoint{3}, reason: {4}", mateInfo.TlId, targetObj.ObjId, unMounted, ap, reason);
@@ -166,12 +207,27 @@ namespace AAEmu.Game.Core.Managers
 
         public void RemoveActiveMateAndDespawn(Character owner, uint tlId)
         {
-            if (!_activeMates.ContainsKey(owner.ObjId)) return;
-            var mateInfo = _activeMates[owner.ObjId];
-            if (mateInfo.TlId != tlId) return;
+            if (!_activeMates.ContainsKey(owner.ObjId))
+            {
+                return;
+            }
 
-            if (mateInfo.Attached1 > 0) UnMountMate((Character)WorldManager.Instance.GetUnit(mateInfo.Attached1), tlId, AttachPoint.Driver, AttachUnitReason.MountMateLeft); // TODO reason unmount
-            if (mateInfo.Attached2 > 0) UnMountMate((Character)WorldManager.Instance.GetUnit(mateInfo.Attached2), tlId, AttachPoint.Passenger0, AttachUnitReason.MountMateLeft); // TODO reason unmount
+            var mateInfo = _activeMates[owner.ObjId];
+            if (mateInfo.TlId != tlId)
+            {
+                return;
+            }
+
+            if (mateInfo.Attached1 > 0)
+            {
+                UnMountMate((Character)WorldManager.Instance.GetUnit(mateInfo.Attached1), tlId, AttachPoint.Driver, AttachUnitReason.MountMateLeft); // TODO reason unmount
+            }
+
+            if (mateInfo.Attached2 > 0)
+            {
+                UnMountMate((Character)WorldManager.Instance.GetUnit(mateInfo.Attached2), tlId, AttachPoint.Passenger0, AttachUnitReason.MountMateLeft); // TODO reason unmount
+            }
+
             _activeMates[owner.ObjId].Delete();
             _activeMates.Remove(owner.ObjId);
             ObjectIdManager.Instance.ReleaseId(mateInfo.ObjId);
@@ -185,8 +241,12 @@ namespace AAEmu.Game.Core.Managers
             var template = new List<uint>();
 
             foreach (var value in _slaveMountSkills.Values)
+            {
                 if (value.NpcId == id && !template.Contains(value.MountSkillId))
+                {
                     template.Add(value.MountSkillId);
+                }
+            }
 
             return template;
         }
@@ -210,11 +270,13 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new NpcMountSkills();
-                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
-                            template.Id = step++;
-                            template.NpcId = reader.GetUInt32("npc_id");
-                            template.MountSkillId = reader.GetUInt32("mount_skill_id");
+                            var template = new NpcMountSkills
+                            {
+                                //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                                Id = step++,
+                                NpcId = reader.GetUInt32("npc_id"),
+                                MountSkillId = reader.GetUInt32("mount_skill_id")
+                            };
                             _slaveMountSkills.Add(template.Id, template);
                         }
                     }

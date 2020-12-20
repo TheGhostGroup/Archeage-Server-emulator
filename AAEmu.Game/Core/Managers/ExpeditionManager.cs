@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using AAEmu.Commons.IO;
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers.Id;
@@ -14,15 +15,16 @@ using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.Expeditions;
 using AAEmu.Game.Models.Game.Faction;
 using AAEmu.Game.Models.Game.Items.Actions;
-using AAEmu.Game.Utils.DB;
-using NLog;
 using AAEmu.Game.Models.Game.Team;
+using AAEmu.Game.Utils.DB;
+
+using NLog;
 
 namespace AAEmu.Game.Core.Managers
 {
     public class ExpeditionManager : Singleton<ExpeditionManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private ExpeditionConfig _config;
         private Regex _nameRegex;
 
@@ -30,18 +32,20 @@ namespace AAEmu.Game.Core.Managers
 
         public Expedition Create(string name, Character owner)
         {
-            var expedition = new Expedition();
-            expedition.Id = ExpeditionIdManager.Instance.GetNextId();
-            expedition.MotherId = owner.Faction.Id;
-            expedition.Name = name;
-            expedition.OwnerId = owner.Id;
-            expedition.OwnerName = owner.Name;
-            expedition.UnitOwnerType = 0;
-            expedition.PoliticalSystem = 1;
-            expedition.Created = DateTime.Now;
-            expedition.AggroLink = false;
-            expedition.DiplomacyTarget = false;
-            expedition.Members = new List<ExpeditionMember>();
+            var expedition = new Expedition
+            {
+                Id = ExpeditionIdManager.Instance.GetNextId(),
+                MotherId = owner.Faction.Id,
+                Name = name,
+                OwnerId = owner.Id,
+                OwnerName = owner.Name,
+                UnitOwnerType = 0,
+                PoliticalSystem = 1,
+                Created = DateTime.Now,
+                AggroLink = false,
+                DiplomacyTarget = false,
+                Members = new List<ExpeditionMember>()
+            };
             expedition.Policies = GetDefaultPolicies(expedition.Id);
 
             var member = GetMemberFromCharacter(expedition, owner, true);
@@ -57,10 +61,15 @@ namespace AAEmu.Game.Core.Managers
 
             var contents = FileManager.GetFileContents($"{FileManager.AppPath}Data/expedition.json");
             if (string.IsNullOrWhiteSpace(contents))
+            {
                 throw new IOException($"File {FileManager.AppPath}Data/expedition.json doesn't exists or is empty.");
+            }
 
             if (!JsonHelper.TryDeserializeObject(contents, out _config, out _)) // TODO here can out Exception
+            {
                 throw new Exception($"ExpeditionManager: Parse {FileManager.AppPath}Data/expedition.json file");
+            }
+
             _nameRegex = new Regex(_config.NameRegex, RegexOptions.Compiled);
 
             using (var connection = MySQL.CreateConnection())
@@ -73,17 +82,19 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var expedition = new Expedition();
-                            expedition.Id = reader.GetUInt32("id");
-                            expedition.MotherId = reader.GetUInt32("mother");
-                            expedition.Name = reader.GetString("name");
-                            expedition.OwnerId = reader.GetUInt32("owner");
-                            expedition.OwnerName = reader.GetString("owner_name");
-                            expedition.UnitOwnerType = 0;
-                            expedition.PoliticalSystem = 1;
-                            expedition.Created = reader.GetDateTime("created_at");
-                            expedition.AggroLink = false;
-                            expedition.DiplomacyTarget = false;
+                            var expedition = new Expedition
+                            {
+                                Id = reader.GetUInt32("id"),
+                                MotherId = reader.GetUInt32("mother"),
+                                Name = reader.GetString("name"),
+                                OwnerId = reader.GetUInt32("owner"),
+                                OwnerName = reader.GetString("owner_name"),
+                                UnitOwnerType = 0,
+                                PoliticalSystem = 1,
+                                Created = reader.GetDateTime("created_at"),
+                                AggroLink = false,
+                                DiplomacyTarget = false
+                            };
 
                             _expeditions.Add(expedition.Id, expedition);
                         }
@@ -101,20 +112,22 @@ namespace AAEmu.Game.Core.Managers
                         {
                             while (reader.Read())
                             {
-                                var member = new ExpeditionMember();
-                                member.CharacterId = reader.GetUInt32("character_id");
-                                member.ExpeditionId = reader.GetUInt32("expedition_id");
-                                member.Role = reader.GetByte("role");
-                                member.Memo = reader.GetString("memo");
-                                member.LastWorldLeaveTime = reader.GetDateTime("last_leave_time");
-                                member.Name = reader.GetString("name");
-                                member.Level = reader.GetByte("level");
-                                member.Abilities = new byte[]
+                                var member = new ExpeditionMember
+                                {
+                                    CharacterId = reader.GetUInt32("character_id"),
+                                    ExpeditionId = reader.GetUInt32("expedition_id"),
+                                    Role = reader.GetByte("role"),
+                                    Memo = reader.GetString("memo"),
+                                    LastWorldLeaveTime = reader.GetDateTime("last_leave_time"),
+                                    Name = reader.GetString("name"),
+                                    Level = reader.GetByte("level"),
+                                    Abilities = new byte[]
                                 {
                                     reader.GetByte("ability1"), reader.GetByte("ability2"), reader.GetByte("ability3")
+                                },
+                                    IsOnline = false,
+                                    InParty = false
                                 };
-                                member.IsOnline = false;
-                                member.InParty = false;
                                 expedition.Members.Add(member);
                             }
                         }
@@ -130,19 +143,21 @@ namespace AAEmu.Game.Core.Managers
                         {
                             while (reader.Read())
                             {
-                                var policy = new ExpeditionRolePolicy();
-                                policy.Id = reader.GetUInt32("expedition_id");
-                                policy.Role = reader.GetByte("role");
-                                policy.Name = reader.GetString("name");
-                                policy.DominionDeclare = reader.GetBoolean("dominion_declare");
-                                policy.Invite = reader.GetBoolean("invite");
-                                policy.Expel = reader.GetBoolean("expel");
-                                policy.Promote = reader.GetBoolean("promote");
-                                policy.Dismiss = reader.GetBoolean("dismiss");
-                                policy.Chat = reader.GetBoolean("chat");
-                                policy.ManagerChat = reader.GetBoolean("manager_chat");
-                                policy.SiegeMaster = reader.GetBoolean("siege_master");
-                                policy.JoinSiege = reader.GetBoolean("join_siege");
+                                var policy = new ExpeditionRolePolicy
+                                {
+                                    Id = reader.GetUInt32("expedition_id"),
+                                    Role = reader.GetByte("role"),
+                                    Name = reader.GetString("name"),
+                                    DominionDeclare = reader.GetBoolean("dominion_declare"),
+                                    Invite = reader.GetBoolean("invite"),
+                                    Expel = reader.GetBoolean("expel"),
+                                    Promote = reader.GetBoolean("promote"),
+                                    Dismiss = reader.GetBoolean("dismiss"),
+                                    Chat = reader.GetBoolean("chat"),
+                                    ManagerChat = reader.GetBoolean("manager_chat"),
+                                    SiegeMaster = reader.GetBoolean("siege_master"),
+                                    JoinSiege = reader.GetBoolean("join_siege")
+                                };
                                 expedition.Policies.Add(policy);
                             }
                         }
@@ -167,7 +182,10 @@ namespace AAEmu.Game.Core.Managers
         public Expedition GetExpedition(uint id)
         {
             if (_expeditions.ContainsKey(id))
+            {
                 return _expeditions[id];
+            }
+
             return null;
         }
 
@@ -193,11 +211,13 @@ namespace AAEmu.Game.Core.Managers
             }
 
             foreach (var exp in _expeditions.Values)
+            {
                 if (name.Equals(exp.Name))
                 {
                     connection.ActiveChar.SendErrorMessage(ErrorMessageType.ExpeditionNameExist);
                     return;
                 }
+            }
 
             // ----------------- Conditions, can change this...
             var team = TeamManager.Instance.GetActiveTeamByUnit(owner.Id);
@@ -216,7 +236,9 @@ namespace AAEmu.Game.Core.Managers
             foreach (var m in teamMembers)
             {
                 if (m?.Character == null)
+                {
                     continue;
+                }
 
                 if (m.Character.Level < _config.Create.Level)
                 {
@@ -282,7 +304,9 @@ namespace AAEmu.Game.Core.Managers
             foreach (var m in validMembers)
             {
                 if (m.Character.Id == owner.Id)
+                {
                     continue;
+                }
 
                 var invited = m.Character;
                 var newMember = GetMemberFromCharacter(expedition, invited, false);
@@ -306,11 +330,20 @@ namespace AAEmu.Game.Core.Managers
 
             var inviterMember = inviter.Expedition?.GetMember(inviter);
             if (inviterMember == null || !inviter.Expedition.GetPolicyByRole(inviterMember.Role).Invite)
+            {
                 return;
+            }
 
             var invited = WorldManager.Instance.GetCharacter(invitedName);
-            if (invited == null) return;
-            if (invited.Expedition != null) return;
+            if (invited == null)
+            {
+                return;
+            }
+
+            if (invited.Expedition != null)
+            {
+                return;
+            }
 
             invited.SendPacket(
                 new SCExpeditionInvitationPacket(inviter.Id, inviter.Name, inviter.Expedition.Id,
@@ -322,7 +355,9 @@ namespace AAEmu.Game.Core.Managers
         {
             var invited = connection.ActiveChar;
             if (!reply)
+            {
                 return;
+            }
 
             var expedition = _expeditions[id1];
             var newMember = GetMemberFromCharacter(expedition, invited, false);
@@ -344,9 +379,15 @@ namespace AAEmu.Game.Core.Managers
             var expedition = _expeditions[policy.Id];
 
             var characterMember = expedition.GetMember(connection.ActiveChar);
-            if (characterMember == null) return;
+            if (characterMember == null)
+            {
+                return;
+            }
 
-            if (!expedition.GetPolicyByRole(characterMember.Role).Expel) return;
+            if (!expedition.GetPolicyByRole(characterMember.Role).Expel)
+            {
+                return;
+            }
 
             var currentPolicy = expedition.GetPolicyByRole(policy.Role);
             currentPolicy.Name = policy.Name;
@@ -364,7 +405,10 @@ namespace AAEmu.Game.Core.Managers
             var character = connection.ActiveChar;
 
             var expedition = character.Expedition;
-            if (expedition == null) return;
+            if (expedition == null)
+            {
+                return;
+            }
 
             character.Expedition = null;
             expedition.RemoveMember(expedition.GetMember(character));
@@ -391,11 +435,15 @@ namespace AAEmu.Game.Core.Managers
 
             var characterMember = expedition?.GetMember(character);
             if (characterMember == null || !expedition.GetPolicyByRole(characterMember.Role).Expel)
+            {
                 return;
+            }
 
             var kicked = expedition.GetMember(kickedId);
             if (kicked == null)
+            {
                 return;
+            }
 
             expedition.RemoveMember(kicked);
 
@@ -424,11 +472,15 @@ namespace AAEmu.Game.Core.Managers
             if (changerMember == null ||
                 changerMember.Role <= newRole ||
                 !expedition.GetPolicyByRole(changerMember.Role).Promote)
+            {
                 return;
+            }
 
             var changedMember = expedition.GetMember(changedId);
             if (changedMember == null)
+            {
                 return;
+            }
 
             changedMember.Role = newRole;
             expedition.SendPacket(
@@ -444,10 +496,15 @@ namespace AAEmu.Game.Core.Managers
 
             var ownerMember = expedition?.GetMember(owner);
             if (ownerMember == null || ownerMember.Role != 255)
+            {
                 return;
+            }
 
             var newOwnerMember = expedition.GetMember(newOwnerId);
-            if (newOwnerMember == null) return;
+            if (newOwnerMember == null)
+            {
+                return;
+            }
 
             newOwnerMember.Role = 255;
             ownerMember.Role = 0;
@@ -491,7 +548,10 @@ namespace AAEmu.Game.Core.Managers
                 if (c != null)
                 {
                     if (c.IsOnline)
+                    {
                         c.SendPacket(new SCExpeditionDismissedPacket(guild.Id, true));
+                    }
+
                     c.Expedition = null;
                 }
                 guild.RemoveMember(guild.Members[i]);
@@ -521,20 +581,22 @@ namespace AAEmu.Game.Core.Managers
 
         public ExpeditionMember GetMemberFromCharacter(Expedition expedition, Character character, bool owner)
         {
-            var member = new ExpeditionMember();
-            member.IsOnline = true;
-            member.Name = character.Name;
-            member.Level = character.Level;
-            member.Role = (byte)(owner ? 255 : 0);
-            member.Memo = "";
-            member.X = character.Position.X;
-            member.Y = character.Position.Y;
-            member.Z = character.Position.Z;
-            member.ZoneId = (int)character.Position.ZoneId;
-            member.Abilities = new[]
-                {(byte)character.Ability1, (byte)character.Ability2, (byte)character.Ability3};
-            member.ExpeditionId = expedition.Id;
-            member.CharacterId = character.Id;
+            var member = new ExpeditionMember
+            {
+                IsOnline = true,
+                Name = character.Name,
+                Level = character.Level,
+                Role = (byte)(owner ? 255 : 0),
+                Memo = "",
+                X = character.Position.X,
+                Y = character.Position.Y,
+                Z = character.Position.Z,
+                ZoneId = (int)character.Position.ZoneId,
+                Abilities = new[]
+                {(byte)character.Ability1, (byte)character.Ability2, (byte)character.Ability3},
+                ExpeditionId = expedition.Id,
+                CharacterId = character.Id
+            };
 
             return member;
         }

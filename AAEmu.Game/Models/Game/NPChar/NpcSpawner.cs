@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Core.Managers.UnitManagers;
 using AAEmu.Game.Core.Managers.World;
-using AAEmu.Game.Models.Game.AI.Static;
 using AAEmu.Game.Models.Game.Transfers.Paths;
 using AAEmu.Game.Models.Game.Units.Route;
 using AAEmu.Game.Models.Game.World;
-using AAEmu.Game.Utils;
+
 using NLog;
 
 namespace AAEmu.Game.Models.Game.NPChar
 {
     public class NpcSpawner : Spawner<Npc>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private List<Npc> _spawned;
+        private readonly List<Npc> _spawned;
         private Npc _lastSpawn;
         private int _scheduledCount;
         private int _spawnCount;
@@ -55,14 +55,14 @@ namespace AAEmu.Game.Models.Game.NPChar
                 _log.Warn("Npc {0}, from spawn not exist at db", UnitId);
                 return null;
             }
-            
+
             npc.Spawner = this;
             npc.Position = Position.Clone();
             npc.Pos = new WorldPos(Helpers.ConvertLongX(Position.X), Helpers.ConvertLongY(Position.Y), Position.Z);
             npc.Rot = new Quaternion(Helpers.ConvertDirectionToRadian(Position.RotationX), Helpers.ConvertDirectionToRadian(Position.RotationY), Helpers.ConvertDirectionToRadian(Position.RotationZ), 1f);
             npc.Vel = new Vector3();
             npc.AngVel = new Vector3();
-            
+
             if (npc.Position == null)
             {
                 _log.Error("Can't spawn npc {1} from spawn {0}", Id, UnitId);
@@ -96,9 +96,9 @@ namespace AAEmu.Game.Models.Game.NPChar
                 if (!npc.IsInPatrol)
                 {
                     var path = new SimulationNpc(npc);
-                    // организуем последовательность "Дорог" для следования "Гвардов"
+                    // организуем последовательность "Дорог" для следования "Гвардов" и других Npc
                     var lnpp = new List<NpcsPathPoint>();
-                    foreach (var np in NpcsPath.NpcsPaths.Where(np => np.ObjId == npc.ObjId))
+                    foreach (var np in NpcsPath.NpcsPaths.Where(np => np.ObjId == npc.Spawner.ObjIdAtAAFree))
                     {
                         lnpp.AddRange(np.Pos);
                         path.NpcsRoutes.TryAdd(npc.TemplateId, lnpp);

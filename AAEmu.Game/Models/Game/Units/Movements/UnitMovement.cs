@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+
 using AAEmu.Commons.Network;
 using AAEmu.Game.Models.Game.World;
 
@@ -36,7 +37,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
         public short VelZ { get; set; }
         // ---
         public byte Flags { get; set; }  // всегда 0 ?
-        public ushort actorFlags { get; set; } // 5-walk, 4-run, 3-stand still и ещё предположительно мы : 32-на корабле, 36-на дилижансе
+        public ActorMoveType actorFlags { get; set; } // 5-walk, 4-run, 3-stand still и ещё предположительно мы : 32-на корабле, 36-на дилижансе
         public UnitMovementType ScType { get; set; }
         public byte Phase { get; set; }
 

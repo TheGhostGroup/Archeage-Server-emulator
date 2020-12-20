@@ -16,7 +16,7 @@ namespace AAEmu.Game.Core.Managers
 {
     public class SkillManager : Singleton<SkillManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<uint, SkillTemplate> _skills;
         private Dictionary<uint, DefaultSkill> _defaultSkills;
@@ -33,7 +33,10 @@ namespace AAEmu.Game.Core.Managers
         public SkillTemplate GetSkillTemplate(uint id)
         {
             if (_skills.ContainsKey(id))
+            {
                 return _skills[id];
+            }
+
             return null;
         }
 
@@ -60,7 +63,10 @@ namespace AAEmu.Game.Core.Managers
         public BuffTemplate GetBuffTemplate(uint id)
         {
             if (_effects["Buff"].ContainsKey(id))
+            {
                 return (BuffTemplate)_effects["Buff"][id];
+            }
+
             return null;
         }
 
@@ -87,28 +93,40 @@ namespace AAEmu.Game.Core.Managers
         public List<uint> GetBuffsByTagId(uint tagId)
         {
             if (_taggedBuffs.ContainsKey(tagId))
+            {
                 return _taggedBuffs[tagId];
+            }
+
             return null;
         }
 
         public List<uint> GetSkillTags(uint skillId)
         {
             if (_skillTags.ContainsKey(skillId))
+            {
                 return _skillTags[skillId];
+            }
+
             return new List<uint>();
         }
 
         public PassiveBuffTemplate GetPassiveBuffTemplate(uint id)
         {
             if (_passiveBuffs.ContainsKey(id))
+            {
                 return _passiveBuffs[id];
+            }
+
             return null;
         }
 
         public List<SkillModifier> GetModifiersByOwnerId(uint id)
         {
             if (_skillModifiers.ContainsKey(id))
+            {
                 return _skillModifiers[id];
+            }
+
             return new List<SkillModifier>();
         }
 
@@ -120,40 +138,42 @@ namespace AAEmu.Game.Core.Managers
             _startAbilitySkills = new Dictionary<AbilityType, List<SkillTemplate>>();
             _passiveBuffs = new Dictionary<uint, PassiveBuffTemplate>();
             _types = new Dictionary<uint, EffectType>();
-            _effects = new Dictionary<string, Dictionary<uint, EffectTemplate>>();
-            _effects.Add("Buff", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("BuffEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("AcceptQuestEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("AggroEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("BubbleEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("CleanupUccEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("ConversionEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("CraftEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("DamageEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("DispelEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("FlyingStateChangeEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("GainLootPackItemEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("HealEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("ImprintUccEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("ImpulseEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("InteractionEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("KillNpcWithoutCorpseEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("ManaBurnEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("MoveToRezPointEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("OpenPortalEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("PhysicalExplosionEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("PutDownBackpackEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("RecoverExpEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("RepairSlaveEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("ReportCrimeEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("RestoreManaEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("ScopedFEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("SpawnEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("SpawnGimmickEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("SpecialEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("TrainCraftEffect", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("SkillController", new Dictionary<uint, EffectTemplate>());
-            _effects.Add("ResetAoeDiminishingEffect", new Dictionary<uint, EffectTemplate>());
+            _effects = new Dictionary<string, Dictionary<uint, EffectTemplate>>
+            {
+                { "Buff", new Dictionary<uint, EffectTemplate>() },
+                { "BuffEffect", new Dictionary<uint, EffectTemplate>() },
+                { "AcceptQuestEffect", new Dictionary<uint, EffectTemplate>() },
+                { "AggroEffect", new Dictionary<uint, EffectTemplate>() },
+                { "BubbleEffect", new Dictionary<uint, EffectTemplate>() },
+                { "CleanupUccEffect", new Dictionary<uint, EffectTemplate>() },
+                { "ConversionEffect", new Dictionary<uint, EffectTemplate>() },
+                { "CraftEffect", new Dictionary<uint, EffectTemplate>() },
+                { "DamageEffect", new Dictionary<uint, EffectTemplate>() },
+                { "DispelEffect", new Dictionary<uint, EffectTemplate>() },
+                { "FlyingStateChangeEffect", new Dictionary<uint, EffectTemplate>() },
+                { "GainLootPackItemEffect", new Dictionary<uint, EffectTemplate>() },
+                { "HealEffect", new Dictionary<uint, EffectTemplate>() },
+                { "ImprintUccEffect", new Dictionary<uint, EffectTemplate>() },
+                { "ImpulseEffect", new Dictionary<uint, EffectTemplate>() },
+                { "InteractionEffect", new Dictionary<uint, EffectTemplate>() },
+                { "KillNpcWithoutCorpseEffect", new Dictionary<uint, EffectTemplate>() },
+                { "ManaBurnEffect", new Dictionary<uint, EffectTemplate>() },
+                { "MoveToRezPointEffect", new Dictionary<uint, EffectTemplate>() },
+                { "OpenPortalEffect", new Dictionary<uint, EffectTemplate>() },
+                { "PhysicalExplosionEffect", new Dictionary<uint, EffectTemplate>() },
+                { "PutDownBackpackEffect", new Dictionary<uint, EffectTemplate>() },
+                { "RecoverExpEffect", new Dictionary<uint, EffectTemplate>() },
+                { "RepairSlaveEffect", new Dictionary<uint, EffectTemplate>() },
+                { "ReportCrimeEffect", new Dictionary<uint, EffectTemplate>() },
+                { "RestoreManaEffect", new Dictionary<uint, EffectTemplate>() },
+                { "ScopedFEffect", new Dictionary<uint, EffectTemplate>() },
+                { "SpawnEffect", new Dictionary<uint, EffectTemplate>() },
+                { "SpawnGimmickEffect", new Dictionary<uint, EffectTemplate>() },
+                { "SpecialEffect", new Dictionary<uint, EffectTemplate>() },
+                { "TrainCraftEffect", new Dictionary<uint, EffectTemplate>() },
+                { "SkillController", new Dictionary<uint, EffectTemplate>() },
+                { "ResetAoeDiminishingEffect", new Dictionary<uint, EffectTemplate>() }
+            };
             // TODO 
             /*
                 "CinemaEffect"
@@ -180,42 +200,44 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new SkillTemplate();
-                            template.Id = reader.GetUInt32("id");
-                            template.Cost = reader.GetInt32("cost");
-                            template.Show = reader.GetBoolean("show", true);
-                            template.FireAnim = AnimationManager.Instance.GetAnimation(reader.GetUInt32("fire_anim_id", 0));
-                            template.AbilityId = reader.GetByte("ability_id");
-                            template.ManaCost = reader.GetInt32("mana_cost");
-                            template.TimingId = reader.GetInt32("timing_id");
-                            template.CooldownTime = reader.GetInt32("cooldown_time");
-                            template.CastingTime = reader.GetInt32("casting_time");
-                            template.IgnoreGlobalCooldown = reader.GetBoolean("ignore_global_cooldown", true);
-                            template.EffectDelay = reader.GetInt32("effect_delay");
-                            template.EffectSpeed = reader.GetFloat("effect_speed");
-                            template.EffectRepeatCount = reader.GetInt32("effect_repeat_count");
-                            template.EffectRepeatTick = reader.GetInt32("effect_repeat_tick");
-                            template.ActiveWeaponId = reader.GetInt32("active_weapon_id");
-                            template.TargetType = (SkillTargetType)reader.GetInt32("target_type_id");
-                            template.TargetSelection = (SkillTargetSelection)reader.GetInt32("target_selection_id");
-                            template.TargetRelation = (SkillTargetRelation)reader.GetInt32("target_relation_id");
-                            template.TargetAreaCount = reader.GetInt32("target_area_count");
-                            template.TargetAreaRadius = reader.GetInt32("target_area_radius");
-                            template.TargetSiege = reader.GetBoolean("target_siege", true);
-                            template.WeaponSlotForAngleId = reader.GetInt32("weapon_slot_for_angle_id");
-                            template.TargetAngle = reader.GetInt32("target_angle");
-                            template.WeaponSlotForRangeId = reader.GetInt32("weapon_slot_for_range_id");
-                            template.MinRange = reader.GetInt32("min_range");
-                            template.MaxRange = reader.GetInt32("max_range");
-                            template.KeepStealth = reader.GetBoolean("keep_stealth", true);
-                            template.Aggro = reader.GetInt32("aggro");
-                            template.ChannelingTime = reader.GetInt32("channeling_time");
-                            template.ChannelingTick = reader.GetInt32("channeling_tick");
-                            template.ChannelingMana = reader.GetInt32("channeling_mana");
-                            template.ChannelingTargetBuffId = reader.GetUInt32("channeling_target_buff_id", 0);
-                            template.TargetAreaAngle = reader.GetInt32("target_area_angle");
-                            template.AbilityLevel = reader.GetInt32("ability_level");
-                            template.ChannelingDoodadId = reader.GetUInt32("channeling_doodad_id", 0);
+                            var template = new SkillTemplate
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Cost = reader.GetInt32("cost"),
+                                Show = reader.GetBoolean("show", true),
+                                FireAnim = AnimationManager.Instance.GetAnimation(reader.GetUInt32("fire_anim_id", 0)),
+                                AbilityId = reader.GetByte("ability_id"),
+                                ManaCost = reader.GetInt32("mana_cost"),
+                                TimingId = reader.GetInt32("timing_id"),
+                                CooldownTime = reader.GetInt32("cooldown_time"),
+                                CastingTime = reader.GetInt32("casting_time"),
+                                IgnoreGlobalCooldown = reader.GetBoolean("ignore_global_cooldown", true),
+                                EffectDelay = reader.GetInt32("effect_delay"),
+                                EffectSpeed = reader.GetFloat("effect_speed"),
+                                EffectRepeatCount = reader.GetInt32("effect_repeat_count"),
+                                EffectRepeatTick = reader.GetInt32("effect_repeat_tick"),
+                                ActiveWeaponId = reader.GetInt32("active_weapon_id"),
+                                TargetType = (SkillTargetType)reader.GetInt32("target_type_id"),
+                                TargetSelection = (SkillTargetSelection)reader.GetInt32("target_selection_id"),
+                                TargetRelation = (SkillTargetRelation)reader.GetInt32("target_relation_id"),
+                                TargetAreaCount = reader.GetInt32("target_area_count"),
+                                TargetAreaRadius = reader.GetInt32("target_area_radius"),
+                                TargetSiege = reader.GetBoolean("target_siege", true),
+                                WeaponSlotForAngleId = reader.GetInt32("weapon_slot_for_angle_id"),
+                                TargetAngle = reader.GetInt32("target_angle"),
+                                WeaponSlotForRangeId = reader.GetInt32("weapon_slot_for_range_id"),
+                                MinRange = reader.GetInt32("min_range"),
+                                MaxRange = reader.GetInt32("max_range"),
+                                KeepStealth = reader.GetBoolean("keep_stealth", true),
+                                Aggro = reader.GetInt32("aggro"),
+                                ChannelingTime = reader.GetInt32("channeling_time"),
+                                ChannelingTick = reader.GetInt32("channeling_tick"),
+                                ChannelingMana = reader.GetInt32("channeling_mana"),
+                                ChannelingTargetBuffId = reader.GetUInt32("channeling_target_buff_id", 0),
+                                TargetAreaAngle = reader.GetInt32("target_area_angle"),
+                                AbilityLevel = reader.GetInt32("ability_level"),
+                                ChannelingDoodadId = reader.GetUInt32("channeling_doodad_id", 0)
+                            };
                             var value = reader.GetString("cooldown_tag_id", "0");
                             template.CooldownTagId = value.Contains("null") ? 0 : int.Parse(value);
                             value = reader.GetString("skill_controller_id", "0");
@@ -354,43 +376,45 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new BuffTemplate();
-                            template.Id = reader.GetUInt32("id");
-                            template.AnimStartId = reader.GetUInt32("anim_start_id", 0);
-                            template.AnimEndId = reader.GetUInt32("anim_end_id", 0);
-                            template.Duration = reader.GetInt32("duration");
-                            template.Tick = reader.GetDouble("tick");
-                            template.Silence = reader.GetBoolean("silence", true);
-                            template.Root = reader.GetBoolean("root", true);
-                            template.Sleep = reader.GetBoolean("sleep", true);
-                            template.Stun = reader.GetBoolean("stun", true);
-                            template.Cripled = reader.GetBoolean("crippled", true);
-                            template.Stealth = reader.GetBoolean("stealth", true);
-                            template.RemoveOnSourceDead = reader.GetBoolean("remove_on_source_dead", true);
-                            template.LinkBuffId = reader.GetUInt32("link_buff_id", 0);
-                            template.TickManaCost = reader.GetInt32("tick_mana_cost");
-                            template.StackRuleId = reader.GetUInt32("stack_rule_id");
-                            template.InitMinCharge = reader.GetInt32("init_min_charge");
-                            template.InitMaxCharge = reader.GetInt32("init_max_charge");
-                            template.MaxStack = reader.GetInt32("max_stack");
-                            template.DamageAbsorptionTypeId = reader.GetUInt32("damage_absorption_type_id");
-                            template.DamageAbsorptionPerHit = reader.GetInt32("damage_absorption_per_hit");
-                            template.AuraRadius = reader.GetInt32("aura_radius");
-                            template.ManaShieldRatio = reader.GetInt32("mana_shield_ratio");
-                            template.FrameHold = reader.GetBoolean("framehold", true);
-                            template.Ragdoll = reader.GetBoolean("ragdoll", true);
-                            template.OneTime = reader.GetBoolean("one_time", true);
-                            template.ReflectionChance = reader.GetInt32("reflection_chance");
-                            template.ReflectionTypeId = reader.GetUInt32("reflection_type_id");
-                            template.RequireBuffId = reader.GetUInt32("require_buff_id", 0);
-                            template.Taunt = reader.GetBoolean("taunt", true);
-                            template.TauntWithTopAggro = reader.GetBoolean("taunt_with_top_aggro", true);
-                            template.RemoveOnUseSkill = reader.GetBoolean("remove_on_use_skill", true);
-                            template.MeleeImmune = reader.GetBoolean("melee_immune", true);
-                            template.SpellImmune = reader.GetBoolean("spell_immune", true);
-                            template.RangedImmune = reader.GetBoolean("ranged_immune", true);
-                            template.SiegeImmune = reader.GetBoolean("siege_immune", true);
-                            template.ImmuneDamage = reader.GetInt32("immune_damage");
+                            var template = new BuffTemplate
+                            {
+                                Id = reader.GetUInt32("id"),
+                                AnimStartId = reader.GetUInt32("anim_start_id", 0),
+                                AnimEndId = reader.GetUInt32("anim_end_id", 0),
+                                Duration = reader.GetInt32("duration"),
+                                Tick = reader.GetDouble("tick"),
+                                Silence = reader.GetBoolean("silence", true),
+                                Root = reader.GetBoolean("root", true),
+                                Sleep = reader.GetBoolean("sleep", true),
+                                Stun = reader.GetBoolean("stun", true),
+                                Cripled = reader.GetBoolean("crippled", true),
+                                Stealth = reader.GetBoolean("stealth", true),
+                                RemoveOnSourceDead = reader.GetBoolean("remove_on_source_dead", true),
+                                LinkBuffId = reader.GetUInt32("link_buff_id", 0),
+                                TickManaCost = reader.GetInt32("tick_mana_cost"),
+                                StackRuleId = reader.GetUInt32("stack_rule_id"),
+                                InitMinCharge = reader.GetInt32("init_min_charge"),
+                                InitMaxCharge = reader.GetInt32("init_max_charge"),
+                                MaxStack = reader.GetInt32("max_stack"),
+                                DamageAbsorptionTypeId = reader.GetUInt32("damage_absorption_type_id"),
+                                DamageAbsorptionPerHit = reader.GetInt32("damage_absorption_per_hit"),
+                                AuraRadius = reader.GetInt32("aura_radius"),
+                                ManaShieldRatio = reader.GetInt32("mana_shield_ratio"),
+                                FrameHold = reader.GetBoolean("framehold", true),
+                                Ragdoll = reader.GetBoolean("ragdoll", true),
+                                OneTime = reader.GetBoolean("one_time", true),
+                                ReflectionChance = reader.GetInt32("reflection_chance"),
+                                ReflectionTypeId = reader.GetUInt32("reflection_type_id"),
+                                RequireBuffId = reader.GetUInt32("require_buff_id", 0),
+                                Taunt = reader.GetBoolean("taunt", true),
+                                TauntWithTopAggro = reader.GetBoolean("taunt_with_top_aggro", true),
+                                RemoveOnUseSkill = reader.GetBoolean("remove_on_use_skill", true),
+                                MeleeImmune = reader.GetBoolean("melee_immune", true),
+                                SpellImmune = reader.GetBoolean("spell_immune", true),
+                                RangedImmune = reader.GetBoolean("ranged_immune", true),
+                                SiegeImmune = reader.GetBoolean("siege_immune", true),
+                                ImmuneDamage = reader.GetInt32("immune_damage")
+                            };
                             var value = reader.GetString("skill_controller_id", "0");
                             template.SkillControllerId = value.Contains("null") ? 0 : uint.Parse(value);
                             template.ResurrectionHealth = reader.GetInt32("resurrection_health");
@@ -536,11 +560,16 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new BuffEffect();
-                            template.Id = reader.GetUInt32("id");
+                            var template = new BuffEffect
+                            {
+                                Id = reader.GetUInt32("id")
+                            };
                             var buffId = reader.GetUInt32("buff_id");
                             if (_effects["Buff"].ContainsKey(buffId))
+                            {
                                 template.Buff = (BuffTemplate)_effects["Buff"][buffId];
+                            }
+
                             template.Chance = reader.GetInt32("chance");
                             template.Stack = reader.GetInt32("stack");
                             template.AbLevel = reader.GetInt32("ab_level");
@@ -558,10 +587,12 @@ namespace AAEmu.Game.Core.Managers
                         {
                             var buffId = reader.GetUInt32("buff_id");
                             var template = (BuffTemplate)_effects["Buff"][buffId];
-                            template.TickEffect = new TickEffect();
-                            template.TickEffect.EffectId = reader.GetUInt32("effect_id");
-                            template.TickEffect.TargetBuffTagId = reader.GetUInt32("target_buff_tag_id", 0);
-                            template.TickEffect.TargetNoBuffTagId = reader.GetUInt32("target_nobuff_tag_id", 0);
+                            template.TickEffect = new TickEffect
+                            {
+                                EffectId = reader.GetUInt32("effect_id"),
+                                TargetBuffTagId = reader.GetUInt32("target_buff_tag_id", 0),
+                                TargetNoBuffTagId = reader.GetUInt32("target_nobuff_tag_id", 0)
+                            };
                         }
                     }
                 }
@@ -575,13 +606,18 @@ namespace AAEmu.Game.Core.Managers
                         {
                             var buffId = reader.GetUInt32("owner_id");
                             if (!_effects["Buff"].ContainsKey(buffId))
+                            {
                                 continue;
+                            }
+
                             var buff = (BuffTemplate)_effects["Buff"][buffId];
-                            var template = new BonusTemplate();
-                            template.Attribute = (UnitAttribute)reader.GetByte("unit_attribute_id");
-                            template.ModifierType = (UnitModifierType)reader.GetByte("unit_modifier_type_id");
-                            template.Value = reader.GetInt32("value");
-                            template.LinearLevelBonus = reader.GetInt32("linear_level_bonus");
+                            var template = new BonusTemplate
+                            {
+                                Attribute = (UnitAttribute)reader.GetByte("unit_attribute_id"),
+                                ModifierType = (UnitModifierType)reader.GetByte("unit_modifier_type_id"),
+                                Value = reader.GetInt32("value"),
+                                LinearLevelBonus = reader.GetInt32("linear_level_bonus")
+                            };
                             buff.Bonuses.Add(template);
                         }
                     }
@@ -596,13 +632,18 @@ namespace AAEmu.Game.Core.Managers
                         {
                             var buffId = reader.GetUInt32("buff_id");
                             if (!_effects["Buff"].ContainsKey(buffId))
+                            {
                                 continue;
+                            }
+
                             var buff = (BuffTemplate)_effects["Buff"][buffId];
-                            var template = new DynamicBonusTemplate();
-                            template.Attribute = (UnitAttribute)reader.GetByte("unit_attribute_id");
-                            template.ModifierType = (UnitModifierType)reader.GetByte("unit_modifier_type_id");
-                            template.FuncId = reader.GetUInt32("func_id");
-                            template.FuncType = reader.GetString("func_type");
+                            var template = new DynamicBonusTemplate
+                            {
+                                Attribute = (UnitAttribute)reader.GetByte("unit_attribute_id"),
+                                ModifierType = (UnitModifierType)reader.GetByte("unit_modifier_type_id"),
+                                FuncId = reader.GetUInt32("func_id"),
+                                FuncType = reader.GetString("func_type")
+                            };
                             buff.DynamicBonuses.Add(template);
                         }
                     }
@@ -625,7 +666,10 @@ namespace AAEmu.Game.Core.Managers
                                 // TODO 1.2 // EndSkillId = reader.GetUInt32("end_skill_id")
                             };
                             for (var i = 0; i < 15; i++)
+                            {
                                 template.Value[i] = reader.GetInt32($"value{i + 1}", 0);
+                            }
+
                             _effects["SkillController"].Add(template.Id, template);
                         }
                     }
@@ -639,9 +683,11 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new AcceptQuestEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.QuestId = reader.GetUInt32("quest_id");
+                            var template = new AcceptQuestEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                QuestId = reader.GetUInt32("quest_id")
+                            };
                             _effects["AcceptQuestEffect"].Add(template.Id, template);
                         }
                     }
@@ -654,18 +700,20 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new AggroEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.UseFixedAggro = reader.GetBoolean("use_fixed_aggro", true);
-                            template.FixedMin = reader.GetInt32("fixed_min");
-                            template.FixedMax = reader.GetInt32("fixed_max");
-                            template.UseLevelAggro = reader.GetBoolean("use_level_aggro", true);
-                            template.LevelMd = reader.GetFloat("level_md");
-                            template.LevelVaStart = reader.GetInt32("level_va_start");
-                            template.LevelVaEnd = reader.GetInt32("level_va_end");
-                            template.UseChargedBuff = reader.GetBoolean("use_charged_buff", true);
-                            template.ChargedBuffId = reader.GetUInt32("charged_buff_id", 0);
-                            template.ChargedMul = reader.GetFloat("charged_mul");
+                            var template = new AggroEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                UseFixedAggro = reader.GetBoolean("use_fixed_aggro", true),
+                                FixedMin = reader.GetInt32("fixed_min"),
+                                FixedMax = reader.GetInt32("fixed_max"),
+                                UseLevelAggro = reader.GetBoolean("use_level_aggro", true),
+                                LevelMd = reader.GetFloat("level_md"),
+                                LevelVaStart = reader.GetInt32("level_va_start"),
+                                LevelVaEnd = reader.GetInt32("level_va_end"),
+                                UseChargedBuff = reader.GetBoolean("use_charged_buff", true),
+                                ChargedBuffId = reader.GetUInt32("charged_buff_id", 0),
+                                ChargedMul = reader.GetFloat("charged_mul")
+                            };
                             _effects["AggroEffect"].Add(template.Id, template);
                         }
                     }
@@ -678,9 +726,11 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new BubbleEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.KindId = reader.GetUInt32("kind_id");
+                            var template = new BubbleEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                KindId = reader.GetUInt32("kind_id")
+                            };
                             _effects["BubbleEffect"].Add(template.Id, template);
                         }
                     }
@@ -693,8 +743,10 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new CleanupUccEffect();
-                            template.Id = reader.GetUInt32("id");
+                            var template = new CleanupUccEffect
+                            {
+                                Id = reader.GetUInt32("id")
+                            };
                             _effects["CleanupUccEffect"].Add(template.Id, template);
                         }
                     }
@@ -707,13 +759,15 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ConversionEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.CategoryId = reader.GetUInt32("category_id");
-                            template.SourceCategoryId = reader.GetUInt32("source_category_id");
-                            template.SourceValue = reader.GetInt32("source_value");
-                            template.TargetCategoryId = reader.GetUInt32("target_category_id");
-                            template.TargetValue = reader.GetInt32("target_value");
+                            var template = new ConversionEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                CategoryId = reader.GetUInt32("category_id"),
+                                SourceCategoryId = reader.GetUInt32("source_category_id"),
+                                SourceValue = reader.GetInt32("source_value"),
+                                TargetCategoryId = reader.GetUInt32("target_category_id"),
+                                TargetValue = reader.GetInt32("target_value")
+                            };
                             _effects["ConversionEffect"].Add(template.Id, template);
                         }
                     }
@@ -726,9 +780,11 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new CraftEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.WorldInteraction = (WorldInteractionType)reader.GetUInt32("wi_id");
+                            var template = new CraftEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                WorldInteraction = (WorldInteractionType)reader.GetUInt32("wi_id")
+                            };
                             _effects["CraftEffect"].Add(template.Id, template);
                         }
                     }
@@ -741,55 +797,57 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new DamageEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.DamageType = (DamageType)reader.GetInt32("damage_type_id");
-                            template.FixedMin = reader.GetInt32("fixed_min");
-                            template.FixedMax = reader.GetInt32("fixed_max");
-                            template.Multiplier = reader.GetFloat("multiplier");
-                            template.UseMainhandWeapon = reader.GetBoolean("use_mainhand_weapon", true);
-                            template.UseOffhandWeapon = reader.GetBoolean("use_offhand_weapon", true);
-                            template.UseRangedWeapon = reader.GetBoolean("use_ranged_weapon", true);
-                            template.CriticalBonus = reader.GetInt32("critical_bonus");
-                            template.TargetBuffTagId = reader.GetUInt32("target_buff_tag_id", 0);
-                            template.TargetBuffBonus = reader.GetInt32("target_buff_bonus");
-                            template.UseFixedDamage = reader.GetBoolean("use_fixed_damage", true);
-                            template.UseLevelDamage = reader.GetBoolean("use_level_damage", true);
-                            template.LevelMd = reader.GetFloat("level_md");
-                            template.LevelVaStart = reader.GetInt32("level_va_start");
-                            template.LevelVaEnd = reader.GetInt32("level_va_end");
-                            template.TargetBuffBonusMul = reader.GetFloat("target_buff_bonus_mul");
-                            template.UseChargedBuff = reader.GetBoolean("use_charged_buff", true);
-                            template.ChargedBuffId = reader.GetUInt32("charged_buff_id", 0);
-                            template.ChargedMul = reader.GetFloat("charged_mul");
-                            template.AggroMultiplier = reader.GetFloat("aggro_multiplier");
-                            template.HealthStealRatio = reader.GetInt32("health_steal_ratio");
-                            template.ManaStealRatio = reader.GetInt32("mana_steal_ratio");
-                            template.DpsMultiplier = reader.GetFloat("dps_multiplier");
-                            template.WeaponSlotId = reader.GetInt32("weapon_slot_id");
-                            //template.CheckCrime = reader.GetBoolean("check_crime", true); // there is no such field in the database for version 3030
-                            template.HitAnimTimingId = reader.GetUInt32("hit_anim_timing_id");
-                            template.UseTargetChargedBuff = reader.GetBoolean("use_target_charged_buff", true);
-                            template.TargetChargedBuffId = reader.GetUInt32("target_charged_buff_id", 0);
-                            template.TargetChargedMul = reader.GetFloat("target_charged_mul");
-                            template.DpsIncMultiplier = reader.GetFloat("dps_inc_multiplier");
-                            template.EngageCombat = reader.GetBoolean("engage_combat", true);
-                            template.Synergy = reader.GetBoolean("synergy", true);
-                            template.ActabilityGroupId = reader.GetUInt32("actability_group_id", 0);
-                            template.ActabilityStep = reader.GetInt32("actability_step");
-                            template.ActabilityMul = reader.GetFloat("actability_mul");
-                            template.ActabilityAdd = reader.GetFloat("actability_add");
-                            template.ChargedLevelMul = reader.GetFloat("charged_level_mul");
-                            template.AdjustDamageByHeight = reader.GetBoolean("adjust_damage_by_height", true);
-                            template.UsePercentDamage = reader.GetBoolean("use_percent_damage", true);
-                            template.PercentMin = reader.GetInt32("percent_min");
-                            template.PercentMax = reader.GetInt32("percent_max");
-                            template.UseCurrentHealth = reader.GetBoolean("use_current_health", true);
-                            template.TargetHealthMin = reader.GetInt32("target_health_min");
-                            template.TargetHealthMax = reader.GetInt32("target_health_max");
-                            template.TargetHealthMul = reader.GetFloat("target_health_mul");
-                            template.TargetHealthAdd = reader.GetInt32("target_health_add");
-                            template.FireProc = reader.GetBoolean("fire_proc", true);
+                            var template = new DamageEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                DamageType = (DamageType)reader.GetInt32("damage_type_id"),
+                                FixedMin = reader.GetInt32("fixed_min"),
+                                FixedMax = reader.GetInt32("fixed_max"),
+                                Multiplier = reader.GetFloat("multiplier"),
+                                UseMainhandWeapon = reader.GetBoolean("use_mainhand_weapon", true),
+                                UseOffhandWeapon = reader.GetBoolean("use_offhand_weapon", true),
+                                UseRangedWeapon = reader.GetBoolean("use_ranged_weapon", true),
+                                CriticalBonus = reader.GetInt32("critical_bonus"),
+                                TargetBuffTagId = reader.GetUInt32("target_buff_tag_id", 0),
+                                TargetBuffBonus = reader.GetInt32("target_buff_bonus"),
+                                UseFixedDamage = reader.GetBoolean("use_fixed_damage", true),
+                                UseLevelDamage = reader.GetBoolean("use_level_damage", true),
+                                LevelMd = reader.GetFloat("level_md"),
+                                LevelVaStart = reader.GetInt32("level_va_start"),
+                                LevelVaEnd = reader.GetInt32("level_va_end"),
+                                TargetBuffBonusMul = reader.GetFloat("target_buff_bonus_mul"),
+                                UseChargedBuff = reader.GetBoolean("use_charged_buff", true),
+                                ChargedBuffId = reader.GetUInt32("charged_buff_id", 0),
+                                ChargedMul = reader.GetFloat("charged_mul"),
+                                AggroMultiplier = reader.GetFloat("aggro_multiplier"),
+                                HealthStealRatio = reader.GetInt32("health_steal_ratio"),
+                                ManaStealRatio = reader.GetInt32("mana_steal_ratio"),
+                                DpsMultiplier = reader.GetFloat("dps_multiplier"),
+                                WeaponSlotId = reader.GetInt32("weapon_slot_id"),
+                                //template.CheckCrime = reader.GetBoolean("check_crime", true); // there is no such field in the database for version 3030
+                                HitAnimTimingId = reader.GetUInt32("hit_anim_timing_id"),
+                                UseTargetChargedBuff = reader.GetBoolean("use_target_charged_buff", true),
+                                TargetChargedBuffId = reader.GetUInt32("target_charged_buff_id", 0),
+                                TargetChargedMul = reader.GetFloat("target_charged_mul"),
+                                DpsIncMultiplier = reader.GetFloat("dps_inc_multiplier"),
+                                EngageCombat = reader.GetBoolean("engage_combat", true),
+                                Synergy = reader.GetBoolean("synergy", true),
+                                ActabilityGroupId = reader.GetUInt32("actability_group_id", 0),
+                                ActabilityStep = reader.GetInt32("actability_step"),
+                                ActabilityMul = reader.GetFloat("actability_mul"),
+                                ActabilityAdd = reader.GetFloat("actability_add"),
+                                ChargedLevelMul = reader.GetFloat("charged_level_mul"),
+                                AdjustDamageByHeight = reader.GetBoolean("adjust_damage_by_height", true),
+                                UsePercentDamage = reader.GetBoolean("use_percent_damage", true),
+                                PercentMin = reader.GetInt32("percent_min"),
+                                PercentMax = reader.GetInt32("percent_max"),
+                                UseCurrentHealth = reader.GetBoolean("use_current_health", true),
+                                TargetHealthMin = reader.GetInt32("target_health_min"),
+                                TargetHealthMax = reader.GetInt32("target_health_max"),
+                                TargetHealthMul = reader.GetFloat("target_health_mul"),
+                                TargetHealthAdd = reader.GetInt32("target_health_add"),
+                                FireProc = reader.GetBoolean("fire_proc", true)
+                            };
                             _effects["DamageEffect"].Add(template.Id, template);
                         }
                     }
@@ -802,11 +860,13 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new DispelEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.DispelCount = reader.GetInt32("dispel_count");
-                            template.CureCount = reader.GetInt32("cure_count");
-                            template.BuffTagId = reader.GetUInt32("buff_tag_id", 0);
+                            var template = new DispelEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                DispelCount = reader.GetInt32("dispel_count"),
+                                CureCount = reader.GetInt32("cure_count"),
+                                BuffTagId = reader.GetUInt32("buff_tag_id", 0)
+                            };
                             _effects["DispelEffect"].Add(template.Id, template);
                         }
                     }
@@ -819,9 +879,11 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new FlyingStateChangeEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.FlyingState = reader.GetBoolean("flying_state", true);
+                            var template = new FlyingStateChangeEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                FlyingState = reader.GetBoolean("flying_state", true)
+                            };
                             _effects["FlyingStateChangeEffect"].Add(template.Id, template);
                         }
                     }
@@ -834,13 +896,15 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new GainLootPackItemEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.LootPackId = reader.GetUInt32("loot_pack_id");
-                            template.ConsumeSourceItem = reader.GetBoolean("consume_source_item", true);
-                            template.ConsumeItemId = reader.GetUInt32("consume_item_id", 0);
-                            template.ConsumeCount = reader.GetInt32("consume_count");
-                            template.InheritGrade = reader.GetBoolean("inherit_grade", true);
+                            var template = new GainLootPackItemEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                LootPackId = reader.GetUInt32("loot_pack_id"),
+                                ConsumeSourceItem = reader.GetBoolean("consume_source_item", true),
+                                ConsumeItemId = reader.GetUInt32("consume_item_id", 0),
+                                ConsumeCount = reader.GetInt32("consume_count"),
+                                InheritGrade = reader.GetBoolean("inherit_grade", true)
+                            };
                             _effects["GainLootPackItemEffect"].Add(template.Id, template);
                         }
                     }
@@ -853,26 +917,28 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new HealEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.UseFixedHeal = reader.GetBoolean("use_fixed_heal", true);
-                            template.FixedMin = reader.GetInt32("fixed_min");
-                            template.FixedMax = reader.GetInt32("fixed_max");
-                            template.UseLevelHeal = reader.GetBoolean("use_level_heal", true);
-                            template.LevelMd = reader.GetFloat("level_md");
-                            template.LevelVaStart = reader.GetInt32("level_va_start");
-                            template.LevelVaEnd = reader.GetInt32("level_va_end");
-                            template.Percent = reader.GetBoolean("percent", true);
-                            template.UseChargedBuff = reader.GetBoolean("use_charged_buff", true);
-                            template.ChargedBuffId = reader.GetUInt32("charged_buff_id", 0);
-                            template.ChargedMul = reader.GetFloat("charged_mul");
-                            template.SlaveApplicable = reader.GetBoolean("slave_applicable", true);
-                            template.IgnoreHealAggro = reader.GetBoolean("ignore_heal_aggro", true);
-                            template.DpsMultiplier = reader.GetFloat("dps_multiplier");
-                            template.ActabilityGroupId = reader.GetUInt32("actability_group_id", 0);
-                            template.ActabilityStep = reader.GetInt32("actability_step");
-                            template.ActabilityMul = reader.GetFloat("actability_mul");
-                            template.ActabilityAdd = reader.GetFloat("actability_add");
+                            var template = new HealEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                UseFixedHeal = reader.GetBoolean("use_fixed_heal", true),
+                                FixedMin = reader.GetInt32("fixed_min"),
+                                FixedMax = reader.GetInt32("fixed_max"),
+                                UseLevelHeal = reader.GetBoolean("use_level_heal", true),
+                                LevelMd = reader.GetFloat("level_md"),
+                                LevelVaStart = reader.GetInt32("level_va_start"),
+                                LevelVaEnd = reader.GetInt32("level_va_end"),
+                                Percent = reader.GetBoolean("percent", true),
+                                UseChargedBuff = reader.GetBoolean("use_charged_buff", true),
+                                ChargedBuffId = reader.GetUInt32("charged_buff_id", 0),
+                                ChargedMul = reader.GetFloat("charged_mul"),
+                                SlaveApplicable = reader.GetBoolean("slave_applicable", true),
+                                IgnoreHealAggro = reader.GetBoolean("ignore_heal_aggro", true),
+                                DpsMultiplier = reader.GetFloat("dps_multiplier"),
+                                ActabilityGroupId = reader.GetUInt32("actability_group_id", 0),
+                                ActabilityStep = reader.GetInt32("actability_step"),
+                                ActabilityMul = reader.GetFloat("actability_mul"),
+                                ActabilityAdd = reader.GetFloat("actability_add")
+                            };
                             _effects["HealEffect"].Add(template.Id, template);
                         }
                     }
@@ -885,9 +951,11 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ImprintUccEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.ItemId = reader.GetUInt32("item_id", 0);
+                            var template = new ImprintUccEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                ItemId = reader.GetUInt32("item_id", 0)
+                            };
                             _effects["ImprintUccEffect"].Add(template.Id, template);
                         }
                     }
@@ -900,20 +968,22 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ImpulseEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.VelImpulseX = reader.GetFloat("vel_impulse_x");
-                            template.VelImpulseY = reader.GetFloat("vel_impulse_y");
-                            template.VelImpulseZ = reader.GetFloat("vel_impulse_z");
-                            template.AngvelImpulseX = reader.GetFloat("angvel_impulse_x");
-                            template.AngvelImpulseY = reader.GetFloat("angvel_impulse_y");
-                            template.AngvelImpulseZ = reader.GetFloat("angvel_impulse_z");
-                            template.ImpulseX = reader.GetFloat("impulse_x");
-                            template.ImpulseY = reader.GetFloat("impulse_y");
-                            template.ImpulseZ = reader.GetFloat("impulse_z");
-                            template.AngImpulseX = reader.GetFloat("ang_impulse_x");
-                            template.AngImpulseY = reader.GetFloat("ang_impulse_y");
-                            template.AngImpulseZ = reader.GetFloat("ang_impulse_z");
+                            var template = new ImpulseEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                VelImpulseX = reader.GetFloat("vel_impulse_x"),
+                                VelImpulseY = reader.GetFloat("vel_impulse_y"),
+                                VelImpulseZ = reader.GetFloat("vel_impulse_z"),
+                                AngvelImpulseX = reader.GetFloat("angvel_impulse_x"),
+                                AngvelImpulseY = reader.GetFloat("angvel_impulse_y"),
+                                AngvelImpulseZ = reader.GetFloat("angvel_impulse_z"),
+                                ImpulseX = reader.GetFloat("impulse_x"),
+                                ImpulseY = reader.GetFloat("impulse_y"),
+                                ImpulseZ = reader.GetFloat("impulse_z"),
+                                AngImpulseX = reader.GetFloat("ang_impulse_x"),
+                                AngImpulseY = reader.GetFloat("ang_impulse_y"),
+                                AngImpulseZ = reader.GetFloat("ang_impulse_z")
+                            };
                             _effects["ImpulseEffect"].Add(template.Id, template);
                         }
                     }
@@ -926,10 +996,12 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new InteractionEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.WorldInteraction = (WorldInteractionType)reader.GetInt32("wi_id");
-                            template.DoodadId = reader.GetUInt32("doodad_id", 0);
+                            var template = new InteractionEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                WorldInteraction = (WorldInteractionType)reader.GetInt32("wi_id"),
+                                DoodadId = reader.GetUInt32("doodad_id", 0)
+                            };
                             _effects["InteractionEffect"].Add(template.Id, template);
                         }
                     }
@@ -942,12 +1014,14 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new KillNpcWithoutCorpseEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.NpcId = reader.GetUInt32("npc_id");
-                            template.Radius = reader.GetFloat("radius");
-                            template.GiveExp = reader.GetBoolean("give_exp", true);
-                            template.Vanish = reader.GetBoolean("vanish", true);
+                            var template = new KillNpcWithoutCorpseEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                NpcId = reader.GetUInt32("npc_id"),
+                                Radius = reader.GetFloat("radius"),
+                                GiveExp = reader.GetBoolean("give_exp", true),
+                                Vanish = reader.GetBoolean("vanish", true)
+                            };
                             _effects["KillNpcWithoutCorpseEffect"].Add(template.Id, template);
                         }
                     }
@@ -960,14 +1034,16 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ManaBurnEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.BaseMin = reader.GetInt32("base_min");
-                            template.BaseMax = reader.GetInt32("base_max");
-                            template.DamageRatio = reader.GetInt32("damage_ratio");
-                            template.LevelMd = reader.GetFloat("level_md");
-                            template.LevelVaStart = reader.GetInt32("level_va_start");
-                            template.LevelVaEnd = reader.GetInt32("level_va_end");
+                            var template = new ManaBurnEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                BaseMin = reader.GetInt32("base_min"),
+                                BaseMax = reader.GetInt32("base_max"),
+                                DamageRatio = reader.GetInt32("damage_ratio"),
+                                LevelMd = reader.GetFloat("level_md"),
+                                LevelVaStart = reader.GetInt32("level_va_start"),
+                                LevelVaEnd = reader.GetInt32("level_va_end")
+                            };
                             _effects["ManaBurnEffect"].Add(template.Id, template);
                         }
                     }
@@ -980,8 +1056,10 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new MoveToRezPointEffect();
-                            template.Id = reader.GetUInt32("id");
+                            var template = new MoveToRezPointEffect
+                            {
+                                Id = reader.GetUInt32("id")
+                            };
                             _effects["MoveToRezPointEffect"].Add(template.Id, template);
                         }
                     }
@@ -994,9 +1072,11 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new OpenPortalEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.Distance = reader.GetFloat("distance");
+                            var template = new OpenPortalEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Distance = reader.GetFloat("distance")
+                            };
                             _effects["OpenPortalEffect"].Add(template.Id, template);
                         }
                     }
@@ -1009,11 +1089,13 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new PhysicalExplosionEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.Radius = reader.GetFloat("radius");
-                            template.HoleSize = reader.GetFloat("hole_size");
-                            template.Pressure = reader.GetFloat("pressure");
+                            var template = new PhysicalExplosionEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Radius = reader.GetFloat("radius"),
+                                HoleSize = reader.GetFloat("hole_size"),
+                                Pressure = reader.GetFloat("pressure")
+                            };
                             _effects["PhysicalExplosionEffect"].Add(template.Id, template);
                         }
                     }
@@ -1026,9 +1108,11 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new PutDownBackpackEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.BackpackDoodadId = reader.GetUInt32("backpack_doodad_id");
+                            var template = new PutDownBackpackEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                BackpackDoodadId = reader.GetUInt32("backpack_doodad_id")
+                            };
                             _effects["PutDownBackpackEffect"].Add(template.Id, template);
                         }
                     }
@@ -1041,11 +1125,13 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new RecoverExpEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.NeedMoney = reader.GetBoolean("need_money", true);
-                            template.NeedLaborPower = reader.GetBoolean("need_labor_power", true);
-                            template.NeedPriest = reader.GetBoolean("need_priest", true);
+                            var template = new RecoverExpEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                NeedMoney = reader.GetBoolean("need_money", true),
+                                NeedLaborPower = reader.GetBoolean("need_labor_power", true),
+                                NeedPriest = reader.GetBoolean("need_priest", true)
+                            };
                             // TODO 1.2 // template.Penaltied = reader.GetBoolean("penaltied", true);
                             _effects["RecoverExpEffect"].Add(template.Id, template);
                         }
@@ -1059,10 +1145,12 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new RepairSlaveEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.Health = reader.GetInt32("health");
-                            template.Mana = reader.GetInt32("mana");
+                            var template = new RepairSlaveEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Health = reader.GetInt32("health"),
+                                Mana = reader.GetInt32("mana")
+                            };
                             _effects["RepairSlaveEffect"].Add(template.Id, template);
                         }
                     }
@@ -1075,10 +1163,12 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ReportCrimeEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.Value = reader.GetInt32("value");
-                            template.CrimeKindId = reader.GetUInt32("crime_kind_id");
+                            var template = new ReportCrimeEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Value = reader.GetInt32("value"),
+                                CrimeKindId = reader.GetUInt32("crime_kind_id")
+                            };
                             _effects["ReportCrimeEffect"].Add(template.Id, template);
                         }
                     }
@@ -1092,16 +1182,18 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new RestoreManaEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.UseFixedValue = reader.GetBoolean("use_fixed_value", true);
-                            template.FixedMin = reader.GetInt32("fixed_min");
-                            template.FixedMax = reader.GetInt32("fixed_max");
-                            template.UseLevelValue = reader.GetBoolean("use_level_value", true);
-                            template.LevelMd = reader.GetFloat("level_md");
-                            template.LevelVaStart = reader.GetInt32("level_va_start");
-                            template.LevelVaEnd = reader.GetInt32("level_va_end");
-                            template.Percent = reader.GetBoolean("percent", true);
+                            var template = new RestoreManaEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                UseFixedValue = reader.GetBoolean("use_fixed_value", true),
+                                FixedMin = reader.GetInt32("fixed_min"),
+                                FixedMax = reader.GetInt32("fixed_max"),
+                                UseLevelValue = reader.GetBoolean("use_level_value", true),
+                                LevelMd = reader.GetFloat("level_md"),
+                                LevelVaStart = reader.GetInt32("level_va_start"),
+                                LevelVaEnd = reader.GetInt32("level_va_end"),
+                                Percent = reader.GetBoolean("percent", true)
+                            };
                             _effects["RestoreManaEffect"].Add(template.Id, template);
                         }
                     }
@@ -1114,11 +1206,13 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new ScopedFEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.Range = reader.GetInt32("range");
-                            template.Key = reader.GetBoolean("key", true);
-                            template.DoodadId = reader.GetUInt32("doodad_id");
+                            var template = new ScopedFEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                Range = reader.GetInt32("range"),
+                                Key = reader.GetBoolean("key", true),
+                                DoodadId = reader.GetUInt32("doodad_id")
+                            };
                             _effects["ScopedFEffect"].Add(template.Id, template);
                         }
                     }
@@ -1131,20 +1225,22 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new SpawnEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.OwnerTypeId = reader.GetUInt32("owner_type_id");
-                            template.SubType = reader.GetUInt32("sub_type");
-                            template.PosDirId = reader.GetUInt32("pos_dir_id");
-                            //template.PosAngle = reader.GetFloat("pos_angle"); // there is no such field in the database for version 3030
-                            template.PosDistanceMax = reader.GetFloat("pos_distance_max");
-                            template.PosDistanceMin = reader.GetFloat("pos_distance_min");
-                            template.OriDirId = reader.GetUInt32("ori_dir_id");
-                            template.OriAngle = reader.GetFloat("ori_angle");
-                            template.UseSummonerFaction = reader.GetBoolean("use_summoner_faction", true);
-                            template.LifeTime = reader.GetFloat("life_time");
-                            template.DespawnOnCreatorDeath = reader.GetBoolean("despawn_on_creator_death", true);
-                            template.UseSummoneerAggroTarget = reader.GetBoolean("use_summoner_aggro_target", true);
+                            var template = new SpawnEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                OwnerTypeId = reader.GetUInt32("owner_type_id"),
+                                SubType = reader.GetUInt32("sub_type"),
+                                PosDirId = reader.GetUInt32("pos_dir_id"),
+                                //template.PosAngle = reader.GetFloat("pos_angle"); // there is no such field in the database for version 3030
+                                PosDistanceMax = reader.GetFloat("pos_distance_max"),
+                                PosDistanceMin = reader.GetFloat("pos_distance_min"),
+                                OriDirId = reader.GetUInt32("ori_dir_id"),
+                                OriAngle = reader.GetFloat("ori_angle"),
+                                UseSummonerFaction = reader.GetBoolean("use_summoner_faction", true),
+                                LifeTime = reader.GetFloat("life_time"),
+                                DespawnOnCreatorDeath = reader.GetBoolean("despawn_on_creator_death", true),
+                                UseSummoneerAggroTarget = reader.GetBoolean("use_summoner_aggro_target", true)
+                            };
                             // TODO 1.2 // template.MateStateId = reader.GetUInt32("mate_state_id", 0);
                             _effects["SpawnEffect"].Add(template.Id, template);
                         }
@@ -1159,23 +1255,25 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new SpawnGimmickEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.GimmickId = reader.GetUInt32("gimmick_id");
-                            template.OffsetFromSource = reader.GetBoolean("offset_from_source", true);
-                            template.OffsetCoordiateId = reader.GetUInt32("offset_coordiate_id");
-                            template.OffsetX = reader.GetFloat("offset_x");
-                            template.OffsetY = reader.GetFloat("offset_y");
-                            template.OffsetZ = reader.GetFloat("offset_z");
-                            template.Scale = reader.GetFloat("scale");
-                            template.VelocityCoordiateId = reader.GetUInt32("velocity_coordiate_id");
-                            template.VelocityX = reader.GetFloat("velocity_x");
-                            template.VelocityY = reader.GetFloat("velocity_y");
-                            template.VelocityZ = reader.GetFloat("velocity_z");
-                            template.AngVelCoordiateId = reader.GetUInt32("ang_vel_coordiate_id");
-                            template.AngVelX = reader.GetFloat("ang_vel_x");
-                            template.AngVelY = reader.GetFloat("ang_vel_y");
-                            template.AngVelZ = reader.GetFloat("ang_vel_z");
+                            var template = new SpawnGimmickEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                GimmickId = reader.GetUInt32("gimmick_id"),
+                                OffsetFromSource = reader.GetBoolean("offset_from_source", true),
+                                OffsetCoordiateId = reader.GetUInt32("offset_coordiate_id"),
+                                OffsetX = reader.GetFloat("offset_x"),
+                                OffsetY = reader.GetFloat("offset_y"),
+                                OffsetZ = reader.GetFloat("offset_z"),
+                                Scale = reader.GetFloat("scale"),
+                                VelocityCoordiateId = reader.GetUInt32("velocity_coordiate_id"),
+                                VelocityX = reader.GetFloat("velocity_x"),
+                                VelocityY = reader.GetFloat("velocity_y"),
+                                VelocityZ = reader.GetFloat("velocity_z"),
+                                AngVelCoordiateId = reader.GetUInt32("ang_vel_coordiate_id"),
+                                AngVelX = reader.GetFloat("ang_vel_x"),
+                                AngVelY = reader.GetFloat("ang_vel_y"),
+                                AngVelZ = reader.GetFloat("ang_vel_z")
+                            };
                             _effects["SpawnGimmickEffect"].Add(template.Id, template);
                         }
                     }
@@ -1189,13 +1287,15 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new SpecialEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.SpecialEffectTypeId = (SpecialType)reader.GetInt32("special_effect_type_id");
-                            template.Value1 = reader.GetInt32("value1");
-                            template.Value2 = reader.GetInt32("value2");
-                            template.Value3 = reader.GetInt32("value3");
-                            template.Value4 = reader.GetInt32("value4");
+                            var template = new SpecialEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                SpecialEffectTypeId = (SpecialType)reader.GetInt32("special_effect_type_id"),
+                                Value1 = reader.GetInt32("value1"),
+                                Value2 = reader.GetInt32("value2"),
+                                Value3 = reader.GetInt32("value3"),
+                                Value4 = reader.GetInt32("value4")
+                            };
                             _effects["SpecialEffect"].Add(template.Id, template);
                         }
                     }
@@ -1208,9 +1308,11 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new TrainCraftEffect();
-                            template.Id = reader.GetUInt32("id");
-                            template.CraftId = reader.GetUInt32("craft_id");
+                            var template = new TrainCraftEffect
+                            {
+                                Id = reader.GetUInt32("id"),
+                                CraftId = reader.GetUInt32("craft_id")
+                            };
                             _effects["TrainCraftEffect"].Add(template.Id, template);
                         }
                     }
@@ -1224,10 +1326,12 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new EffectType();
-                            template.Id = reader.GetUInt32("id");
-                            template.ActualId = reader.GetUInt32("actual_id");
-                            template.Type = reader.GetString("actual_type");
+                            var template = new EffectType
+                            {
+                                Id = reader.GetUInt32("id"),
+                                ActualId = reader.GetUInt32("actual_id"),
+                                Type = reader.GetString("actual_type")
+                            };
                             _types.Add(template.Id, template);
                         }
                     }
@@ -1242,13 +1346,18 @@ namespace AAEmu.Game.Core.Managers
                         {
                             var skillId = reader.GetUInt32("skill_id");
                             if (!_skills.ContainsKey(skillId))
+                            {
                                 continue;
+                            }
 
                             var template = new SkillEffect();
                             var effectId = reader.GetUInt32("effect_id");
                             var type = _types[effectId];
                             if (_effects.ContainsKey(type.Type))
+                            {
                                 template.Template = _effects[type.Type][type.ActualId];
+                            }
+
                             template.Weight = reader.GetInt32("weight");
                             template.StartLevel = reader.GetByte("start_level");
                             template.EndLevel = reader.GetByte("end_level");
@@ -1285,7 +1394,10 @@ namespace AAEmu.Game.Core.Managers
                             var tagId = reader.GetUInt32("tag_id");
                             var buffId = reader.GetUInt32("buff_id");
                             if (!_taggedBuffs.ContainsKey(tagId))
+                            {
                                 _taggedBuffs.Add(tagId, new List<uint>());
+                            }
+
                             _taggedBuffs[tagId].Add(buffId);
                         }
                     }
@@ -1301,20 +1413,25 @@ namespace AAEmu.Game.Core.Managers
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new SkillModifier();
-                            //template.Id = reader.GetUInt32("id");
-                            template.Id = step++;
-                            template.OwnerId = reader.GetUInt32("owner_id");
-                            template.OwnerType = reader.GetString("owner_type");
-                            template.TagId = reader.GetUInt32("tag_id", 0);
-                            template.SkillAttribute = (SkillAttribute)reader.GetUInt32("skill_attribute_id");
-                            template.UnitModifierType = (UnitModifierType)reader.GetUInt32("unit_modifier_type_id");
-                            template.Value = reader.GetInt32("value");
-                            template.SkillId = reader.GetUInt32("skill_id", 0);
-                            template.Synergy = reader.GetBoolean("synergy");
+                            var template = new SkillModifier
+                            {
+                                //template.Id = reader.GetUInt32("id");
+                                Id = step++,
+                                OwnerId = reader.GetUInt32("owner_id"),
+                                OwnerType = reader.GetString("owner_type"),
+                                TagId = reader.GetUInt32("tag_id", 0),
+                                SkillAttribute = (SkillAttribute)reader.GetUInt32("skill_attribute_id"),
+                                UnitModifierType = (UnitModifierType)reader.GetUInt32("unit_modifier_type_id"),
+                                Value = reader.GetInt32("value"),
+                                SkillId = reader.GetUInt32("skill_id", 0),
+                                Synergy = reader.GetBoolean("synergy")
+                            };
 
                             if (!_skillModifiers.ContainsKey(template.OwnerId))
+                            {
                                 _skillModifiers.Add(template.OwnerId, new List<SkillModifier>());
+                            }
+
                             _skillModifiers[template.OwnerId].Add(template);
                         }
                     }
@@ -1331,7 +1448,10 @@ namespace AAEmu.Game.Core.Managers
                             var tagId = reader.GetUInt32("tag_id");
                             var skillId = reader.GetUInt32("skill_id");
                             if (!_skillTags.ContainsKey(skillId))
+                            {
                                 _skillTags.Add(skillId, new List<uint>());
+                            }
+
                             _skillTags[skillId].Add(tagId);
                         }
                     }
@@ -1344,13 +1464,22 @@ namespace AAEmu.Game.Core.Managers
             {
                 if (!skillTemplate.NeedLearn && skillTemplate.AbilityId == 0 &&
                     !_defaultSkills.ContainsKey(skillTemplate.Id))
+                {
                     _commonSkills.Add(skillTemplate.Id);
+                }
+
                 if (!skillTemplate.NeedLearn || skillTemplate.AbilityId == 0 || skillTemplate.AbilityLevel > 1 ||
                     !skillTemplate.Show)
+                {
                     continue;
+                }
+
                 var ability = (AbilityType)skillTemplate.AbilityId;
                 if (!_startAbilitySkills.ContainsKey(ability))
+                {
                     _startAbilitySkills.Add(ability, new List<SkillTemplate>());
+                }
+
                 _startAbilitySkills[ability].Add(skillTemplate);
             }
         }

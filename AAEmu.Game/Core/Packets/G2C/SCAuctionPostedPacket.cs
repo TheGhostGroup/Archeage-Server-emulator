@@ -6,7 +6,7 @@ using AAEmu.Game.Models.Game.Auction;
 
 namespace AAEmu.Game.Core.Packets.G2C
 {
-    class SCAuctionPostedPacket : GamePacket
+    internal class SCAuctionPostedPacket : GamePacket
     {
         private readonly AuctionItem item;
         public SCAuctionPostedPacket(AuctionItem auctionItem) : base(SCOffsets.SCAuctionPostedPacket, 5)

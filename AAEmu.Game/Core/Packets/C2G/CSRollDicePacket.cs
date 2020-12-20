@@ -12,7 +12,7 @@ namespace AAEmu.Game.Core.Packets.C2G
         public override void Read(PacketStream stream)
         {
             var max = stream.ReadUInt32();
-            
+
             _log.Warn("RollDice, Max: {0}", max);
         }
     }

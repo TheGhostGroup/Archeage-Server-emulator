@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 
 using AAEmu.Commons.Utils;
@@ -10,7 +8,6 @@ using AAEmu.Game.Models.Game.AI.Abstracts;
 using AAEmu.Game.Models.Game.AI.Static;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.NPChar;
-using AAEmu.Game.Models.Game.Transfers.Paths;
 using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.Units.Movements;
 using AAEmu.Game.Models.Game.Units.Route;
@@ -92,7 +89,7 @@ namespace AAEmu.Game.Models.Game.AI
                                     chr.BroadcastPacket(new SCTargetChangedPacket(npc.ObjId, chr.ObjId), true);
                                     npc.CurrentTarget = target;
                                 }
-                                var seq = (uint)(DateTime.Now - GameService.StartTime).TotalMilliseconds;
+                                var Seq = (uint)(DateTime.Now - GameService.StartTime).TotalMilliseconds;
                                 var moveType = (ActorData)UnitMovement.GetType(UnitMovementType.Actor);
 
                                 moveType.X = npc.Position.X;
@@ -111,14 +108,17 @@ namespace AAEmu.Game.Models.Game.AI
                                 moveType.DeltaMovement = Vector3.Zero;
                                 Velocity = Vector3.Zero;
 
-                                moveType.Stance = 1;    //combat=0, idle=1
-                                moveType.Alertness = 1; //idle=0, alert = 1, combat=2
-                                moveType.Time = seq;
+                                moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
+                                moveType.Stance = EStance.Idle;           // COMBAT = 0x0, IDLE = 0x1
+                                moveType.Alertness = AiAlertness.Alert;   // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+                                moveType.Time = Seq;                      // has to change all the time for normal motion.
                                 chr.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
                             }
                         }
                         else if (npc.SimulationNpc != null && npc.SimulationNpc.FollowPath)
                         {
+                            npc.IsInPatrol = true;
+                            npc.SimulationNpc.MoveToPathEnabled = false;
                             npc.SimulationNpc.GoToPath(npc, true);
                         }
                         else if (npc.Template.AiFileId == AiFilesType.Roaming || npc.Template.AiFileId == AiFilesType.BigMonsterRoaming || npc.Template.AiFileId == AiFilesType.ArcherRoaming || npc.Template.AiFileId == AiFilesType.WildBoarRoaming)

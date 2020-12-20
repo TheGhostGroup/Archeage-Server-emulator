@@ -19,9 +19,9 @@ namespace AAEmu.Game.Models.Game.Transfers
 {
     public class TransferSpawner : Spawner<Transfer>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private List<Transfer> _spawned;
+        private readonly List<Transfer> _spawned;
         private Transfer _lastSpawn;
         private int _scheduledCount;
         public int _spawnCount;
@@ -212,9 +212,13 @@ namespace AAEmu.Game.Models.Game.Transfers
 
                             // попробуем заспавнить в последней точке пути (она как раз напротив стоянки)
                             // попробуем смотреть на следующую точку
+                            //var point = path.Routes[path.Routes.Count - 1][path.Routes[path.Routes.Count - 1].Count - 1];
+                            //var point = path.Routes[0][0];
 
-                            var point = path.Routes[path.Routes.Count - 1][path.Routes[path.Routes.Count - 1].Count - 1];
-                            var point2 = path.Routes[0][0];
+                            // попробуем заспавнить в первой точке пути
+                            // попробуем смотреть на следующую точку
+                            var point = path.Routes[0][0];
+                            var point2 = path.Routes[0][1];
 
                             var vPosition = new Vector3(point.X, point.Y, point.Z);
                             var vTarget = new Vector3(point2.X, point2.Y, point2.Z);
@@ -302,11 +306,12 @@ namespace AAEmu.Game.Models.Game.Transfers
         /// <param name="pathPointIndex"></param>
         public static void AddPathAndUpdatePos(uint objid, Point position2, uint type, int steering, int pathPointIndex)
         {
-            var path = new TransfersPath();
-
-            path.ObjId = objid;
-            path.Name = "";
-            path.Type = type;
+            var path = new TransfersPath
+            {
+                ObjId = objid,
+                Name = "",
+                Type = type
+            };
             //try
             //{
             //    path.Type = types[objid]; // get templateId
@@ -383,10 +388,12 @@ namespace AAEmu.Game.Models.Game.Transfers
             if (!valueExists)
             {
                 // darn, lets add the value			
-                position = new TransfersPathPoint();
-                position.X = position2.X;
-                position.Y = position2.Y;
-                position.Z = position2.Z;
+                position = new TransfersPathPoint
+                {
+                    X = position2.X,
+                    Y = position2.Y,
+                    Z = position2.Z
+                };
 
                 pos.Add(position);
             }

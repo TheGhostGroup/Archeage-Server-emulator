@@ -5,7 +5,7 @@ namespace AAEmu.Game.Models.Tasks.Doodads
 {
     public class DoodadFuncFinalTask : DoodadFuncTask
     {
-        private bool _respawn;
+        private readonly bool _respawn;
 
         public DoodadFuncFinalTask(Unit caster, Doodad owner, uint skillId, bool respawn) : base(caster, owner, skillId)
         {
@@ -16,9 +16,13 @@ namespace AAEmu.Game.Models.Tasks.Doodads
         {
             _owner.FuncTask = null;
             if (_respawn && _owner.Spawner != null)
+            {
                 _owner.Spawner.DecreaseCount(_owner);
+            }
             else
+            {
                 _owner.Delete();
+            }
         }
     }
 }

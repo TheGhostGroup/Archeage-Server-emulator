@@ -49,7 +49,8 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //stream.Write(VelX);
             //stream.Write(VelY);
             //stream.Write(VelZ);
-            stream.WriteVector3Short(Velocity);
+            //stream.WriteVector3Short(Velocity);
+            stream.WriteVector3Short(new Vector3(Velocity.X * 0.02f, Velocity.Y * 0.02f, Velocity.Z * 0.02f));
 
             //stream.Write((short)RotationX);
             //stream.Write((short)RotationY);

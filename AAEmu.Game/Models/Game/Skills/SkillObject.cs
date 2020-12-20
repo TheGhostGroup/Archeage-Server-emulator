@@ -89,7 +89,7 @@ namespace AAEmu.Game.Models.Game.Skills
             return stream;
         }
     }
-    
+
     public class SkillObjectUnk2 : SkillObject
     {
         public int Id { get; set; }
@@ -109,7 +109,7 @@ namespace AAEmu.Game.Models.Game.Skills
             return stream;
         }
     }
-    
+
     public class SkillObjectUnk3 : SkillObject
     {
         public string Msg { get; set; }
@@ -126,7 +126,7 @@ namespace AAEmu.Game.Models.Game.Skills
             return stream;
         }
     }
-    
+
     public class SkillObjectUnk4 : SkillObject
     {
         public float X { get; set; }
@@ -149,7 +149,7 @@ namespace AAEmu.Game.Models.Game.Skills
             return stream;
         }
     }
-    
+
     public class SkillObjectUnk5 : SkillObject
     {
         public int Step { get; set; }

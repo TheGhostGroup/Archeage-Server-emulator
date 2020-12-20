@@ -5,10 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+
 using AAEmu.Commons.IO;
 using AAEmu.Commons.Utils;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+
 using NLog;
 
 namespace AAEmu.Game.Utils.Scripts
@@ -17,19 +20,23 @@ namespace AAEmu.Game.Utils.Scripts
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         private static Assembly _assembly;
-        private static Dictionary<string, ScriptObject> _scriptsObjects = new Dictionary<string, ScriptObject>();
+        private static readonly Dictionary<string, ScriptObject> _scriptsObjects = new Dictionary<string, ScriptObject>();
 
         public static bool Compile()
         {
             EnsureDirectory("Scripts/");
 
             if (!CompileScripts(out var assembly))
+            {
                 return false;
+            }
 
             _assembly = assembly;
 
             if (_assembly != null)
+            {
                 OnLoad();
+            }
 
             return true;
         }
@@ -46,7 +53,10 @@ namespace AAEmu.Game.Utils.Scripts
             foreach (var type in types)
             {
                 if (type.IsNested)
+                {
                     continue;
+                }
+
                 var obj = Activator.CreateInstance(type);
                 var script = new ScriptObject(type, obj);
                 _scriptsObjects.Add(script.Name, script);
@@ -71,7 +81,9 @@ namespace AAEmu.Game.Utils.Scripts
 
             var references = new List<MetadataReference>();
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies().Where(p => !p.IsDynamic && !string.IsNullOrEmpty(p.Location)))
+            {
                 references.Add(MetadataReference.CreateFromFile(asm.Location));
+            }
 
             var compilation = CSharpCompilation.Create(
                 assemblyName,
@@ -109,9 +121,13 @@ namespace AAEmu.Game.Utils.Scripts
                 var warningCount = diagnostics.Count(x => x.Severity == DiagnosticSeverity.Warning);
 
                 if (errorCount > 0)
+                {
                     _log.Error("Compile failed ({0} errors, {1} warnings)", errorCount, warningCount);
+                }
                 else
+                {
                     _log.Info("Compile done ({0} errors, {1} warnings)", errorCount, warningCount);
+                }
 
                 var result = diagnostics.Where(diagnostic =>
                     diagnostic.Severity == DiagnosticSeverity.Error ||
@@ -119,9 +135,13 @@ namespace AAEmu.Game.Utils.Scripts
                 foreach (var diagnostic in result)
                 {
                     if (diagnostic.Severity == DiagnosticSeverity.Error)
+                    {
                         _log.Error("{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
+                    }
                     else
+                    {
                         _log.Warn("{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
+                    }
                 }
             }
         }
@@ -131,7 +151,9 @@ namespace AAEmu.Game.Utils.Scripts
             var path = Path.Combine(Helpers.BaseDirectory, dir);
 
             if (!Directory.Exists(path))
+            {
                 Directory.CreateDirectory(path);
+            }
         }
 
         private static string[] GetScripts(string filter)
@@ -144,7 +166,9 @@ namespace AAEmu.Game.Utils.Scripts
         private static void GetScripts(List<string> list, string path, string filter)
         {
             foreach (var dir in Directory.GetDirectories(path))
+            {
                 GetScripts(list, dir, filter);
+            }
 
             list.AddRange(Directory.GetFiles(path, filter));
         }

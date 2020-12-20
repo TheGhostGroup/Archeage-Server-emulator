@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 using AAEmu.Commons.IO;
@@ -14,16 +13,17 @@ using AAEmu.Game.Models.Game.NPChar;
 using AAEmu.Game.Models.Game.Transfers;
 using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.World;
+
 using NLog;
 
 namespace AAEmu.Game.Core.Managers.World
 {
     public class SpawnManager : Singleton<SpawnManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private bool _work = true;
-        private object _lock = new object();
+        private readonly object _lock = new object();
         private HashSet<GameObject> _respawns;
         private HashSet<GameObject> _despawns;
 
@@ -53,42 +53,61 @@ namespace AAEmu.Game.Core.Managers.World
                 var contents =
                     FileManager.GetFileContents($"{FileManager.AppPath}Data/Worlds/{world.Name}/npc_spawns.json");
                 if (string.IsNullOrWhiteSpace(contents))
+                {
                     _log.Warn($"File {FileManager.AppPath}Data/Worlds/{world.Name}/npc_spawns.json doesn't exists or is empty.");
+                }
                 else
                 {
                     if (JsonHelper.TryDeserializeObject(contents, out List<NpcSpawner> spawners, out _))
+                    {
                         foreach (var spawner in spawners)
                         {
                             if (!NpcManager.Instance.Exist(spawner.UnitId))
+                            {
                                 continue; // TODO ... so mb warn here?
+                            }
+
                             spawner.Position.WorldId = world.Id;
                             spawner.Position.ZoneId = WorldManager
                                 .Instance
                                 .GetZoneId(world.Id, spawner.Position.X, spawner.Position.Y);
+
                             npcSpawners.Add(spawner.Id, spawner);
                         }
+                    }
                     else
+                    {
                         throw new Exception($"SpawnManager: Parse {FileManager.AppPath}Data/Worlds/{world.Name}/npc_spawns.json file");
+                    }
                 }
 
                 contents = FileManager.GetFileContents($"{FileManager.AppPath}Data/Worlds/{world.Name}/doodad_spawns.json");
                 if (string.IsNullOrWhiteSpace(contents))
+                {
                     _log.Warn($"File {FileManager.AppPath}Data/Worlds/{world.Name}/doodad_spawns.json doesn't exists or is empty.");
+                }
                 else
                 {
                     if (JsonHelper.TryDeserializeObject(contents, out List<DoodadSpawner> spawners, out _))
+                    {
                         foreach (var spawner in spawners)
                         {
                             if (!DoodadManager.Instance.Exist(spawner.UnitId))
+                            {
                                 continue; // TODO ... so mb warn here?
+                            }
+
                             spawner.Position.WorldId = world.Id;
                             spawner.Position.ZoneId = WorldManager
                                 .Instance
                                 .GetZoneId(world.Id, spawner.Position.X, spawner.Position.Y);
                             doodadSpawners.Add(spawner.Id, spawner);
                         }
+                    }
                     else
+                    {
                         throw new Exception($"SpawnManager: Parse {FileManager.AppPath}Data/Worlds/{world.Name}/doodad_spawns.json file");
+                    }
                 }
 
                 contents = FileManager.GetFileContents($"{FileManager.AppPath}Data/Worlds/{world.Name}/transfer_spawns.json");
@@ -103,7 +122,10 @@ namespace AAEmu.Game.Core.Managers.World
                         foreach (var spawner in spawners)
                         {
                             if (!TransferManager.Instance.Exist(spawner.UnitId))
+                            {
                                 continue;
+                            }
+
                             spawner.Position.WorldId = world.Id;
                             spawner.Position.ZoneId =
                                 WorldManager.Instance.GetZoneId(world.Id, spawner.Position.X, spawner.Position.Y);
@@ -138,7 +160,10 @@ namespace AAEmu.Game.Core.Managers.World
                         foreach (var spawner in spawners)
                         {
                             if (!GimmickManager.Instance.Exist(spawner.UnitId))
+                            {
                                 continue;
+                            }
+
                             spawner.Position.WorldId = world.Id;
                             spawner.Position.ZoneId = WorldManager.Instance.GetZoneId(world.Id, spawner.Position.X, spawner.Position.Y);
                             gimmickSpawners.Add(spawner.Id, spawner);
@@ -165,23 +190,37 @@ namespace AAEmu.Game.Core.Managers.World
         public void SpawnAll()
         {
             foreach (var (worldId, worldSpawners) in _npcSpawners)
+            {
                 foreach (var spawner in worldSpawners.Values)
                 {
                     //spawner.SpawnAll();
                     spawner.Spawn(spawner.Id);
                 }
+            }
 
             foreach (var (worldId, worldSpawners) in _doodadSpawners)
+            {
                 foreach (var spawner in worldSpawners.Values)
+                {
                     spawner.Spawn(0);
+                }
+            }
 
             foreach (var (worldId, worldSpawners) in _transferSpawners)
+            {
                 foreach (var spawner in worldSpawners.Values)
+                {
                     spawner.SpawnAll();
+                }
+            }
 
             foreach (var (worldId, worldSpawners) in _gimmickSpawners)
+            {
                 foreach (var spawner in worldSpawners.Values)
+                {
                     spawner.Spawn(0);
+                }
+            }
 
             // нужно для создания файла transfer_paths_original.json
             //var result = TransfersPath.Paths.OrderBy(x => x.Type).ToList();
@@ -240,8 +279,13 @@ namespace AAEmu.Game.Core.Managers.World
 
             var res = new HashSet<GameObject>();
             foreach (var npc in temp)
+            {
                 if (npc.Respawn <= DateTime.Now)
+                {
                     res.Add(npc);
+                }
+            }
+
             return res;
         }
 
@@ -255,8 +299,13 @@ namespace AAEmu.Game.Core.Managers.World
 
             var res = new HashSet<GameObject>();
             foreach (var item in temp)
+            {
                 if (item.Despawn <= DateTime.Now)
+                {
                     res.Add(item);
+                }
+            }
+
             return res;
         }
 
@@ -270,15 +319,30 @@ namespace AAEmu.Game.Core.Managers.World
                     foreach (var obj in respawns)
                     {
                         if (obj.Respawn >= DateTime.Now)
+                        {
                             continue;
+                        }
+
                         if (obj is Npc npc)
+                        {
                             npc.Spawner.Respawn(npc);
+                        }
+
                         if (obj is Doodad doodad)
+                        {
                             doodad.Spawner.Respawn(doodad);
+                        }
+
                         if (obj is Transfer transfer)
+                        {
                             transfer.Spawner.Respawn(transfer);
+                        }
+
                         if (obj is Gimmick gimmick)
+                        {
                             gimmick.Spawner.Respawn(gimmick);
+                        }
+
                         RemoveRespawn(obj);
                     }
                 }
@@ -289,15 +353,26 @@ namespace AAEmu.Game.Core.Managers.World
                     foreach (var obj in despawns)
                     {
                         if (obj.Despawn >= DateTime.Now)
+                        {
                             continue;
+                        }
+
                         if (obj is Npc npc && npc.Spawner != null)
+                        {
                             npc.Spawner.Despawn(npc);
+                        }
                         else if (obj is Doodad doodad && doodad.Spawner != null)
+                        {
                             doodad.Spawner.Despawn(doodad);
+                        }
                         else if (obj is Transfer transfer && transfer.Spawner != null)
+                        {
                             transfer.Spawner.Despawn(transfer);
+                        }
                         else if (obj is Gimmick gimmick && gimmick.Spawner != null)
+                        {
                             gimmick.Spawner.Despawn(gimmick);
+                        }
                         else
                         {
                             ObjectIdManager.Instance.ReleaseId(obj.ObjId);

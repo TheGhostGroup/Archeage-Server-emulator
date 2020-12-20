@@ -24,10 +24,12 @@ namespace AAEmu.Game.Core.Packets.C2G
             _log.Warn("CreateDoodad, Id: {0}, X: {1}, Y: {2}, Z: {3}, ItemId: {4}", id, x, y, z, itemId);
 
 
-            var doodadSpawner = new DoodadSpawner();
-            doodadSpawner.Id = 0;
-            doodadSpawner.UnitId = id;
-            doodadSpawner.Position = Connection.ActiveChar.Position.Clone();
+            var doodadSpawner = new DoodadSpawner
+            {
+                Id = 0,
+                UnitId = id,
+                Position = Connection.ActiveChar.Position.Clone()
+            };
             doodadSpawner.Position.X = x;
             doodadSpawner.Position.Y = y;
             doodadSpawner.Position.Z = z;
@@ -47,7 +49,10 @@ namespace AAEmu.Game.Core.Packets.C2G
                 doodad.OwnerObjId = Connection.ActiveChar.ObjId;
                 //doodad.Position = new Models.Game.World.TransfersPathPoint(Connection.ActiveChar.Position.WorldId, Connection.ActiveChar.Position.ZoneId, x, y, z, 0, 0, 0);
                 if (scale > 0)
+                {
                     doodad.SetScale(scale);
+                }
+
                 doodad.Spawn();
             }
 

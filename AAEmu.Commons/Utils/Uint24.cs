@@ -12,7 +12,7 @@ namespace AAEmu.Commons.Utils
         /// Это поле является константой.
         /// </summary>
         public const uint MaxValue = 0x00FFFFFF;
-        
+
         /// <summary>
         /// Представляет минимально допустимое значение типа
         /// Это поле является константой.

@@ -177,7 +177,10 @@ namespace AAEmu.Game.Models.Game.Units
         {
             _type = type;
             if (_type == UnitCustomModelType.Face)
+            {
                 Face = new FaceModel();
+            }
+
             return this;
         }
 
@@ -248,7 +251,9 @@ namespace AAEmu.Game.Models.Game.Units
             SetType((UnitCustomModelType)stream.ReadByte()); // ext
 
             if (_type == UnitCustomModelType.None)
+            {
                 return;
+            }
 
             // Hair
             HairColorId = stream.ReadUInt32();        // HairColorId type
@@ -259,7 +264,9 @@ namespace AAEmu.Game.Models.Game.Units
             TwoToneSecondWidth = stream.ReadSingle(); // twoToneSecondWidth for 3.0.3.0
 
             if (_type == UnitCustomModelType.Hair)
+            {
                 return;
+            }
 
             SkinColorId = stream.ReadUInt32();          // type
             ModelId = stream.ReadUInt32();              // type for 3.0.3.0
@@ -267,7 +274,9 @@ namespace AAEmu.Game.Models.Game.Units
             BodyNormalMapWeight = stream.ReadSingle();  // weight
 
             if (_type == UnitCustomModelType.Skin)
+            {
                 return;
+            }
 
             // Face
             Face.Read(stream);
@@ -278,7 +287,9 @@ namespace AAEmu.Game.Models.Game.Units
             stream.Write((byte)_type); // ext
 
             if (_type == UnitCustomModelType.None)
+            {
                 return stream;
+            }
 
             stream.Write(HairColorId);        // type
             stream.Write(HornColorId);        // type for 3.0.3.0
@@ -288,7 +299,9 @@ namespace AAEmu.Game.Models.Game.Units
             stream.Write(TwoToneSecondWidth); // twoToneSecondWidth for 3.0.3.0
 
             if (_type == UnitCustomModelType.Hair)
+            {
                 return stream;
+            }
 
             stream.Write(SkinColorId);          // type
             stream.Write(ModelId);              // type for 3.0.3.0
@@ -296,7 +309,9 @@ namespace AAEmu.Game.Models.Game.Units
             stream.Write(BodyNormalMapWeight);  // weight
 
             if (_type == UnitCustomModelType.Skin)
+            {
                 return stream;
+            }
 
             stream.Write(Face);
 

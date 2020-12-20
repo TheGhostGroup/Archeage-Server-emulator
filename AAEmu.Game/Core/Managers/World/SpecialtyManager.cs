@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Models.Game;
@@ -8,7 +7,6 @@ using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.Items;
 using AAEmu.Game.Models.Game.Items.Actions;
 using AAEmu.Game.Models.Game.Trading;
-using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Tasks.Specialty;
 using AAEmu.Game.Utils;
 using AAEmu.Game.Utils.DB;
@@ -19,7 +17,7 @@ namespace AAEmu.Game.Core.Managers.World
 {
     public class SpecialtyManager : Singleton<SpecialtyManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public static int MAX_SPECIALTY_RATIO = 130;
         public static int MIN_SPECIALTY_RATIO = 70;
@@ -64,13 +62,15 @@ namespace AAEmu.Game.Core.Managers.World
                     {
                         while (reader.Read())
                         {
-                            var template = new Specialty();
-                            template.Id = reader.GetUInt32("id");
-                            template.RowZoneGroupId = reader.GetUInt32("row_zone_group_id");
-                            template.ColZoneGroupId = reader.GetUInt32("col_zone_group_id");
-                            template.Ratio = reader.GetUInt32("ratio");
-                            template.Profit = reader.GetUInt32("profit");
-                            template.VendorExist = reader.GetBoolean("id", true);
+                            var template = new Specialty
+                            {
+                                Id = reader.GetUInt32("id"),
+                                RowZoneGroupId = reader.GetUInt32("row_zone_group_id"),
+                                ColZoneGroupId = reader.GetUInt32("col_zone_group_id"),
+                                Ratio = reader.GetUInt32("ratio"),
+                                Profit = reader.GetUInt32("profit"),
+                                VendorExist = reader.GetBoolean("id", true)
+                            };
                             _specialties.Add(template.Id, template);
                         }
                     }
@@ -84,16 +84,20 @@ namespace AAEmu.Game.Core.Managers.World
                     {
                         while (reader.Read())
                         {
-                            var template = new SpecialtyBundleItem();
-                            template.Id = reader.GetUInt32("id");
-                            template.ItemId = reader.GetUInt32("item_id");
-                            template.SpecialtyBundleId = reader.GetUInt32("specialty_bundle_id");
-                            template.Profit = reader.GetUInt32("profit");
-                            template.Ratio = reader.GetUInt32("ratio");
+                            var template = new SpecialtyBundleItem
+                            {
+                                Id = reader.GetUInt32("id"),
+                                ItemId = reader.GetUInt32("item_id"),
+                                SpecialtyBundleId = reader.GetUInt32("specialty_bundle_id"),
+                                Profit = reader.GetUInt32("profit"),
+                                Ratio = reader.GetUInt32("ratio")
+                            };
                             _specialtyBundleItems.Add(template.Id, template);
 
                             if (!_specialtyBundleItemsMapped.ContainsKey(template.ItemId))
+                            {
                                 _specialtyBundleItemsMapped.Add(template.ItemId, new Dictionary<uint, SpecialtyBundleItem>());
+                            }
 
                             _specialtyBundleItemsMapped[template.ItemId].Add(template.SpecialtyBundleId, template);
                         }
@@ -109,17 +113,21 @@ namespace AAEmu.Game.Core.Managers.World
                         var step = 0u;
                         while (reader.Read())
                         {
-                            var template = new SpecialtyNpc();
-                            //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
-                            template.Id = step++;
-                            //template.Name = reader.GetString("name"); // there is no such field in the database for version 3030
-                            template.NpcId = reader.GetUInt32("npc_id");
-                            template.SpecialtyBundleId = reader.GetUInt32("specialty_bundle_id");
+                            var template = new SpecialtyNpc
+                            {
+                                //template.Id = reader.GetUInt32("id"); // there is no such field in the database for version 3030
+                                Id = step++,
+                                //template.Name = reader.GetString("name"); // there is no such field in the database for version 3030
+                                NpcId = reader.GetUInt32("npc_id"),
+                                SpecialtyBundleId = reader.GetUInt32("specialty_bundle_id")
+                            };
 
                             //_specialtyNpc.Add(template.NpcId, template);  // в наличии дубли NpcId
                             List<SpecialtyNpc> tempListSpecialtyNpc;
                             if (_specialtyNpc.ContainsKey(template.NpcId))
+                            {
                                 tempListSpecialtyNpc = _specialtyNpc[template.NpcId];
+                            }
                             else
                             {
                                 tempListSpecialtyNpc = new List<SpecialtyNpc>();
@@ -155,7 +163,9 @@ namespace AAEmu.Game.Core.Managers.World
         {
             var backpack = player.Inventory.Equipment.GetItemBySlot((int)EquipmentItemSlot.Backpack);
             if (backpack == null)
+            {
                 return 0;
+            }
 
             var zoneId = player.Position.ZoneId;
 
@@ -222,7 +232,9 @@ namespace AAEmu.Game.Core.Managers.World
             var basePrice = GetBasePriceForSpecialty(player, npcObjId);
 
             if (basePrice == 0) // We had an error, no need to keep going
+            {
                 return;
+            }
 
             var priceRatio = GetRatioForSpecialty(player);
 
@@ -235,7 +247,9 @@ namespace AAEmu.Game.Core.Managers.World
 
             var npc = WorldManager.Instance.GetNpc(npcObjId);
             if (npc == null)
+            {
                 return;
+            }
 
             // Our backpack isn't null, we have the NPC 
             var finalPrice = (basePrice * (priceRatio / 100f));
@@ -262,10 +276,14 @@ namespace AAEmu.Game.Core.Managers.World
 
             // Add one pack sold in this zone during this tick
             if (!_soldPackAmountInTick.ContainsKey(backpack.TemplateId))
+            {
                 _soldPackAmountInTick.Add(backpack.TemplateId, new Dictionary<uint, int>());
+            }
 
             if (!_soldPackAmountInTick[backpack.TemplateId].ContainsKey(player.Position.ZoneId))
+            {
                 _soldPackAmountInTick[backpack.TemplateId].Add(player.Position.ZoneId, 0);
+            }
 
             _soldPackAmountInTick[backpack.TemplateId][player.Position.ZoneId] += 1;
         }
@@ -301,10 +319,14 @@ namespace AAEmu.Game.Core.Managers.World
         private void InitRatioInZoneForPack(uint itemId, uint zoneId)
         {
             if (!_priceRatios.ContainsKey(itemId))
+            {
                 _priceRatios.Add(itemId, new Dictionary<uint, int>());
+            }
 
             if (!_priceRatios[itemId].ContainsKey(zoneId))
+            {
                 _priceRatios[itemId].Add(zoneId, MAX_SPECIALTY_RATIO);
+            }
         }
 
         // Dummy for tests

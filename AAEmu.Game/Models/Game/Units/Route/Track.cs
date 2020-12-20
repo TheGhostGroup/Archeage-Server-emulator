@@ -2,13 +2,11 @@
 using System.Numerics;
 
 using AAEmu.Commons.Utils;
-using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Packets.G2C;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.Gimmicks;
 using AAEmu.Game.Models.Game.NPChar;
-using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Static;
 using AAEmu.Game.Models.Game.Units.Movements;
 using AAEmu.Game.Utils;
@@ -28,7 +26,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
         private Vector3 diff;
         //private float newx;
         //private float newy;
-        private float newz;
+        private readonly float newz;
         //private float x;
         //private float y;
         //private float z;
@@ -134,10 +132,10 @@ namespace AAEmu.Game.Models.Game.Units.Route
             npc.Rot = moveType.Rot;
 
             moveType.DeltaMovement = new Vector3(0, 1.0f, 0);
-            moveType.actorFlags = 4;// 5-walk, 4-run, 3-stand still
-            moveType.Stance = 0;    // COMBAT = 0x0, IDLE = 0x1
-            moveType.Alertness = 2; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-            moveType.Time = Seq;    // has to change all the time for normal motion.
+            moveType.actorFlags = ActorMoveType.Run; // 5-walk, 4-run, 3-stand still
+            moveType.Stance = EStance.Combat;        // COMBAT = 0x0, IDLE = 0x1
+            moveType.Alertness = AiAlertness.Combat; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+            moveType.Time = Seq;                     // has to change all the time for normal motion.
 
             //_log.Warn("Track: vVelocity {0}, vMovingDistance {1}, diffX {2}, diffY {3}", vVelocity, vMovingDistance, diff.X, diff.Y);
             //_log.Warn("Track: Angle {0}, rotZ {1}, moveType.DeltaMovement {2}", Angle, rotZ, moveType.DeltaMovement);
@@ -156,9 +154,11 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 // Stop moving to prepare for attack if it is smaller than the gap
                 if (Distance <= maxRange)
                 {
-                    var combat = new Combat();
-                    combat.LastPatrol = LastPatrol;
-                    combat.LoopDelay = 500; //2900; // задержка перед атакой
+                    var combat = new Combat
+                    {
+                        LastPatrol = LastPatrol,
+                        LoopDelay = 500 //2900; // задержка перед атакой
+                    };
                     combat.Pause(npc);
                     LastPatrol = combat;
                 }
@@ -186,12 +186,14 @@ namespace AAEmu.Game.Models.Game.Units.Route
 
             // 创建直线巡航回归上次巡航暂停点
             // Create a straight cruise to return to the last cruise pause
-            var line = new Line();
-            // 不可中断，不受外力及攻击影响 类似于处于脱战状态
-            // Uninterruptible, unaffected by external forces and attacks Similar to being in an off-war situation
-            line.Interrupt = false;
-            line.Loop = false;
-            line.Abandon = false;
+            var line = new Line
+            {
+                // 不可中断，不受外力及攻击影响 类似于处于脱战状态
+                // Uninterruptible, unaffected by external forces and attacks Similar to being in an off-war situation
+                Interrupt = false,
+                Loop = false,
+                Abandon = false
+            };
             line.Pause(npc);
             LastPatrol = line;
         }

@@ -44,7 +44,7 @@ namespace AAEmu.Game.Models.Game.DoodadObj
                 return stream;
             }
             stream.WriteBc(_owner.ObjId);
-            //stream.Write(_kind); // remove in 3+
+            //stream.Write(_kind);       // remove in 3+
             stream.Write(_space);
             stream.Write(_spot);
             stream.Write(_animActionId); // added 3+

@@ -29,7 +29,7 @@ namespace AAEmu.Game.Core.Managers
 {
     public class TransferManager : Singleton<TransferManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private Dictionary<uint, TransferTemplate> _templates;
         private Dictionary<uint, Transfer> _activeTransfers;
@@ -594,18 +594,20 @@ namespace AAEmu.Game.Core.Managers
 
             // create the cab of the carriage.
             var Carriage = GetTransferTemplate(templateId); // 6 - Salislead Peninsula ~ Liriot Hillside Loop Carriage
-            var owner = new Transfer();
-            owner.Name = Carriage.Name;
-            owner.TlId = (ushort)TlIdManager.Instance.GetNextId();
-            owner.ObjId = objectId == 0 ? ObjectIdManager.Instance.GetNextId() : objectId;
-            owner.OwnerId = 255;
-            owner.Spawner = spawner;
-            owner.TemplateId = Carriage.Id;   // templateId
-            owner.ModelId = Carriage.ModelId; // modelId
-            owner.Template = Carriage;
-            owner.BondingObjId = 0;    // objId
-            owner.AttachPointId = 255; // point
-            owner.Level = 1;
+            var owner = new Transfer
+            {
+                Name = Carriage.Name,
+                TlId = (ushort)TlIdManager.Instance.GetNextId(),
+                ObjId = objectId == 0 ? ObjectIdManager.Instance.GetNextId() : objectId,
+                OwnerId = 255,
+                Spawner = spawner,
+                TemplateId = Carriage.Id,   // templateId
+                ModelId = Carriage.ModelId, // modelId
+                Template = Carriage,
+                BondingObjId = 0,    // objId
+                AttachPointId = 255, // point
+                Level = 1
+            };
             owner.Hp = owner.MaxHp;
             owner.Mp = owner.MaxMp;
             owner.ModelParams = new UnitCustomModelParams();
@@ -621,24 +623,26 @@ namespace AAEmu.Game.Core.Managers
             owner.Effects.AddEffect(new Effect(owner, owner, SkillCaster.GetByType(EffectOriginType.Skill), SkillManager.Instance.GetBuffTemplate(buffId), null, DateTime.Now));
 
             // create Carriage like a normal object.
-            //owner.Spawn(); // in theory already spawned in SpawnManager
+            owner.Spawn();
             _activeTransfers.Add(owner.ObjId, owner);
 
             if (Carriage.TransferBindings.Count <= 0) { return owner; }
 
             var boardingPart = GetTransferTemplate(Carriage.TransferBindings[0].TransferId); // 46 - The wagon boarding part
-            var transfer = new Transfer();
-            transfer.Name = boardingPart.Name;
-            transfer.TlId = (ushort)TlIdManager.Instance.GetNextId();
-            transfer.ObjId = ObjectIdManager.Instance.GetNextId();
-            transfer.OwnerId = 255;
-            transfer.Spawner = owner.Spawner;
-            transfer.TemplateId = boardingPart.Id;   // templateId
-            transfer.ModelId = boardingPart.ModelId; // modelId
-            transfer.Template = boardingPart;
-            transfer.Level = 1;
-            transfer.BondingObjId = owner.ObjId;
-            transfer.AttachPointId = owner.Template.TransferBindings[0].AttachPointId;
+            var transfer = new Transfer
+            {
+                Name = boardingPart.Name,
+                TlId = (ushort)TlIdManager.Instance.GetNextId(),
+                ObjId = ObjectIdManager.Instance.GetNextId(),
+                OwnerId = 255,
+                Spawner = owner.Spawner,
+                TemplateId = boardingPart.Id,   // templateId
+                ModelId = boardingPart.ModelId, // modelId
+                Template = boardingPart,
+                Level = 1,
+                BondingObjId = owner.ObjId,
+                AttachPointId = owner.Template.TransferBindings[0].AttachPointId
+            };
             transfer.Hp = transfer.MaxHp;
             transfer.Mp = transfer.MaxMp;
             transfer.ModelParams = new UnitCustomModelParams();
@@ -658,7 +662,7 @@ namespace AAEmu.Game.Core.Managers
             owner.Bounded = transfer; // запомним параметры связанной части в родителе
 
             // create a boardingPart and indicate that we attach to the Carriage object 
-            //transfer.Spawn();
+            transfer.Spawn();
             _activeTransfers.Add(transfer.ObjId, transfer);
 
             foreach (var doodadBinding in transfer.Template.TransferBindingDoodads)
@@ -689,7 +693,7 @@ namespace AAEmu.Game.Core.Managers
                 doodad.SetScale(1f);
                 doodad.FuncGroupId = doodad.GetFuncGroupId();
 
-                //doodad.Spawn();
+                doodad.Spawn();
                 transfer.AttachedDoodads.Add(doodad);
             }
 
@@ -714,14 +718,15 @@ namespace AAEmu.Game.Core.Managers
                     {
                         while (reader.Read())
                         {
-                            var template = new TransferTemplate();
-
-                            template.Id = reader.GetUInt32("id"); // OwnerId
-                            template.Name = LocalizationManager.Instance.Get("transfers", "comment", reader.GetUInt32("id"));
-                            template.ModelId = reader.GetUInt32("model_id");
-                            template.WaitTime = reader.GetFloat("wait_time");
-                            template.Cyclic = reader.GetBoolean("cyclic");
-                            template.PathSmoothing = reader.GetFloat("path_smoothing");
+                            var template = new TransferTemplate
+                            {
+                                Id = reader.GetUInt32("id"), // OwnerId
+                                Name = LocalizationManager.Instance.Get("transfers", "comment", reader.GetUInt32("id")),
+                                ModelId = reader.GetUInt32("model_id"),
+                                WaitTime = reader.GetFloat("wait_time"),
+                                Cyclic = reader.GetBoolean("cyclic"),
+                                PathSmoothing = reader.GetFloat("path_smoothing")
+                            };
 
                             _templates.Add(template.Id, template);
                         }

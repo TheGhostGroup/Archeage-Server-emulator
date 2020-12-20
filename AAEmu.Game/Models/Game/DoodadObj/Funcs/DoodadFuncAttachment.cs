@@ -22,7 +22,6 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
                 if (BondKindId > 1)
                 {
                     // Chairs, beds etc.
-                    AnimActionId = 0; // TODO пока нет серверной базы для 3+
                     var Spot = 0;// spot = 0 sit left, = 1 sit right on the bench
                     character.Bonding = new BondDoodad(owner, AttachPointId, Space, Spot, AnimActionId);
                     character.BroadcastPacket(new SCBondDoodadPacket(caster.ObjId, character.Bonding), true);

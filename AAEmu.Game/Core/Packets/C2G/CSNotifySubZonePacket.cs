@@ -12,7 +12,10 @@ namespace AAEmu.Game.Core.Packets.C2G
         public override void Read(PacketStream stream)
         {
             var subZoneId = stream.ReadUInt32();
-            if (subZoneId == 0) return;
+            if (subZoneId == 0)
+            {
+                return;
+            }
 
             _log.Debug("Enter RegionId: {0} ", subZoneId);
             Connection.ActiveChar.Portals.NotifySubZone(subZoneId);

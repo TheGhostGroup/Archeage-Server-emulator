@@ -233,7 +233,7 @@
         public const ushort CSJoinTrialAudiencePacket = 0x199;
         public const ushort CSLeaveTrialAudiencePacket = 0x0cf;
         public const ushort CSUnMountMatePacket = 0x175;
-        public const ushort CSUnbondPacket = 0x48;
+        public const ushort CSUnbondDoodadPacket = 0x48;
         public const ushort CSInstanceLoadedPacket = 0x11f;
         public const ushort CSApplyToInstantGamePacket = 0x1a4;
         public const ushort CSCancelInstantGamePacket = 0x130;
@@ -421,7 +421,6 @@
         public const ushort CSTakedownTradeItemPacket = 0x0ffff;
         public const ushort CSTeleportEndedPacket = 0x0ffff;
         public const ushort CSThisTimeUnpackItemPacket = 0x0ffff;
-        public const ushort CSUnbondDoodadPacket = 0x0ffff;
         public const ushort CSUpdateDominionTaxRatePacket = 0x0ffff;
         public const ushort CSUpdateNationalTaxRatePacket = 0x0ffff;
     }

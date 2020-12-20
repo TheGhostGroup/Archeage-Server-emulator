@@ -4,8 +4,8 @@ namespace AAEmu.Commons.Utils
 {
     public class Rand
     {
-        private static MersenneTwister _random = new MersenneTwister(DateTime.UtcNow.Millisecond);
-        private static object _lock = new object();
+        private static readonly MersenneTwister _random = new MersenneTwister(DateTime.UtcNow.Millisecond);
+        private static readonly object _lock = new object();
 
         public static int Next()
         {

@@ -1,4 +1,5 @@
 using System;
+
 using AAEmu.Commons.Network;
 using AAEmu.Commons.Utils;
 
@@ -15,7 +16,7 @@ namespace AAEmu.Game.Models.Game
         public byte Level { get; set; }
         public int ZoneId { get; set; }
         public uint Id3 { get; set; } // TODO mb system faction.Id?
-        public byte[] Abilities { get; set; } = {11, 11, 11};
+        public byte[] Abilities { get; set; } = { 11, 11, 11 };
         public byte Role { get; set; }
         public float X { get; set; }
         public float Y { get; set; }
@@ -35,7 +36,10 @@ namespace AAEmu.Game.Models.Game
             stream.Write(ZoneId);
             stream.Write(Id3);
             foreach (var ability in Abilities)
+            {
                 stream.Write(ability);
+            }
+
             stream.Write(Role);
             stream.Write(Helpers.ConvertLongX(X));
             stream.Write(Helpers.ConvertLongY(Y));

@@ -1,4 +1,5 @@
 using System;
+
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.Skills.Templates;
 using AAEmu.Game.Models.Game.Units;
@@ -18,7 +19,9 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             _log.Debug("AcceptQuestEffect");
 
             if (target is Character character)
+            {
                 character.Quests.Add(QuestId);
+            }
         }
     }
 }

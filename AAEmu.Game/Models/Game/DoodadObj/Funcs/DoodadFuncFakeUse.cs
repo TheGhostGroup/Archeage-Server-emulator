@@ -18,10 +18,10 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
             _log.Debug("TargetParent " + TargetParent);
             _log.Debug("skillId " + skillId);
             _log.Debug("Name " + GetType().Name);
-            
+
             if (FakeSkillId == 20580)
             {
-                owner.BroadcastPacket(new SCTransferTelescopeToggledPacket(true,1000f), true);
+                owner.BroadcastPacket(new SCTransferTelescopeToggledPacket(true, 1000f), true);
                 //owner.BroadcastPacket(new SCTransferTelescopeUnitsPacket(1,3,0f,0f,0f), true); // TODO Timer
             }
 

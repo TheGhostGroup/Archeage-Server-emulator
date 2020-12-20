@@ -50,7 +50,10 @@ namespace AAEmu.Login.Utils
                 foreach (var usedObjectId in ExtractUsedObjectIdTable())
                 {
                     if (_exclude.Contains(usedObjectId))
+                    {
                         continue;
+                    }
+
                     var objectId = (int)(usedObjectId - _firstId);
                     if (usedObjectId < _firstId)
                     {
@@ -59,7 +62,10 @@ namespace AAEmu.Login.Utils
                     }
 
                     if (objectId >= _freeIds.Count)
+                    {
                         IncreaseBitSetCapacity(objectId + 1);
+                    }
+
                     _freeIds.Set(objectId);
                     Interlocked.Decrement(ref _freeIdCount);
                 }
@@ -80,7 +86,9 @@ namespace AAEmu.Login.Utils
         private IEnumerable<uint> ExtractUsedObjectIdTable()
         {
             if (_objTables.Length < 2)
+            {
                 return new uint[0];
+            }
 
             using (var connection = MySQL.Create())
             {
@@ -89,8 +97,10 @@ namespace AAEmu.Login.Utils
                     var query = "SELECT " + (_distinct ? "DISTINCT " : "") + _objTables[0, 1] + ", 0 AS i FROM " +
                                 _objTables[0, 0];
                     for (var i = 1; i < _objTables.Length / 2; i++)
+                    {
                         query += " UNION SELECT " + (_distinct ? "DISTINCT " : "") + _objTables[i, 1] + ", " + i +
                                  " FROM " + _objTables[i, 0];
+                    }
 
                     command.CommandText = "SELECT COUNT(*), COUNT(DISTINCT " + _objTables[0, 1] + ") FROM ( " + query +
                                           " ) AS all_ids";
@@ -99,14 +109,22 @@ namespace AAEmu.Login.Utils
                     using (var reader = command.ExecuteReader())
                     {
                         if (!reader.Read())
+                        {
                             throw new Exception("IdManager: can't extract count ids");
+                        }
+
                         if (reader.GetInt32(0) != reader.GetInt32(1) && !_distinct)
+                        {
                             throw new Exception("IdManager: there are duplicates in object ids");
+                        }
+
                         count = reader.GetInt32(0);
                     }
 
                     if (count == 0)
+                    {
                         return new uint[0];
+                    }
 
                     var result = new uint[count];
                     _log.Info("{0}: Extracting {1} used id's from data tables...", _name, count);
@@ -137,17 +155,24 @@ namespace AAEmu.Login.Utils
             {
                 _freeIds.Clear(objectId);
                 if (_nextFreeId > objectId)
+                {
                     _nextFreeId = objectId;
+                }
+
                 Interlocked.Increment(ref _freeIdCount);
             }
             else
+            {
                 _log.Warn("{0}: release objectId {1} failed", _name, usedObjectId);
+            }
         }
 
         public virtual void ReleaseId(IEnumerable<uint> usedObjectIds)
         {
             foreach (var id in usedObjectIds)
+            {
                 ReleaseId(id);
+            }
         }
 
         public uint GetNextId()
@@ -166,9 +191,13 @@ namespace AAEmu.Login.Utils
                     if (nextFree < 0)
                     {
                         if (_freeIds.Count < _freeIdSize)
+                        {
                             IncreaseBitSetCapacity();
+                        }
                         else
+                        {
                             throw new Exception("Ran out of valid Id's.");
+                        }
                     }
                 }
 
@@ -181,7 +210,10 @@ namespace AAEmu.Login.Utils
         {
             var res = new uint[count];
             for (var i = 0; i < count; i++)
+            {
                 res[i] = GetNextId();
+            }
+
             return res;
         }
 
@@ -189,7 +221,10 @@ namespace AAEmu.Login.Utils
         {
             var size = PrimeFinder.NextPrime(_freeIds.Count + _freeIdSize / 10);
             if (size > _freeIdSize)
+            {
                 size = _freeIdSize;
+            }
+
             var newBitSet = new BitSet(size);
             newBitSet.Or(_freeIds);
             _freeIds = newBitSet;
@@ -199,7 +234,10 @@ namespace AAEmu.Login.Utils
         {
             var size = PrimeFinder.NextPrime(count);
             if (size > _freeIdSize)
+            {
                 size = _freeIdSize;
+            }
+
             var newBitSet = new BitSet(size);
             newBitSet.Or(_freeIds);
             _freeIds = newBitSet;

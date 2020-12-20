@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers;
@@ -57,41 +56,9 @@ namespace AAEmu.Game.Core.Packets.C2G
 
                 if (moveType is Vehicle VehicleMoveType)
                 {
-                    //var quatX = VehicleMoveType.RotationX * 0.00003052f;
-                    //var quatY = VehicleMoveType.RotationY * 0.00003052f;
-                    //var quatZ = VehicleMoveType.RotationZ * 0.00003052f;
-                    
-                    var quatX = VehicleMoveType.Rot.X;
-                    var quatY = VehicleMoveType.Rot.Y;
-                    var quatZ = VehicleMoveType.Rot.Z;
-                    
-                    var quatNorm = quatX * quatX + quatY * quatY + quatZ * quatZ;
-
-                    var quatW = 0.0f;
-                    if (quatNorm < 0.99750)
-                    {
-                        quatW = (float)Math.Sqrt(1.0 - quatNorm);
-                    }
-
-                    var quat = new Quaternion(quatX, quatY, quatZ, quatW);
-
-                    var roll = (float)Math.Atan2(2 * (quat.W * quat.X + quat.Y * quat.Z), 1 - 2 * (quat.X * quat.X + quat.Y * quat.Y));
-                    var sinp = 2 * (quat.W * quat.Y - quat.Z * quat.X);
-                    var pitch = 0.0f;
-                    if (Math.Abs(sinp) >= 1)
-                    {
-                        pitch = (float)MathUtil.CopySign(Math.PI / 2, sinp);
-                    }
-                    else
-                    {
-                        pitch = (float)Math.Asin(sinp);
-                    }
-
-                    var yaw = (float)Math.Atan2(2 * (quat.W * quat.Z + quat.X * quat.Y), 1 - 2 * (quat.Y * quat.Y + quat.Z * quat.Z));
-
+                    var (yaw, pitch, roll) = MathUtil.GetSlaveRotationInDegrees(VehicleMoveType.Rot.X, VehicleMoveType.Rot.Y, VehicleMoveType.Rot.Z);
                     var reverseQuat = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
                     var reverseZ = reverseQuat.Y / 0.00003052f;
-
                     Connection.ActiveChar.SendMessage("Client: " + VehicleMoveType.RotationZ + ". Yaw (deg): " + (yaw * 180 / Math.PI) + ". Reverse: " + reverseZ);
                 }
 
@@ -140,7 +107,7 @@ namespace AAEmu.Game.Core.Packets.C2G
                 //        (moveType.actorFlags & 64) == 64 // presumably we're on the elevator
                 //     )
                 //    && moveType is ActorData mType)
-                if (moveType is ActorData mType && (mType.actorFlags & 0x20) != 0)
+                if (moveType is ActorData mType && ((ushort)mType.actorFlags & 0x20) != 0)
                 {
                     Connection
                         .ActiveChar

@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Models.Game.CashShop;
 using AAEmu.Game.Utils.DB;
+
 using NLog;
 
 namespace AAEmu.Game.Core.Managers
 {
-    class CashShopManager : Singleton<CashShopManager>
+    internal class CashShopManager : Singleton<CashShopManager>
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         private List<CashShopItem> _cashShopItem;
         private Dictionary<uint, CashShopItemDetail> _cashShopItemDetail;
@@ -32,10 +34,11 @@ namespace AAEmu.Game.Core.Managers
                         while (reader.Read())
                         {
                             var cashShopItem = new CashShopItem();
-                            var cashShopItemDetail = new CashShopItemDetail();
-
-                            cashShopItemDetail.CashShopId = cashShopItem.CashShopId = reader.GetUInt32("id");
-                            cashShopItemDetail.CashUniqId =  reader.GetUInt32("uniq_id");
+                            var cashShopItemDetail = new CashShopItemDetail
+                            {
+                                CashShopId = cashShopItem.CashShopId = reader.GetUInt32("id"),
+                                CashUniqId = reader.GetUInt32("uniq_id")
+                            };
 
                             cashShopItem.CashName = reader.GetString("cash_name");
                             cashShopItem.MainTab = reader.GetByte("main_tab");
@@ -88,9 +91,9 @@ namespace AAEmu.Game.Core.Managers
             return _cashShopItem.Find(a => a.CashShopId == cashShopId);
         }
 
-        public List<CashShopItem> GetCashShopItems(sbyte mainTab,sbyte subTab,ushort page)
+        public List<CashShopItem> GetCashShopItems(sbyte mainTab, sbyte subTab, ushort page)
         {
-            return _cashShopItem.FindAll(a=>a.MainTab==mainTab && a.SubTab == subTab);
+            return _cashShopItem.FindAll(a => a.MainTab == mainTab && a.SubTab == subTab);
         }
 
         public CashShopItemDetail GetCashShopItemDetail(uint cashShopId)

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using AAEmu.Commons.IO;
 using AAEmu.Commons.Utils;
+
 using NLog;
 
 namespace AAEmu.Game.Models.Game.Transfers.Paths
@@ -10,7 +12,7 @@ namespace AAEmu.Game.Models.Game.Transfers.Paths
     [Serializable]
     public sealed class NpcsPath : IComparable<NpcsPath>, IComparable
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         // это нужно записывать в json
         public uint ObjId { get; set; }     // здесь будет objId
         public string Name { get; set; }
@@ -18,15 +20,15 @@ namespace AAEmu.Game.Models.Game.Transfers.Paths
         public List<NpcsPathPoint> Pos { get; set; }
         // =================================
         //                       objId, TemplateId
-        private static Dictionary<uint, uint> types = new Dictionary<uint, uint>();
+        private static readonly Dictionary<uint, uint> types = new Dictionary<uint, uint>();
         //                         idx, 
-        private static Dictionary<uint, NpcsPath> npcsPaths = new Dictionary<uint, NpcsPath>();
+        private static readonly Dictionary<uint, NpcsPath> npcsPaths = new Dictionary<uint, NpcsPath>();
         public static List<NpcsPath> NpcsPaths { get { return npcsPaths.Values.ToList(); } }
 
         public NpcsPath()
         {
-            this.Name = String.Empty;
-            this.Pos = new List<NpcsPathPoint>();
+            Name = String.Empty;
+            Pos = new List<NpcsPathPoint>();
         }
 
         public static void GetNpcPaths()
@@ -274,16 +276,32 @@ namespace AAEmu.Game.Models.Game.Transfers.Paths
 
         public int CompareTo(NpcsPath other)
         {
-            if (ReferenceEquals(this, other)) return 0;
-            if (ReferenceEquals(null, other)) return 1;
-            return this.Type.CompareTo(other.Type);
+            if (ReferenceEquals(this, other))
+            {
+                return 0;
+            }
+
+            if (ReferenceEquals(null, other))
+            {
+                return 1;
+            }
+
+            return Type.CompareTo(other.Type);
         }
 
         public int CompareTo(object obj)
         {
-            if (ReferenceEquals(null, obj)) return 1;
-            if (ReferenceEquals(this, obj)) return 0;
-            return obj is NpcsPath other ? this.CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(NpcsPath)}");
+            if (ReferenceEquals(null, obj))
+            {
+                return 1;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return 0;
+            }
+
+            return obj is NpcsPath other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(NpcsPath)}");
         }
 
         public static bool operator <(NpcsPath left, NpcsPath right)

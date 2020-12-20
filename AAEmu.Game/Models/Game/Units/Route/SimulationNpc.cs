@@ -18,7 +18,6 @@ using AAEmu.Game.Models.Game.Transfers.Paths;
 using AAEmu.Game.Models.Game.Units.Movements;
 using AAEmu.Game.Models.Game.World;
 using AAEmu.Game.Models.Tasks.UnitMove;
-using AAEmu.Game.Utils;
 
 using Point = AAEmu.Game.Models.Game.World.Point;
 
@@ -35,21 +34,20 @@ namespace AAEmu.Game.Models.Game.Units.Route
 
         public bool AbandonTo { get; set; } = false; // для прерывания repeat()
         // +++
-        private float _maxVelocityForward;
-        private float _maxVelocityBackward;
-        private float _velAccel;
-        private float _angVel;
-        private int Steering;
-        private float diffX;
-        private float diffY;
-        private float diffZ;
+        private readonly float _maxVelocityForward;
+        private readonly float _maxVelocityBackward;
+        private readonly float _velAccel;
+        private readonly float _angVel;
+        private readonly int Steering;
+        private readonly float diffX;
+        private readonly float diffY;
+        private readonly float diffZ;
 
         //
         public NpcsPathPoint pp;
 
-        public bool UseSkill;
+        public uint UseSkill;
         //
-        public float DeltaTime { get; set; } = 0.05f;
         public double _angleTmp;
         public Vector3 _vPosition;
         public Vector3 _vTarget;
@@ -83,8 +81,8 @@ namespace AAEmu.Game.Models.Game.Units.Route
         public string MoveFileExt = @".path";            // default extension
         public string MoveFileName = "";                 // default name
         private float _tempMovingDistance;
-        private float _rangeToCheckPoint = 0.5f; // distance to checkpoint at which it is considered that we have reached it
-        private int _moveTrigerDelay = 1000;     // triggering the timer for movement 1 sec
+        private readonly float _rangeToCheckPoint = 0.5f; // distance to checkpoint at which it is considered that we have reached it
+        private readonly int _moveTrigerDelay = 1000;     // triggering the timer for movement 1 sec
 
         //*******************************************************
         /*
@@ -120,7 +118,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 _velAccel = velAcceleration;
                 _angVel = angVelocity;
                 Steering = 0;
-                UseSkill = false;
+                UseSkill = 0;
 
                 //var linInertia = 0.3f;    //per s   // TODO Move to the upper motion control module
                 //var linDeaccelInertia = 0.1f;  //per s   // TODO Move to the upper motion control module
@@ -552,7 +550,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
             {
                 if (!npc.IsInPatrol)
                 {
-                    StopMove(npc);
+                    PauseMove(npc);
                     return;
                 }
                 var x = npc.Position.X - targetX;
@@ -583,7 +581,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 moveType.Alertness = pp.ActorAlertness; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
                 moveType.actorFlags = pp.ActorFlags;    // 5-walk, 4-run, 3-stand still
 
-                moveType.Time += 150;                   // has to change all the time for normal motion.
+                moveType.Time = Seq;                    // has to change all the time for normal motion.
 
                 // moving to the point #
                 npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
@@ -733,19 +731,18 @@ namespace AAEmu.Game.Models.Game.Units.Route
 
                 if (RunningMode)
                 {
-                    moveType.Flags = 4;      // 5-walk, 4-run, 3-stand still
+                    moveType.actorFlags = ActorMoveType.Run;                // 5-walk, 4-run, 3-stand still
                 }
                 else
                 {
-                    moveType.Flags = 5;      // 5-walk, 4-run, 3-stand still
+                    moveType.actorFlags = ActorMoveType.Walk;                // 5-walk, 4-run, 3-stand still
                 }
 
                 moveType.DeltaMovement = direction;
 
-
-                moveType.Stance = 1;     // COMBAT = 0x0, IDLE = 0x1
-                moveType.Alertness = 0;  // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-                moveType.Time += 100;    // has to change all the time for normal motion.
+                moveType.Stance = EStance.Idle;         // COMBAT = 0x0, IDLE = 0x1
+                moveType.Alertness = AiAlertness.Idle;  // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+                moveType.Time = Seq;                    // has to change all the time for normal motion.
                 if (move)
                 {
                     // moving to the point #
@@ -763,14 +760,18 @@ namespace AAEmu.Game.Models.Game.Units.Route
         public Doodad SpawnFlag(float posX, float posY)
         {
             // spawn flag
-            var combatFlag = new DoodadSpawner();
-            combatFlag.Id = 0;
-            combatFlag.UnitId = 5014; // Combat Flag Id=5014;
-            combatFlag.Position = new Point();
-            combatFlag.Position.ZoneId = WorldManager.Instance.GetZoneId(1, posX, posY);
-            combatFlag.Position.WorldId = 1;
-            combatFlag.Position.X = posX;
-            combatFlag.Position.Y = posY;
+            var combatFlag = new DoodadSpawner
+            {
+                Id = 0,
+                UnitId = 5014, // Combat Flag Id=5014;
+                Position = new Point
+                {
+                    ZoneId = WorldManager.Instance.GetZoneId(1, posX, posY),
+                    WorldId = 1,
+                    X = posX,
+                    Y = posY
+                }
+            };
             combatFlag.Position.Z = WorldManager.Instance.GetHeight(combatFlag.Position.ZoneId, combatFlag.Position.X, combatFlag.Position.Y);
             return combatFlag.Spawn(0); // set CombatFlag
         }
@@ -779,14 +780,18 @@ namespace AAEmu.Game.Models.Game.Units.Route
         public Doodad SpawnFlag(Vector3 pos)
         {
             // spawn flag
-            var combatFlag = new DoodadSpawner();
-            combatFlag.Id = 0;
-            combatFlag.UnitId = 5014; // Combat Flag Id=5014;
-            combatFlag.Position = new Point();
-            combatFlag.Position.ZoneId = WorldManager.Instance.GetZoneId(1, pos.X, pos.Y);
-            combatFlag.Position.WorldId = 1;
-            combatFlag.Position.X = pos.X;
-            combatFlag.Position.Y = pos.Y;
+            var combatFlag = new DoodadSpawner
+            {
+                Id = 0,
+                UnitId = 5014, // Combat Flag Id=5014;
+                Position = new Point
+                {
+                    ZoneId = WorldManager.Instance.GetZoneId(1, pos.X, pos.Y),
+                    WorldId = 1,
+                    X = pos.X,
+                    Y = pos.Y
+                }
+            };
             combatFlag.Position.Z = WorldManager.Instance.GetHeight(combatFlag.Position.ZoneId, combatFlag.Position.X, combatFlag.Position.Y);
             return combatFlag.Spawn(0); // set CombatFlag
         }
@@ -799,14 +804,23 @@ namespace AAEmu.Game.Models.Game.Units.Route
             combatFlag.Despawn(doodad);
         }
         //***************************************************************
-        public void RepeatMove(SimulationNpc sim, Unit unit, float targetX, float targetY, float targetZ, NpcsPathPoint pp = null, double time = 50)
+        public void RepeatMove(SimulationNpc sim, Unit unit, float targetX, float targetY, float targetZ, NpcsPathPoint pp = null, double time = 130, uint skillId = 0)
         {
             if (unit is Npc npc)
             {
-                //if ((sim ?? this).AbandonTo)
+                if (skillId > 0)
                 {
-                    TaskManager.Instance.Schedule(new MoveNpc(sim ?? this, npc, targetX, targetY, targetZ, pp, UseSkill), TimeSpan.FromMilliseconds(time));
+                    var useSkill = new Skill(SkillManager.Instance.GetSkillTemplate(skillId));
+                    var casterType = SkillCaster.GetByType(EffectOriginType.Skill); // who uses
+                    casterType.ObjId = npc.ObjId;
+                    var targetType = sim.GetSkillCastTarget(npc, useSkill);
+                    var flag = 0;
+                    var flagType = flag & 15;
+                    var skillObject = SkillObject.GetByType((SkillObjectType)flagType);
+                    useSkill.Use(npc, casterType, targetType, skillObject);
                 }
+
+                TaskManager.Instance.Schedule(new MoveNpc(sim ?? this, npc, targetX, targetY, targetZ, pp), TimeSpan.FromMilliseconds(time));
             }
         }
 
@@ -825,23 +839,8 @@ namespace AAEmu.Game.Models.Game.Units.Route
             if (unit is Npc npc)
             {
                 _log.Warn("stop moving ...");
-                moveType = (ActorData)UnitMovement.GetType(UnitMovementType.Actor);
-                moveType.X = npc.Position.X;
-                moveType.Y = npc.Position.Y;
-                moveType.Z = npc.Position.Z;
-                moveType.Z = AppConfiguration.Instance.HeightMapsEnable ? WorldManager.Instance.GetHeight(npc.Position.ZoneId, npc.Position.X, npc.Position.Y) : npc.Position.Z;
-                moveType.WorldPos = new WorldPos(Helpers.ConvertLongX(npc.Position.X), Helpers.ConvertLongY(npc.Position.Y), npc.Position.Z);
-
-                moveType.Rot = new Quaternion(Helpers.ConvertDirectionToRadian(pp.RotationX), Helpers.ConvertDirectionToRadian(pp.RotationY), Helpers.ConvertDirectionToRadian(pp.RotationZ), 1f);
-                moveType.DeltaMovement = Vector3.Zero;
-
-                moveType.Stance = 1;    // COMBAT = 0x0, IDLE = 0x1
-                moveType.Alertness = 0; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-                moveType.Flags = 5;     // 5-walk, 4-run, 3-stand still
-                moveType.Time += 150;  // has to change all the time for normal motion.
-
-                npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
-                MoveToPathEnabled = false;
+                npc.IsInPatrol = false;
+                PauseMove(npc);
             }
         }
 
@@ -860,10 +859,10 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 moveType.Rot = new Quaternion(Helpers.ConvertDirectionToRadian(pp.RotationX), Helpers.ConvertDirectionToRadian(pp.RotationY), Helpers.ConvertDirectionToRadian(pp.RotationZ), 1f);
                 moveType.DeltaMovement = Vector3.Zero;
 
-                moveType.Stance = 1;    // COMBAT = 0x0, IDLE = 0x1
-                moveType.Alertness = 0; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-                moveType.Flags = 5;     // 5-walk, 4-run, 3-stand still
-                moveType.Time += 150;  // has to change all the time for normal motion.
+                moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
+                moveType.Stance = EStance.Idle;           // COMBAT = 0x0, IDLE = 0x1
+                moveType.Alertness = AiAlertness.Idle;    // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+                moveType.Time = Seq;                      // has to change all the time for normal motion.
                 npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
             }
         }
@@ -895,7 +894,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         if (MoveStepIndex == MovePath.Count - 1)
                         {
                             //s_log.Warn("we are ideally at the end point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = false; //turn back
                             MoveStepIndex--;
@@ -921,7 +919,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         else
                         {
                             //s_log.Warn("we are ideally at the starting point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = true; //turn back
                             MoveStepIndex++;
@@ -949,21 +946,20 @@ namespace AAEmu.Game.Models.Game.Units.Route
                     _vPosition.Y = s.Y;
                     _vPosition.Z = s.Z;
 
-                    _log.Warn("x="+s.X +" y="+s.Y + " z=" + s.Z + "rotZ=" + s.RotationZ);
+                    _log.Warn("x=" + s.X + " y=" + s.Y + " z=" + s.Z + " rotZ=" + s.RotationZ);
 
                     pp = s; // передаем инфу по точке для движения транспорта
-                    if (!PosInRange(npc, _vPosition.X, _vPosition.Y, 30))
-                    {
-                        RepeatMove(this, npc, _vPosition.X, _vPosition.Y, _vPosition.Z, pp, 150);
-                        return;
-                    }
+                    //if (!PosInRange(npc, _vPosition.X, _vPosition.Y, 30))
+                    //{
+                    //    RepeatMove(this, npc, _vPosition.X, _vPosition.Y, _vPosition.Z, pp);
+                    //    return;
+                    //}
 
                     if (MoveToForward)
                     {
                         if (MoveStepIndex == NpcPath.Count - 1)
                         {
                             _log.Warn("we are ideally at the end point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             //MoveToForward = false; //turn back
                             var i = GetMinCheckPointFromNpcPath(npc, NpcPath);
@@ -982,20 +978,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                             pp = s; // передаем инфу по точке для движения транспорта
                             RepeatMove(this, npc, _vPosition.X, _vPosition.Y, _vPosition.Z, pp, 5000);
                             return;
-
-                            //_log.Warn("we are ideally at the end point.");
-                            ////StopMove(npc);
-                            //PauseMove(npc);
-                            //MoveToForward = false; //turn back
-                            //MoveStepIndex--;
-                            ////s_log.Warn("walk to #" + MoveStepIndex);
-                            //s = NpcPath[MoveStepIndex];
-                            //_vPosition.X = s.X;
-                            //_vPosition.Y = s.Y;
-                            //_vPosition.Z = s.Z;
-                            //pp = s; // передаем инфу по точке для движения транспорта
-                            //RepeatMove(this, npc, _vPosition.X, _vPosition.Y, _vPosition.Z, pp, 2000);
-                            //return;
                         }
 
                         MoveStepIndex++;
@@ -1011,7 +993,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         else
                         {
                             _log.Warn("we are ideally at the starting point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = true; //turn back
                             MoveStepIndex++;
@@ -1028,44 +1009,34 @@ namespace AAEmu.Game.Models.Game.Units.Route
 
                     _log.Warn("walk to #" + MoveStepIndex);
                     s = NpcPath[MoveStepIndex];
-                    _vPosition.X = s.X;
-                    _vPosition.Y = s.Y;
-                    _vPosition.Z = s.Z;
-                    pp = s; // передаем инфу по точке для движения транспорта
-
-                    //1)
-                    //uint skillId = 19658; // начать рубить дерево для Woodcutter Solace
-                    //skill = new Skill(SkillManager.Instance.GetSkillTemplate(skillId));
-                    //var casterType = SkillCaster.GetByType(EffectOriginType.Skill); // who uses
-                    //casterType.ObjId = npc.ObjId;
-                    //var targetType = GetSkillCastTarget(npc, skill);
-                    //var flag = 0;
-                    //var flagType = flag & 15;
-                    //var skillObject = SkillObject.GetByType((SkillObjectType)flagType);
-                    //skill.Use(npc, casterType, targetType, skillObject);
-                    //2)
-                    //skillId = 19412; // закончить рубить дерево для Woodcutter Solace
-                    //skill = new Skill(SkillManager.Instance.GetSkillTemplate(skillId));
-                    //casterType = SkillCaster.GetByType(EffectOriginType.Skill); // who uses
-                    //casterType.ObjId = npc.ObjId;
-                    //targetType = GetSkillCastTarget(npc, skill);
-                    //flag = 0;
-                    //flagType = flag & 15;
-                    //skillObject = SkillObject.GetByType((SkillObjectType)flagType);
-                    //skill.Use(npc, casterType, targetType, skillObject);
-
-                    var time = 150;
-
-                    if (npc.TemplateId == 12143 && pp.ActorDeltaMovementY == 0)
+                    var time = 50;
+                    UseSkill = s.SkillId;
+                    if (UseSkill == 0)
                     {
-                        UseSkill = true;
-                        time = 60000;
+                        _vPosition.X = s.X;
+                        _vPosition.Y = s.Y;
+                        _vPosition.Z = s.Z;
                     }
                     else
                     {
-                        UseSkill = false;
+                        // заменим нулевые координаты у скилла на текущие координаты, пропуская если скиллы идут подряд,
+                        // а у них координаты равны = 0
+                        for (var i = 1; i < 5; i++)
+                        {
+                            s = NpcPath[MoveStepIndex - i];
+                            if (s.X > 0)
+                            {
+                                time = 60000;
+                                _vPosition.X = s.X;
+                                _vPosition.Y = s.Y;
+                                _vPosition.Z = s.Z;
+                                break;
+                            }
+                        }
                     }
-                    RepeatMove(this, npc, _vPosition.X, _vPosition.Y, _vPosition.Z, pp, time);
+                    pp = s; // передаем инфу по точке для движения транспорта
+
+                    RepeatMove(this, npc, _vPosition.X, _vPosition.Y, _vPosition.Z, pp, time, UseSkill);
                 }
             }
         }
@@ -1097,7 +1068,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         if (MoveStepIndex == MovePath.Count - 1)
                         {
                             //s_log.Warn("we are ideally at the end point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = false; //turn back
                             MoveStepIndex--;
@@ -1123,7 +1093,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         else
                         {
                             //s_log.Warn("we are ideally at the starting point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = true; //turn back
                             MoveStepIndex++;
@@ -1161,7 +1130,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         if (MoveStepIndex == TransferPath.Count - 1)
                         {
                             //s_log.Warn("we are ideally at the end point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = false; //turn back
                             MoveStepIndex--;
@@ -1187,7 +1155,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         else
                         {
                             //s_log.Warn("we are ideally at the starting point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = true; //turn back
                             MoveStepIndex++;
@@ -1237,7 +1204,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         if (MoveStepIndex == MovePath.Count - 1)
                         {
                             //s_log.Warn("we are at the end point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = false; //turn back
                             MoveStepIndex--;
@@ -1263,7 +1229,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         else
                         {
                             //s_log.Warn("we are at the starting point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = true; //turn back
                             MoveStepIndex++;
@@ -1301,7 +1266,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         if (MoveStepIndex == TransferPath.Count - 1)
                         {
                             //s_log.Warn("we are at the end point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = false; //turn back
                             MoveStepIndex--;
@@ -1327,7 +1291,6 @@ namespace AAEmu.Game.Models.Game.Units.Route
                         else
                         {
                             //s_log.Warn("we are at the starting point.");
-                            //StopMove(npc);
                             PauseMove(npc);
                             MoveToForward = true; //turn back
                             MoveStepIndex++;

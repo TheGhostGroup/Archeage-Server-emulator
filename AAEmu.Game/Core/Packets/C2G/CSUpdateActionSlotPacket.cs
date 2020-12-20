@@ -13,7 +13,7 @@ namespace AAEmu.Game.Core.Packets.C2G
         public override void Read(PacketStream stream)
         {
             var slot = stream.ReadByte();
-            var type = (ActionSlotType) stream.ReadByte();
+            var type = (ActionSlotType)stream.ReadByte();
 
             switch (type)
             {
@@ -35,14 +35,14 @@ namespace AAEmu.Game.Core.Packets.C2G
                     break;
             }
 
-//            if (type == 1 || type == 2 || type == 5)
-//            {
-//                stream.ReadUInt32();
-//            }
-//            else if (type == 4)
-//            {
-//                stream.ReadUInt64();
-//            }
+            //            if (type == 1 || type == 2 || type == 5)
+            //            {
+            //                stream.ReadUInt32();
+            //            }
+            //            else if (type == 4)
+            //            {
+            //                stream.ReadUInt64();
+            //            }
         }
     }
 }

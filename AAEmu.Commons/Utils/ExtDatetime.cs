@@ -13,14 +13,20 @@ namespace AAEmu.Commons.Utils
         public static long UnixSeconds(this DateTime date)
         {
             if (date < UnixTime)
+            {
                 return -1L;
+            }
+
             return (long)date.ToUniversalTime().Subtract(UnixTime).TotalSeconds;
         }
 
         public static long UnixMilliseconds(this DateTime date)
         {
             if (date < UnixTime)
+            {
                 return -1L;
+            }
+
             return (long)date.ToUniversalTime().Subtract(UnixTime).TotalMilliseconds;
         }
 
