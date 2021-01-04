@@ -11,7 +11,7 @@ namespace AAEmu.Game.Core.Packets.C2G
 {
     public class CSAesXorKey_05_Packet : GamePacket
     {
-        public CSAesXorKey_05_Packet() : base(CSOffsets.CSAesXorKeyPacket, 1)
+        public CSAesXorKey_05_Packet() : base(CSOffsets.CSAesXorKeyPacket, 5)
         {
         }
 

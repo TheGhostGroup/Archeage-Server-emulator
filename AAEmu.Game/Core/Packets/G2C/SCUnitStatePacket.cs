@@ -429,17 +429,17 @@ namespace AAEmu.Game.Core.Packets.G2C
                 var learnedSkillCount = (byte)character3.Skills.Skills.Count;
                 var passiveBuffCount = (byte)character3.Skills.PassiveBuffs.Count;
 
-                stream.Write(learnedSkillCount);  // learnedSkillCount
-                stream.Write(passiveBuffCount);  // passiveBuffCount
-                stream.Write(0);                // highAbilityRsc
+                stream.Write(learnedSkillCount);    // learnedSkillCount
+                stream.Write(passiveBuffCount);     // passiveBuffCount
+                stream.Write(_unit.HighAbilityRsc); // highAbilityRsc
 
                 foreach (var skill in character3.Skills.Skills.Values)
                 {
-                    stream.WritePisc(skill.TemplateId);
+                    stream.WritePisc(skill.TemplateId);    // skillId
                 }
                 foreach (var buff in character3.Skills.PassiveBuffs.Values)
                 {
-                    stream.WritePisc(buff.Id);
+                    stream.WritePisc(buff.Id);    // buffId
                 }
             }
             else if (_unit is Npc npc)
@@ -460,7 +460,7 @@ namespace AAEmu.Game.Core.Packets.G2C
 
             if (_baseUnitType == BaseUnitType.Housing)
             {
-                stream.Write(_unit.Position.RotationZ); // должно быть float
+                stream.Write(_unit.Position.RotationZ); // TODO должно быть float
             }
             else
             {
@@ -477,49 +477,43 @@ namespace AAEmu.Game.Core.Packets.G2C
                 case Npc npc:
                     stream.Write(npc.RaceGender);
                     break;
-                default:
-                    stream.Write(_unit.RaceGender);
-                    break;
+                //default:
+                //    stream.Write(_unit.RaceGender);
+                //    break;
             }
 
             if (_unit is Character character4)
             {
-                stream.WritePisc(0, 0, character4.Appellations.ActiveAppellation, 0); // pisc
-            }
-            else
-            {
-                stream.WritePisc(0, 26601, 0, 0); // pisc
-            }
-
-            stream.WritePisc(_unit.Faction?.Id ?? 0, _unit.Expedition?.Id ?? 0, 0, 0); // pisc
-
-            if (_unit is Transfer)
-            {
-                //stream.WritePisc(0, 0, 0, 808); // pisc
+                stream.WritePisc(0, 0, character4.Appellations.ActiveAppellation, 0);      // pisc
+                stream.WritePisc(_unit.Faction?.Id ?? 0, _unit.Expedition?.Id ?? 0, 0, 0); // pisc
                 stream.WritePisc(0, 0, 0, 0); // pisc
             }
             else
             {
+                stream.WritePisc(0, 26601, 0, 0); // TODO что это за число?
+                stream.WritePisc(_unit.Faction?.Id ?? 0, _unit.Expedition?.Id ?? 0, 0, 0); // pisc
                 stream.WritePisc(0, 0, 0, 0); // pisc
             }
 
-            if (_unit is Character character5)
+            switch (_unit)
             {
-                var flags = new BitSet(16); // short
-
-                if (character5.Invisible)
+                case Character character5:
                 {
-                    flags.Set(5);
-                }
+                    var flags = new BitSet(16); // short
 
-                if (character5.IdleStatus)
-                {
-                    flags.Set(13);
-                }
+                    if (character5.Invisible)
+                    {
+                        flags.Set(5);
+                    }
 
-                //stream.WritePisc(0, 0); // очки чести полученные в PvP, кол-во убийств в PvP
-                stream.Write(flags.ToByteArray()); // flags(ushort)
-                /*
+                    if (character5.IdleStatus)
+                    {
+                        flags.Set(13);
+                    }
+
+                    //stream.WritePisc(0, 0); // очки чести полученные в PvP, кол-во убийств в PvP
+                    stream.Write(flags.ToByteArray()); // flags(ushort)
+                    /*
                 * 0x01 - 8bit - режим боя
                 * 0x04 - 6bit - невидимость?
                 * 0x08 - 5bit - дуэль
@@ -528,14 +522,14 @@ namespace AAEmu.Game.Core.Packets.G2C
                 * 0x0100 - 16bit - дополнительно 3 байт (bc), firstHitterTeamId(uint)
                 * 0x0400 - 14bit - надпись "Отсутсвует" под именем
                 */
-            }
-            else if (_unit is Npc)
-            {
-                stream.Write((ushort)8192); // flags
-            }
-            else
-            {
-                stream.Write((ushort)0); // flags
+                    break;
+                }
+                case Npc _:
+                    stream.Write((ushort)8192); // flags
+                    break;
+                default:
+                    stream.Write((ushort)0); // flags
+                    break;
             }
 
             if (_unit is Character character6)

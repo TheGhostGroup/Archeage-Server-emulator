@@ -13,7 +13,6 @@
         public const ushort CSChallengeDuelPacket = 0x0ee;
         public const ushort CSStartDuelPacket = 0x08;
         public const ushort CSHeroRankingListPacket = 0x6a;
-        public const ushort CSResturnAddrsPacket = 0x186;
         public const ushort CSHeroCandidateListPacket = 0x2f;
         public const ushort CSHeroAbstainPacket = 0x189;
         public const ushort CSHeroVotingPacket = 0x0d6;
@@ -106,7 +105,6 @@
         public const ushort CSUnhangPacket = 0x46;
         public const ushort CSChangeAppellationPacket = 0x42;
         public const ushort CSStartedCinemaPacket = 0xf3;
-        public const ushort CSHgResponsePacket = 0x15d;
         public const ushort CSBroadcastVisualOptionPacket = 0x0b2;
         public const ushort CSBroadcastOpenEquipInfoPacket = 0x10b;
         public const ushort CSRestrictCheckPacket = 0x72;
@@ -131,8 +129,6 @@
         public const ushort CSEditCharacterPacket = 0x82;
         public const ushort CSBroadcastVisualOption_0_Packet = 0x31;
         public const ushort CSSpawnCharacterPacket = 0x15a;
-        public const ushort CSAesXorKeyPacket = 0x163;     // level = 1
-        public const ushort CSAesXorKey_05_Packet = 0x163; // level = 5
         public const ushort CSNotifySubZonePacket = 0x1ab;
         public const ushort CSSaveTutorialPacket = 0x23;
         public const ushort CSRequestUIDataPacket = 0x50;
@@ -423,5 +419,13 @@
         public const ushort CSThisTimeUnpackItemPacket = 0x0ffff;
         public const ushort CSUpdateDominionTaxRatePacket = 0x0ffff;
         public const ushort CSUpdateNationalTaxRatePacket = 0x0ffff;
+
+        // double _01_&_05_
+        public const ushort CSHgResponsePacket = 0x15d;       // level = 1
+        public const ushort CSAesXorKeyPacket = 0x163;        // level = 1
+        public const ushort CSResturnAddrsPacket = 0x186;     // level = 1
+        public const ushort CSHgResponse_05_Packet = 0x15d;   // level = 5
+        public const ushort CSAesXorKey_05_Packet = 0x163;    // level = 5
+        public const ushort CSResturnAddrs_05_Packet = 0x186; // level = 5
     }
 }

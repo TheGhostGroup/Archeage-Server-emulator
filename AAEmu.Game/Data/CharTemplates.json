@@ -19,12 +19,12 @@
         "Name": "Dwarf",
         "Pos": {
             "WorldId": 1,
-            "X": 15578.042,
-            "Y": 15382.122,
-            "Z": 126.484,
+            "X": 8535.91,
+            "Y": 13091.33,
+            "Z": 678.35,
             "RotationX": 0,
             "RotationY": 0,
-            "RotationZ": 125
+            "RotationZ": 18
         },
         "NumInventorySlot": 50,
         "NumBankSlot": 50
@@ -79,9 +79,9 @@
         "Name": "Warborn",
         "Pos": {
             "WorldId": 1,
-            "X": 19304.874,
-            "Y": 7646.06,
-            "Z": 212.704,
+            "X": 19216.63,
+            "Y": 6784.40,
+            "Z": 285.72,
             "RotationX": 0,
             "RotationY": 0,
             "RotationZ": -124

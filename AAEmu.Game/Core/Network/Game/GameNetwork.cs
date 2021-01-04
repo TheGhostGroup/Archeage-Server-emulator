@@ -22,7 +22,18 @@ namespace AAEmu.Game.Core.Network.Game
             _handler = new GameProtocolHandler();
 
             // World
+            // double _01_&_05_
+            // пакет для дешифрации
+            RegisterPacket(CSOffsets.CSAesXorKeyPacket, 1, typeof(CSAesXorKeyPacket));         // level = 1
+            RegisterPacket(CSOffsets.CSAesXorKey_05_Packet, 5, typeof(CSAesXorKey_05_Packet)); // level = 5
+            //
+            RegisterPacket(CSOffsets.CSResturnAddrsPacket, 1, typeof(CSResturnAddrsPacket)); // level = 1
+            RegisterPacket(CSOffsets.CSResturnAddrs_05_Packet, 5, typeof(CSResturnAddrs_05_Packet)); // level = 5
+            RegisterPacket(CSOffsets.CSHgResponsePacket, 1, typeof(CSHgResponsePacket)); // level = 1
+            RegisterPacket(CSOffsets.CSHgResponse_05_Packet, 5, typeof(CSHgResponse_05_Packet)); // level = 5
+
             RegisterPacket(CSOffsets.X2EnterWorldPacket, 1, typeof(X2EnterWorldPacket)); // level = 1
+            
             //RegisterPacket(CSOffsets.CSTodayAssignmentPacket, 5, typeof(CSTodayAssignmentPacket));
             //RegisterPacket(CSOffsets.CSRequestSkipClientDrivenIndunPacket, 5, typeof(CSRequestSkipClientDrivenIndunPacket));
             //RegisterPacket(CSOffsets.CSRemoveClientNpcPacket, 5, typeof(CSRemoveClientNpcPacket));
@@ -32,8 +43,6 @@ namespace AAEmu.Game.Core.Network.Game
             RegisterPacket(CSOffsets.CSChallengeDuelPacket, 5, typeof(CSChallengeDuelPacket));
             RegisterPacket(CSOffsets.CSStartDuelPacket, 5, typeof(CSStartDuelPacket));
             //RegisterPacket(CSOffsets.CSHeroRankingListPacket, 5, typeof(CSHeroRankingListPacket));
-
-            RegisterPacket(CSOffsets.CSResturnAddrsPacket, 1, typeof(CSResturnAddrsPacket)); // level = 1
             //RegisterPacket(CSOffsets.CSHeroCandidateListPacket, 5, typeof(CSHeroCandidateListPacket));
             //RegisterPacket(CSOffsets.CSHeroAbstainPacket, 5, typeof(CSHeroAbstainPacket));
             //RegisterPacket(CSOffsets.CSHeroVotingPacket, 5, typeof(CSHeroVotingPacket));
@@ -127,7 +136,6 @@ namespace AAEmu.Game.Core.Network.Game
             RegisterPacket(CSOffsets.CSChangeAppellationPacket, 5, typeof(CSChangeAppellationPacket));
             RegisterPacket(CSOffsets.CSStartedCinemaPacket, 5, typeof(CSStartedCinemaPacket));
 
-            RegisterPacket(CSOffsets.CSHgResponsePacket, 1, typeof(CSHgResponsePacket)); // level = 1
             RegisterPacket(CSOffsets.CSBroadcastVisualOptionPacket, 5, typeof(CSBroadcastVisualOptionPacket));
             RegisterPacket(CSOffsets.CSBroadcastOpenEquipInfoPacket, 5, typeof(CSBroadcastOpenEquipInfoPacket));
             RegisterPacket(CSOffsets.CSRestrictCheckPacket, 5, typeof(CSRestrictCheckPacket));
@@ -152,10 +160,6 @@ namespace AAEmu.Game.Core.Network.Game
             RegisterPacket(CSOffsets.CSEditCharacterPacket, 5, typeof(CSEditCharacterPacket));
             RegisterPacket(CSOffsets.CSBroadcastVisualOption_0_Packet, 5, typeof(CSBroadcastVisualOption_0_Packet));
             RegisterPacket(CSOffsets.CSSpawnCharacterPacket, 5, typeof(CSSpawnCharacterPacket));
-            // пакет для дешифрации
-            RegisterPacket(CSOffsets.CSAesXorKeyPacket, 1, typeof(CSAesXorKeyPacket));         // level = 1
-            RegisterPacket(CSOffsets.CSAesXorKey_05_Packet, 5, typeof(CSAesXorKey_05_Packet)); // level = 5
-            //
             RegisterPacket(CSOffsets.CSNotifySubZonePacket, 5, typeof(CSNotifySubZonePacket));
             RegisterPacket(CSOffsets.CSSaveTutorialPacket, 5, typeof(CSSaveTutorialPacket));
             RegisterPacket(CSOffsets.CSRequestUIDataPacket, 5, typeof(CSRequestUIDataPacket));
