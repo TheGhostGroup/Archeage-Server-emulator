@@ -156,6 +156,7 @@ namespace AAEmu.Game.Models.Game.Units
     public class UnitCustomModelParams : PacketMarshaler
     {
         private UnitCustomModelType _type;
+        public uint Id { get; private set; }
         public uint ModelId { get; private set; }
         public uint BodyNormalMapId { get; private set; }
         public uint HairColorId { get; private set; }
@@ -184,6 +185,11 @@ namespace AAEmu.Game.Models.Game.Units
             return this;
         }
 
+        public UnitCustomModelParams SetId(uint id)
+        {
+            Id = id;
+            return this;
+        }
         public UnitCustomModelParams SetModelId(uint modelId)
         {
             ModelId = modelId;

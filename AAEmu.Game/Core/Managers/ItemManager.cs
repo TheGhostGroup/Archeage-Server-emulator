@@ -162,7 +162,7 @@ namespace AAEmu.Game.Core.Managers
                         {
                             TemplateId = lootPacks[uii].ItemId,
                             WorldId = 1,
-                            CreateTime = DateTime.Now,
+                            CreateTime = DateTime.UtcNow,
                             Id = ++itemId,
                             MadeUnitId = npcId,
                             Count = Rand.Next(lootPacks[uii].MinAmount, lootPacks[uii].MaxAmount)
@@ -180,7 +180,7 @@ namespace AAEmu.Game.Core.Managers
             {
                 TemplateId = Item._coins,
                 WorldId = 1,
-                CreateTime = DateTime.Now,
+                CreateTime = DateTime.UtcNow,
                 Id = ++itemId,
                 Count = Rand.Next(unit.Level * 5, unit.Level * 400),
                 MadeUnitId = npcId

@@ -272,11 +272,7 @@ namespace AAEmu.Game.Models.Game.Items
                     mDetailLength = 13;
 Label_32:
                     mDetailLength -= 1;
-                    if (mDetailLength > 0)
-                    {
-                        Detail = stream.ReadBytes(mDetailLength);
-                    }
-
+                    Detail = stream.ReadBytes(mDetailLength);
                     break;
                 default:
                     break;

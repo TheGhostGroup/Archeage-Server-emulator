@@ -41,6 +41,7 @@ namespace AAEmu.Game.Core.Packets.C2G
                 }
 
                 Connection.ActiveChar.Simulation = new Simulation(character);
+                Connection.ActiveChar.SimulationNpc = new SimulationNpc(character);
 
                 Connection.SendPacket(new SCCharacterStatePacket(character));
                 Connection.SendPacket(new SCCharacterGamePointsPacket(character));
@@ -51,6 +52,7 @@ namespace AAEmu.Game.Core.Packets.C2G
                 Connection.ActiveChar.Quests.SendCompleted();
 
                 Connection.ActiveChar.Actability.Send();
+                //Connection.ActiveChar.Mails.SendUnreadMailCount();
                 Connection.ActiveChar.Appellations.Send();
                 Connection.ActiveChar.Portals.Send();
                 Connection.ActiveChar.Friends.Send();
@@ -78,6 +80,8 @@ namespace AAEmu.Game.Core.Packets.C2G
                 Connection.ActiveChar.SendOption(1);
                 Connection.ActiveChar.SendOption(2);
                 Connection.ActiveChar.SendOption(5);
+
+                //Connection.ActiveChar.OnZoneChange(0, Connection.ActiveChar.Position.ZoneId);
             }
             else
             {

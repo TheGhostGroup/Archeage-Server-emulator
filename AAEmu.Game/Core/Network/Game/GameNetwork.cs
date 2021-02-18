@@ -22,6 +22,7 @@ namespace AAEmu.Game.Core.Network.Game
             _handler = new GameProtocolHandler();
 
             // World
+            RegisterPacket(CSOffsets.X2EnterWorldPacket, 1, typeof(X2EnterWorldPacket)); // level = 1
             // double _01_&_05_
             // пакет для дешифрации
             RegisterPacket(CSOffsets.CSAesXorKeyPacket, 1, typeof(CSAesXorKeyPacket));         // level = 1
@@ -31,9 +32,7 @@ namespace AAEmu.Game.Core.Network.Game
             RegisterPacket(CSOffsets.CSResturnAddrs_05_Packet, 5, typeof(CSResturnAddrs_05_Packet)); // level = 5
             RegisterPacket(CSOffsets.CSHgResponsePacket, 1, typeof(CSHgResponsePacket)); // level = 1
             RegisterPacket(CSOffsets.CSHgResponse_05_Packet, 5, typeof(CSHgResponse_05_Packet)); // level = 5
-
-            RegisterPacket(CSOffsets.X2EnterWorldPacket, 1, typeof(X2EnterWorldPacket)); // level = 1
-            
+           
             //RegisterPacket(CSOffsets.CSTodayAssignmentPacket, 5, typeof(CSTodayAssignmentPacket));
             //RegisterPacket(CSOffsets.CSRequestSkipClientDrivenIndunPacket, 5, typeof(CSRequestSkipClientDrivenIndunPacket));
             //RegisterPacket(CSOffsets.CSRemoveClientNpcPacket, 5, typeof(CSRemoveClientNpcPacket));
@@ -158,7 +157,7 @@ namespace AAEmu.Game.Core.Network.Game
             RegisterPacket(CSOffsets.CSPacketUnknown0x166Packet, 5, typeof(CSPacketUnknown0x166Packet));
             RegisterPacket(CSOffsets.CSCreateCharacterPacket, 5, typeof(CSCreateCharacterPacket));
             RegisterPacket(CSOffsets.CSEditCharacterPacket, 5, typeof(CSEditCharacterPacket));
-            RegisterPacket(CSOffsets.CSBroadcastVisualOption_0_Packet, 5, typeof(CSBroadcastVisualOption_0_Packet));
+            RegisterPacket(CSOffsets.CSTeleportEndedPacket, 5, typeof(CSTeleportEndedPacket));
             RegisterPacket(CSOffsets.CSSpawnCharacterPacket, 5, typeof(CSSpawnCharacterPacket));
             RegisterPacket(CSOffsets.CSNotifySubZonePacket, 5, typeof(CSNotifySubZonePacket));
             RegisterPacket(CSOffsets.CSSaveTutorialPacket, 5, typeof(CSSaveTutorialPacket));

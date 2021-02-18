@@ -66,7 +66,7 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             var eff = SkillManager.Instance.GetEffectTemplate(Buff.TickEffect.EffectId);
             var targetObj = new SkillCastUnitTarget(owner.ObjId);
             var skillObj = new SkillObject(); // TODO ?
-            eff.Apply(caster, effect.SkillCaster, owner, targetObj, new CastBuff(effect), null, skillObj, DateTime.Now);
+            eff.Apply(caster, effect.SkillCaster, owner, targetObj, new CastBuff(effect), null, skillObj, DateTime.UtcNow);
         }
 
         public override void Dispel(Unit caster, BaseUnit owner, Effect effect)

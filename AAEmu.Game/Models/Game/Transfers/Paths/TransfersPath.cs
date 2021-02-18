@@ -56,8 +56,7 @@ namespace AAEmu.Game.Models.Game.Transfers.Paths
                 }
                 else
                 {
-                    throw new Exception(
-                        $"SpawnManager: Parse {FileManager.AppPath}Data/Worlds/main_world/transfer_paths.json file");
+                    throw new Exception($"SpawnManager: Parse {FileManager.AppPath}Data/Worlds/main_world/transfer_paths.json file");
                 }
             }
         }

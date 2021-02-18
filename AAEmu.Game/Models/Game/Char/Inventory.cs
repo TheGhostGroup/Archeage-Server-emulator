@@ -730,7 +730,7 @@ namespace AAEmu.Game.Models.Game.Char
 
                 if (newWeaponBuff != 0)
                 {
-                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(newWeaponBuff), null, DateTime.Now));
+                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(newWeaponBuff), null, DateTime.UtcNow));
                 }
 
                 Owner.WeaponTypeBuffId = newWeaponBuff;
@@ -747,7 +747,7 @@ namespace AAEmu.Game.Models.Game.Char
 
                     if (WeaponEquipSet.SetBonuses[2].BuffId != 0 && !Owner.Effects.CheckBuff(WeaponEquipSet.SetBonuses[2].BuffId))
                     {
-                        Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(WeaponEquipSet.SetBonuses[2].BuffId), null, DateTime.Now));
+                        Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(WeaponEquipSet.SetBonuses[2].BuffId), null, DateTime.UtcNow));
                     }
 
                     Owner.WeaponEquipSetBuffId = WeaponEquipSet.SetBonuses[2].BuffId;
@@ -766,7 +766,7 @@ namespace AAEmu.Game.Models.Game.Char
                     var EquipBuffId = ItemManager.Instance.GetItemEquipBuff(equipItem.TemplateId, equipItem.Grade);
                     if (EquipBuffId != 0 && !Owner.Effects.CheckBuff(EquipBuffId))
                     {
-                        Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(EquipBuffId), null, DateTime.Now));
+                        Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(EquipBuffId), null, DateTime.UtcNow));
                     }
                 }
             }
@@ -878,7 +878,7 @@ namespace AAEmu.Game.Models.Game.Char
                 if (Owner.ArmorKindBuffId != armorKindBuffId)
                 {
                     Owner.Effects.RemoveBuff(Owner.ArmorKindBuffId);
-                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(armorKindBuffId), null, DateTime.Now));
+                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(armorKindBuffId), null, DateTime.UtcNow));
                     Owner.ArmorKindBuffId = armorKindBuffId;
                 }
 
@@ -891,11 +891,11 @@ namespace AAEmu.Game.Models.Game.Char
 
                 if (armorGradeBuffId != 0 && !Owner.Effects.CheckBuff(armorGradeBuffId))
                 {
-                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(armorGradeBuffId), null, DateTime.Now, (short)armorInfo[maxKind][2]));
+                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(armorGradeBuffId), null, DateTime.UtcNow, (short)armorInfo[maxKind][2]));
                 }
                 else if (armorGradeBuffId != 0 && Owner.Effects.CheckBuff(armorGradeBuffId))
                 {
-                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(armorGradeBuffId), null, DateTime.Now, (short)armorInfo[maxKind][2])); //TODO: update buff instead of reapplying
+                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(armorGradeBuffId), null, DateTime.UtcNow, (short)armorInfo[maxKind][2])); //TODO: update buff instead of reapplying
                 }
 
                 Owner.ArmorGradeBuffId = armorGradeBuffId;
@@ -940,7 +940,7 @@ namespace AAEmu.Game.Models.Game.Char
             {
                 foreach (var buffId in armorSetBuffIds.Where(buffId => !Owner.ArmorSetBuffIds.Contains(buffId)))
                 {
-                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(buffId), null, DateTime.Now));
+                    Owner.Effects.AddEffect(new Effect(Owner, Owner, SkillCaster.GetByType(EffectOriginType.Buff), SkillManager.Instance.GetBuffTemplate(buffId), null, DateTime.UtcNow));
                 }
             }
             catch (ArgumentNullException argumentNullException)

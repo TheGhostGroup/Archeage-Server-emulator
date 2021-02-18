@@ -55,6 +55,13 @@ namespace AAEmu.Game.Models.Game.AI
                     var target = (BaseUnit)someone;
                     if (!npc.IsInBattle && npc.Hp > 0)
                     {
+                        if (npc.SimulationNpc != null && npc.SimulationNpc.FollowPath)
+                        {
+                            npc.IsInPatrol = true;
+                            npc.SimulationNpc.MoveToPathEnabled = false;
+                            npc.SimulationNpc.GoToPath(npc, true);
+                        }
+
                         // Monstrosity & Hostile & Fish
                         if (npc.Faction.Id == 115 || npc.Faction.Id == 3 || npc.Faction.Id == 172)
                         {
@@ -62,9 +69,6 @@ namespace AAEmu.Game.Models.Game.AI
                             if (npc.Template.Aggression && npc.Template.AggroLinkHelpDist * npc.Template.AttackStartRangeScale > Math.Abs(MathUtil.CalculateDistance(npc.Position, chr.Position, true)))
                             {
                                 // NPC attacking us
-                                //npc.Patrol = null;
-                                //npc.Patrol?.Pause(npc);
-
                                 // AiAggro(ai_commands = 4065, count=0)
                                 chr.BroadcastPacket(new SCTargetChangedPacket(npc.ObjId, chr.ObjId), true);
                                 chr.BroadcastPacket(new SCAiAggroPacket(npc.ObjId, 1, chr.ObjId), true);
@@ -75,21 +79,19 @@ namespace AAEmu.Game.Models.Game.AI
                                 npc.IsAutoAttack = true;
                                 npc.IsInBattle = true;
                                 var combat = new Combat();
-                                //npc.Patrol.UpdateTime = DateTime.Now;
+                                //npc.Patrol.UpdateTime = DateTime.UtcNow;
                                 combat.Execute(npc);
                             }
                             else if (Math.Abs(MathUtil.CalculateDistance(npc.Position, chr.Position, true)) < 10f) // preferredCombatDistance = 20
                             {
-                                //npc.Patrol = null;
-                                //npc.Patrol?.Pause(npc);
-
                                 // Npc looks at us
                                 if (npc.CurrentTarget != target)
                                 {
                                     chr.BroadcastPacket(new SCTargetChangedPacket(npc.ObjId, chr.ObjId), true);
                                     npc.CurrentTarget = target;
                                 }
-                                var Seq = (uint)(DateTime.Now - GameService.StartTime).TotalMilliseconds;
+
+                                //var Seq = (uint)(DateTime.UtcNow - GameService.StartTime).TotalMilliseconds;
                                 var moveType = (ActorData)UnitMovement.GetType(UnitMovementType.Actor);
 
                                 moveType.X = npc.Position.X;
@@ -99,6 +101,7 @@ namespace AAEmu.Game.Models.Game.AI
                                 {
                                     moveType.Z = npc.Position.Z;
                                 }
+
                                 // looks in the direction of movement
                                 Angle = MathUtil.CalculateAngleFrom(npc, chr);
                                 var rotZ = MathUtil.ConvertDegreeToDirection(Angle);
@@ -109,99 +112,45 @@ namespace AAEmu.Game.Models.Game.AI
                                 Velocity = Vector3.Zero;
 
                                 moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
-                                moveType.Stance = EStance.Idle;           // COMBAT = 0x0, IDLE = 0x1
-                                moveType.Alertness = AiAlertness.Alert;   // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-                                moveType.Time = Seq;                      // has to change all the time for normal motion.
+                                moveType.Stance = EStance.Idle; // COMBAT = 0x0, IDLE = 0x1
+                                moveType.Alertness = AiAlertness.Alert; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
+                                //moveType.Time = Seq; // has to change all the time for normal motion.
+                                moveType.Time += 50;
                                 chr.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
                             }
-                        }
-                        else if (npc.SimulationNpc != null && npc.SimulationNpc.FollowPath)
-                        {
-                            npc.IsInPatrol = true;
-                            npc.SimulationNpc.MoveToPathEnabled = false;
-                            npc.SimulationNpc.GoToPath(npc, true);
-                        }
-                        else if (npc.Template.AiFileId == AiFilesType.Roaming || npc.Template.AiFileId == AiFilesType.BigMonsterRoaming || npc.Template.AiFileId == AiFilesType.ArcherRoaming || npc.Template.AiFileId == AiFilesType.WildBoarRoaming)
-                        {   // Npc roams around the spawn point in random directions
-                            if (npc.CurrentTarget != null)
+                            else if (npc.Template.AiFileId == AiFilesType.Roaming ||
+                                     npc.Template.AiFileId == AiFilesType.BigMonsterRoaming ||
+                                     npc.Template.AiFileId == AiFilesType.ArcherRoaming ||
+                                     npc.Template.AiFileId == AiFilesType.WildBoarRoaming
+                                     || npc.TemplateId == 4200
+                                     )
                             {
-                                chr.BroadcastPacket(new SCTargetChangedPacket(npc.ObjId, 0), true);
-                                npc.CurrentTarget = null;
-                            }
-                            if (npc.Patrol == null)
-                            {
-                                npc.IsInBattle = false;
-                                npc.Patrol = new Roaming { Interrupt = true, Loop = true, Abandon = false };
-                                npc.Patrol.Interrupt = true; // можно прервать
-                                npc.Patrol.Loop = true;      // повторять в цикле
-                                npc.Patrol.Abandon = false;  // не прерванный
-                                npc.Patrol.Pause(npc);
-                                npc.Patrol.LastPatrol = null; // предыдущего патруля нет
-                                npc.Patrol.Recovery(npc);     // запустим патруль
-                            }
-                            else
-                            {
-                                npc.Patrol.Recovery(npc);
+                                // Npc roams around the spawn point in random directions
+                                if (npc.CurrentTarget != null)
+                                {
+                                    chr.BroadcastPacket(new SCTargetChangedPacket(npc.ObjId, 0), true);
+                                    npc.CurrentTarget = null;
+                                }
+
+                                if (npc.Patrol == null)
+                                {
+                                    //npc.IsInBattle = false;
+                                    //npc.Patrol = new Roaming { Interrupt = true, Loop = true, Abandon = false };
+                                    //npc.Patrol.Interrupt = true; // можно прервать
+                                    //npc.Patrol.Loop = true;      // повторять в цикле
+                                    //npc.Patrol.Abandon = false;  // не прерванный
+                                    //npc.Patrol.Pause(npc);
+                                    //npc.Patrol.LastPatrol = null; // предыдущего патруля нет
+                                    //npc.Patrol.Recovery(npc);     // запустим патруль
+                                }
+                                else
+                                {
+                                    npc.Patrol.Recovery(npc);
+                                }
                             }
                         }
-                        //// использование путей из логов с помощью файла npc_paths.json
-                        ////if (
-                        ////    npc.TemplateId == 11999
-                        ////    || npc.TemplateId == 8172
-                        ////    || npc.TemplateId == 8176
-                        ////    || npc.TemplateId == 3576
-                        ////    || npc.TemplateId == 918
-                        ////    || npc.TemplateId == 3626
-                        ////    || npc.TemplateId == 7660
-                        ////    || npc.TemplateId == 12143
-                        ////    )
-                        //{
-                        //    if (!npc.IsInPatrol)
-                        //    {
-                        //        var path = new SimulationNpc(npc);
-                        //        // организуем последовательность "Дорог" для следования "Гвардов"
-                        //        var lnpp = new List<NpcsPathPoint>();
-                        //        foreach (var np in NpcsPath.NpcsPaths)
-                        //        {
-                        //            if (np.ObjId != npc.ObjId) { continue; }
-
-                        //            foreach (var npp in np.Pos)
-                        //            {
-                        //                lnpp.Add(npp);
-                        //            }
-                        //            path.NpcsRoutes.TryAdd(npc.TemplateId, lnpp);
-                        //            break;
-                        //        }
-
-                        //        var go = true;
-                        //        if (path.NpcsRoutes.Count == 0)
-                        //        {
-                        //            go = false;
-                        //        }
-                        //        else
-                        //        {
-                        //            if (path.NpcsRoutes.Any(route => route.Value.Count == 0))
-                        //            {
-                        //                go = false;
-                        //            }
-                        //        }
-                        //        //if (path.Routes2.Count != 0)
-                        //        if (go)
-                        //        {
-                        //            path.LoadNpcPathFromNpcsRoutes(npc.TemplateId); // начнем с самого начала
-                        //            //_log.Warn("TransfersPath #" + transfer.TemplateId);
-                        //                                                            //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
-                        //            npc.IsInPatrol = true; // so as not to run the route a second time
-
-                        //            path.GoToPath(npc, true);
-                        //        }
-                        //        else
-                        //        {
-                        //            //_log.Warn("PathName: " + npc.Template.TransferPaths[0].PathName + " not found!");
-                        //        }
-                        //    }
-                        //}
                     }
+
                     break;
                 case BaseUnitType.Npc:
                     break;

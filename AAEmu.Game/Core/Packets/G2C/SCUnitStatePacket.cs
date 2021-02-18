@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using AAEmu.Commons.Network;
 using AAEmu.Commons.Utils;
@@ -19,7 +20,7 @@ namespace AAEmu.Game.Core.Packets.G2C
     {
         private readonly Unit _unit;
         private readonly BaseUnitType _baseUnitType;
-        private readonly UnitModelPostureType _unitModelPostureType;
+        private UnitModelPostureType _unitModelPostureType;
 
         public SCUnitStatePacket(Unit unit) : base(SCOffsets.SCUnitStatePacket, 5)
         {
@@ -138,10 +139,348 @@ namespace AAEmu.Game.Core.Packets.G2C
 
             stream.Write(_unit.ModelId); // modelRef
 
+            Inventory_Equip0(stream, _unit); // Equip character
+
+            stream.Write(_unit.ModelParams); // CustomModel_3570
+
+            stream.WriteBc(0);
+            stream.Write(_unit.Hp * 100); // preciseHealth
+            stream.Write(_unit.Mp * 100); // preciseMana
+
+            #region AttachPoint1
+            if (_unit is Transfer)
+            {
+                var transfer = (Transfer)_unit;
+                if (transfer.BondingObjId != 0)
+                {
+                    stream.Write(transfer.AttachPointId);  // point
+                    stream.WriteBc(transfer.BondingObjId); // point to the owner where to attach
+                }
+                else
+                {
+                    stream.Write((sbyte)-1);   // point
+                }
+            }
+            else
+            {
+                stream.Write((sbyte)-1);   // point
+            }
+            #endregion AttachPoint1
+
+            #region AttachPoint2
+            switch (_unit)
+            {
+                case Character character2 when character2.Bonding == null:
+                    stream.Write((sbyte)-1); // point
+                    break;
+                case Character character2:
+                    stream.Write(character2.Bonding);
+                    break;
+                case Slave slave when slave.BondingObjId > 0:
+                    stream.WriteBc(slave.BondingObjId);
+                    break;
+                case Slave _:
+                case Transfer _:
+                    stream.Write((sbyte)-1); // attachPoint
+                    break;
+                default:
+                    stream.Write((sbyte)-1); // point
+                    break;
+            }
+            #endregion AttachPoint2
+
+            #region ModelPosture
+            // TODO added that NPCs can be hunted to move their legs while moving, but if they sit or do anything they will just stand there
+            if (_baseUnitType == BaseUnitType.Npc) // NPC
+            {
+                if (_unit is Npc npc)
+                {
+                    // TODO UnitModelPosture
+                    if (npc.Faction.Id != 115 || npc.Faction.Id != 3) // npc.Faction.GuardHelp не агрессивные мобы
+                    {
+                        stream.Write((byte)_unitModelPostureType); // type // оставим это для того, чтобы NPC могли заниматься своими делами
+                    }
+                    else
+                    {
+                        stream.Write((byte)UnitModelPostureType.None); // type //для NPC на которых можно напасть и чтобы они шевелили ногами (для людей особенно)
+                    }
+                }
+            }
+            else // other
+            {
+                stream.Write((byte)_unitModelPostureType);
+            }
+
+            stream.Write(false); // isLooted
+
+            switch (_unitModelPostureType)
+            {
+                case UnitModelPostureType.HouseState: // build
+                    stream.Write(false); // flags Byte
+                    break;
+                case UnitModelPostureType.ActorModelState: // npc
+                    var npc = _unit as Npc;
+                    stream.Write(npc.Template.AnimActionId); // animId
+                    stream.Write(true);                     // activate
+                    break;
+                case UnitModelPostureType.FarmfieldState:
+                    stream.Write(0u);    // type(id)
+                    stream.Write(0f);    // growRate
+                    stream.Write(0);     // randomSeed
+                    stream.Write(false); // flags Byte
+                    break;
+                case UnitModelPostureType.TurretState: // slave
+                    stream.Write(0f);    // pitch
+                    stream.Write(0f);    // yaw
+                    break;
+            }
+            #endregion ModelPosture
+
+            stream.Write(_unit.ActiveWeapon);
+
+            switch (_unit)
+            {
+                case Character character:
+                    {
+                        stream.Write((byte)character.Skills.Skills.Count);       // learnedSkillCount
+                        stream.Write((byte)character.Skills.PassiveBuffs.Count); // passiveBuffCount
+                        stream.Write(character.HighAbilityRsc);                  // highAbilityRsc
+
+                        foreach (var skill in character.Skills.Skills.Values)
+                        {
+                            stream.WritePisc(skill.TemplateId);
+                        }
+                        foreach (var buff in character.Skills.PassiveBuffs.Values)
+                        {
+                            stream.WritePisc(buff.Id);
+                        }
+
+                        break;
+                    }
+                case Npc npc:
+                    stream.Write((byte)1); // learnedSkillCount
+                    stream.Write((byte)0); // passiveBuffCount
+                    stream.Write(0);       // highAbilityRsc
+                    stream.WritePisc(npc.Template.BaseSkillId);
+                    break;
+                default:
+                    stream.Write((byte)0); // learnedSkillCount
+                    stream.Write((byte)0); // passiveBuffCount
+                    stream.Write(0);       // highAbilityRsc
+                    break;
+            }
+
+            if (_baseUnitType == BaseUnitType.Housing)
+            {
+                stream.Write(_unit.Position.RotationZ); // должно быть float
+                //stream.Write(Helpers.ConvertDirectionToRadian(_unit.Position.RotationZ)); // должно быть float
+            }
+            else
+            {
+                stream.Write(_unit.Position.RotationX);
+                stream.Write(_unit.Position.RotationY);
+                stream.Write(_unit.Position.RotationZ);
+            }
+
+            switch (_unit)
+            {
+                case Character unit:
+                    stream.Write(unit.RaceGender);
+                    break;
+                case Npc npc:
+                    stream.Write(npc.RaceGender);
+                    break;
+                default:
+                    stream.Write(_unit.RaceGender);
+                    break;
+            }
+
+            if (_unit is Character character4)
+            {
+                stream.WritePisc(0, 0, character4.Appellations.ActiveAppellation, 0);      // pisc
+                stream.WritePisc(_unit.Faction?.Id ?? 0, _unit.Expedition?.Id ?? 0, 0, 0); // pisc
+                stream.WritePisc(0, 0, 0, 0); // pisc
+            }
+            else
+            {
+                stream.WritePisc(0, 0, 0, 0); // TODO второе число больше нуля, что это за число?
+                stream.WritePisc(_unit.Faction?.Id ?? 0, _unit.Expedition?.Id ?? 0, 0, 0); // pisc
+                stream.WritePisc(0, 0, 0, 0); // pisc
+            }
+
+            switch (_unit)
+            {
+                case Character character5:
+                    {
+                        var flags = new BitSet(16); // short
+
+                        if (character5.Invisible)
+                        {
+                            flags.Set(5);
+                        }
+
+                        if (character5.IdleStatus)
+                        {
+                            flags.Set(13);
+                        }
+
+                        //stream.WritePisc(0, 0); // очки чести полученные в PvP, кол-во убийств в PvP
+                        stream.Write(flags.ToByteArray()); // flags(ushort)
+                        /*
+                    * 0x01 - 8bit - режим боя
+                    * 0x04 - 6bit - невидимость?
+                    * 0x08 - 5bit - дуэль
+                    * 0x40 - 2bit - gmmode, дополнительно 7 байт
+                    * 0x80 - 1bit - дополнительно tl(ushort), tl(ushort), tl(ushort), tl(ushort)
+                    * 0x0100 - 16bit - дополнительно 3 байт (bc), firstHitterTeamId(uint)
+                    * 0x0400 - 14bit - надпись "Отсутсвует" под именем
+                    */
+                        break;
+                    }
+                case Npc _:
+                    stream.Write((ushort)8192); // flags
+                    break;
+                default:
+                    stream.Write((ushort)0); // flags
+                    break;
+            }
+
+            if (_unit is Character character6)
+            {
+                #region read_Exp_Order_6300
+                var activeAbilities = character6.Abilities.GetActiveAbilities();
+                foreach (var ability in character6.Abilities.Values)
+                {
+                    stream.Write(ability.Exp);
+                    stream.Write(ability.Order);
+                }
+
+                stream.Write((byte)activeAbilities.Count); // nActive
+                foreach (var ability in activeAbilities)
+                {
+                    stream.Write((byte)ability); // active
+                }
+                #endregion read_Exp_Order_6300
+
+                #region read_Exp_Order_6460
+                foreach (var ability in character6.Abilities.Values)
+                {
+                    stream.Write(ability.Exp);
+                    stream.Write(ability.Order);  // ability.Order
+                    stream.Write(true);           // canNotLevelUp
+                }
+
+                byte nHighActive = 0;
+                byte nActive = 0;
+                stream.Write(nHighActive); // nHighActive
+                stream.Write(nActive);     // nActive
+                while (nHighActive > 0)
+                {
+                    while (nActive > 0)
+                    {
+                        stream.Write(0); // active
+                        nActive--;
+                    }
+                    nHighActive--;
+                }
+                #endregion read_Exp_Order_6460
+
+                stream.WriteBc(0);      // objId
+                stream.Write((byte)0); // camp
+
+                #region Stp
+                stream.Write((byte)30);  // stp
+                stream.Write((byte)60);  // stp
+                stream.Write((byte)50);  // stp
+                stream.Write((byte)0);   // stp
+                stream.Write((byte)40);  // stp
+                stream.Write((byte)100); // stp
+
+                stream.Write((byte)7); // flags
+                //stream.Write((byte)0); // cosplay_visual
+                character6.VisualOptions.Write(stream, 0x20); // cosplay_visual
+                #endregion Stp
+
+                stream.Write(1); // premium
+
+                #region Stats
+                for (var i = 0; i < 5; i++)
+                {
+                    stream.Write(0); // stats
+                }
+                stream.Write(0); // extendMaxStats
+                stream.Write(0); // applyExtendCount
+                stream.Write(0); // applyNormalCount
+                stream.Write(0); // applySpecialCount
+                #endregion Stats
+
+                stream.WritePisc(0, 0, 0, 0);
+                stream.WritePisc(0, 0);
+                stream.Write((byte)0); // accountPrivilege
+            }
+            #endregion NetUnit
+
+            #region NetBuff
+            // TODO: Fix the patron and auction house license buff issue
+            if (_unit is Character)
+            {
+                if (!_unit.Effects.CheckBuff(8000011)) //TODO Wrong place
+                {
+                    _unit.Effects.AddEffect(new Effect(_unit, _unit, SkillCaster.GetByType(EffectOriginType.Skill), SkillManager.Instance.GetBuffTemplate(8000011), null, System.DateTime.UtcNow));
+                }
+
+                if (!_unit.Effects.CheckBuff(8000012)) //TODO Wrong place
+                {
+                    _unit.Effects.AddEffect(new Effect(_unit, _unit, SkillCaster.GetByType(EffectOriginType.Skill), SkillManager.Instance.GetBuffTemplate(8000012), null, System.DateTime.UtcNow));
+                }
+            }
+
+            var goodBuffs = new List<Effect>();
+            var badBuffs = new List<Effect>();
+            var hiddenBuffs = new List<Effect>();
+
+            _unit.Effects.GetAllBuffs(goodBuffs, badBuffs, hiddenBuffs);
+
+            stream.Write((byte)goodBuffs.Count); // TODO max 32
+
+            foreach (var buff in goodBuffs)
+            {
+                WriteBuff(stream, buff);
+            }
+
+            stream.Write((byte)badBuffs.Count); // TODO max 24 for 1.2, 20 for 3.0.3.0
+            foreach (var buff in badBuffs)
+            {
+                WriteBuff(stream, buff);
+            }
+
+            stream.Write((byte)hiddenBuffs.Count); // TODO max 24 for 1.2, 28 for 3.0.3.0
+            foreach (var buff in hiddenBuffs)
+            {
+                WriteBuff(stream, buff);
+            }
+            #endregion NetBuff
+
+            return stream;
+        }
+
+        private void WriteBuff(PacketStream stream, Effect buff)
+        {
+            stream.Write(buff.Index);                          // Id
+            stream.Write(buff.SkillCaster);
+            stream.Write(0u);                                  // type(id)
+            stream.Write(buff.Caster.Level);                   // sourceLevel
+            stream.Write(buff.AbLevel);                        // sourceAbLevel
+            stream.WritePisc(0, buff.GetTimeElapsed(), 0, 0u); // add in 3.0.3.0
+            stream.WritePisc(buff.Template.BuffId, 1, 0, 0u);  // add in 3.0.3.0
+        }
+
+        private void Inventory_Equip0(PacketStream stream, Unit unit)
+        {
             #region Inventory_Equip
             var index = 0;
             var validFlags = 0;
-            if (_unit is Character character1)
+            if (unit is Character character1)
             {
                 // calculate validFlags
                 var items = character1.Inventory.Equipment.GetSlottedItemsList();
@@ -203,7 +542,7 @@ namespace AAEmu.Game.Core.Packets.G2C
                     itemSlot++;
                 }
             }
-            else if (_unit is Npc npc)
+            else if (unit is Npc npc)
             {
                 // calculate validFlags for 3.0.3.0
                 for (var i = 0; i < npc.Equipment.GetSlottedItemsList().Count; i++)
@@ -269,35 +608,6 @@ namespace AAEmu.Game.Core.Packets.G2C
                     }
                     itemSlot++;
                 }
-
-                //for (var i = 0; i < npc.Equipment.GetSlottedItemsList().Count; i++)
-                //{
-                //    var item = npc.Equipment.GetItemBySlot(i);
-
-                //    if (item == null)
-                //        continue;
-
-                //    //if (item is BodyPart)
-                //    //{
-                //        if (i> 19 && i < 26)
-                //        {
-                //            stream.Write(item.TemplateId);
-                //        }
-                //    //}
-                //    else
-                //    {
-                //        if (i == (int)EquipmentItemSlot.Cosplay)
-                //        {
-                //            stream.Write(item);
-                //        }
-                //        else
-                //        {
-                //            stream.Write(item.TemplateId);
-                //            stream.Write(0L);
-                //            stream.Write((byte)0);
-                //        }
-                //    }
-                //}
             }
             else // for transfer and other
             {
@@ -318,352 +628,107 @@ namespace AAEmu.Game.Core.Packets.G2C
                         ItemFlags |= v15;
                     }
                 }
-                stream.Write(ItemFlags); //  ItemFlags flags for 3.0.3.0
+                stream.Write(0u); //  ItemFlags flags for 3.0.3.0
             }
             #endregion Inventory_Equip
+        }
 
-            stream.Write(_unit.ModelParams); // CustomModel_3570
-            stream.WriteBc(0);
-            stream.Write(_unit.Hp * 100); // preciseHealth
-            stream.Write(_unit.Mp * 100); // preciseMana
+        private void Inventory_Equip(PacketStream stream, Unit unit)
+        {
+            #region Inventory_Equip
 
-            #region AttachPoint1
-            if (_unit is Transfer)
+            var index = 0;
+            var validFlags = 0;
+            switch (unit)
             {
-                var transfer = (Transfer)_unit;
-                if (transfer.BondingObjId != 0)
-                {
-                    stream.Write(transfer.AttachPointId);  // point
-                    stream.WriteBc(transfer.BondingObjId); // point to the owner where to attach
-                }
-                else
-                {
-                    stream.Write((sbyte)-1);   // point
-                }
-            }
-            else
-            {
-                stream.Write((sbyte)-1);   // point
-            }
-            #endregion AttachPoint1
-
-            #region AttachPoint2
-            switch (_unit)
-            {
-                case Character character2 when character2.Bonding == null:
-                    stream.Write((sbyte)-1); // point
-                    break;
-                case Character character2:
-                    stream.Write(character2.Bonding);
-                    // character2.Bonding write to stream
-                    // (byte) attachPoint
-                    // (bc)   objId
-                    // (byte) kind
-                    // (int)  space
-                    // (int)  spot
-                    break;
-                case Slave slave when slave.BondingObjId > 0:
-                    stream.WriteBc(slave.BondingObjId);
-                    break;
-                case Slave _:
-                case Transfer _:
-                    stream.Write((sbyte)-1); // attachPoint
-                    break;
-                default:
-                    stream.Write((sbyte)-1); // point
-                    break;
-            }
-            #endregion AttachPoint2
-
-            #region ModelPosture
-            // TODO added that NPCs can be hunted to move their legs while moving, but if they sit or do anything they will just stand there
-            if (_baseUnitType == BaseUnitType.Npc) // NPC
-            {
-                if (_unit is Npc npc)
-                {
-                    // TODO UnitModelPosture
-                    if (npc.Faction.Id != 115 || npc.Faction.Id != 3) // npc.Faction.GuardHelp не агрессивные мобы
+                case Character character:
                     {
-                        stream.Write((byte)_unitModelPostureType); // type // оставим это для того, чтобы NPC могли заниматься своими делами
+                        // calculate validFlags
+                        var items = character.Inventory.Equipment.GetSlottedItemsList();
+                        foreach (var item in items)
+                        {
+                            if (item != null)
+                            {
+                                validFlags |= 1 << index;
+                            }
+
+                            index++;
+                        }
+
+                        stream.Write((uint)validFlags); // validFlags for 3.0.3.0
+                        foreach (var item in items)
+                        {
+                            if (item != null)
+                            {
+                                stream.Write(item);
+                            }
+                        }
+
+                        break;
                     }
-                    else
-                    {
-                        stream.Write((byte)UnitModelPostureType.None); // type //для NPC на которых можно напасть и чтобы они шевелили ногами (для людей особенно)
-                    }
-                }
-            }
-            else // other
-            {
-                stream.Write((byte)_unitModelPostureType);
-            }
-
-            stream.Write(false); // isLooted
-
-            switch (_unitModelPostureType)
-            {
-                case UnitModelPostureType.HouseState: // build
-                    stream.Write(false); // flags Byte
-                    break;
-                case UnitModelPostureType.ActorModelState: // npc
-                    var npc = _unit as Npc;
-                    stream.Write(npc.Template.AnimActionId); // animId
-                    stream.Write(true);                     // activate
-                    break;
-                case UnitModelPostureType.FarmfieldState:
-                    stream.Write(0u);    // type(id)
-                    stream.Write(0f);    // growRate
-                    stream.Write(0);     // randomSeed
-                    stream.Write(false); // flags Byte
-                    break;
-                case UnitModelPostureType.TurretState: // slave
-                    stream.Write(0f);    // pitch
-                    stream.Write(0f);    // yaw
-                    break;
-            }
-            #endregion ModelPosture
-
-            stream.Write(_unit.ActiveWeapon);
-
-            if (_unit is Character character3)
-            {
-                var learnedSkillCount = (byte)character3.Skills.Skills.Count;
-                var passiveBuffCount = (byte)character3.Skills.PassiveBuffs.Count;
-
-                stream.Write(learnedSkillCount);    // learnedSkillCount
-                stream.Write(passiveBuffCount);     // passiveBuffCount
-                stream.Write(_unit.HighAbilityRsc); // highAbilityRsc
-
-                foreach (var skill in character3.Skills.Skills.Values)
-                {
-                    stream.WritePisc(skill.TemplateId);    // skillId
-                }
-                foreach (var buff in character3.Skills.PassiveBuffs.Values)
-                {
-                    stream.WritePisc(buff.Id);    // buffId
-                }
-            }
-            else if (_unit is Npc npc)
-            {
-
-                stream.Write((byte)1);  // learnedSkillCount
-                stream.Write((byte)0);  // passiveBuffCount
-                stream.Write(0);        // highAbilityRsc
-
-                stream.WritePisc(npc.Template.BaseSkillId);
-            }
-            else
-            {
-                stream.Write((byte)0); // learnedSkillCount
-                stream.Write((byte)0); // passiveBuffCount
-                stream.Write(0);       // highAbilityRsc
-            }
-
-            if (_baseUnitType == BaseUnitType.Housing)
-            {
-                stream.Write(_unit.Position.RotationZ); // TODO должно быть float
-            }
-            else
-            {
-                stream.Write(_unit.Position.RotationX);
-                stream.Write(_unit.Position.RotationY);
-                stream.Write(_unit.Position.RotationZ);
-            }
-
-            switch (_unit)
-            {
-                case Character unit:
-                    stream.Write(unit.RaceGender);
-                    break;
                 case Npc npc:
-                    stream.Write(npc.RaceGender);
-                    break;
-                //default:
-                //    stream.Write(_unit.RaceGender);
-                //    break;
-            }
-
-            if (_unit is Character character4)
-            {
-                stream.WritePisc(0, 0, character4.Appellations.ActiveAppellation, 0);      // pisc
-                stream.WritePisc(_unit.Faction?.Id ?? 0, _unit.Expedition?.Id ?? 0, 0, 0); // pisc
-                stream.WritePisc(0, 0, 0, 0); // pisc
-            }
-            else
-            {
-                stream.WritePisc(0, 26601, 0, 0); // TODO что это за число?
-                stream.WritePisc(_unit.Faction?.Id ?? 0, _unit.Expedition?.Id ?? 0, 0, 0); // pisc
-                stream.WritePisc(0, 0, 0, 0); // pisc
-            }
-
-            switch (_unit)
-            {
-                case Character character5:
-                {
-                    var flags = new BitSet(16); // short
-
-                    if (character5.Invisible)
                     {
-                        flags.Set(5);
-                    }
+                        // calculate validFlags for 3.0.3.0
+                        var items = npc.Equipment.GetSlottedItemsList();
+                        foreach (var item in items)
+                        {
+                            if (item != null)
+                            {
+                                validFlags |= 1 << index;
+                            }
 
-                    if (character5.IdleStatus)
-                    {
-                        flags.Set(13);
-                    }
+                            index++;
+                        }
 
-                    //stream.WritePisc(0, 0); // очки чести полученные в PvP, кол-во убийств в PvP
-                    stream.Write(flags.ToByteArray()); // flags(ushort)
-                    /*
-                * 0x01 - 8bit - режим боя
-                * 0x04 - 6bit - невидимость?
-                * 0x08 - 5bit - дуэль
-                * 0x40 - 2bit - gmmode, дополнительно 7 байт
-                * 0x80 - 1bit - дополнительно tl(ushort), tl(ushort), tl(ushort), tl(ushort)
-                * 0x0100 - 16bit - дополнительно 3 байт (bc), firstHitterTeamId(uint)
-                * 0x0400 - 14bit - надпись "Отсутсвует" под именем
-                */
-                    break;
-                }
-                case Npc _:
-                    stream.Write((ushort)8192); // flags
-                    break;
+                        stream.Write((uint)validFlags); // validFlags for 3.0.3.0
+
+                        for (var i = 0; i < npc.Equipment.GetSlottedItemsList().Count; i++)
+                        {
+                            var item = npc.Equipment.GetItemBySlot(i);
+
+                            if (item is BodyPart)
+                            {
+                                stream.Write(item.TemplateId);
+                            }
+                            else if (item != null)
+                            {
+                                if (i == 27) // Cosplay
+                                {
+                                    stream.Write(item);
+                                }
+                                else
+                                {
+                                    stream.Write(item.TemplateId);
+                                    stream.Write(0L);
+                                    stream.Write((byte)0);
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                // for transfer and other
                 default:
-                    stream.Write((ushort)0); // flags
+                    stream.Write(0u); // validFlags for 3.0.3.0
                     break;
             }
 
-            if (_unit is Character character6)
+            index = 0;
+            validFlags = 0;
+            if (_unit is Character chrUnit)
             {
-                #region read_Exp_Order_6300
-                var activeAbilities = character6.Abilities.GetActiveAbilities();
-                foreach (var ability in character6.Abilities.Values)
+                foreach (var item in chrUnit.Inventory.Equipment.GetSlottedItemsList())
                 {
-                    stream.Write(ability.Exp);
-                    stream.Write(ability.Order);
-                }
+                    if (item == null) { continue; }
 
-                stream.Write((byte)activeAbilities.Count); // nActive
-                foreach (var ability in activeAbilities)
-                {
-                    stream.Write((byte)ability); // active
-                }
-                #endregion read_Exp_Order_6300
-
-                #region read_Exp_Order_6460
-                foreach (var ability in character6.Abilities.Values)
-                {
-                    stream.Write(ability.Exp);
-                    stream.Write(ability.Order);  //ability.Order
-                    stream.Write(true);           // canNotLevelUp
-                }
-
-                byte nHighActive = 0;
-                byte nActive = 0;
-                stream.Write(nHighActive); // nHighActive
-                stream.Write(nActive);    // nActive
-                while (nHighActive > 0)
-                {
-                    while (nActive > 0)
-                    {
-                        stream.Write(0); // active
-                        nActive--;
-                    }
-                    nHighActive--;
-                }
-                #endregion read_Exp_Order_6460
-
-                stream.WriteBc(0);      // objId
-                stream.Write((byte)0); // camp
-
-                #region Stp
-                stream.Write((byte)30);  // stp
-                stream.Write((byte)60);  // stp
-                stream.Write((byte)50);  // stp
-                stream.Write((byte)0);   // stp
-                stream.Write((byte)40);  // stp
-                stream.Write((byte)100); // stp
-
-                stream.Write((byte)7); // flags
-                character6.VisualOptions.Write(stream, 0x20); // cosplay_visual
-                #endregion Stp
-
-                stream.Write(1); // premium
-
-                #region Stats
-                for (var i = 0; i < 5; i++)
-                {
-                    stream.Write(0); // stats
-                }
-                stream.Write(0); // extendMaxStats
-                stream.Write(0); // applyExtendCount
-                stream.Write(0); // applyNormalCount
-                stream.Write(0); // applySpecialCount
-                #endregion Stats
-
-                stream.WritePisc(0, 0, 0, 0);
-                stream.WritePisc(0, 0);
-                stream.Write((byte)0); // accountPrivilege
-            }
-            #endregion NetUnit
-
-            #region NetBuff
-            var goodBuffs = new List<Effect>();
-            var badBuffs = new List<Effect>();
-            var hiddenBuffs = new List<Effect>();
-            // TODO: Fix the patron and auction house license buff issue
-            if (_unit is Character)
-            {
-                if (!_unit.Effects.CheckBuff(8000011)) //TODO Wrong place
-                {
-                    _unit.Effects.AddEffect(new Effect(_unit, _unit, SkillCaster.GetByType(EffectOriginType.Skill), SkillManager.Instance.GetBuffTemplate(8000011), null, System.DateTime.Now));
-                }
-
-                if (!_unit.Effects.CheckBuff(8000012)) //TODO Wrong place
-                {
-                    _unit.Effects.AddEffect(new Effect(_unit, _unit, SkillCaster.GetByType(EffectOriginType.Skill), SkillManager.Instance.GetBuffTemplate(8000012), null, System.DateTime.Now));
+                    var _tmp = (int)item.ItemFlags << index;
+                    ++index;
+                    validFlags |= _tmp;
                 }
             }
+            stream.Write(validFlags); //  ItemFlags flags for 3.0.3.0
 
-            _unit.Effects.GetAllBuffs(goodBuffs, badBuffs, hiddenBuffs);
-
-            stream.Write((byte)goodBuffs.Count); // TODO max 32
-            foreach (var effect in goodBuffs)
-            {
-                stream.Write(effect.Index);            // Id
-                stream.Write(effect.SkillCaster);
-                stream.Write(0u);                      // type(id)
-                stream.Write(effect.Caster.Level);     // sourceLevel
-                stream.Write(effect.AbLevel);          // sourceAbLevel
-                stream.WritePisc(0, effect.GetTimeElapsed(), 0, 0u); // add in 3.0.3.0
-                stream.WritePisc(effect.Template.BuffId, 1, 0, 0u);  // add in 3.0.3.0
-            }
-
-            stream.Write((byte)badBuffs.Count); // TODO max 24 for 1.2, 20 for 3.0.3.0
-            foreach (var effect in badBuffs)
-            {
-                stream.Write(effect.Index);            // Id
-                stream.Write(effect.SkillCaster);
-                stream.Write(0u);                      // type(id)
-                stream.Write(effect.Caster.Level);     // sourceLevel
-                stream.Write(effect.AbLevel);          // sourceAbLevel
-                stream.WritePisc(0, effect.GetTimeElapsed(), 0, 0u); // add in 3.0.3.0
-                stream.WritePisc(effect.Template.BuffId, 1, 0, 0u);  // add in 3.0.3.0
-            }
-
-            stream.Write((byte)hiddenBuffs.Count); // TODO max 24 for 1.2, 28 for 3.0.3.0
-            foreach (var effect in hiddenBuffs)
-            {
-                stream.Write(effect.Index);            // Id
-                stream.Write(effect.SkillCaster);
-                stream.Write(0u);                      // type(id)
-                stream.Write(effect.Caster.Level);     // sourceLevel
-                stream.Write(effect.AbLevel);          // sourceAbLevel
-                stream.WritePisc(0, effect.GetTimeElapsed(), 0, 0u); // add in 3.0.3.0
-                stream.WritePisc(effect.Template.BuffId, 1, 0, 0u);  // add in 3.0.3.0
-            }
-            #endregion NetBuff
-
-            return stream;
+            #endregion Inventory_Equip
         }
     }
 }

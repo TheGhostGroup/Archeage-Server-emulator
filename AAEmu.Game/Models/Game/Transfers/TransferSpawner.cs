@@ -63,8 +63,8 @@ namespace AAEmu.Game.Models.Game.Transfers
 
             transfer.Spawner = this;
             transfer.Position = Position.Clone();
-            transfer.GameTime = DateTime.Now;
-            transfer.SpawnTime = DateTime.Now;
+            transfer.GameTime = DateTime.UtcNow;
+            transfer.SpawnTime = DateTime.UtcNow;
             if (transfer.Position == null)
             {
                 _log.Error("Can't spawn transfer {1} from spawn {0}", Id, UnitId);

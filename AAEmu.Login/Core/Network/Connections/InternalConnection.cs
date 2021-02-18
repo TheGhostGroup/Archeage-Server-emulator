@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 
 using AAEmu.Commons.Network;
 using AAEmu.Login.Core.Network.Internal;

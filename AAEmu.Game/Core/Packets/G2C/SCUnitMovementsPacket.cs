@@ -39,6 +39,7 @@ namespace AAEmu.Game.Core.Packets.G2C
                 }
                 // ---- test Ai ----
                 stream.WriteBc(id);
+                stream.Write((byte)type.Type);
                 stream.Write(type);
             }
 

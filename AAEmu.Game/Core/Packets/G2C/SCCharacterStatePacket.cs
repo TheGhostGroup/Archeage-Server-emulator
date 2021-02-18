@@ -31,7 +31,7 @@ namespace AAEmu.Game.Core.Packets.G2C
             stream.Write(0);                         // returnDistrict -> type(id)
             stream.Write(0u);                        // resurrectionDistrict -> type(id)
 
-            for (var i = 0; i < 13; i++)
+            for (var i = 0; i < 13; i++)             // in 1.2 = 11, in 1.7 = 11, in 3.0.3.0 = 13
             {
                 stream.Write((uint)0);               // abilityExp
             }

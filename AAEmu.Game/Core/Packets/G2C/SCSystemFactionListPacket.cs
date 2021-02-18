@@ -8,7 +8,7 @@ namespace AAEmu.Game.Core.Packets.G2C
     {
         private readonly SystemFaction[] _factions;
 
-        public SCSystemFactionListPacket() : base(0x007, 5)
+        public SCSystemFactionListPacket() : base(SCOffsets.SCSystemFactionListPacket, 5)
         {
             _factions = new SystemFaction[] { };
         }

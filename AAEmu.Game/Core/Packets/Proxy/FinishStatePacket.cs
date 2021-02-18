@@ -31,7 +31,7 @@ namespace AAEmu.Game.Core.Packets.Proxy
                     Connection.SendPacket(new SCTaxItemConfigPacket(0));
                     Connection.SendPacket(new SCInGameShopConfigPacket(1, 2, 0));
                     Connection.SendPacket(new SCGameRuleConfigPacket(0, 0));
-                    Connection.SendPacket(new SCProtectFactionPacket(1, DateTime.Now));
+                    Connection.SendPacket(new SCProtectFactionPacket(1, DateTime.UtcNow));
                     Connection.SendPacket(new SCTaxItemConfig2Packet(0));
                     break;
                 case 1:

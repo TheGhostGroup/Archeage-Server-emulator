@@ -23,6 +23,7 @@ namespace AAEmu.Game.Models.Game.NPChar
         private Npc _lastSpawn;
         private int _scheduledCount;
         private int _spawnCount;
+        private static Dictionary<uint, bool> s_inUse = new Dictionary<uint, bool>();
 
         public uint Count { get; set; }
 
@@ -47,6 +48,7 @@ namespace AAEmu.Game.Models.Game.NPChar
             return list;
         }
 
+
         public override Npc Spawn(uint objId)
         {
             var npc = NpcManager.Instance.Create(objId, UnitId);
@@ -69,73 +71,72 @@ namespace AAEmu.Game.Models.Game.NPChar
                 return null;
             }
 
-            // see NpcAi
-            //if (npc.Template.AiFileId == AiFilesType.Roaming ||
-            //    npc.Template.AiFileId == AiFilesType.BigMonsterRoaming ||
-            //    npc.Template.AiFileId == AiFilesType.ArcherRoaming ||
-            //    npc.Template.AiFileId == AiFilesType.WildBoarRoaming)
-            //{
-            //    npc.Patrol = new Roaming { Interrupt = true, Loop = true, Abandon = false };
-            //    npc.IsInBattle = false;
-            //    npc.Patrol.Pause(npc);
-            //    npc.Patrol.LastPatrol = npc.Patrol;
-            //}
+            // кому разрешено бродить по пути-дороге
+            var npcMove = new List<uint>
+            {
+                11999, // Forest Keeper Arthur
+                12143, // Woodcutter Solace
+                //8172,
+                //8176,
+                //3576,
+                //3626,
+                //7660,
+                //12143,
+                //4499,
+                //3591,
+                //3576,
+                //3626,
+            };
 
             // использование путей из логов с помощью файла npc_paths.json
-            //if (
-            //    npc.TemplateId == 11999
-            //    || npc.TemplateId == 8172
-            //    || npc.TemplateId == 8176
-            //    || npc.TemplateId == 3576
-            //    || npc.TemplateId == 918
-            //    || npc.TemplateId == 3626
-            //    || npc.TemplateId == 7660
-            //    || npc.TemplateId == 12143
-            //    )
+            if (!npc.IsInPatrol)
             {
-                if (!npc.IsInPatrol)
+                var path = new SimulationNpc(npc);
+                var go = true;
+                foreach (var nm in npcMove)
                 {
-                    var path = new SimulationNpc(npc);
                     // организуем последовательность "Дорог" для следования "Гвардов" и других Npc
+                    if (npc.TemplateId != nm) { continue; }
+
                     var lnpp = new List<NpcsPathPoint>();
-                    foreach (var np in NpcsPath.NpcsPaths.Where(np => np.ObjId == npc.Spawner.ObjIdAtAAFree))
+                    foreach (var np in NpcsPath.NpcsPaths.Where(np => np.Type == nm && !s_inUse.ContainsKey(np.ObjId)))
                     {
                         lnpp.AddRange(np.Pos);
                         path.NpcsRoutes.TryAdd(npc.TemplateId, lnpp);
+                        s_inUse.Add(np.ObjId, true);
                         break;
                     }
+                    break;
+                }
 
-                    var go = true;
-                    if (path.NpcsRoutes.Count == 0)
+                if (path.NpcsRoutes.Count == 0)
+                {
+                    go = false;
+                }
+                else
+                {
+                    if (path.NpcsRoutes.Any(route => route.Value.Count < 5)) // TODO == 0
                     {
                         go = false;
                     }
-                    else
-                    {
-                        if (path.NpcsRoutes.Any(route => route.Value.Count < 2)) // TODO == 0
-                        {
-                            go = false;
-                        }
-                    }
-                    //if (path.Routes2.Count != 0)
-                    if (go)
-                    {
-                        path.LoadNpcPathFromNpcsRoutes(npc.TemplateId); // начнем с самого начала
-                        //_log.Warn("TransfersPath #" + transfer.TemplateId);
-                        //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
-                        npc.IsInPatrol = true; // so as not to run the route a second time
+                }
+                //if (path.Routes2.Count != 0)
+                if (go)
+                {
+                    path.LoadNpcPathFromNpcsRoutes(npc.TemplateId); // начнем с самого начала
+                    //_log.Warn("TransfersPath #" + transfer.TemplateId);
+                    //_log.Warn("First spawn myX=" + transfer.Position.X + " myY=" + transfer.Position.Y + " myZ=" + transfer.Position.Z + " rotZ=" + transfer.Rot.Z + " rotationZ=" + transfer.Position.RotationZ);
+                    npc.IsInPatrol = true; // so as not to run the route a second time
 
-                        //path.GoToPath(npc, true);
-                        npc.SimulationNpc = path;
-                        npc.SimulationNpc.FollowPath = true;
-                    }
-                    else
-                    {
-                        //_log.Warn("No path found for Npc: " + npc.TemplateId + " ...");
-                    }
+                    //path.GoToPath(npc, true);
+                    npc.SimulationNpc = path;
+                    npc.SimulationNpc.FollowPath = true;
+                }
+                else
+                {
+                    //_log.Warn("No path found for Npc: " + npc.TemplateId + " ...");
                 }
             }
-
 
             npc.Spawn();
             _lastSpawn = npc;
@@ -168,12 +169,12 @@ namespace AAEmu.Game.Models.Game.NPChar
             _spawned.Remove(npc);
             if (RespawnTime > 0 && (_spawnCount + _scheduledCount) < Count)
             {
-                npc.Respawn = DateTime.Now.AddSeconds(RespawnTime);
+                npc.Respawn = DateTime.UtcNow.AddSeconds(RespawnTime);
                 SpawnManager.Instance.AddRespawn(npc);
                 _scheduledCount++;
             }
 
-            npc.Despawn = DateTime.Now.AddSeconds(DespawnTime);
+            npc.Despawn = DateTime.UtcNow.AddSeconds(DespawnTime);
             SpawnManager.Instance.AddDespawn(npc);
         }
     }

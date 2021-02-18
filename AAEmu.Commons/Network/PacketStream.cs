@@ -685,26 +685,29 @@ namespace AAEmu.Commons.Network
         }
         public Quaternion ReadQuaternionSbyte()
         {
-            var x = Convert.ToSingle(ReadSByte() * 0.0078740157f);
-            var y = Convert.ToSingle(ReadSByte() * 0.0078740157f);
-            var z = Convert.ToSingle(ReadSByte() * 0.0078740157f);
+            var x = Convert.ToSingle(ReadSByte() * 0.0078740157);
+            var y = Convert.ToSingle(ReadSByte() * 0.0078740157);
+            var z = Convert.ToSingle(ReadSByte() * 0.0078740157);
 
-            x *= (float)Math.PI * 2; // переводим в радианы
-            y *= (float)Math.PI * 2;
-            z *= (float)Math.PI * 2;
+            var v7 = x * x + y * y + z * z;
+            if (v7 > 0.99993801 || v7 < 0.000062000123)
+            {
+                return new Quaternion(0, 0, 0, 1);
+            }
+            var v8 = Math.Sqrt(v7);
+            var x1 = (1.0 / v8) * x;
+            var y1 = (1.0 / v8) * y;
+            var z1 = (1.0 / v8) * z;
 
-            var temp2 = Quaternion.CreateFromYawPitchRoll(x, y, z);
-
-            var halfAngle = z * 0.5f;
+            var v9 = v8 * 6.283185307179586;
+            var halfAngle = v9 * 0.5;
+            var sinA = Math.Sin(halfAngle);
+            x = (float)(sinA * x1);
+            y = (float)(sinA * y1);
+            z = (float)(sinA * z1);
             var w = (float)Math.Cos(halfAngle);
 
-            x = (float)(Math.Sin(halfAngle) * x);
-            y = (float)(Math.Sin(halfAngle) * y);
-            z = (float)(Math.Sin(halfAngle) * z);
-
-            var temp = new Quaternion(x, y, z, w);
-
-            return temp;
+            return new Quaternion(x, y, z, w);
         }
 
         public Quaternion ReadQuaternionSingle()

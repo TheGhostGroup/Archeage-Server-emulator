@@ -4,7 +4,7 @@ namespace AAEmu.Game.Models.Game.Char
 {
     public class CharacterVisualOptions : PacketMarshaler
     {
-        private byte _voptflag;
+        private byte _flag;
         public byte[] Stp;
         public bool Helmet;
         public bool BackHoldable;
@@ -14,78 +14,41 @@ namespace AAEmu.Game.Models.Game.Char
 
         public override void Read(PacketStream stream)
         {
-            _voptflag = stream.ReadByte();
-
-            if ((_voptflag & 1) == 1) // stp
-            {
+            _flag = stream.ReadByte();
+            if ((_flag & 1) == 1)
                 Stp = stream.ReadBytes(6);
-            }
-
-            if ((_voptflag & 2) == 2)
-            {
-                Helmet = stream.ReadBoolean(); // helmet
-            }
-
-            if ((_voptflag & 4) == 4)
-            {
-                BackHoldable = stream.ReadBoolean(); // back_holdable
-            }
-
-            if ((_voptflag & 8) == 8)
-            {
-                Cosplay = stream.ReadBoolean(); // cosplay
-            }
-
-            if ((_voptflag & 0x10) == 0x10)
-            {
-                CosplayBackpack = stream.ReadBoolean(); // cosplay_backpack
-            }
-
-            if ((_voptflag & 0x20) == 0x20)
-            {
-                CosplayVisual = stream.ReadBoolean(); // cosplay_visual
-            }
+            if ((_flag & 2) == 2)
+                Helmet = stream.ReadBoolean();
+            if ((_flag & 4) == 4)
+                BackHoldable = stream.ReadBoolean();
+            if ((_flag & 8) == 8)
+                Cosplay = stream.ReadBoolean();
+            if ((_flag & 16) == 16)
+                CosplayBackpack = stream.ReadBoolean();
+            if ((_flag & 0x20) == 0x20)
+                CosplayVisual = stream.ReadBoolean(); // cosplay_visual, added in 1.7
         }
 
         public override PacketStream Write(PacketStream stream)
         {
-            stream.Write(_voptflag);  // voptflag
-
-            return Write(stream, _voptflag);
+            stream.Write(_flag);
+            return Write(stream, _flag);
         }
 
-        public PacketStream Write(PacketStream stream, byte voptflag)
+        public PacketStream Write(PacketStream stream, byte flag)
         {
-            if ((voptflag & 1) == 1)
-            {
-                stream.Write(Stp); // stp
-            }
-
-            if ((voptflag & 2) == 2)
-            {
-                stream.Write(Helmet); // helmet
-            }
-
-            if ((voptflag & 4) == 4)
-            {
-                stream.Write(BackHoldable); // back_holdable
-            }
-
-            if ((voptflag & 8) == 8)
-            {
-                stream.Write(Cosplay); // cosplay
-            }
-
-            if ((voptflag & 0x10) == 0x10)
-            {
-                stream.Write(CosplayBackpack); // cosplay_backpack
-            }
-
-            if ((voptflag & 0x20) == 0x20)
-            {
-                stream.Write(CosplayVisual); // cosplay_visual
-            }
-
+            if ((flag & 1) == 1)
+                stream.Write(Stp);
+            if ((flag & 2) == 2)
+                stream.Write(Helmet);
+            if ((flag & 4) == 4)
+                stream.Write(BackHoldable);
+            if ((flag & 8) == 8)
+                stream.Write(Cosplay);
+            if ((flag & 16) == 16)
+                stream.Write(CosplayBackpack);
+            if ((flag & 0x20) == 0x20)
+                stream.Write(CosplayVisual); // cosplay_visual, added in 1.7
             return stream;
         }
     }

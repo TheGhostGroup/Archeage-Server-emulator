@@ -7,6 +7,9 @@ namespace AAEmu.Game.Models.Game.Items.Templates
         public override Type ClassType => typeof(BodyPart);
 
         public uint ModelId { get; set; }
+        public uint ItemId { get; set; }
+        public int LeftEyeHeight { get; set; }
+        public string FaceMask { get; set; }
         public bool NpcOnly { get; set; }
         //public bool BeautyShopOnly { get; set; }
         public uint SlotTypeId { get; set; }

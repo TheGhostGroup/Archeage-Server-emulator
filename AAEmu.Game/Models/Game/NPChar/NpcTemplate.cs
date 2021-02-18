@@ -54,6 +54,8 @@ namespace AAEmu.Game.Models.Game.NPChar
     {
         public uint Id { get; set; }
         public string Name { get; set; }
+        public bool NpcOnly { get; set; }
+        public uint OwnerTypeId { get; set; }
         public int CharRaceId { get; set; }
         public NpcGradeType NpcGradeId { get; set; }
         public NpcKindType NpcKindId { get; set; }
@@ -131,9 +133,10 @@ namespace AAEmu.Game.Models.Game.NPChar
         public (uint ItemId, bool NpcOnly)[] BodyItems { get; set; }
         public List<uint> Buffs { get; set; }
         public List<BonusTemplate> Bonuses { get; set; }
+        public uint TotalCustomId { get; set; }
 
-        //+++
-        public List<NpSkills> NpSkills { get; set; }
+    //+++
+    public List<NpSkills> NpSkills { get; set; }
         public List<NpPassiveBuffs> NpPassiveBuffs { get; set; }
         public List<NpcAggroLinks> NpcAggroLinks { get; set; }
         public List<AiEvents> AiEvents { get; set; }

@@ -1231,8 +1231,8 @@ namespace AAEmu.Game.Models.Game.Units.Route
                     return;
                 }
 
-                DeltaTime = (float)(DateTime.Now - UpdateTime).TotalSeconds;
-                UpdateTime = DateTime.Now;
+                DeltaTime = (float)(DateTime.UtcNow - UpdateTime).TotalSeconds;
+                UpdateTime = DateTime.UtcNow;
                 if (DeltaTime > 1)
                 {
                     DeltaTime = 1.0f / 20.0f;

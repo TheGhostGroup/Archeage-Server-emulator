@@ -25,6 +25,7 @@ namespace AAEmu.Game.Core.Packets.C2G
         {
             var objId = stream.ReadBc();
             var myObjId = Connection.ActiveChar.ObjId;
+
             var type = (UnitMovementType)stream.ReadByte();
             var moveType = UnitMovement.GetType(type);
 

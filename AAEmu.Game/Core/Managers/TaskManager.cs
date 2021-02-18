@@ -80,7 +80,7 @@ namespace AAEmu.Game.Core.Managers
             }
             else
             {
-                triggerBuild.StartAt(DateTime.Now.Add((TimeSpan)startTime));
+                triggerBuild.StartAt(DateTime.UtcNow.Add((TimeSpan)startTime));
             }
 
             if (task.Scheduler == null)

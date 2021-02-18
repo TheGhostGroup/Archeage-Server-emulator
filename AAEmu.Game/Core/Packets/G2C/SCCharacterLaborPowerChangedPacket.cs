@@ -23,9 +23,8 @@ namespace AAEmu.Game.Core.Packets.G2C
         {
             stream.Write(_amount);
             stream.WritePisc(_action, _point);
-            //stream.Write(_action);
-            //stream.Write(_point);
             stream.Write(_step);
+
             return stream;
         }
     }

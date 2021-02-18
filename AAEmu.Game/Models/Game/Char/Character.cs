@@ -15,6 +15,7 @@ using AAEmu.Game.Models.Game.Formulas;
 using AAEmu.Game.Models.Game.Items;
 using AAEmu.Game.Models.Game.Items.Actions;
 using AAEmu.Game.Models.Game.Skills.Static;
+using AAEmu.Game.Models.Game.Team;
 using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Models.Game.World;
 using AAEmu.Game.Utils.DB;
@@ -121,7 +122,7 @@ namespace AAEmu.Game.Models.Game.Char
         public CharacterCraft Craft { get; set; }
 
         public int AccessLevel { get; set; }
-        public Point LocalPingPosition { get; set; } // added as a GM command helper
+        public PingPosition LocalPingPosition { get; set; } // added as a GM command helper
 
         public uint WeaponTypeBuffId { get; set; }
         public uint WeaponEquipSetBuffId { get; set; }
@@ -1380,7 +1381,7 @@ namespace AAEmu.Game.Models.Game.Char
             }
 
             Craft = new CharacterCraft(this);
-            LocalPingPosition = new Point();
+            LocalPingPosition = new PingPosition();
 
             using (var connection = MySQL.CreateConnection())
             {

@@ -67,7 +67,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //PathPointIndex = transfer.PathPointIndex;
             //Speed = transfer.Speed;
             //Reverse = transfer.Reverse;
-            //Time = (uint)(DateTime.Now - transfer.SpawnTime).TotalMilliseconds;
+            //Time = (uint)(DateTime.UtcNow - transfer.SpawnTime).TotalMilliseconds;
 
             // TODO
             X = transfer.Position.X;
@@ -96,7 +96,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             PathPointIndex = transfer.PathPointIndex;
             Speed = transfer.Speed;
             Reverse = transfer.Reverse;
-            Time = (uint)(DateTime.Now - transfer.SpawnTime).TotalMilliseconds;
+            Time = (uint)(DateTime.UtcNow - transfer.SpawnTime).TotalMilliseconds;
         }
 
         public override void Read(PacketStream stream)

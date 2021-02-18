@@ -80,7 +80,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 vDistance = vEndPoint - vPosition;
                 ReturnDistance = Math.Abs(MathUtil.GetDistance(vPausePosition, vPosition));
                 // скорость движения velociti за период времени DeltaTime
-                //DeltaTime = (float)(DateTime.Now - UpdateTime).TotalMilliseconds;
+                //DeltaTime = (float)(DateTime.UtcNow - UpdateTime).TotalMilliseconds;
                 DeltaTime = 0.1f; // temporarily took a constant, later it will be necessary to take the current time
                 _velocity = vMaxVelocityForwardWalk.X * DeltaTime;
                 // вектор направление на таргет (последовательность аргументов важно, чтобы смотреть на таргет)
@@ -118,7 +118,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 vDistance = vPausePosition - vPosition;
                 ReturnDistance = Math.Abs(MathUtil.GetDistance(vPausePosition, vPosition));
                 // скорость движения velociti за период времени DeltaTime
-                //DeltaTime = (float)(DateTime.Now - UpdateTime).TotalMilliseconds;
+                //DeltaTime = (float)(DateTime.UtcNow - UpdateTime).TotalMilliseconds;
                 DeltaTime = 0.1f; // temporarily took a constant, later it will be necessary to take the current time
                 _velocity = vMaxVelocityForwardWalk.X * DeltaTime;
                 // вектор направление на таргет (последовательность аргументов важно, чтобы смотреть на таргет)
@@ -182,7 +182,8 @@ namespace AAEmu.Game.Models.Game.Units.Route
             moveType.actorFlags = ActorMoveType.Walk; // 5-walk, 4-run, 3-stand still
             moveType.Stance = EStance.Idle;           // COMBAT = 0x0, IDLE = 0x1
             moveType.Alertness = AiAlertness.Idle;    // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
-            moveType.Time = Seq;                      // has to change all the time for normal motion.
+            //moveType.Time = Seq;                      // has to change all the time for normal motion.
+            moveType.Time += 50;
             npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);
 
             // If not far from the spawn point, continue adding tasks or stop moving

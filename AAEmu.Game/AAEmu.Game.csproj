@@ -29,7 +29,6 @@
     
     <ItemGroup>
         <Compile Remove="Scripts\**\**" />
-        <Compile Include="Scripts\Commands\HouseBindingMove.cs" />
         <None Include="Scripts\**\**" CopyToOutputDirectory="PreserveNewest" LinkBase="Scripts\" />
         <None Include="Data\**\**" CopyToOutputDirectory="PreserveNewest" LinkBase="Data\" />
     </ItemGroup>
@@ -57,6 +56,39 @@
 
     <ItemGroup>
       <Folder Include="Core\Helper\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Scripts\Commands\Kick.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\MoveAll.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\Nloc.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\Nwrite.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\Online.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\Pirate.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\PingPosition.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\Proc.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\TestAuctionHouse.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
+      <None Update="Scripts\Commands\TestMails.cs">
+        <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
+      </None>
     </ItemGroup>
 
 </Project>

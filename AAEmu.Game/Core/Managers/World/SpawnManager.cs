@@ -127,8 +127,7 @@ namespace AAEmu.Game.Core.Managers.World
                             }
 
                             spawner.Position.WorldId = world.Id;
-                            spawner.Position.ZoneId =
-                                WorldManager.Instance.GetZoneId(world.Id, spawner.Position.X, spawner.Position.Y);
+                            spawner.Position.ZoneId = WorldManager.Instance.GetZoneId(world.Id, spawner.Position.X, spawner.Position.Y);
                             if (Math.Abs(spawner.Position.Z) < 0.1f)
                             {
                                 spawner.Position.Z = AppConfiguration.Instance.HeightMapsEnable
@@ -143,8 +142,7 @@ namespace AAEmu.Game.Core.Managers.World
                     }
                     else
                     {
-                        throw new Exception(
-                            $"SpawnManager: Parse {FileManager.AppPath}Data/Worlds/{world.Name}/transfer_spawns.json file");
+                        throw new Exception($"SpawnManager: Parse {FileManager.AppPath}Data/Worlds/{world.Name}/transfer_spawns.json file");
                     }
                 }
 
@@ -280,7 +278,7 @@ namespace AAEmu.Game.Core.Managers.World
             var res = new HashSet<GameObject>();
             foreach (var npc in temp)
             {
-                if (npc.Respawn <= DateTime.Now)
+                if (npc.Respawn <= DateTime.UtcNow)
                 {
                     res.Add(npc);
                 }
@@ -300,7 +298,7 @@ namespace AAEmu.Game.Core.Managers.World
             var res = new HashSet<GameObject>();
             foreach (var item in temp)
             {
-                if (item.Despawn <= DateTime.Now)
+                if (item.Despawn <= DateTime.UtcNow)
                 {
                     res.Add(item);
                 }
@@ -318,7 +316,7 @@ namespace AAEmu.Game.Core.Managers.World
                 {
                     foreach (var obj in respawns)
                     {
-                        if (obj.Respawn >= DateTime.Now)
+                        if (obj.Respawn >= DateTime.UtcNow)
                         {
                             continue;
                         }
@@ -352,7 +350,7 @@ namespace AAEmu.Game.Core.Managers.World
                 {
                     foreach (var obj in despawns)
                     {
-                        if (obj.Despawn >= DateTime.Now)
+                        if (obj.Despawn >= DateTime.UtcNow)
                         {
                             continue;
                         }

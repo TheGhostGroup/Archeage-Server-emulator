@@ -127,10 +127,10 @@ namespace AAEmu.Game.Models.Game.Units
                 LastPatrol = unit.Patrol;
             }
             ++Count;
-            Seq = (uint)(DateTime.Now - GameService.StartTime).TotalMilliseconds;
+            Seq = (uint)(DateTime.UtcNow - GameService.StartTime).TotalMilliseconds;
             Running = true;
             unit.Patrol = this;
-            //UpdateTime = DateTime.Now;
+            //UpdateTime = DateTime.UtcNow;
             switch (unit)
             {
                 case Gimmick gimmick:
@@ -260,7 +260,7 @@ namespace AAEmu.Game.Models.Game.Units
             if (Loop)
             {
                 Count = 0;
-                Seq = (uint)(DateTime.Now - GameService.StartTime).TotalMilliseconds;
+                Seq = (uint)(DateTime.UtcNow - GameService.StartTime).TotalMilliseconds;
                 Repeat(unit, LoopDelay);
             }
             else
@@ -278,7 +278,7 @@ namespace AAEmu.Game.Models.Game.Units
             var SkillId = npc.Template.NpSkills[idx].SkillId;
             if (npc.CooldownsSkills.ContainsKey(SkillId))
             {
-                if (DateTime.Now >= npc.CooldownsSkills[SkillId])
+                if (DateTime.UtcNow >= npc.CooldownsSkills[SkillId])
                 {
                     // удалим время cooldownEnd для скилла
                     npc.CooldownsSkills.Remove(SkillId);
@@ -290,16 +290,16 @@ namespace AAEmu.Game.Models.Game.Units
                 getSkill = new Skill(SkillManager.Instance.GetSkillTemplate(SkillId));
                 if (npc.CooldownsSkills.ContainsKey(SkillId))
                 {
-                    if (DateTime.Now >= npc.CooldownsSkills[SkillId])
+                    if (DateTime.UtcNow >= npc.CooldownsSkills[SkillId])
                     {
                         // добавим время cooldownEnd для скилла
-                        npc.CooldownsSkills[SkillId] = DateTime.Now.AddMilliseconds(getSkill.Template.CooldownTime);
+                        npc.CooldownsSkills[SkillId] = DateTime.UtcNow.AddMilliseconds(getSkill.Template.CooldownTime);
                     }
                 }
                 else
                 {
                     // добавим время cooldownEnd для скилла
-                    npc.CooldownsSkills.Add(SkillId, DateTime.Now.AddMilliseconds(getSkill.Template.CooldownTime));
+                    npc.CooldownsSkills.Add(SkillId, DateTime.UtcNow.AddMilliseconds(getSkill.Template.CooldownTime));
                 }
             }
             // USE_SEQUENCE
@@ -319,7 +319,7 @@ namespace AAEmu.Game.Models.Game.Units
                 var buffId = npBuffs.PassiveBuffId;
                 if (npc.CooldownsBuffs.ContainsKey(buffId))
                 {
-                    if (DateTime.Now < npc.CooldownsBuffs[buffId])
+                    if (DateTime.UtcNow < npc.CooldownsBuffs[buffId])
                     {
                         // время этого баффа ещё не вышло, пробуем следующий
                         continue;
@@ -332,19 +332,19 @@ namespace AAEmu.Game.Models.Game.Units
 
                 if (buff == null) { continue; }
 
-                npc.Effects.AddEffect(new Effect(npc, npc, SkillCaster.GetByType(EffectOriginType.Passive), buff, null, DateTime.Now));
+                npc.Effects.AddEffect(new Effect(npc, npc, SkillCaster.GetByType(EffectOriginType.Passive), buff, null, DateTime.UtcNow));
                 if (npc.CooldownsBuffs.ContainsKey(buffId))
                 {
-                    if (DateTime.Now >= npc.CooldownsBuffs[buffId])
+                    if (DateTime.UtcNow >= npc.CooldownsBuffs[buffId])
                     {
                         // добавим время cooldownEnd для баффа
-                        npc.CooldownsBuffs[buffId] = DateTime.Now.AddSeconds(buff.Duration);
+                        npc.CooldownsBuffs[buffId] = DateTime.UtcNow.AddSeconds(buff.Duration);
                     }
                 }
                 else
                 {
                     // добавим время cooldownEnd для баффа
-                    npc.CooldownsBuffs.Add(buffId, DateTime.Now.AddSeconds(buff.Duration));
+                    npc.CooldownsBuffs.Add(buffId, DateTime.UtcNow.AddSeconds(buff.Duration));
                 }
                 //break;
             }

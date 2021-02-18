@@ -86,6 +86,6 @@
         Bell = 81,
         Rudder = 82,
         Sail2 = 83,
-        Mast2 = 84,
+        Mast2 = 84
     }
 }

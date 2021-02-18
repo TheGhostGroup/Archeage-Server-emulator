@@ -125,7 +125,7 @@ namespace AAEmu.Game.Core.Managers
                 Owner = owner,
                 Target = target,
                 IsParty = activeTeam?.IsParty ?? isParty,
-                Time = DateTime.Now,
+                Time = DateTime.UtcNow,
                 TeamId = activeTeam?.Id ?? 0u,
             });
             target.SendPacket(new SCAskToJoinTeamPacket(activeTeam?.Id ?? 0u, owner.Id, owner.Name, isParty));
@@ -140,7 +140,7 @@ namespace AAEmu.Game.Core.Managers
                 return;
             }
 
-            if (isReject || activeInvitation.Time.AddSeconds(60) < DateTime.Now) // 60 seconds for timeout
+            if (isReject || activeInvitation.Time.AddSeconds(60) < DateTime.UtcNow) // 60 seconds for timeout
             {
                 activeInvitation.Owner.SendPacket(new SCRejectedTeamPacket(activeInvitation.Target.Name, activeInvitation.IsParty));
                 _activeInvitations.Remove(target.Id);
@@ -183,7 +183,8 @@ namespace AAEmu.Game.Core.Managers
                 {
                     target.SendPacket(new SCJoinedTeamPacket(activeTeam));
                     target.InParty = true;
-                    target.SendPacket(new SCTeamPingPosPacket(true, activeTeam.PingPosition, 0));
+                    //target.SendPacket(new SCTeamPingPosPacket(true, activeTeam.PingPosition, 0));
+                    target.SendPacket(new SCTeamPingPosPacket(activeTeam.PingPosition));
                     activeTeam.BroadcastPacket(new SCTeamMemberJoinedPacket(activeTeam.Id, newTeamMember, party), target.Id);
                 }
             }
@@ -252,7 +253,8 @@ namespace AAEmu.Game.Core.Managers
             activeInvitation.Owner.InParty = true;
             activeInvitation.Target.SendPacket(new SCJoinedTeamPacket(newTeam));
             activeInvitation.Target.InParty = true;
-            newTeam.BroadcastPacket(new SCTeamPingPosPacket(true, activeInvitation.Owner.LocalPingPosition, 0));
+            //newTeam.BroadcastPacket(new SCTeamPingPosPacket(true, activeInvitation.Owner.LocalPingPosition, 0));
+            newTeam.BroadcastPacket(new SCTeamPingPosPacket(activeInvitation.Owner.LocalPingPosition));
             if (!newTeam.IsParty)
             {
                 ChatManager.Instance.GetRaidChat(newTeam).JoinChannel(activeInvitation.Owner);
@@ -286,7 +288,8 @@ namespace AAEmu.Game.Core.Managers
 
             character.SendPacket(new SCJoinedTeamPacket(newTeam));
             character.InParty = asParty;
-            newTeam.BroadcastPacket(new SCTeamPingPosPacket(true, character.LocalPingPosition, 0));
+            //newTeam.BroadcastPacket(new SCTeamPingPosPacket(true, character.LocalPingPosition, 0));
+            newTeam.BroadcastPacket(new SCTeamPingPosPacket(character.LocalPingPosition));
 
             if (!newTeam.IsParty)
             {
@@ -489,16 +492,25 @@ namespace AAEmu.Game.Core.Managers
             activeTeam.BroadcastPacket(new SCTeamLootingRuleChangedPacket(teamId, newRules, flags));
         }
 
-        public void SetPingPos(Character unit, uint teamId, bool hasPing, Point position, uint insId)
+        //public void SetPingPos(Character unit, uint teamId, bool hasPing, Point position, uint insId)
+        //{
+        //    var activeTeam = GetActiveTeam(teamId);
+        //    if ((activeTeam.OwnerId != unit.Id) && (activeTeam == null || !activeTeam.IsMarked(unit.Id)))
+        //    {
+        //        return;
+        //    }
+
+        //    activeTeam.PingPosition = position;
+        //    activeTeam.BroadcastPacket(new SCTeamPingPosPacket(hasPing, position, insId));
+        //}
+
+        public void SetPingPos(Character unit, uint teamId, PingPosition pingPosition)
         {
             var activeTeam = GetActiveTeam(teamId);
-            if ((activeTeam.OwnerId != unit.Id) && (activeTeam == null || !activeTeam.IsMarked(unit.Id)))
-            {
-                return;
-            }
+            if ((activeTeam.OwnerId != unit.Id) && (activeTeam == null || !activeTeam.IsMarked(unit.Id))) return;
 
-            activeTeam.PingPosition = position;
-            activeTeam.BroadcastPacket(new SCTeamPingPosPacket(hasPing, position, insId));
+            activeTeam.PingPosition = pingPosition;
+            activeTeam.BroadcastPacket(new SCTeamPingPosPacket(pingPosition));
         }
 
         public void SetOffline(Character unit)

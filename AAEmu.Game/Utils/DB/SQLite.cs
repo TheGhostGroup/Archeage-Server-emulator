@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 using AAEmu.Commons.IO;
 
@@ -10,7 +10,7 @@ namespace AAEmu.Game.Utils.DB
 {
     public static class SQLite
     {
-        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private static Logger _log = LogManager.GetCurrentClassLogger();
 
         public static SqliteConnection CreateConnection()
         {

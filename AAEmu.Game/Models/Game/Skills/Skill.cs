@@ -373,7 +373,7 @@ namespace AAEmu.Game.Models.Game.Skills
                     {
                         step.Flag = 6;
                     }
-                    template.Apply(caster, casterCaster, target, targetCaster, new CastPlot(step.Event.PlotId, TlId, step.Event.Id, Template.Id), this, skillObject, DateTime.Now);
+                    template.Apply(caster, casterCaster, target, targetCaster, new CastPlot(step.Event.PlotId, TlId, step.Event.Id, Template.Id), this, skillObject, DateTime.UtcNow);
                 }
             }
 
@@ -454,7 +454,7 @@ namespace AAEmu.Game.Models.Game.Skills
                 if (Template.ChannelingBuffId != 0)
                 {
                     var buff = SkillManager.Instance.GetBuffTemplate(Template.ChannelingBuffId);
-                    buff.Apply(caster, casterCaster, target, targetCaster, new CastSkill(Template.Id, TlId), this, skillObject, DateTime.Now);
+                    buff.Apply(caster, casterCaster, target, targetCaster, new CastSkill(Template.Id, TlId), this, skillObject, DateTime.UtcNow);
                 }
 
                 caster.SkillTask = new ChannelingTask(this, caster, casterCaster, target, targetCaster, skillObject);
@@ -486,7 +486,7 @@ namespace AAEmu.Game.Models.Game.Skills
             if (Template.ToggleBuffId != 0)
             {
                 var buff = SkillManager.Instance.GetBuffTemplate(Template.ToggleBuffId);
-                buff.Apply(caster, casterCaster, target, targetCaster, new CastSkill(Template.Id, TlId), this, skillObject, DateTime.Now);
+                buff.Apply(caster, casterCaster, target, targetCaster, new CastSkill(Template.Id, TlId), this, skillObject, DateTime.UtcNow);
             }
 
             if (Template.EffectDelay > 0)
@@ -643,7 +643,7 @@ namespace AAEmu.Game.Models.Game.Skills
                         }
                     }
 
-                    //effect.Template?.Apply(caster, casterType, target, targetType, new CastSkill(Template.Id, TlId), this, skillObject, DateTime.Now);
+                    //effect.Template?.Apply(caster, casterType, target, targetType, new CastSkill(Template.Id, TlId), this, skillObject, DateTime.UtcNow);
                     if (effect.Template != null)
                     {
                         var effectToApply = new EffectToApply(effect.Template, caster, casterCaster, target, targetCaster, new CastSkill(Template.Id, TlId), this, skillObject);

@@ -43,7 +43,7 @@ namespace AAEmu.Game.Models.Game.DoodadObj
         public DateTime FreshnessTime { get; set; }
         public bool IsRebuy { get; set; }
 
-        public uint TimeLeft => GrowthTime > DateTime.Now ? (uint)(GrowthTime - DateTime.Now).TotalMilliseconds : 0; // TODO formula time of phase
+        public uint TimeLeft => GrowthTime > DateTime.UtcNow ? (uint)(GrowthTime - DateTime.UtcNow).TotalMilliseconds : 0; // TODO formula time of phase
         public bool cancelPhasing { get; set; }
 
         public Doodad()
@@ -99,14 +99,11 @@ namespace AAEmu.Game.Models.Game.DoodadObj
         {
             stream.WriteBc(ObjId); //The object # in the list
 
-            var hasLootItrem = 0; //false;
+            var hasLootItem = 0; //false;
             // TemplateId - The template id needed for that object, the client then uses the template configurations, not the server
             // FuncGroupId - doodad_func_group_id
             // QuestGlow - When this is higher than 0 it shows a blue orb over the doodad
-            stream.WritePisc(TemplateId, FuncGroupId, hasLootItrem, QuestGlow);
-            //stream.WritePisc(TemplateId, FuncGroupId, 0, 0);
-
-
+            stream.WritePisc(TemplateId, FuncGroupId, hasLootItem, QuestGlow);
             stream.Write(Flag);
             stream.WriteBc(OwnerObjId);  //The creator of the object
             stream.WriteBc(ParentObjId); //Things like boats or cars,

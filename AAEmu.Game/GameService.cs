@@ -25,7 +25,7 @@ namespace AAEmu.Game
         public static DateTime StartTime { get; set; }
         public static DateTime EndTime { get; set; }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             _log.Info("Starting daemon: AAEmu.Game");
 
@@ -61,6 +61,10 @@ namespace AAEmu.Game
 
             ZoneManager.Instance.Load();
             WorldManager.Instance.Load();
+            var heightmapTask = Task.Run(() =>
+            {
+                WorldManager.Instance.LoadHeightmaps();
+            });
             QuestManager.Instance.Load();
 
             ShipyardManager.Instance.Load();
@@ -97,6 +101,8 @@ namespace AAEmu.Game
             TransferManager.Instance.Load();
             GimmickManager.Instance.Load();
 
+            await heightmapTask;
+
             SpawnManager.Instance.Load();
             SpawnManager.Instance.SpawnAll();
             HousingManager.Instance.SpawnAll();
@@ -119,13 +125,10 @@ namespace AAEmu.Game
             BoatPhysicsManager.Instance.Initialize();
             SlaveManager.Instance.Initialize();
             #endregion
+            StartTime = DateTime.UtcNow;
             stopWatch.Stop();
 
             _log.Info("Server started! Took {0}", stopWatch.Elapsed);
-
-            StartTime = DateTime.Now;
-
-            return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

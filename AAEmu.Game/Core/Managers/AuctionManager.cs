@@ -316,7 +316,7 @@ namespace AAEmu.Game.Core.Managers
 
             foreach (var item in _auctionItems)
             {
-                if (DateTime.Now > item.EndTime)
+                if (DateTime.UtcNow > item.EndTime)
                 {
                     RemoveAuctionItem(item);
                 }
@@ -368,13 +368,13 @@ namespace AAEmu.Game.Core.Managers
                 Flags = newItem.ItemFlags,
                 StackSize = (uint)newItem.Count,
                 DetailType = 0,
-                CreationTime = DateTime.Now,
-                EndTime = DateTime.Now.AddSeconds(timeLeft),
+                CreationTime = DateTime.UtcNow,
+                EndTime = DateTime.UtcNow.AddSeconds(timeLeft),
                 LifespanMins = 0,
                 Type1 = 0,
                 WorldId = 0,
-                UnpackDateTIme = DateTime.Now,
-                UnsecureDateTime = DateTime.Now,
+                UnpackDateTIme = DateTime.UtcNow,
+                UnsecureDateTime = DateTime.UtcNow,
                 WorldId2 = 0,
                 ClientId = player.Id,
                 ClientName = player.Name,

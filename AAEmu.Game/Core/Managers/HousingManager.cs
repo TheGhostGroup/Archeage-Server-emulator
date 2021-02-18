@@ -363,7 +363,7 @@ namespace AAEmu.Game.Core.Managers
                     0,
                     baseTax,
                     depositTax, // Amount Due
-                    DateTime.Now.AddDays(30),
+                    DateTime.UtcNow.AddDays(30),
                     true,
                     -1,
                     false
@@ -399,7 +399,7 @@ namespace AAEmu.Game.Core.Managers
             house.CoOwnerId = connection.ActiveChar.Id;
             house.AccountId = connection.AccountId;
             house.Permission = HousingPermission.Public;
-            house.PlaceDate = DateTime.Now;
+            house.PlaceDate = DateTime.UtcNow;
             _houses.Add(house.Id, house);
             _housesTl.Add(house.TlId, house);
 

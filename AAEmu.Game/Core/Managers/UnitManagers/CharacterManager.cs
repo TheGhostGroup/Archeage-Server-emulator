@@ -228,6 +228,8 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                                             template.Items.UndershirtsGrade = reader2.GetByte("undershirt_grade_id");
                                             template.Items.Underpants = reader2.GetUInt32("underpants_id");
                                             template.Items.UnderpantsGrade = reader2.GetByte("underpants_grade_id");
+                                            template.Items.Stabilizer = reader2.GetUInt32("stabilizer_id");
+                                            template.Items.StabilizerGrade = reader2.GetByte("stabilizer_grade_id");
                                         }
                                     }
                                 }
@@ -444,6 +446,7 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                     Gender = (Gender)gender,
                     Position = template.Position.Clone()
                 };
+                character.AccessLevel = 100; // TODO for develop
                 character.Position.ZoneId = template.ZoneId;
                 character.Level = level;
                 character.Faction = FactionManager.Instance.GetFaction(template.FactionId);
@@ -487,13 +490,13 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                 SetEquipItemTemplate(character.Inventory, items.Items.Ranged, EquipmentItemSlot.Ranged, items.Items.RangedGrade);
                 SetEquipItemTemplate(character.Inventory, items.Items.Musical, EquipmentItemSlot.Musical, items.Items.MusicalGrade);
                 SetEquipItemTemplate(character.Inventory, items.Items.Cosplay, EquipmentItemSlot.Cosplay, items.Items.CosplayGrade);
+                SetEquipItemTemplate(character.Inventory, items.Items.Stabilizer, EquipmentItemSlot.Stabilizer, items.Items.StabilizerGrade);
                 for (var i = 0; i < 7; i++)
                 {
                     //if (body[i] == 0 && template.Items[i] > 0)
                     //{
                     //    body[i] = template.Items[i]; // somehow_special
                     //}
-
                     SetEquipItemTemplate(character.Inventory, body[i], (EquipmentItemSlot)(i + 19), 0);
                 }
 

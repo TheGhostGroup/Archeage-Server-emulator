@@ -199,7 +199,7 @@ namespace AAEmu.Game.Models.Game.Units
                 effect.Duration = effect.Template.GetDuration();
                 if (effect.Duration > 0 && effect.StartTime == DateTime.MinValue)
                 {
-                    effect.StartTime = DateTime.Now;
+                    effect.StartTime = DateTime.UtcNow;
                     effect.EndTime = effect.StartTime.AddMilliseconds(effect.Duration);
                 }
 

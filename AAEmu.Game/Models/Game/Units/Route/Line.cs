@@ -71,7 +71,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
 
             vDistance = vEndPoint - vPosition;
             // скорость движения velociti за период времени DeltaTime
-            //DeltaTime = (float)(DateTime.Now - UpdateTime).TotalMilliseconds;
+            //DeltaTime = (float)(DateTime.UtcNow - UpdateTime).TotalMilliseconds;
             DeltaTime = 0.1f; // temporarily took a constant, later it will be necessary to take the current time
             velocity = vMaxVelocityForwardWalk.X * DeltaTime;
             // вектор направление на таргет (последовательность аргументов важно, чтобы смотреть на таргет)

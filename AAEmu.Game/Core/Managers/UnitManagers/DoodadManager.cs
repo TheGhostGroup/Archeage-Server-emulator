@@ -95,8 +95,6 @@ namespace AAEmu.Game.Core.Managers.UnitManagers
                                 RestrictZoneId = reader.IsDBNull("restrict_zone_id") ? 0 : reader.GetUInt32("restrict_zone_id")
                             };
 
-
-
                             _templates.Add(template.Id, template);
                         }
                     }

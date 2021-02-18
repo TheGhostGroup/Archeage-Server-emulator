@@ -48,7 +48,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             AngVel = slave.AngVel;
 
             ZoneId = (ushort)slave.Position.ZoneId;
-            Time = (uint)(DateTime.Now - slave.SpawnTime).TotalMilliseconds;
+            Time = (uint)(DateTime.UtcNow - slave.SpawnTime).TotalMilliseconds;
             Stuck = slave.Stuck;
             Steering = slave.Steering;
         }

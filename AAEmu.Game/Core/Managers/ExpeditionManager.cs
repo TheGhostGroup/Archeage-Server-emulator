@@ -41,7 +41,7 @@ namespace AAEmu.Game.Core.Managers
                 OwnerName = owner.Name,
                 UnitOwnerType = 0,
                 PoliticalSystem = 1,
-                Created = DateTime.Now,
+                Created = DateTime.UtcNow,
                 AggroLink = false,
                 DiplomacyTarget = false,
                 Members = new List<ExpeditionMember>()

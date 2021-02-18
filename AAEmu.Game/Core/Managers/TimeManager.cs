@@ -45,7 +45,7 @@ namespace AAEmu.Game.Core.Managers
 
         public void Start()
         {
-            var date = DateTime.Now;
+            var date = DateTime.UtcNow;
             _time = date.Hour * 60 * 60 + date.Minute * 60;
             _work = true;
             new Thread(Tick) { Name = "TimeManagerThread" }.Start();

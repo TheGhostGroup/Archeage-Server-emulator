@@ -196,7 +196,7 @@ namespace AAEmu.Game.Core.Network.Connections
                 }
 
                 // TODO: Delete leadership, set properties to public, remove from party/guild/family
-                SendPacket(new SCDeleteCharacterResponsePacket(character.Id, 2, character.DeleteRequestTime,
+                SendPacket(new SCCharacterDeleteResponsePacket(character.Id, 2, character.DeleteRequestTime,
                     character.DeleteTime));
 
                 using (var connection = MySQL.CreateConnection())
@@ -215,7 +215,7 @@ namespace AAEmu.Game.Core.Network.Connections
             }
             else
             {
-                SendPacket(new SCDeleteCharacterResponsePacket(characterId, 0));
+                SendPacket(new SCCharacterDeleteResponsePacket(characterId, 0));
             }
         }
 
@@ -226,7 +226,7 @@ namespace AAEmu.Game.Core.Network.Connections
                 var character = Characters[characterId];
                 character.DeleteRequestTime = DateTime.MinValue;
                 character.DeleteTime = DateTime.MinValue;
-                SendPacket(new SCCancelCharacterDeleteResponsePacket(character.Id, 3));
+                SendPacket(new SCCharacterDeleteCanceledPacket(character.Id, 3));
 
                 using (var connection = MySQL.CreateConnection())
                 {
@@ -244,7 +244,7 @@ namespace AAEmu.Game.Core.Network.Connections
             }
             else
             {
-                SendPacket(new SCCancelCharacterDeleteResponsePacket(characterId, 4));
+                SendPacket(new SCCharacterDeleteCanceledPacket(characterId, 4));
             }
         }
         /// <summary>

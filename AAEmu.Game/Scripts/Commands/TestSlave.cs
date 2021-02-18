@@ -47,7 +47,7 @@ namespace AAEmu.Game.Scripts.Commands
             slave.Hp = slave.MaxHp;
             slave.Mp = slave.MaxMp;
             slave.ModelParams = new UnitCustomModelParams();
-            slave.Effects.AddEffect(new Effect(slave, slave, SkillCaster.GetByType(EffectOriginType.Skill), SkillManager.Instance.GetBuffTemplate(545), null, DateTime.Now));
+            slave.Effects.AddEffect(new Effect(slave, slave, SkillCaster.GetByType(EffectOriginType.Skill), SkillManager.Instance.GetBuffTemplate(545), null, DateTime.UtcNow));
             slave.Spawn();
         }
     }

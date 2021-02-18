@@ -581,7 +581,7 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 moveType.Alertness = pp.ActorAlertness; // IDLE = 0x0, ALERT = 0x1, COMBAT = 0x2
                 moveType.actorFlags = pp.ActorFlags;    // 5-walk, 4-run, 3-stand still
 
-                moveType.Time = Seq;                    // has to change all the time for normal motion.
+                moveType.Time += 50;                    // has to change all the time for normal motion.
 
                 // moving to the point #
                 npc.BroadcastPacket(new SCOneUnitMovementPacket(npc.ObjId, moveType), true);

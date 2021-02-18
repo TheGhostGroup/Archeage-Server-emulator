@@ -16,13 +16,13 @@ namespace AAEmu.Game.Core.Packets.G2C
                 stream.Write((byte)0);
             }
             /*RACE_CONGESTION = {
-   LOW = 0,
-   MIDDLE = 1,
-   HIGH = 2,
-   FULL = 3,
-   PRE_SELECT_RACE_FULL = 9,
-   CHECK = 10
-}*/
+            LOW = 0,
+   			MIDDLE = 1,
+   			HIGH = 2,
+   			FULL = 3,
+   			PRE_SELECT_RACE_FULL = 9,
+   			CHECK = 10
+			}*/
             return stream;
         }
     }
