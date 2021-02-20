@@ -650,7 +650,7 @@
         public const ushort SCUnknownPacket_0x0D4 = 0x0d4;
         public const ushort SCUnknownPacket_0x037 = 0x037;
         public const ushort SCUnknownPacket_0x1C2 = 0x1c2;
-        public const ushort SCUnknownPacket_0x182 = 0x182;
+        public const ushort SCTransferTelescopeUnitsPacket = 0x182;
         public const ushort SCBossTelescopeUnitsPacket = 0x68;
         public const ushort SCSchoolOfFishDoodadsPacket = 0x268;
         public const ushort SCExpeditionSummonSuggestPacket = 0x5c;

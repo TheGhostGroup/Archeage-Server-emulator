@@ -11,7 +11,7 @@ namespace AAEmu.Game.Models.Game.Transfers
         public bool Cyclic { get; set; }
         public float PathSmoothing { get; set; }
         public List<TransferBindings> TransferBindings { get; }             // selection by owner_id
-        public List<TransferPaths> TransferPaths { get; }                   // selection by owner_id
+        public List<TransferPaths> TransferPaths { get; }                   // selection by owner_id, здесь список всех участков дорог
         public List<TransferRoads> TransferRoads { get; }                   // здесь список участков для конкретной модели транспорта
         public List<TransferBindingDoodads> TransferBindingDoodads { get; } // selection by owner_id
         //                  v--TemplateId

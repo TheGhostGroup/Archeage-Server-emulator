@@ -40,6 +40,11 @@ namespace AAEmu.Game.Core.Managers
             return _templates.ContainsKey(templateId);
         }
 
+        public Transfer[] GetTransfers()
+        {
+            return _activeTransfers.Values.ToArray();
+        }
+
         public List<Point> GetTransferPath(string namePath, uint zoneId, byte worldId = 1)
         {
             foreach (var (wid, transfers) in _transferRoads)

@@ -8,7 +8,7 @@ namespace AAEmu.Game.Models.Game.Transfers
     {
         public string Name { get; set; }
         public uint ZoneId { get; set; }
-        public int Type { get; set; } // TemplateId -> owner_id != 0, указывает на участок начала пути
+        public int Type { get; set; } // TemplateId -> owner_id != 0, указывает на участок начала пути и на TemplateId транспорта для этого пути
         public int CellX { get; set; }
         public int CellY { get; set; }
         public List<Point> Pos { get; set; }
