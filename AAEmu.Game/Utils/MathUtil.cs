@@ -10,12 +10,17 @@ namespace AAEmu.Game.Utils
     {
         private const double Pi = 3.14159;
         private const double Pi2 = 3.14159 * 2;
-        private const double Pi12 = 3.14159 * 0.5;
+        private const double Pi05 = 3.14159 * 0.5;
 
         // Return degree value of object 2 to the horizontal line with object 1 being the origin
         public static double CalculateAngleFrom(GameObject obj1, GameObject obj2)
         {
             return CalculateAngleFrom(obj1.Position.X, obj1.Position.Y, obj2.Position.X, obj2.Position.Y);
+        }
+
+        public static double CalculateAngleFrom(Point p1, Point p2)
+        {
+            return CalculateAngleFrom(p1.X, p1.Y, p2.X, p2.Y);
         }
 
         // Return degree value of object 2 to the horizontal line with object 1 being the origin
@@ -94,7 +99,7 @@ namespace AAEmu.Game.Utils
             {
                 radian = Pi2 + radian;
             }
-            radian -= Pi12;
+            radian -= Pi05;
             if (radian > Pi)
             {
                 radian -= Pi2;
@@ -268,6 +273,25 @@ namespace AAEmu.Game.Utils
             return new Vector3(rotX, rotY, rotZ);
         }
 
+        public static (float, float, float) GetYawPitchRollFromQuat(Quaternion quat)
+        {
+            var roll = (float)Math.Atan2(2 * (quat.W * quat.X + quat.Y * quat.Z),
+                1 - 2 * (quat.X * quat.X + quat.Y * quat.Y));
+            var sinp = 2 * (quat.W * quat.Y - quat.Z * quat.X);
+            float pitch;
+            if (Math.Abs(sinp) >= 1)
+            {
+                pitch = (float)Math.CopySign(Math.PI / 2, sinp);
+            }
+            else
+            {
+                pitch = (float)Math.Asin(sinp);
+            }
+
+            var yaw = (float)Math.Atan2(2 * (quat.W * quat.Z + quat.X * quat.Y), 1 - 2 * (quat.Y * quat.Y + quat.Z * quat.Z));
+
+            return (roll, pitch, yaw);
+        }
         public static (float, float, float) GetSlaveRotationInDegrees(short rotX, short rotY, short rotZ)
         {
             var quatX = rotX * 0.00003052f;
@@ -289,7 +313,7 @@ namespace AAEmu.Game.Utils
             var pitch = 0.0f;
             if (Math.Abs(sinp) >= 1)
             {
-                pitch = (float)CopySign(Math.PI / 2, sinp);
+                pitch = (float)Math.CopySign(Math.PI / 2, sinp);
             }
             else
             {
@@ -317,7 +341,7 @@ namespace AAEmu.Game.Utils
             var pitch = 0.0f;
             if (Math.Abs(sinp) >= 1)
             {
-                pitch = (float)CopySign(Math.PI / 2, sinp);
+                pitch = (float)Math.CopySign(Math.PI / 2, sinp);
             }
             else
             {
@@ -340,27 +364,51 @@ namespace AAEmu.Game.Utils
                 ((short)(reverseQuat.X * 32767), (short)(reverseQuat.Z * 32767), (short)(reverseQuat.Y * 32767));
         }
 
-        // взял из Math (.Net 3.1)
-        public static double CopySign(double x, double y)
+        public static (float, float)[] GetCuboidVertices(float length, float width, float x, float y, sbyte rotZ)
         {
-            return SoftwareFallback(x, y);
+            var radFront = ConvertDirectionToRadian(rotZ);
+            var radRight = ConvertDirectionToRadian(rotZ) - (Math.PI / 2);
 
-            double SoftwareFallback(double xx, double yy)
-            {
-                const long signMask = 1L << 63;
+            var cosFront = (float)Math.Cos(radFront);
+            var sinFront = (float)Math.Sin(radFront);
+            var cosRight = (float)Math.Cos(radRight);
+            var sinRight = (float)Math.Sin(radRight);
 
-                // This method is required to work for all inputs,
-                // including NaN, so we operate on the raw bits.
-                var xbits = BitConverter.DoubleToInt64Bits(xx);
-                var ybits = BitConverter.DoubleToInt64Bits(yy);
+            var result = new (float, float)[4];
 
-                // Remove the sign from x, and remove everything but the sign from y
-                xbits &= ~signMask;
-                ybits &= signMask;
+            var p1 = ((width * cosFront) + x, (width * sinFront) + y);
+            p1 = ((length * cosRight) + p1.Item1, (length * sinRight) + p1.Item2);
+            result[0] = p1;
 
-                // Simply OR them to get the correct sign
-                return BitConverter.Int64BitsToDouble(xbits | ybits);
-            }
+            var p2 = ((width * cosFront) + x, (width * sinFront) + y);
+            p2 = ((-length * cosRight) + p2.Item1, (-length * sinRight) + p2.Item2);
+            result[1] = p2;
+
+            var p3 = ((-width * cosFront) + x, (-width * sinFront) + y);
+            p3 = ((-length * cosRight) + p3.Item1, (-length * sinRight) + p3.Item2);
+            result[2] = p3;
+
+            var p4 = ((-width * cosFront) + x, (-width * sinFront) + y);
+            p4 = ((length * cosRight) + p4.Item1, (length * sinRight) + p4.Item2);
+            result[3] = p4;
+
+            return result;
+        }
+
+        private static float Sign((float, float) p1, (float, float) p2, (float, float) p3)
+        {
+            return (p1.Item1 - p3.Item1) * (p2.Item2 - p3.Item2) - (p2.Item1 - p3.Item1) * (p1.Item2 - p3.Item2);
+        }
+
+        public static bool PointInTriangle((float, float) point, (float, float) v1, (float, float) v2, (float, float) v3)
+        {
+            bool b1, b2, b3;
+
+            b1 = Sign(point, v1, v2) < 0.0f;
+            b2 = Sign(point, v2, v3) < 0.0f;
+            b3 = Sign(point, v3, v1) < 0.0f;
+
+            return ((b1 == b2) && (b2 == b3));
         }
     }
 }

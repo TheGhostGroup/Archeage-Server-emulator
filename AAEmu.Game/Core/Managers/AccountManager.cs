@@ -1,5 +1,6 @@
-﻿using System.Collections.Concurrent;
-
+﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
 using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Network.Connections;
 
@@ -16,6 +17,16 @@ namespace AAEmu.Game.Core.Managers
         public AccountManager()
         {
             _accounts = new ConcurrentDictionary<ulong, GameConnection>();
+            TickManager.Instance.OnTick.Subscribe(RemoveDeadConnections, TimeSpan.FromSeconds(30));
+        }
+        public void RemoveDeadConnections(TimeSpan delta)
+        {
+            foreach (var gameConnection in _accounts.Values.ToList().Where(gameConnection => gameConnection.LastPing + TimeSpan.FromSeconds(30) < DateTime.UtcNow))
+            {
+                if (gameConnection.ActiveChar != null)
+                    _log.Trace("Disconnecting {0} due to no network activity", gameConnection.ActiveChar.Name);
+                gameConnection.Shutdown();
+            }
         }
 
         public void Add(GameConnection connection)

@@ -194,7 +194,7 @@ namespace AAEmu.Game.Models.Game.Transfers
                     if (!transfer.IsInPatrol)
                     {
                         var path = new Simulation(transfer, transfer.Template.PathSmoothing);
-                        // организуем последовательность "Дорог" для следования "Транспорта"
+                        // организуем последовательность участков дороги для следования "Транспорта"
                         for (var i = 0; i < transfer.Template.TransferRoads.Count; i++)
                         {
                             path.Routes.TryAdd(i, transfer.Template.TransferRoads[i].Pos);
@@ -210,13 +210,11 @@ namespace AAEmu.Game.Models.Game.Transfers
                             transfer.Steering = 0;
                             transfer.PathPointIndex = 0;
 
-                            // попробуем заспавнить в последней точке пути (она как раз напротив стоянки)
-                            // попробуем смотреть на следующую точку
+                            // попробуем заспавнить в последней точке пути (она как раз напротив стоянки) и попробуем смотреть на следующую точку
                             //var point = path.Routes[path.Routes.Count - 1][path.Routes[path.Routes.Count - 1].Count - 1];
                             //var point = path.Routes[0][0];
 
-                            // попробуем заспавнить в первой точке пути
-                            // попробуем смотреть на следующую точку
+                            // попробуем заспавнить в первой точке пути и попробуем смотреть на следующую точку
                             var point = path.Routes[0][0];
                             var point2 = path.Routes[0][1];
 
@@ -249,7 +247,7 @@ namespace AAEmu.Game.Models.Game.Transfers
                         }
                         else
                         {
-                            _log.Warn("PathName: " + transfer.Template.TransferPaths[0].PathName + " not found!");
+                            _log.Warn("PathName: " + transfer.Template.TransferAllPaths[0].PathName + " not found!");
                         }
                     }
 

@@ -99,8 +99,9 @@ namespace AAEmu.Game.Models.Game.Units.Movements
 
             Stance = (EStance)stream.ReadSByte();
             Alertness = (AiAlertness)stream.ReadSByte();
-            actorFlags = (ActorMoveType)stream.ReadUInt16(); // short in 3.0.3.0, sbyte in 1.2
-            if (((ushort)actorFlags & 0x80) == 0x80) // TODO если падает и ударяется об землю, видимо Значение нужно вычитать от текущего HP
+            actorFlags = (ActorMoveType)stream.ReadUInt16(); // ushort in 3.0.3.0, sbyte in 1.2
+            //if ((short)actorFlags  < 0) // TODO если падает и ударяется об землю, видимо Значение нужно вычитать от текущего HP
+            if (((ushort)actorFlags & 0x8000) == 0x8000)
             {
                 FallVel = stream.ReadUInt16(); // actor.fallVel
             }
@@ -161,7 +162,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             stream.Write((sbyte)Stance);
             stream.Write((sbyte)Alertness);
             stream.Write((ushort)actorFlags);
-            if (((ushort)actorFlags & 0x80) == 0x80)
+            if (((ushort)actorFlags & 0x8000) == 0x8000)
             {
                 stream.Write(FallVel);
             }

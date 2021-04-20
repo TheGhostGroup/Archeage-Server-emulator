@@ -13,6 +13,12 @@ File Encoding         : 65001
 Date: 2020-10-30 14:42:34
 */
 
+CREATE DATABASE IF NOT EXISTS `aaemu_game_3030`;
+USE aaemu_game_3030;
+-- --------------------------------------------------------------------------
+-- Make sure to remove the above two lines if you want use your own DB names
+-- --------------------------------------------------------------------------
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------

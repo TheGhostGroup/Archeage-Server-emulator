@@ -278,7 +278,8 @@
         public const ushort CSChangeDoodadDataPacket = 0x0e8;
         public const ushort CSBuyItemsPacket = 0x14d;
         public const ushort CSUnknown0x59Packet = 0x059;
-        public const ushort CSUnknown0x1a5Packet = 0x1a5;
+        //public const ushort CSUnknown0x1a5Packet = 0x1a5;
+        public const ushort CSChangeDoodadPhasePacket = 0x1a5;
         public const ushort CSUnknown0x30Packet = 0x030;
         public const ushort CSUnknown0x5dPacket = 0x05d;
         public const ushort CSInteractNPCPacket = 0x066;
@@ -385,7 +386,6 @@
         public const ushort CSBuyPriestBuffPacket = 0x0ffff;
         public const ushort CSBuySpecialtyItemPacket = 0x0ffff;
         public const ushort CSCancelAuctionPacket = 0x0ffff;
-        public const ushort CSChangeDoodadPhasePacket = 0x0ffff;
         public const ushort CSChangeExpeditionMemberRolePacket = 0x0ffff;
         public const ushort CSChangeExpeditionOwnerPacket = 0x0ffff;
         public const ushort CSChangeExpeditionRolePolicyPacket = 0x0ffff;

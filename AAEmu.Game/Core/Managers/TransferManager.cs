@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Xml;
 
 using AAEmu.Commons.IO;
@@ -16,9 +17,11 @@ using AAEmu.Game.Models.Game.DoodadObj;
 using AAEmu.Game.Models.Game.Faction;
 using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Static;
+using AAEmu.Game.Models.Game.Slaves;
 using AAEmu.Game.Models.Game.Transfers;
 using AAEmu.Game.Models.Game.Transfers.Paths;
 using AAEmu.Game.Models.Game.Units;
+using AAEmu.Game.Models.Game.Units.Movements;
 using AAEmu.Game.Models.Game.World;
 using AAEmu.Game.Utils;
 using AAEmu.Game.Utils.DB;
@@ -30,10 +33,71 @@ namespace AAEmu.Game.Core.Managers
     public class TransferManager : Singleton<TransferManager>
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+        public Thread thread { get; set; }
 
         private Dictionary<uint, TransferTemplate> _templates;
         private Dictionary<uint, Transfer> _activeTransfers;
         private Dictionary<byte, Dictionary<uint, List<TransferRoads>>> _transferRoads;
+
+        public void Initialize()
+        {
+            thread = new Thread(TransferThread);
+            thread.Start();
+        }
+        
+        private void TransferThread()
+        {
+            while (Thread.CurrentThread.IsAlive)
+            {
+                Thread.Sleep(50);
+                var activeTransfers = Instance.GetActiveTransfers();
+                foreach (var transfer in activeTransfers)
+                {
+                    TransfersTick(transfer);
+                }
+            }
+        }
+
+        private void TransfersTick(Transfer transfer)
+        {
+            var moveType = (TransferData)UnitMovement.GetType(UnitMovementType.Transfer);
+            moveType.UseTransferBase(transfer);
+            var velAccel = 2.0f; //per s
+            var maxVelForward = 9.5f; //per s
+            var maxVelBackward = -5.0f;
+
+            transfer.Speed += (transfer.Throttle * 0.00787401575f) * (velAccel / 20f);
+            transfer.Speed = Math.Min(transfer.Speed, maxVelForward);
+            transfer.Speed = Math.Max(transfer.Speed, maxVelBackward);
+
+            transfer.RotSpeed += (transfer.Steering * 0.00787401575f) * (velAccel / 20f);
+            transfer.RotSpeed = Math.Min(transfer.RotSpeed, 1);
+            transfer.RotSpeed = Math.Max(transfer.RotSpeed, -1);
+
+            if (transfer.Steering == 0)
+                transfer.RotSpeed -= (transfer.RotSpeed / 20);
+            if (transfer.Throttle == 0) // this needs to be fixed : ships need to apply a static drag, and slowly ship away at the speed instead of doing it like this
+                transfer.Speed -= (transfer.Speed / 45);
+
+            //var slaveRotRad = ypr.Item1 + (90 * (Math.PI / 180.0f));
+            //var (rotX, rotY, rotZ) = MathUtil.GetSlaveRotationFromDegrees(ypr.Item3, ypr.Item2, ypr.Item1);
+            var vPosition = new Vector3();
+            var vTarget = new Vector3();
+            var Angle = MathUtil.CalculateDirection(vPosition, vTarget);
+            var quat = MathUtil.ConvertRadianToDirectionShort(Angle);
+            moveType.Rot = new Quaternion(quat.X, quat.Z, quat.Y, quat.W);
+
+            //moveType.RotationX = rotX;
+            //moveType.RotationY = rotY;
+            //moveType.RotationZ = rotZ;
+
+            transfer.BroadcastPacket(new SCOneUnitMovementPacket(transfer.ObjId, moveType), false);
+            // _log.Debug("Island: {0}", slave.RigidBody.CollisionIsland.Bodies.Count);
+        }
+        public Transfer[] GetActiveTransfers()
+        {
+            return _activeTransfers.Values.ToArray();
+        }
 
         public bool Exist(uint templateId)
         {
@@ -87,7 +151,7 @@ namespace AAEmu.Game.Core.Managers
         {
             foreach (var (id, transferTemplate) in _templates)
             {
-                foreach (var transferPaths in transferTemplate.TransferPaths)
+                foreach (var transferPaths in transferTemplate.TransferAllPaths)
                 {
                     foreach (var (wid, transfers) in _transferRoads)
                     {
@@ -274,7 +338,7 @@ namespace AAEmu.Game.Core.Managers
             // ищем транспорт с нужным templateId
             foreach (var (id, transferTemplate) in _templates.Where(paths => paths.Key == templateId))
             {
-                foreach (var transferPaths in transferTemplate.TransferPaths)
+                foreach (var transferPaths in transferTemplate.TransferAllPaths)
                 {
                     foreach (var (wid, transfers) in _transferRoads)
                     {
@@ -668,7 +732,7 @@ namespace AAEmu.Game.Core.Managers
 
             // create a boardingPart and indicate that we attach to the Carriage object 
             transfer.Spawn();
-            _activeTransfers.Add(transfer.ObjId, transfer);
+            //_activeTransfers.Add(transfer.ObjId, transfer);
 
             foreach (var doodadBinding in transfer.Template.TransferBindingDoodads)
             {
@@ -811,7 +875,7 @@ namespace AAEmu.Game.Core.Managers
                             };
                             if (_templates.ContainsKey(template.OwnerId))
                             {
-                                _templates[template.OwnerId].TransferPaths.Add(template);
+                                _templates[template.OwnerId].TransferAllPaths.Add(template);
                             }
                         }
                     }

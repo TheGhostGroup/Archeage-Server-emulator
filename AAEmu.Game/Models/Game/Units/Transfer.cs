@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+
 using AAEmu.Commons.Network;
-using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Network.Game;
@@ -11,7 +11,6 @@ using AAEmu.Game.Models.Game.AI;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.DoodadObj;
 using AAEmu.Game.Models.Game.Formulas;
-using AAEmu.Game.Models.Game.Items;
 using AAEmu.Game.Models.Game.Transfers;
 using AAEmu.Game.Models.Game.World;
 
@@ -444,6 +443,7 @@ namespace AAEmu.Game.Models.Game.Units
                 character.SendPacket(packet);
             }
         }
+
         public PacketStream Write(PacketStream stream)
         {
             stream.Write(ObjId);

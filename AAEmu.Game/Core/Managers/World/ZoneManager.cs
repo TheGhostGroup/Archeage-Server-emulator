@@ -465,7 +465,7 @@ namespace AAEmu.Game.Core.Managers.World
                     origin = new Vector2(6f, 12f);
                     break;
                 case 329: //  <Zone name="s_boiling_sea_1" id="329" originX="12" originY="1">
-                    origin = new Vector2(4f, 16f);
+                    origin = new Vector2(12f, 1f);
                     break;
                 case 330: //  <Zone name="s_boiling_sea_2" id="330" originX="17" originY="1">
                     origin = new Vector2(17f, 1f);
@@ -474,7 +474,7 @@ namespace AAEmu.Game.Core.Managers.World
                     origin = new Vector2(21f, 1f);
                     break;
                 case 332: // <Zone name="s_boiling_sea_4" id="332" originX="17" originY="2">
-                    origin = new Vector2(17f, 1f);
+                    origin = new Vector2(17f, 2f);
                     break;
                 case 333: //  <Zone name="w_hanuimaru_2" id="333" originX="4" originY="9">
                     origin = new Vector2(4f, 9f);

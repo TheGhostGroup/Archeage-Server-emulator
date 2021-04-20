@@ -10,7 +10,7 @@ namespace AAEmu.Game.Utils
     {
         private const double Pi = 3.14159;
         private const double Pi2 = 3.14159 * 2;
-        private const double Pi12 = 3.14159 * 0.5;
+        private const double Pi05 = 3.14159 * 0.5;
 
         // Return degree value of object 2 to the horizontal line with object 1 being the origin
         public static double CalculateAngleFrom(GameObject obj1, GameObject obj2)

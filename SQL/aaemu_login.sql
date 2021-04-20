@@ -13,6 +13,12 @@ File Encoding         : 65001
 Date: 2019-05-03 19:13:58
 */
 
+CREATE DATABASE  IF NOT EXISTS `aaemu_login_3030`;
+USE `aaemu_login_3030`;
+-- ----------------------------------------------------------------------------------------
+-- Make sure to remove the above two lines if you want use your own DB names during import
+-- ----------------------------------------------------------------------------------------
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------

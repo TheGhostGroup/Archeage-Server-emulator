@@ -33,8 +33,8 @@ namespace AAEmu.Game
             //NavigationSystem.ReadFromFile(@"g:\Games\Archeage1.2\game_0\main_world\paths\119_034\areasmission0.bai");
 
             var stopWatch = new Stopwatch();
-
             stopWatch.Start();
+
             #region Id Managers
             TaskIdManager.Instance.Initialize();
             TaskManager.Instance.Initialize();
@@ -113,21 +113,24 @@ namespace AAEmu.Game
             AccessLevelManager.Instance.Load();
             CashShopManager.Instance.Load();
             ScriptCompiler.Compile();
+
+            SaveManager.Instance.Initialize();
+            SpecialtyManager.Instance.Initialize();
+            BoatPhysicsManager.Instance.Initialize();
+            SlaveManager.Instance.Initialize();
+
+            //TransferManager.Instance.Initialize();
+           
             EncryptionManager.Instance.Load();
             TimeManager.Instance.Start();
             TaskManager.Instance.Start();
             GameNetwork.Instance.Start();
             StreamNetwork.Instance.Start();
             LoginNetwork.Instance.Start();
-
-            SaveManager.Instance.Initialize();
-            SpecialtyManager.Instance.Initialize();
-            BoatPhysicsManager.Instance.Initialize();
-            SlaveManager.Instance.Initialize();
             #endregion
+
             StartTime = DateTime.UtcNow;
             stopWatch.Stop();
-
             _log.Info("Server started! Took {0}", stopWatch.Elapsed);
         }
 

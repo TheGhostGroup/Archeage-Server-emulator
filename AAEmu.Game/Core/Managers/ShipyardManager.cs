@@ -5,6 +5,9 @@ using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers.Id;
 using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.Shipyard;
+using AAEmu.Game.Models.Game.Skills;
+using AAEmu.Game.Models.Game.Skills.Static;
+using AAEmu.Game.Models.Game.Units;
 using AAEmu.Game.Utils.DB;
 
 using NLog;
@@ -26,7 +29,7 @@ namespace AAEmu.Game.Core.Managers
             pos.RotationZ = Helpers.ConvertRotation(zrot);
             var objId = ObjectIdManager.Instance.GetNextId();
             var template = _shipyards[id];
-            var shipId = 7199u;
+            var shipId = 3039u;
             var shipyard = new Shipyard
             {
                 ObjId = objId,
@@ -47,16 +50,19 @@ namespace AAEmu.Game.Core.Managers
                 Z = pos.Z,
                 zRot = pos.RotationZ,
                 MoneyAmount = 0,
-                Actions = 0,
-                Type = type1,
+                Actions = step,
+                Type = template.OriginItemId,
                 OwnerName = owner.Name,
-                Type2 = type2,
-                Type3 = type3,
-                Spawned = DateTime.UtcNow,
+                Type2 = owner.Id,
+                Type3 = owner.Faction.Id,
+                Spawned = DateTime.MinValue,
                 ObjId = objId,
                 Hp = template.ShipyardSteps[step].MaxHp * 100,
                 Step = step
             };
+            
+            shipyard.Effects.AddEffect(new Effect(owner, owner, SkillCaster.GetByType(EffectOriginType.Skill), SkillManager.Instance.GetBuffTemplate(3554), null, DateTime.UtcNow));
+
             shipyard.Spawn();
         }
 

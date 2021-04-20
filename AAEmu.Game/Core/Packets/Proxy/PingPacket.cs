@@ -1,3 +1,4 @@
+﻿using System;
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Network.Game;
 
@@ -15,6 +16,8 @@ namespace AAEmu.Game.Core.Packets.Proxy
             var when = stream.ReadInt64(); // ping
             var local = stream.ReadUInt32();
 
+            Connection.LastPing = DateTime.UtcNow;
+            Connection.LastWhen = (ulong)when;
             Connection.SendPacket(new PongPacket(tm, when, local));
         }
     }

@@ -674,7 +674,7 @@ namespace AAEmu.Commons.Network
             var quatNorm = quatX * quatX + quatY * quatY + quatZ * quatZ;
 
             var quatW = 0.0f;
-            if (quatNorm < 0.99750)
+            if (quatNorm < 0.99989998)
             {
                 quatW = (float)Math.Sqrt(1.0 - quatNorm);
             }

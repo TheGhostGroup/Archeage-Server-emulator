@@ -17,10 +17,11 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             //VelX = stream.ReadInt16();
             //VelY = stream.ReadInt16();
             //VelZ = stream.ReadInt16();
-            var vx = stream.ReadInt16();
-            var vy = stream.ReadInt16();
-            var vz = stream.ReadInt16();
-            Velocity = new Vector3(vx, vy, vz);
+            //var vx = stream.ReadInt16();
+            //var vy = stream.ReadInt16();
+            //var vz = stream.ReadInt16();
+            var vel = stream.ReadVector3Short();
+            Velocity = new Vector3(vel.X * 50, vel.Y * 50, vel.Z * 50);
             VelX = (short)Velocity.X;
             VelY = (short)Velocity.Y;
             VelZ = (short)Velocity.Z;

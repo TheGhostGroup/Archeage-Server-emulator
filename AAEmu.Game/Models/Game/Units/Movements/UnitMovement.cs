@@ -46,6 +46,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
 
         public override void Read(PacketStream stream)
         {
+            //Type = (UnitMovementType)stream.ReadByte(); // read in CSMoveuUitPacket
             Time = stream.ReadUInt32();
             Flags = stream.ReadByte();
             if ((Flags & 0x10) == 0x10)
@@ -57,6 +58,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
 
         public override PacketStream Write(PacketStream stream)
         {
+            //stream.Write((byte)Type); // write in SCUnitMovementsPacket & SCOneUnitMovementPacket
             stream.Write(Time);
             stream.Write(Flags);
             if ((Flags & 0x10) == 0x10)
