@@ -100,7 +100,6 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             Stance = (EStance)stream.ReadSByte();
             Alertness = (AiAlertness)stream.ReadSByte();
             actorFlags = (ActorMoveType)stream.ReadUInt16(); // ushort in 3.0.3.0, sbyte in 1.2
-            //if ((short)actorFlags  < 0) // TODO если падает и ударяется об землю, видимо Значение нужно вычитать от текущего HP
             if (((ushort)actorFlags & 0x8000) == 0x8000)
             {
                 FallVel = stream.ReadUInt16(); // actor.fallVel
@@ -109,7 +108,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             if (((ushort)actorFlags & 0x20) == 0x20) // TODO если находится на движущейся повозке/лифте/корабле, то здесь координаты персонажа
             {
                 GcFlags = stream.ReadByte();    // actor.gcFlags
-                GcPart = stream.ReadUInt16(); // actor.gcPart
+                GcPart = stream.ReadUInt16();   // actor.gcPart
                 GcPartId = stream.ReadUInt16(); // actor.gcPartId
                 (X2, Y2, Z2) = stream.ReadPositionBc(); // ix, iy, iz
                 GcWorldPos = new WorldPos(Helpers.ConvertLongX(X2), Helpers.ConvertLongY(Y2), Z2);

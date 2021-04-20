@@ -14,14 +14,17 @@ namespace AAEmu.Game.Core.Packets.G2C
     {
         private readonly uint _id;
         private readonly UnitMovement _type;
+        private readonly byte _unitMovementType;
 
         public SCOneUnitMovementPacket(uint id, UnitMovement type) : base(SCOffsets.SCOneUnitMovementPacket, 5)
         {
             _id = id;
             _type = type;
+            _unitMovementType = (byte)type.Type;
+
             // ---- test Ai ----
             var unit = WorldManager.Instance.GetUnit(id);
-            if (!(unit is Npc) && !(unit is Transfer) && !(unit is Gimmick)) { return; }
+            if (unit is not Npc && unit is not Transfer && unit is not Gimmick) { return; }
 
             var movementAction = new MovementAction(
                 new Point(type.X, type.Y, type.Z, Helpers.ConvertRadianToSbyteDirection(type.Rot.X), Helpers.ConvertRadianToSbyteDirection(type.Rot.Y), Helpers.ConvertRadianToSbyteDirection(type.Rot.Z)),
@@ -37,8 +40,9 @@ namespace AAEmu.Game.Core.Packets.G2C
         public override PacketStream Write(PacketStream stream)
         {
             stream.WriteBc(_id);
-            stream.Write((byte)_type.Type);
+            stream.Write(_unitMovementType);
             stream.Write(_type);
+
             return stream;
         }
     }

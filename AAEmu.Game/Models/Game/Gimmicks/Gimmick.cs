@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 using AAEmu.Commons.Network;
 using AAEmu.Game.Core.Managers.World;
@@ -33,18 +34,20 @@ namespace AAEmu.Game.Models.Game.Gimmicks
         public Vector3 AngVel { get; set; }
         public float ScaleVel { get; set; }
         public uint Time { get; set; }
-        //public bool isRunning { get; set; }
         public GimmickSpawner Spawner { get; set; }
         public GimmickTask GimmickTask { get; set; }
+        /// <summary>
+        /// MoveZ
+        /// </summary>
+        public bool moveDown  { get; set; } = false;
+        public DateTime WaitTime { get; set; }
+        public uint TimeLeft => WaitTime > DateTime.Now ? (uint)(WaitTime - DateTime.Now).TotalMilliseconds : 0;
 
         public Gimmick()
         {
-            Ai = new GimmickAi(this, 50f);
             UnitType = BaseUnitType.Transfer; // TODO какое на самом деле?
             Position = new Point();
             WorldPos = new WorldPos();
-
-            //EntityGuid = BitConverter.ToInt64(Guid.ToByteArray(), 0);
         }
 
         public override void BroadcastPacket(GamePacket packet, bool self)
@@ -67,10 +70,9 @@ namespace AAEmu.Game.Models.Game.Gimmicks
             character.SendPacket(new SCGimmicksRemovedPacket(new[] { GimmickId }));
         }
 
-        private float _scale;
         public void SetScale(float scale)
         {
-            _scale = scale;
+            Scale = scale;
         }
 
         public PacketStream Write(PacketStream stream)

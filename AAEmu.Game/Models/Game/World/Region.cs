@@ -137,11 +137,10 @@ namespace AAEmu.Game.Models.Game.World
                     switch (t)
                     {
                         case Npc npc:
-                            character.SendPacket(new SCUnitStatePacket(npc));
+                            npc.AddVisibleObject(character);
                             break;
                         case House house:
-                            character.SendPacket(new SCUnitStatePacket(t));
-                            character.SendPacket(new SCHouseStatePacket(house));
+                            house.AddVisibleObject(character);
                             break;
                         case Slave slave:
                             slave.AddVisibleObject(character);

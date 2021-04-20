@@ -44,7 +44,7 @@ namespace AAEmu.Game.Models.Game.Units
         public string Name { get; set; } = string.Empty;
         public SystemFaction Faction { get; set; }
 
-        public virtual float Scale => 1f;
+        public virtual float Scale { get; set; } = 1f;
 
         public Effects Effects { get; set; }
         public SkillModifiers Modifiers { get; set; }

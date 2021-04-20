@@ -739,7 +739,6 @@ namespace AAEmu.Game.Core.Managers.World
         {
             //send the char the packet
             character.SendPacket(new SCOnOffSnowPacket(IsSnowing));
-
         }
 
         public void ResendVisibleObjectsToCharacter(Character character)
@@ -751,26 +750,33 @@ namespace AAEmu.Game.Core.Managers.World
                 switch (stuff)
                 {
                     case Npc npc:
-                        character.SendPacket(new SCUnitStatePacket(npc));
+                        //character.SendPacket(new SCUnitStatePacket(npc));
+                        npc.AddVisibleObject(character);
                         break;
                     case Character chr:
-                        character.SendPacket(new SCUnitStatePacket(chr));
+                        //character.SendPacket(new SCUnitStatePacket(chr));
+                        chr.AddVisibleObject(character);
                         break;
                     case Slave slave:
-                        character.SendPacket(new SCUnitStatePacket(slave));
+                        //character.SendPacket(new SCUnitStatePacket(slave));
+                        slave.AddVisibleObject(character);
                         break;
                     case House house:
-                        character.SendPacket(new SCHouseStatePacket(house));
+                        //character.SendPacket(new SCHouseStatePacket(house));
+                        house.AddVisibleObject(character);
                         break;
                     case Transfer transfer:
-                        character.SendPacket(new SCUnitStatePacket(transfer));
-                        character.SendPacket(new SCUnitPointsPacket(transfer.ObjId, transfer.Hp, transfer.Mp, transfer.HighAbilityRsc));
+                        //character.SendPacket(new SCUnitStatePacket(transfer));
+                        //character.SendPacket(new SCUnitPointsPacket(transfer.ObjId, transfer.Hp, transfer.Mp, transfer.HighAbilityRsc));
+                        transfer.AddVisibleObject(character);
                         break;
                     case Mount mount:
-                        character.SendPacket(new SCUnitStatePacket(mount));
+                        //character.SendPacket(new SCUnitStatePacket(mount));
+                        mount.AddVisibleObject(character);
                         break;
                     case Shipyard shipyard:
-                        character.SendPacket(new SCUnitStatePacket(shipyard));
+                        //character.SendPacket(new SCUnitStatePacket(shipyard));
+                        shipyard.AddVisibleObject(character);
                         break;
                 }
             }

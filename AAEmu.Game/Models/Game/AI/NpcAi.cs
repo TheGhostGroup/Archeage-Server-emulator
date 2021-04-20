@@ -22,24 +22,7 @@ namespace AAEmu.Game.Models.Game.AI
     public sealed class NpcAi : ACreatureAi
     {
         public double Angle { get; set; }
-        //public float Distance { get; set; } = 0f;
-        //public float movingDistance { get; set; } = 0.27f;
-        //public double AngleTmp { get; set; }
-        //public float AngVelocity { get; set; } = 45.0f;
-        //public float MaxVelocityForward { get; set; } = 5.4f;
-        //public float MaxVelocityBackward { get; set; } = 0f;
-        //public float VelAccel { get; set; } = 1.8f;
-        //public Vector3 vMovingDistance { get; set; } = new Vector3();
-        //public Vector3 vMaxVelocityForwardRun { get; set; } = new Vector3(5.4f, 5.4f, 5.4f);
-        //public Vector3 vMaxVelocityForwardWalk { get; set; } = new Vector3(1.8f, 1.8f, 1.8f);
         public Vector3 Velocity { get; set; } = new Vector3();
-        //public Vector3 vMaxVelocityBackward { get; set; } = new Vector3();
-        //public Vector3 vVelAccel { get; set; } = new Vector3(1.8f, 1.8f, 1.8f);
-        //public Vector3 vPosition { get; set; } = new Vector3();
-        //public Vector3 vTarget { get; set; } = new Vector3();
-        //public Vector3 vDistance { get; set; } = new Vector3();
-        //public float RangeToCheckPoint { get; set; } = 1.0f; // distance to checkpoint at which it is considered that we have reached it
-        //public Vector3 vRangeToCheckPoint { get; set; } = new Vector3(1.0f, 1.0f, 0f); // distance to checkpoint at which it is considered that we have reached it
 
         public NpcAi(GameObject owner, float visibleRange) : base(owner, visibleRange)
         {

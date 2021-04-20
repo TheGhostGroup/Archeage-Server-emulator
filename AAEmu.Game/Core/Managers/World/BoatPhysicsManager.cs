@@ -14,6 +14,7 @@ namespace AAEmu.Game.Core.Managers.World
     public class BoatPhysicsManager : Singleton<BoatPhysicsManager>
     {
         private Thread thread;
+        private bool ThreadRunning = true;
 
         public void Initialize()
         {
@@ -99,6 +100,11 @@ namespace AAEmu.Game.Core.Managers.World
             //moveType.RotationY = (short)(quat.Z * 32767);
             //moveType.RotationZ = (short)(quat.Y * 32767);
             slave.BroadcastPacket(new SCOneUnitMovementPacket(slave.ObjId, moveType), false);
+        }
+
+        internal void Stop()
+        {
+            ThreadRunning = false;
         }
 
         public void ComputeThrottle(Slave slave)

@@ -33,41 +33,61 @@ namespace AAEmu.Game.Core.Packets.C2G
             var extraFlag = stream.ReadByte(); // add in 3.0.3.0
 
             // ---- test Ai ----
-            var movementAction = new MovementAction(
-                new Point(moveType.X, moveType.Y, moveType.Z, (sbyte)moveType.Rot.X, (sbyte)moveType.Rot.Y, (sbyte)moveType.Rot.Z),
-                new Point(0, 0, 0),
-                (sbyte)moveType.Rot.Z,
-                3,
-                UnitMovementType.Actor
-                );
-            Connection.ActiveChar.VisibleAi.OwnerMoved(movementAction);
+            //var movementAction = new MovementAction(
+            //    new Point(
+            //        moveType.X, moveType.Y, moveType.Z,
+            //        (sbyte)moveType.Rot.X, (sbyte)moveType.Rot.Y, (sbyte)moveType.Rot.Z
+            //        ),
+            //    new Point(0, 0, 0),
+            //    (sbyte)moveType.Rot.Z,
+            //    3,
+            //    UnitMovementType.Actor
+            //    );
+            //Connection.ActiveChar.VisibleAi.OwnerMoved(movementAction);
             // ---- test Ai ----
 
             if (objId != myObjId) // Can be mate
             {
-                if (moveType is ShipInput shipRequestMoveType)
+                switch (moveType)
                 {
-                    var slave = SlaveManager.Instance.GetActiveSlaveByOwnerObjId(myObjId);
-                    if (slave != null)
-                    {
-                        slave.ThrottleRequest = shipRequestMoveType.Throttle;
-                        slave.SteeringRequest = shipRequestMoveType.Steering;
-                    }
-                }
+                    case ShipInput shipRequestMoveType:
+                        {
+                            var slave = SlaveManager.Instance.GetActiveSlaveByOwnerObjId(myObjId);
+                            if (slave == null) { return; }
 
-                if (moveType is Vehicle VehicleMoveType)
-                {
-                    var (yaw, pitch, roll) = MathUtil.GetSlaveRotationInDegrees(VehicleMoveType.Rot.X, VehicleMoveType.Rot.Y, VehicleMoveType.Rot.Z);
-                    var reverseQuat = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
-                    var reverseZ = reverseQuat.Y / 0.00003052f;
-                    Connection.ActiveChar.SendMessage("Client: " + VehicleMoveType.RotationZ + ". Yaw (deg): " + (yaw * 180 / Math.PI) + ". Reverse: " + reverseZ);
+                            slave.ThrottleRequest = shipRequestMoveType.Throttle;
+                            slave.SteeringRequest = shipRequestMoveType.Steering;
+                            // Also update driver's position
+                            Connection.ActiveChar.SetPosition(slave.Position.X, slave.Position.Y, slave.Position.Z, (sbyte)slave.Rot.X, (sbyte)slave.Rot.Y, (sbyte)slave.Rot.Z);
+                            break;
+                        }
+                    case Vehicle VehicleMoveType:
+                        {
+                            var (yaw, pitch, roll) = MathUtil.GetSlaveRotationInDegrees(VehicleMoveType.Rot.X, VehicleMoveType.Rot.Y, VehicleMoveType.Rot.Z);
+                            var reverseQuat = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
+                            var reverseZ = reverseQuat.Y / 0.00003052f;
+                            Connection.ActiveChar.SendMessage("Client: " + VehicleMoveType.RotationZ + ". Yaw (deg): " + (yaw * 180 / Math.PI) + ". Reverse: " + reverseZ);
+                            var slave = SlaveManager.Instance.GetActiveSlaveByOwnerObjId(Connection.ActiveChar.ObjId);
+                            if (slave == null) { return; }
+
+                            slave.SetPosition(VehicleMoveType.X, VehicleMoveType.Y, VehicleMoveType.Z, VehicleMoveType.RotationX, VehicleMoveType.RotationY, VehicleMoveType.RotationZ);
+                            slave.BroadcastPacket(new SCOneUnitMovementPacket(objId, VehicleMoveType), true);
+                            break;
+                        }
+                    // TODO : check target has Telekinesis buff
+                    case ActorData dmt:
+                        {
+                            var unit = WorldManager.Instance.GetUnit(objId);
+                            if (unit == null) { break; }
+
+                            unit.SetPosition(dmt.X, dmt.Y, dmt.Z, (sbyte)dmt.Rot.X, (sbyte)dmt.Rot.Y, (sbyte)dmt.Rot.Z);
+                            unit.BroadcastPacket(new SCOneUnitMovementPacket(objId, dmt), true);
+                            break;
+                        }
                 }
 
                 var mateInfo = MateManager.Instance.GetActiveMateByMateObjId(objId);
-                if (mateInfo == null)
-                {
-                    return;
-                }
+                if (mateInfo == null) { return; }
 
                 RemoveEffects(mateInfo, moveType);
                 mateInfo.SetPosition(moveType.X, moveType.Y, moveType.Z, (sbyte)moveType.Rot.X, (sbyte)moveType.Rot.Y, (sbyte)moveType.Rot.Z);
@@ -100,15 +120,7 @@ namespace AAEmu.Game.Core.Packets.C2G
             {
                 RemoveEffects(Connection.ActiveChar, moveType);
                 // This will allow you to walk on a boat, but crashes other clients. Not sure why yet.
-                //if ((
-                //        (moveType.actorFlags & 32) == 32 // presumably we're on a ship
-                //        ||
-                //        (moveType.actorFlags & 36) == 36 // presumably we're on the vehicle
-                //        ||
-                //        (moveType.actorFlags & 64) == 64 // presumably we're on the elevator
-                //     )
-                //    && moveType is ActorData mType)
-                if (moveType is ActorData mType && ((ushort)mType.actorFlags & 0x20) != 0)
+                if (moveType is ActorData mType && ((ushort)mType.actorFlags & 0x20) == 0x20)
                 {
                     Connection
                         .ActiveChar

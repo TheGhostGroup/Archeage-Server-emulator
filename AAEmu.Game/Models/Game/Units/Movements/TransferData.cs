@@ -14,23 +14,19 @@ namespace AAEmu.Game.Models.Game.Units.Movements
         public float AngVelX { get; set; }
         public float AngVelY { get; set; }
         public float AngVelZ { get; set; }
-        public short VelX { get; set; }
-        public short VelY { get; set; }
-        public short VelZ { get; set; }
         // ---
         public int Steering { get; set; }
         public int PathPointIndex { get; set; }
         public float Speed { get; set; }
         public bool Reverse { get; set; }
-
         // ---
         public float RotationDegrees { get; set; }
         public float RotSpeed { get; set; }  // ?
         public sbyte Throttle { get; set; } // ?
         // ---
-        public new short RotationX { get; set; }
-        public new short RotationY { get; set; }
-        public new short RotationZ { get; set; }
+        //public new short RotationX { get; set; }
+        //public new short RotationY { get; set; }
+        //public new short RotationZ { get; set; }
         // ---
 
         public TransferData()
