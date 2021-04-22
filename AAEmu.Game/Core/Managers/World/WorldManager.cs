@@ -51,6 +51,10 @@ namespace AAEmu.Game.Core.Managers.World
         */
         public const sbyte REGION_NEIGHBORHOOD_SIZE = 3;
 
+        // Default World and Instance ID that will be assigned to all Transforms as a Default value
+        public static readonly uint DefaultWorldId = 1;
+        public static readonly uint DefaultInstanceId = 0;
+
         public WorldManager()
         {
             _objects = new ConcurrentDictionary<uint, GameObject>();
