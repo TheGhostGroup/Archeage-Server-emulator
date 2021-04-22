@@ -182,10 +182,8 @@ namespace AAEmu.Game.Models.Game.World
             }
 
             // remove all visible objects in the region from the player
-            if (obj is Character)
+            if (obj is Character character)
             {
-                var character = (Character)obj;
-
                 var unitIds = GetListId<Unit>(new List<uint>(), obj.ObjId).ToArray();
                 var units = GetList(new List<Unit>(), character.ObjId);
                 foreach (var t in units)
@@ -203,13 +201,13 @@ namespace AAEmu.Game.Models.Game.World
                             gimmick.RemoveVisibleObject(character);
                             break;
                         case Transfer transfer:
-                            var chr = new Vector3(character.Position.X, character.Position.Y, character.Position.Z);
-                            var trs = new Vector3(transfer.Position.X, transfer.Position.Y, transfer.Position.Z);
-                            var distance = MathUtil.GetDistance(chr, trs);
-                            if (distance > 500f)
-                            {
-                                transfer.RemoveVisibleObject(character);
-                            }
+                            //var chr = new Vector3(character.Position.X, character.Position.Y, character.Position.Z);
+                            //var trs = new Vector3(transfer.Position.X, transfer.Position.Y, transfer.Position.Z);
+                            //var distance = MathUtil.GetDistance(chr, trs);
+                            //if (distance > 500f)
+                            //{
+                            transfer.RemoveVisibleObject(character);
+                            //}
                             break;
                     }
 
@@ -243,9 +241,9 @@ namespace AAEmu.Game.Models.Game.World
             }
 
             // remove the object from all players in the region
-            foreach (var character in GetList(new List<Character>(), obj.ObjId))
+            foreach (var character2 in GetList(new List<Character>(), obj.ObjId))
             {
-                obj.RemoveVisibleObject(character);
+                obj.RemoveVisibleObject(character2);
             }
         }
 

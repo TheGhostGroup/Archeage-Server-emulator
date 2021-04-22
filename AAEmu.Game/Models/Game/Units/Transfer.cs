@@ -425,7 +425,17 @@ namespace AAEmu.Game.Models.Game.Units
                 character.SendPacket(new SCTargetChangedPacket(character.ObjId, 0));
             }
 
-            character.SendPacket(new SCUnitsRemovedPacket(new[] { ObjId }));
+            //character.SendPacket(new SCUnitsRemovedPacket(new[] { ObjId }));
+
+            if (Bounded != null)
+            {
+                character.SendPacket(new SCUnitsRemovedPacket(new[] { ObjId, Bounded.ObjId }));
+            }
+            else
+            {
+                character.SendPacket(new SCUnitsRemovedPacket(new[] { ObjId }));
+            }
+
 
             var doodadIds = new uint[AttachedDoodads.Count];
             for (var i = 0; i < AttachedDoodads.Count; i++)

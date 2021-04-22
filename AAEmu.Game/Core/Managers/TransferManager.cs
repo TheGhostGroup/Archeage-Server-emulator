@@ -36,6 +36,7 @@ namespace AAEmu.Game.Core.Managers
 
         private Dictionary<uint, TransferTemplate> _templates;
         private Dictionary<uint, Transfer> _activeTransfers;
+        private Dictionary<uint, Transfer> _moveTransfers;
         private Dictionary<byte, Dictionary<uint, List<TransferRoads>>> _transferRoads;
         public Thread thread { get; set; }
         private bool ThreadRunning = true;
@@ -52,7 +53,7 @@ namespace AAEmu.Game.Core.Managers
             while (Thread.CurrentThread.IsAlive)
             {
                 Thread.Sleep(100);
-                var activeTransfers = Instance.GetActiveTransfers();
+                var activeTransfers = Instance.GetMoveTransfers();
                 foreach (var transfer in activeTransfers)
                 {
                     //TransfersTick(transfer);
@@ -103,10 +104,14 @@ namespace AAEmu.Game.Core.Managers
         {
             return _activeTransfers.Values.ToArray();
         }
-
-        public void AddActiveTransfers(uint ObjId, Transfer transfer)
+        public Transfer[] GetMoveTransfers()
         {
-            _activeTransfers.Add(ObjId, transfer);
+            return _moveTransfers.Values.ToArray();
+        }
+
+        public void AddMoveTransfers(uint ObjId, Transfer transfer)
+        {
+            _moveTransfers.Add(ObjId, transfer);
         }
 
         public bool Exist(uint templateId)
@@ -703,7 +708,7 @@ namespace AAEmu.Game.Core.Managers
 
             // create Carriage like a normal object.
             owner.Spawn();
-            //_activeTransfers.Add(owner.ObjId, owner);
+            _activeTransfers.Add(owner.ObjId, owner);
 
             if (Carriage.TransferBindings.Count <= 0) { return owner; }
 
@@ -742,7 +747,7 @@ namespace AAEmu.Game.Core.Managers
 
             // create a boardingPart and indicate that we attach to the Carriage object 
             transfer.Spawn();
-            //_activeTransfers.Add(transfer.ObjId, transfer);
+            _activeTransfers.Add(transfer.ObjId, transfer);
 
             foreach (var doodadBinding in transfer.Template.TransferBindingDoodads)
             {
@@ -783,6 +788,7 @@ namespace AAEmu.Game.Core.Managers
         {
             _templates = new Dictionary<uint, TransferTemplate>();
             _activeTransfers = new Dictionary<uint, Transfer>();
+            _moveTransfers = new Dictionary<uint, Transfer>();
 
             _log.Info("Loading transfer templates...");
 
