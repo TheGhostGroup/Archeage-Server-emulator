@@ -74,7 +74,8 @@ namespace AAEmu.Game.Core.Network.Game
                 && !(TypeId == 0x016 && Level == 2) // FastPong
                 && !(TypeId == SCOffsets.SCUnitMovementsPacket && Level == 5) // SCUnitMovements
                 && !(TypeId == SCOffsets.SCOneUnitMovementPacket && Level == 5) // SCOneUnitMovement
-                //&& !(TypeId == SCOffsets.SCUnitPointsPacket && Level == 5)
+                && !(TypeId == SCOffsets.SCUnitPointsPacket && Level == 5)
+                && !(TypeId == SCOffsets.SCGimmickMovementPacket && Level == 5)
             )
                 //_log.Debug("GamePacket: S->C type {0:X} {2}\n{1}", TypeId, ps, ToString().Substring(23));
                 _log.Debug("GamePacket: S->C type {0:X3} {1}", TypeId, ToString().Substring(23));

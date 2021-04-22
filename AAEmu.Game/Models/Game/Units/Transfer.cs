@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 
 using AAEmu.Commons.Network;
+using AAEmu.Commons.Utils;
 using AAEmu.Game.Core.Managers;
 using AAEmu.Game.Core.Managers.World;
 using AAEmu.Game.Core.Network.Game;
@@ -12,7 +13,10 @@ using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.DoodadObj;
 using AAEmu.Game.Models.Game.Formulas;
 using AAEmu.Game.Models.Game.Transfers;
+using AAEmu.Game.Models.Game.Units.Movements;
+using AAEmu.Game.Models.Game.Units.Route;
 using AAEmu.Game.Models.Game.World;
+using AAEmu.Game.Utils;
 
 using NLog;
 
@@ -54,6 +58,8 @@ namespace AAEmu.Game.Models.Game.Units
         public bool Reverse { get; set; }
         public sbyte RequestSteering { get; set; }
         public sbyte RequestThrottle { get; set; }
+        public DateTime WaitTime { get; set; }
+        public uint TimeLeft => WaitTime > DateTime.Now ? (uint)(WaitTime - DateTime.Now).TotalMilliseconds : 0;
 
         #region Attributes
 
@@ -401,6 +407,8 @@ namespace AAEmu.Game.Models.Game.Units
             UnitType = BaseUnitType.Transfer;
             WorldPos = new WorldPos();
             Position = new Point();
+            Routes = new Dictionary<int, List<Point>>();
+            TransferPath = new List<Point>();
         }
 
         public override void AddVisibleObject(Character character)
@@ -451,6 +459,345 @@ namespace AAEmu.Game.Models.Game.Units
             stream.Write(Name);
 
             return stream;
+        }
+
+        // ******************************************************************************************************************
+        // Организуем движение транспорта
+        // ******************************************************************************************************************
+
+        public Dictionary<int, List<Point>> Routes { get; set; } // Steering, TransferPath - список всех участков дороги
+        public List<Point> TransferPath { get; set; }  // текущий участок дороги
+        public bool MoveToPathEnabled { get; set; }       // разрешено движение транспорта
+        public bool MoveToForward { get; set; }           // movement direction true -> forward, true -> back
+        public int MoveStepIndex { get; set; }            // current checkpoint (where are we running now)
+        public float DeltaTime { get; set; } = 0.1f;
+        public DateTime UpdateTime { get; set; }
+        public Vector3 vPosition { get; set; }
+        public Vector3 vTarget { get; set; }
+        public Vector3 vDistance { get; set; }
+        public Vector3 vVelocity { get; set; }
+        public float Distance { get; set; }
+        protected const float Tolerance = 0.5f;	// 1.401298E-45f Погрешность
+        private float oldX { get; set; }
+        private float oldY { get; set; }
+        private float oldZ { get; set; }
+        public double rad { get; set; }
+
+        public float MaxVelocityForward { get; set; } = 5.4f;
+        public float MaxVelocityBackward { get; set; } = 0f;
+        public float RangeToCheckPoint { get; set; } = 0.25f; // distance to checkpoint at which it is considered that we have reached it
+        public float velAccel { get; set; } = 0.25f;
+        public double Angle { get; set; }
+        private readonly float angVel;
+        private readonly float diffX;
+        private readonly float diffY;
+        private readonly float diffZ;
+
+        public void GoToPath(Transfer transfer)
+        {
+            if (transfer == null) { return; }
+            if (TransferPath.Count <= 0) { return; }
+
+            transfer.MoveToPathEnabled = !transfer.MoveToPathEnabled;
+            transfer.MoveToForward = true;
+            if (!MoveToPathEnabled || transfer.Position == null || !transfer.IsInPatrol)
+            {
+                //_log.Warn("the route is stopped.");
+                StopMove();
+                return;
+            }
+
+            // presumably the path is already registered in MovePath
+            //_log.Warn("trying to get on the road...");
+            // first go to the closest checkpoint
+            var i = GetMinCheckPoint(transfer, transfer.TransferPath);
+            if (i < 0)
+            {
+                //_log.Warn("no checkpoint found.");
+                transfer.StopMove();
+                return;
+            }
+
+            //_log.Warn("found nearest checkpoint # " + i + " walk there ...");
+            //_log.Warn("x:=" + vPosition.X + " y:=" + vPosition.Y + " z:=" + vPosition.Z);
+            transfer.MoveToPathEnabled = true;
+            transfer.MoveStepIndex = i;
+            //_log.Warn("checkpoint #" + i);
+            //_log.Warn("x:=" + vPosition.X + " y:=" + vPosition.Y + " z:=" + vPosition.Z);
+            var s = TransferPath[transfer.MoveStepIndex];
+            transfer.vTarget = new Vector3(s.X, s.Y, s.Z);
+
+            //if (!(Math.Abs(oldX - vPosition.X) > Tolerance) || !(Math.Abs(oldY - vPosition.Y) > Tolerance) || !(Math.Abs(oldZ - vPosition.Z) > Tolerance))
+            //{
+            //    return;
+            //}
+
+            //oldX = vPosition.X;
+            //oldY = vPosition.Y;
+            //oldZ = vPosition.Z;
+        }
+
+        private int GetMinCheckPoint(Transfer transfer, List<Point> pointsList)
+        {
+            var index = -1;
+            // check for a route
+            if (pointsList.Count == 0)
+            {
+                //_log.Warn("no route data.");
+                return -1;
+            }
+            float delta;
+            var minDist = 0f;
+            transfer.vTarget = new Vector3(transfer.Position.X, transfer.Position.Y, transfer.Position.Z);
+            for (var i = 0; i < pointsList.Count; i++)
+            {
+                transfer.vPosition = new Vector3(pointsList[i].X, pointsList[i].Y, pointsList[i].Z);
+
+                //_log.Warn("#" + i + " x:=" + vPosition.X + " y:=" + vPosition.Y + " z:=" + vPosition.Z);
+
+                delta = MathUtil.GetDistance(transfer.vTarget, transfer.vPosition);
+                if (delta > 200) { continue; } // ищем точку не очень далеко от повозки
+
+                if (index == -1) // first assignment
+                {
+                    index = i;
+                    minDist = delta;
+                }
+                if (delta < minDist) // save if less
+                {
+                    index = i;
+                    minDist = delta;
+                }
+            }
+
+            return index;
+        }
+
+        private void StopMove()
+        {
+            //if (transfer == null) { return; }
+            //_log.Warn("stop moving ...");
+            Speed = 0;
+            RotSpeed = 0;
+            Velocity = Vector3.Zero;
+            vVelocity = Vector3.Zero;
+
+            var pp = Steering >= Routes.Count - 1 ? Routes[0][0] : Routes[Steering + 1][0];
+            var vNewTarget = new Vector3(pp.X, pp.Y, pp.Z);
+            rad = MathUtil.CalculateDirection(vPosition, vNewTarget);
+            Rot = new Quaternion(0f, 0f, MathUtil.ConvertToDirection(rad), 1f);
+
+            var moveTypeTr = (TransferData)UnitMovement.GetType(UnitMovementType.Transfer);
+            moveTypeTr.UseTransferBase(this);
+            BroadcastPacket(new SCOneUnitMovementPacket(ObjId, moveTypeTr), true);
+            MoveToPathEnabled = false;
+        }
+
+        public void MoveTo()
+        {
+            //if (transfer == null) { return; }
+
+            if (TimeLeft > 0) { return; } // Пауза в начале/конце пути и на остановках
+
+            if (!MoveToPathEnabled || Position == null || !IsInPatrol)
+            {
+                Throttle = 0;
+                StopMove();
+                return;
+            }
+
+            //vTarget = target;
+            vPosition = new Vector3(Position.X, Position.Y, Position.Z);
+
+            // вектор направление на таргет (последовательность аргументов важно, чтобы смотреть на таргет)
+            vDistance = vTarget - vPosition; // dx, dy, dz
+
+            // distance to the point where we are moving
+            Distance = MathUtil.GetDistance(vTarget, vPosition);
+
+            if (!(Distance > 0))
+            {
+                // get next path or point # in current path
+                OnMove(this);
+                return;
+            }
+
+            MaxVelocityForward = 9.0f; // temporarily took a constant
+
+            // accelerate to maximum speed
+            Speed += velAccel * DeltaTime;
+
+            //check that it is not more than the maximum forward or reverse speed
+            Speed = Math.Clamp(Speed, MaxVelocityBackward, MaxVelocityForward);
+
+            //var velocity = MaxVelocityForward * DeltaTime;
+            var velocity = Speed * DeltaTime;
+            // вектор направление на таргет (последовательность аргументов важно, чтобы смотреть на таргет)
+            // вектор направления необходимо нормализовать
+            var direction = vDistance != Vector3.Zero ? Vector3.Normalize(vDistance) : Vector3.Zero;
+
+            // вектор скорости (т.е. координаты, куда попадём двигаясь со скоростью velociti по направдению direction)
+            var diff = direction * velocity;
+            Position.X += diff.X;
+            Position.Y += diff.Y;
+            Position.Z += diff.Z;
+            var move = Math.Abs(vDistance.X) < RangeToCheckPoint
+                       || Math.Abs(vDistance.Y) < RangeToCheckPoint
+                       || Math.Abs(vDistance.Z) < RangeToCheckPoint;
+
+            Angle = MathUtil.CalculateDirection(vPosition, vTarget);
+            var quat = MathUtil.ConvertRadianToDirectionShort(Angle);
+            Rot = new Quaternion(quat.X, quat.Z, quat.Y, quat.W);
+
+            //Velocity = new Vector3(diff.X * 21900, diff.Y * 21900, diff.Z * 21900);
+            Velocity = Vector3.Zero;
+
+            AngVel = new Vector3(0f, 0f, (float)Angle); // сюда записывать дельту, в радианах, угла поворота между начальным вектором и конечным
+            //if (transfer.TemplateId == 49000)
+            //{
+            //    // для проверки углов
+            //    var v1 = transfer.Position.RotationZ * 0.0078740157;
+            //    var v2 = v1 * 3.14159 * 2;
+            //    var RotationZdeg = MathUtil.RadianToDegree(v2);
+            //    var degree = MathUtil.RadianToDegree(Angle);
+
+            //    //_log.Warn("Angle={0}, _angle={1}, angleTmp={2}, Rot={3}, RotationZ={4}", Angle, _angle, _angleTmp, transfer.Rot, transfer.Position.RotationZ);
+            //    _log.Warn("Distance={0}, MoveStepIndex={1}, TransferPath.Count-1={2}", Math.Abs(Distance), MoveStepIndex, TransferPath.Count - 1);
+            //    _log.Warn("Angle={0}, degree={1}, transfer.RotationZ={2}, Rot={3}", Angle, degree, quat.Y * 32767, transfer.Rot);
+            //    _log.Warn("RotationZ={0}, RotationZdeg={1}", transfer.Position.RotationZ, RotationZdeg);
+            //}
+
+            //if (Distance > RangeToCheckPoint)
+            if (!move)
+            {
+                //update class variables
+                //transfer.Velocity = vDistance;
+
+                // update TransfersPath variable
+                PathPointIndex = MoveStepIndex; // текущая точка, куда движемся
+                Steering = Steering; // текущий участок пути
+
+                // moving to the point #
+                var moveTypeTr = (TransferData)UnitMovement.GetType(UnitMovementType.Transfer);
+                moveTypeTr.UseTransferBase(this);
+                SetPosition(moveTypeTr.X, moveTypeTr.Y, moveTypeTr.Z, 0, 0, Helpers.ConvertRadianToSbyteDirection((float)Angle));
+                BroadcastPacket(new SCOneUnitMovementPacket(ObjId, moveTypeTr), true);
+                //RepeatMove(sim, transfer, targetX, targetY, targetZ);
+            }
+            else
+            {
+                // get next path or point # in current path
+                OnMove(this);
+            }
+        }
+
+        private void OnMove(Transfer transfer)
+        {
+            if (!MoveToPathEnabled)
+            {
+                //_log.Warn("OnMove disabled");
+                StopMove();
+                return;
+            }
+
+            if (TransferPath.Count <= 0) { return; }
+
+            var s = TransferPath[MoveStepIndex];
+            vTarget = new Vector3(s.X, s.Y, s.Z);
+            // Проходим по очереди все участки пути из списка, с начала каждого пути
+            if (MoveStepIndex >= TransferPath.Count - 1)
+            {
+                // точки участка пути закончились
+                MoveStepIndex = 0;
+                if (Steering >= Routes.Count - 1)
+                {
+                    // закончились все участки пути дороги, нужно начать сначала
+                    //_log.Warn("we are at the end point.");
+                    Steering = 0; // укажем на начальный путь
+                    TransferPath = Routes[Steering];
+                    s = TransferPath[MoveStepIndex];
+                    //_log.Info("TransfersPath #" + transfer.TemplateId);
+                    //_log.Warn("next path #" + Steering);
+                    //_log.Warn("walk to #" + MoveStepIndex);
+                    //_log.Warn("x:=" + vPosition.X + " y:=" + vPosition.Y + " z:=" + vPosition.Z);
+                    vTarget = new Vector3(s.X, s.Y, s.Z);
+                    // здесь будет непосредственно пауза между участками дороги, если она есть в базе данных
+                    //var time = transfer.Template.TransferPaths[Steering].WaitTimeStart;
+                    //RepeatMove(this, transfer, _vPosition.X, _vPosition.Y, _vPosition.Z, time * 1000);
+                    // паузу не делаем, так как еще не в начале пути, а в последней точке пути
+                    //RepeatMove(this, transfer, vPosition.X, vPosition.Y, vPosition.Z);
+                    if (MoveStepIndex == 0 && transfer.Template.TransferAllPaths[Steering].WaitTimeStart > 0)
+                    {
+                        var time = transfer.Template.TransferAllPaths[Steering].WaitTimeStart;
+                        WaitTime = DateTime.Now.AddSeconds(time);
+                    }
+                    //if (time > 0)
+                    //{
+                    //    // здесь будет непосредственно пауза между участками дороги
+                    //    //RepeatMove(this, transfer, _vPosition.X, _vPosition.Y, _vPosition.Z, pp, time * 1000);
+                    //}
+                    //else
+                    //{
+                    //    // иначе, паузу не делаем
+                    //    //RepeatMove(this, transfer, _vPosition.X, _vPosition.Y, _vPosition.Z);
+                    //}
+                }
+                else
+                {
+                    // продолжим путь
+                    if (MoveStepIndex >= TransferPath.Count - 1 && transfer.Template.TransferAllPaths[Steering].WaitTimeEnd > 0)
+                    {
+                        var time = transfer.Template.TransferAllPaths[Steering].WaitTimeEnd;
+                        WaitTime = DateTime.Now.AddSeconds(time);
+                    }
+                    Steering++; // укажем на следующий участок пути
+                    TransferPath = Routes[Steering];
+                    s = TransferPath[MoveStepIndex];
+                    //_log.Info("TransfersPath #" + transfer.TemplateId);
+                    //_log.Warn("path #" + Steering);
+                    //_log.Warn("walk to #" + MoveStepIndex);
+                    //_log.Warn("x:=" + vPosition.X + " y:=" + vPosition.Y + " z:=" + vPosition.Z);
+                    vTarget = new Vector3(s.X, s.Y, s.Z);
+                    // здесь будет непосредственно пауза между участками дороги
+                    //RepeatMove(this, transfer, vPosition.X, vPosition.Y, vPosition.Z, pp, time * 1000);
+                    //if (time > 0)
+                    //{
+                    //    // здесь будет непосредственно пауза между участками дороги
+                    //    //RepeatMove(this, transfer, _vPosition.X, _vPosition.Y, _vPosition.Z, pp, time * 1000);
+                    //}
+                    //else
+                    //{
+                    //    // иначе, паузу не делаем
+                    //    //RepeatMove(this, transfer, _vPosition.X, _vPosition.Y, _vPosition.Z);
+                    //}
+                }
+            }
+            else
+            {
+                if (MoveStepIndex == 0 && transfer.Template.TransferAllPaths[Steering].WaitTimeStart > 0)
+                {
+                    var time = transfer.Template.TransferAllPaths[Steering].WaitTimeStart;
+                    WaitTime = DateTime.Now.AddSeconds(time);
+                }
+                MoveStepIndex++;
+                //_log.Warn("we reached checkpoint go further...");
+                //_log.Info("TransfersPath #" + transfer.TemplateId);
+                //_log.Warn("path #" + Steering);
+                //_log.Warn("walk to #" + MoveStepIndex);
+                //_log.Warn("x:=" + vPosition.X + " y:=" + vPosition.Y + " z:=" + vPosition.Z);
+                s = TransferPath[MoveStepIndex];
+                vTarget = new Vector3(s.X, s.Y, s.Z);
+                //if (time > 0)
+                //{
+                //    // здесь будет пауза в начале участка пути, если она есть в базе данных
+                //    //RepeatMove(this, transfer, _vPosition.X, _vPosition.Y, _vPosition.Z, pp, time * 1000);
+                //}
+                //else
+                //{
+                //    // иначе, паузу не делаем
+                //    //RepeatMove(this, transfer, _vPosition.X, _vPosition.Y, _vPosition.Z);
+                //}
+            }
         }
     }
 }

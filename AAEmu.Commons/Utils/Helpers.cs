@@ -260,17 +260,17 @@ namespace AAEmu.Commons.Utils
         {
             var z = radian * 0.15915494309189533576888376337251; // values.X / (float)Math.PI * 2; // переводим из радиан в направление
 
-            var rad = Convert.ToInt16(z * 32767f);
+            var dir = Convert.ToInt16(z * 32767f);
 
-            return rad;
+            return dir;
         }
         public static sbyte ConvertRadianToSbyteDirection(float radian)
         {
             var z = radian * 0.15915494309189533576888376337251; // values.X / (float)Math.PI * 2; // переводим из радиан в направление
 
-            var rad = Convert.ToSByte(z * 127f);
+            var dir = Convert.ToSByte(z * 127f);
 
-            return rad;
+            return dir;
         }
         public static float ConvertDirectionToRadian(sbyte rotation)
         {

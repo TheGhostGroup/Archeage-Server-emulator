@@ -117,7 +117,8 @@ namespace AAEmu.Game
             SaveManager.Instance.Initialize();
             SpecialtyManager.Instance.Initialize();
             BoatPhysicsManager.Instance.Initialize();
-            GimmickManager.Instance.Initialize(); // Gimmick
+            TransferManager.Instance.Initialize();
+            GimmickManager.Instance.Initialize();
             SlaveManager.Instance.Initialize();
 
             //TransferManager.Instance.Initialize();
@@ -154,7 +155,8 @@ namespace AAEmu.Game
             */
             
             BoatPhysicsManager.Instance.Stop();
-            GimmickManager.Instance.Stop(); // Gimmick
+            TransferManager.Instance.Stop();
+            GimmickManager.Instance.Stop();
 
             TimeManager.Instance.Stop();
             return Task.CompletedTask;

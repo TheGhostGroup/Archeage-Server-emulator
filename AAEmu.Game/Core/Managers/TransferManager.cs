@@ -33,33 +33,38 @@ namespace AAEmu.Game.Core.Managers
     public class TransferManager : Singleton<TransferManager>
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
-        public Thread thread { get; set; }
 
         private Dictionary<uint, TransferTemplate> _templates;
         private Dictionary<uint, Transfer> _activeTransfers;
         private Dictionary<byte, Dictionary<uint, List<TransferRoads>>> _transferRoads;
+        public Thread thread { get; set; }
+        private bool ThreadRunning = true;
 
         public void Initialize()
         {
+            // пока отключено, так как не настроен TransferTick
             thread = new Thread(TransferThread);
             thread.Start();
         }
-        
+
         private void TransferThread()
         {
             while (Thread.CurrentThread.IsAlive)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(100);
                 var activeTransfers = Instance.GetActiveTransfers();
                 foreach (var transfer in activeTransfers)
                 {
-                    TransfersTick(transfer);
+                    //TransfersTick(transfer);
+                    transfer.MoveTo();
                 }
             }
         }
 
         private void TransfersTick(Transfer transfer)
         {
+            if (transfer.TimeLeft > 0) { return; } // Пауза в начале/конце пути и на остановках
+
             var moveType = (TransferData)UnitMovement.GetType(UnitMovementType.Transfer);
             moveType.UseTransferBase(transfer);
             var velAccel = 2.0f; //per s
@@ -97,6 +102,11 @@ namespace AAEmu.Game.Core.Managers
         public Transfer[] GetActiveTransfers()
         {
             return _activeTransfers.Values.ToArray();
+        }
+
+        public void AddActiveTransfers(uint ObjId, Transfer transfer)
+        {
+            _activeTransfers.Add(ObjId, transfer);
         }
 
         public bool Exist(uint templateId)
@@ -693,7 +703,7 @@ namespace AAEmu.Game.Core.Managers
 
             // create Carriage like a normal object.
             owner.Spawn();
-            _activeTransfers.Add(owner.ObjId, owner);
+            //_activeTransfers.Add(owner.ObjId, owner);
 
             if (Carriage.TransferBindings.Count <= 0) { return owner; }
 
@@ -886,7 +896,7 @@ namespace AAEmu.Game.Core.Managers
             _log.Info("Loading transfer_path...");
 
             var worlds = WorldManager.Instance.GetWorlds();
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             //                              worldId           key   transfer_path
             _transferRoads = new Dictionary<byte, Dictionary<uint, List<TransferRoads>>>();
@@ -955,6 +965,11 @@ namespace AAEmu.Game.Core.Managers
 
             // optional for test 
             TransfersPath.GetPaths();
+        }
+
+        internal void Stop()
+        {
+            ThreadRunning = false;
         }
     }
 }
