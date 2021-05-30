@@ -24,7 +24,7 @@ namespace AAEmu.Game.Core.Managers.World
 
         public void PhysicsThread()
         {
-            while (Thread.CurrentThread.IsAlive)
+            while (ThreadRunning && Thread.CurrentThread.IsAlive)
             {
                 Thread.Sleep(50);
 

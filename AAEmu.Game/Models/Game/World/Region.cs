@@ -134,27 +134,7 @@ namespace AAEmu.Game.Models.Game.World
                 var units = GetList(new List<Unit>(), obj.ObjId);
                 foreach (var t in units)
                 {
-                    switch (t)
-                    {
-                        case Npc npc:
-                            npc.AddVisibleObject(character);
-                            break;
-                        case House house:
-                            house.AddVisibleObject(character);
-                            break;
-                        case Slave slave:
-                            slave.AddVisibleObject(character);
-                            break;
-                        case Gimmick gimmick:
-                            gimmick.AddVisibleObject(character);
-                            break;
-                        case Transfer transfer:
-                            transfer.AddVisibleObject(character);
-                            break;
-                        default:
-                            character.SendPacket(new SCUnitStatePacket(t));
-                            break;
-                    }
+                    t.AddVisibleObject(character);
                 }
                 var doodads = GetList(new List<Doodad>(), character.ObjId).ToArray();
                 for (var i = 0; i < doodads.Length; i += 30)

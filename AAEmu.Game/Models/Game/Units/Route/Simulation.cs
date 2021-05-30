@@ -1021,23 +1021,22 @@ namespace AAEmu.Game.Models.Game.Units.Route
                 var quat = MathUtil.ConvertRadianToDirectionShort(Angle);
                 transfer.Rot = new Quaternion(quat.X, quat.Z, quat.Y, quat.W);
 
-                //transfer.Velocity = new Vector3(diff.X * 21900, diff.Y * 21900, diff.Z * 21900);
-                transfer.Velocity = Vector3.Zero;
+                transfer.Velocity = new Vector3(diff.X * 30, diff.Y * 30, diff.Z * 30);
 
                 transfer.AngVel = new Vector3(0f, 0f, (float)Angle); // сюда записывать дельту, в радианах, угла поворота между начальным вектором и конечным
-                if (transfer.TemplateId == 49000)
-                {
-                    // для проверки углов
-                    var v1 = transfer.Position.RotationZ * 0.0078740157;
-                    var v2 = v1 * 3.14159 * 2;
-                    var RotationZdeg = MathUtil.RadianToDegree(v2);
-                    var degree = MathUtil.RadianToDegree(Angle);
+                //if (transfer.TemplateId == 49000)
+                //{
+                //    // для проверки углов
+                //    var v1 = transfer.Position.RotationZ * 0.0078740157;
+                //    var v2 = v1 * 3.14159 * 2;
+                //    var RotationZdeg = MathUtil.RadianToDegree(v2);
+                //    var degree = MathUtil.RadianToDegree(Angle);
 
-                    //_log.Warn("Angle={0}, _angle={1}, angleTmp={2}, Rot={3}, RotationZ={4}", Angle, _angle, _angleTmp, transfer.Rot, transfer.Position.RotationZ);
-                    _log.Warn("Distance={0}, MoveStepIndex={1}, TransferPath.Count-1={2}", Math.Abs(Distance), MoveStepIndex, TransferPath.Count - 1);
-                    _log.Warn("Angle={0}, degree={1}, transfer.RotationZ={2}, Rot={3}", Angle, degree, quat.Y * 32767, transfer.Rot);
-                    _log.Warn("RotationZ={0}, RotationZdeg={1}", transfer.Position.RotationZ, RotationZdeg);
-                }
+                //    //_log.Warn("Angle={0}, _angle={1}, angleTmp={2}, Rot={3}, RotationZ={4}", Angle, _angle, _angleTmp, transfer.Rot, transfer.Position.RotationZ);
+                //    _log.Warn("Distance={0}, MoveStepIndex={1}, TransferPath.Count-1={2}", Math.Abs(Distance), MoveStepIndex, TransferPath.Count - 1);
+                //    _log.Warn("Angle={0}, degree={1}, transfer.RotationZ={2}, Rot={3}", Angle, degree, quat.Y * 32767, transfer.Rot);
+                //    _log.Warn("RotationZ={0}, RotationZdeg={1}", transfer.Position.RotationZ, RotationZdeg);
+                //}
 
                 //if (Distance > RangeToCheckPoint)
                 if (!move)

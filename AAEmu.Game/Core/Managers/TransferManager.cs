@@ -17,12 +17,12 @@ using AAEmu.Game.Models.Game.DoodadObj;
 using AAEmu.Game.Models.Game.Faction;
 using AAEmu.Game.Models.Game.Skills;
 using AAEmu.Game.Models.Game.Skills.Static;
-using AAEmu.Game.Models.Game.Slaves;
 using AAEmu.Game.Models.Game.Transfers;
 using AAEmu.Game.Models.Game.Transfers.Paths;
 using AAEmu.Game.Models.Game.Units;
-using AAEmu.Game.Models.Game.Units.Movements;
 using AAEmu.Game.Models.Game.World;
+using AAEmu.Game.Models.Tasks;
+using AAEmu.Game.Models.Tasks.Transfers;
 using AAEmu.Game.Utils;
 using AAEmu.Game.Utils.DB;
 
@@ -38,72 +38,33 @@ namespace AAEmu.Game.Core.Managers
         private Dictionary<uint, Transfer> _activeTransfers;
         private Dictionary<uint, Transfer> _moveTransfers;
         private Dictionary<byte, Dictionary<uint, List<TransferRoads>>> _transferRoads;
-        public Thread thread { get; set; }
-        private bool ThreadRunning = true;
+        private const double Delay = 100;
+        private const double DelayInit = 1;
+        private Task transferTickStartTask { get; set; }
 
         public void Initialize()
         {
-            // пока отключено, так как не настроен TransferTick
-            thread = new Thread(TransferThread);
-            thread.Start();
+            _log.Warn("TransferTickStart: Started");
+
+            transferTickStartTask = new TransferTickStartTask();
+            TaskManager.Instance.Schedule(transferTickStartTask, TimeSpan.FromMinutes(DelayInit));
         }
 
-        private void TransferThread()
+        internal void TransferTick()
         {
-            while (Thread.CurrentThread.IsAlive)
+            var activeTransfers = GetMoveTransfers();
+            foreach (var transfer in activeTransfers)
             {
-                Thread.Sleep(100);
-                var activeTransfers = Instance.GetMoveTransfers();
-                foreach (var transfer in activeTransfers)
-                {
-                    //TransfersTick(transfer);
-                    transfer.MoveTo();
-                }
+                transfer.MoveTo();
             }
+
+            TaskManager.Instance.Schedule(transferTickStartTask, TimeSpan.FromMilliseconds(Delay));
         }
 
-        private void TransfersTick(Transfer transfer)
-        {
-            if (transfer.TimeLeft > 0) { return; } // Пауза в начале/конце пути и на остановках
-
-            var moveType = (TransferData)UnitMovement.GetType(UnitMovementType.Transfer);
-            moveType.UseTransferBase(transfer);
-            var velAccel = 2.0f; //per s
-            var maxVelForward = 9.5f; //per s
-            var maxVelBackward = -5.0f;
-
-            transfer.Speed += (transfer.Throttle * 0.00787401575f) * (velAccel / 20f);
-            transfer.Speed = Math.Min(transfer.Speed, maxVelForward);
-            transfer.Speed = Math.Max(transfer.Speed, maxVelBackward);
-
-            transfer.RotSpeed += (transfer.Steering * 0.00787401575f) * (velAccel / 20f);
-            transfer.RotSpeed = Math.Min(transfer.RotSpeed, 1);
-            transfer.RotSpeed = Math.Max(transfer.RotSpeed, -1);
-
-            if (transfer.Steering == 0)
-                transfer.RotSpeed -= (transfer.RotSpeed / 20);
-            if (transfer.Throttle == 0) // this needs to be fixed : ships need to apply a static drag, and slowly ship away at the speed instead of doing it like this
-                transfer.Speed -= (transfer.Speed / 45);
-
-            //var slaveRotRad = ypr.Item1 + (90 * (Math.PI / 180.0f));
-            //var (rotX, rotY, rotZ) = MathUtil.GetSlaveRotationFromDegrees(ypr.Item3, ypr.Item2, ypr.Item1);
-            var vPosition = new Vector3();
-            var vTarget = new Vector3();
-            var Angle = MathUtil.CalculateDirection(vPosition, vTarget);
-            var quat = MathUtil.ConvertRadianToDirectionShort(Angle);
-            moveType.Rot = new Quaternion(quat.X, quat.Z, quat.Y, quat.W);
-
-            //moveType.RotationX = rotX;
-            //moveType.RotationY = rotY;
-            //moveType.RotationZ = rotZ;
-
-            transfer.BroadcastPacket(new SCOneUnitMovementPacket(transfer.ObjId, moveType), false);
-            // _log.Debug("Island: {0}", slave.RigidBody.CollisionIsland.Bodies.Count);
-        }
-        public Transfer[] GetActiveTransfers()
-        {
-            return _activeTransfers.Values.ToArray();
-        }
+        /// <summary>
+        /// Взять список всех движущихся транспортов, исключая прицепы
+        /// </summary>
+        /// <returns></returns>
         public Transfer[] GetMoveTransfers()
         {
             return _moveTransfers.Values.ToArray();
@@ -119,6 +80,10 @@ namespace AAEmu.Game.Core.Managers
             return _templates.ContainsKey(templateId);
         }
 
+        /// <summary>
+        /// Взять список всех движущихся транспортов, включая прицепы
+        /// </summary>
+        /// <returns></returns>
         public Transfer[] GetTransfers()
         {
             return _activeTransfers.Values.ToArray();
@@ -678,20 +643,18 @@ namespace AAEmu.Game.Core.Managers
 
             // create the cab of the carriage.
             var Carriage = GetTransferTemplate(templateId); // 6 - Salislead Peninsula ~ Liriot Hillside Loop Carriage
-            var owner = new Transfer
-            {
-                Name = Carriage.Name,
-                TlId = (ushort)TlIdManager.Instance.GetNextId(),
-                ObjId = objectId == 0 ? ObjectIdManager.Instance.GetNextId() : objectId,
-                OwnerId = 255,
-                Spawner = spawner,
-                TemplateId = Carriage.Id,   // templateId
-                ModelId = Carriage.ModelId, // modelId
-                Template = Carriage,
-                BondingObjId = 0,    // objId
-                AttachPointId = 255, // point
-                Level = 1
-            };
+            var owner = new Transfer();
+            owner.Name = Carriage.Name;
+            owner.TlId = (ushort)TlIdManager.Instance.GetNextId();
+            owner.ObjId = objectId == 0 ? ObjectIdManager.Instance.GetNextId() : objectId;
+            owner.OwnerId = 255;
+            owner.Spawner = spawner;
+            owner.TemplateId = Carriage.Id;
+            owner.ModelId = Carriage.ModelId;
+            owner.Template = Carriage;
+            owner.BondingObjId = 0;
+            owner.AttachPointId = 255;
+            owner.Level = 1;
             owner.Hp = owner.MaxHp;
             owner.Mp = owner.MaxMp;
             owner.ModelParams = new UnitCustomModelParams();
@@ -699,7 +662,7 @@ namespace AAEmu.Game.Core.Managers
             owner.Position.RotationZ = spawner.Position.RotationZ;
             owner.Rot = new Quaternion(0f, 0f, spawner.RotationZ, 1f);
 
-            owner.Faction = new SystemFaction();
+            //owner.Faction = new SystemFaction();
             //owner.Faction = FactionManager.Instance.GetFaction(1);
             owner.Patrol = null;
             // add effect
@@ -713,20 +676,18 @@ namespace AAEmu.Game.Core.Managers
             if (Carriage.TransferBindings.Count <= 0) { return owner; }
 
             var boardingPart = GetTransferTemplate(Carriage.TransferBindings[0].TransferId); // 46 - The wagon boarding part
-            var transfer = new Transfer
-            {
-                Name = boardingPart.Name,
-                TlId = (ushort)TlIdManager.Instance.GetNextId(),
-                ObjId = ObjectIdManager.Instance.GetNextId(),
-                OwnerId = 255,
-                Spawner = owner.Spawner,
-                TemplateId = boardingPart.Id,   // templateId
-                ModelId = boardingPart.ModelId, // modelId
-                Template = boardingPart,
-                Level = 1,
-                BondingObjId = owner.ObjId,
-                AttachPointId = owner.Template.TransferBindings[0].AttachPointId
-            };
+            var transfer = new Transfer();
+            transfer.Name = boardingPart.Name;
+            transfer.TlId = (ushort)TlIdManager.Instance.GetNextId();
+            transfer.ObjId = ObjectIdManager.Instance.GetNextId();
+            transfer.OwnerId = 255;
+            transfer.Spawner = owner.Spawner;
+            transfer.TemplateId = boardingPart.Id;
+            transfer.ModelId = boardingPart.ModelId;
+            transfer.Template = boardingPart;
+            transfer.Level = 1;
+            transfer.BondingObjId = owner.ObjId;
+            transfer.AttachPointId = owner.Template.TransferBindings[0].AttachPointId;
             transfer.Hp = transfer.MaxHp;
             transfer.Mp = transfer.MaxMp;
             transfer.ModelParams = new UnitCustomModelParams();
@@ -738,7 +699,7 @@ namespace AAEmu.Game.Core.Managers
             //var tempPoint = new TransfersPathPoint(transfer.Position.WorldId, transfer.Position.ZoneId, -0.33f, -9.01f, 2.44f, 0, 0, 0);
             transfer.Position.Z = AppConfiguration.Instance.HeightMapsEnable ? WorldManager.Instance.GetHeight(transfer.Position.ZoneId, transfer.Position.X, transfer.Position.Y) : transfer.Position.Z;
 
-            transfer.Faction = new SystemFaction();
+            //transfer.Faction = new SystemFaction();
             transfer.Patrol = null;
             // add effect
             buffId = 545u; //BUFF: Untouchable (Unable to attack this target)
@@ -806,10 +767,10 @@ namespace AAEmu.Game.Core.Managers
                             var template = new TransferTemplate
                             {
                                 Id = reader.GetUInt32("id"), // OwnerId
-                                Name = LocalizationManager.Instance.Get("transfers", "comment", reader.GetUInt32("id")),
+                                Name = LocalizationManager.Instance.Get("transfers", "comment", reader.GetUInt32("id"), reader.GetString("comment")),
                                 ModelId = reader.GetUInt32("model_id"),
                                 WaitTime = reader.GetFloat("wait_time"),
-                                Cyclic = reader.GetBoolean("cyclic"),
+                                Cyclic = reader.GetBoolean("cyclic", true),
                                 PathSmoothing = reader.GetFloat("path_smoothing")
                             };
 
@@ -971,11 +932,6 @@ namespace AAEmu.Game.Core.Managers
 
             // optional for test 
             TransfersPath.GetPaths();
-        }
-
-        internal void Stop()
-        {
-            ThreadRunning = false;
         }
     }
 }

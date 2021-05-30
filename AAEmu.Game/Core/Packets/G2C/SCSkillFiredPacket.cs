@@ -16,6 +16,7 @@ namespace AAEmu.Game.Core.Packets.G2C
         private readonly short _effectDelay = 37;
         private readonly int _fireAnimId = 2;
         private readonly bool _dist;
+        public short ComputedDelay { get; set; }
 
         public SCSkillFiredPacket(uint id, ushort tl, SkillCaster caster, SkillCastTarget target, Skill skill, SkillObject skillObject)
             : base(SCOffsets.SCSkillFiredPacket, 5)
@@ -26,6 +27,14 @@ namespace AAEmu.Game.Core.Packets.G2C
             _target = target;
             _skill = skill;
             _skillObject = skillObject;
+            var totalDelay = 0;
+            if (skill.Template.EffectDelay > 0)
+                totalDelay += skill.Template.EffectDelay;
+            //if (skill.Template.EffectSpeed > 0)
+            //    totalDelay += (int) ((caster.GetDistanceTo(target) / skill.Template.EffectSpeed) * 1000.0f);
+            //if (skill.Template.FireAnim != null && skill.Template.UseAnimTime)
+            //    totalDelay += (int)(skill.Template.FireAnim.CombatSyncTime * (caster.GlobalCooldownMul / 100));
+
         }
 
         public SCSkillFiredPacket(uint id, ushort tl, SkillCaster caster, SkillCastTarget target, Skill skill, SkillObject skillObject, short effectDelay = 37, int fireAnimId = 2, bool dist = true)
@@ -50,32 +59,10 @@ namespace AAEmu.Game.Core.Packets.G2C
             stream.Write(_target);
             stream.Write(_skillObject);
 
-            if (_id == 2 || _id == 3 || _id == 4)
-            {
-                if (_dist)
-                {
-                    stream.Write(_effectDelay); // EffectDelay msec
-                    stream.Write((short)(_skill.Template.ChannelingTime / 10 + 10)); // msec
-                    stream.Write((byte)0);      // f
-                    stream.Write(_fireAnimId);  // fire_anim_id
-                }
-                else
-                {
-                    stream.Write((ushort)0);   // EffectDelay msec
-                    stream.Write((ushort)0);   // ChannelingTime msec
-                    stream.Write((byte)1);     // f
-                    stream.Write((byte)15);    // c
-                    stream.Write(_fireAnimId); // fire_anim_id
-                }
-            }
-            else
-            {
-                stream.Write((short)(_skill.Template.EffectDelay / 10 + 10)); // TODO +10 It became visible flying arrows
-                stream.Write((short)(_skill.Template.ChannelingTime / 10 + 10));
-                stream.Write((byte)0); // f
-                stream.Write(_skill.Template.FireAnim?.Id ?? 0); // fire_anim_id 
-            }
-
+            stream.Write((short)(ComputedDelay / 10));                       // msec TODO +10 It became visible flying arrows
+            stream.Write((short)(_skill.Template.ChannelingTime / 10 + 10)); // msec
+            stream.Write((byte)0);                                           // f [c, e, p]
+            stream.WritePisc(_skill.Template.FireAnim?.Id ?? 0, 0); // fire_anim_id 
             stream.Write((byte)0); // flag
 
             return stream;

@@ -72,7 +72,8 @@ namespace AAEmu.Game.Models.Game.Transfers
             }
 
             // использование путей из клиента для отдельного потока движения
-            if (transfer.TemplateId != 46 && transfer.TemplateId != 4 && transfer.TemplateId != 122)
+            // исключаем прицепы
+            if (transfer.TemplateId != 46 && transfer.TemplateId != 4 && transfer.TemplateId != 122 && transfer.TemplateId != 135 && transfer.TemplateId != 137)
             {
                 //if (transfer.TemplateId == 134)
                 {

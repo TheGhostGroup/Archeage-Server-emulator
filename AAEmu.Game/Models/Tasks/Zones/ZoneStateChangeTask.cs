@@ -14,7 +14,7 @@ namespace AAEmu.Game.Models.Tasks.Zones
         public override void Execute()
         {
             // Just checking for timer should be enough to trigger the next state
-            ZoneConflict.CheckTimer();
+// TODO remove            ZoneConflict.CheckTimer();
         }
     }
 }

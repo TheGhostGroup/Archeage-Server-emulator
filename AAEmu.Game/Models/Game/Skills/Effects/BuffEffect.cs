@@ -77,6 +77,9 @@ namespace AAEmu.Game.Models.Game.Skills.Effects
             }
 
             owner.BroadcastPacket(new SCBuffRemovedPacket(owner.ObjId, effect.Index), true);
+
+            // stopping the TransferTelescopeTickStartTask if character moved
+            TransferTelescopeManager.Instance.StopTransferTelescopeTick();
         }
 
         public override void WriteData(PacketStream stream)

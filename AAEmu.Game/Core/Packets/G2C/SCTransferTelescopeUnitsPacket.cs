@@ -13,25 +13,6 @@ namespace AAEmu.Game.Core.Packets.G2C
         {
             _last = last;
             _transfers = transfers;
-
-            /*
-               // вызов пакета SCTransferTelescopeUnitsPacket
-               var transfers = TransferManager.Instance.GetTransfers();
-               if (transfers.Length == 0)
-               {
-                    Connection.SendPacket(new SCTransferTelescopeUnitsPacket(true, transfers));
-               }
-               else
-               {
-                    for (var i = 0; i < transfers.Length; i += 2)
-                    {
-                        var last = transfers.Length - i <= 2;
-                        var temp = new Transfer[last ? transfers.Length - i : 2];
-                        Array.Copy(transfers, i, temp, 0, temp.Length);
-                        Connection.SendPacket(new SCTransferTelescopeUnitsPacket(last, temp));
-                    }
-               }               
-             */
         }
 
         public override PacketStream Write(PacketStream stream)
@@ -40,7 +21,7 @@ namespace AAEmu.Game.Core.Packets.G2C
             stream.Write((byte)_transfers.Length);
             foreach (var transfer in _transfers)
             {
-                transfer.Write(stream);
+                transfer.WriteTelescopeUnit(stream);
             }
 
             return stream;

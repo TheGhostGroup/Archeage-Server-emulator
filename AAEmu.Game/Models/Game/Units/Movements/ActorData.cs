@@ -100,7 +100,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             Stance = (EStance)stream.ReadSByte();
             Alertness = (AiAlertness)stream.ReadSByte();
             actorFlags = (ActorMoveType)stream.ReadUInt16(); // ushort in 3.0.3.0, sbyte in 1.2
-            if (((ushort)actorFlags & 0x8000) == 0x8000)
+            if (((ushort)actorFlags & 0x80) == 0x80)
             {
                 FallVel = stream.ReadUInt16(); // actor.fallVel
             }

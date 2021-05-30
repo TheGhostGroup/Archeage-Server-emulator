@@ -1,5 +1,7 @@
-﻿using AAEmu.Game.Core.Managers.UnitManagers;
+﻿using AAEmu.Game.Core.Managers;
+using AAEmu.Game.Core.Managers.UnitManagers;
 using AAEmu.Game.Core.Packets.G2C;
+using AAEmu.Game.Models.Game.Char;
 using AAEmu.Game.Models.Game.DoodadObj.Templates;
 using AAEmu.Game.Models.Game.Units;
 
@@ -19,10 +21,10 @@ namespace AAEmu.Game.Models.Game.DoodadObj.Funcs
             _log.Debug("skillId " + skillId);
             _log.Debug("Name " + GetType().Name);
 
-            if (FakeSkillId == 20580)
+            if (FakeSkillId == 20580 && caster is Character character)
             {
                 owner.BroadcastPacket(new SCTransferTelescopeToggledPacket(true, 1000f), true);
-                //owner.BroadcastPacket(new SCTransferTelescopeUnitsPacket(1,3,0f,0f,0f), true); // TODO Timer
+                TransferTelescopeManager.Instance.TransferTelescopeStart(character);
             }
 
             DoodadManager.Instance.TriggerPhases(GetType().Name, caster, owner, FakeSkillId);

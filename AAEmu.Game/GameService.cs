@@ -155,7 +155,6 @@ namespace AAEmu.Game
             */
             
             BoatPhysicsManager.Instance.Stop();
-            TransferManager.Instance.Stop();
             GimmickManager.Instance.Stop();
 
             TimeManager.Instance.Stop();

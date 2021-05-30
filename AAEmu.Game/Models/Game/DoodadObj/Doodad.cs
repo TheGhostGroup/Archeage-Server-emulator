@@ -103,7 +103,8 @@ namespace AAEmu.Game.Models.Game.DoodadObj
             // TemplateId - The template id needed for that object, the client then uses the template configurations, not the server
             // FuncGroupId - doodad_func_group_id
             // QuestGlow - When this is higher than 0 it shows a blue orb over the doodad
-            stream.WritePisc(TemplateId, FuncGroupId, hasLootItem, QuestGlow);
+            //stream.WritePisc(TemplateId, FuncGroupId, hasLootItem, QuestGlow);
+            stream.WritePisc(TemplateId, FuncGroupId, 0, QuestGlow);
             stream.Write(Flag);
             stream.WriteBc(OwnerObjId);  //The creator of the object
             stream.WriteBc(ParentObjId); //Things like boats or cars,
