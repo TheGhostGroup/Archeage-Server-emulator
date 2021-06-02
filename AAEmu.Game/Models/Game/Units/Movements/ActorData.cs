@@ -161,7 +161,7 @@ namespace AAEmu.Game.Models.Game.Units.Movements
             stream.Write((sbyte)Stance);
             stream.Write((sbyte)Alertness);
             stream.Write((ushort)actorFlags);
-            if (((ushort)actorFlags & 0x8000) == 0x8000)
+            if (((ushort)actorFlags & 0x80) == 0x80)
             {
                 stream.Write(FallVel);
             }

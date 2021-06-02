@@ -76,7 +76,7 @@ namespace AAEmu.Game.Core.Managers.World
 
             switch (zoneId)
             {
-                // from game\world.xml
+                // from game\world.xml, updated for version AR3030 (r330995)
                 case 129: //  <Zone name="w_gweonid_forest_1" id="129" originX="9" originY="14">
                     origin = new Vector2(9f, 14f);
                     break;

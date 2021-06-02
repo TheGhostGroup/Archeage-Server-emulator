@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using AAEmu.Commons.Network;
 using AAEmu.Commons.Utils;
@@ -243,7 +242,15 @@ namespace AAEmu.Game.Core.Packets.G2C
                 case Character character:
                     {
                         stream.Write((byte)character.Skills.Skills.Count);       // learnedSkillCount
+                        if (character.Skills.Skills.Count >= 0)
+                        {
+                            _log.Warn("Warning! character.learnedSkillCount = {0}", character.Skills.Skills.Count);
+                        }
                         stream.Write((byte)character.Skills.PassiveBuffs.Count); // passiveBuffCount
+                        if (character.Skills.Skills.Count >= 0)
+                        {
+                            _log.Warn("Warning! character.passiveBuffCount = {0}", character.Skills.PassiveBuffs.Count);
+                        }
                         stream.Write(character.HighAbilityRsc);                  // highAbilityRsc
 
                         foreach (var skill in character.Skills.Skills.Values)
@@ -254,7 +261,6 @@ namespace AAEmu.Game.Core.Packets.G2C
                         {
                             stream.WritePisc(buff.Id);
                         }
-
                         break;
                     }
                 case Npc npc:
@@ -272,8 +278,7 @@ namespace AAEmu.Game.Core.Packets.G2C
 
             if (_baseUnitType == BaseUnitType.Housing)
             {
-                stream.Write(_unit.Position.RotationZ); // должно быть float
-                //stream.Write(Helpers.ConvertDirectionToRadian(_unit.Position.RotationZ)); // должно быть float
+                stream.Write(Helpers.ConvertDirectionToRadian(_unit.Position.RotationZ)); // должно быть float
             }
             else
             {
@@ -308,46 +313,44 @@ namespace AAEmu.Game.Core.Packets.G2C
                 stream.WritePisc(0, 0, 0, 0); // pisc
             }
 
-            switch (_unit)
+            if (_unit is Character character5)
             {
-                case Character character5:
-                    {
-                        var flags = new BitSet(16); // short
+                var flags = new BitSet(16); // short
 
-                        if (character5.Invisible)
-                        {
-                            flags.Set(5);
-                        }
+                if (character5.Invisible)
+                {
+                    flags.Set(5);
+                }
 
-                        if (character5.IdleStatus)
-                        {
-                            flags.Set(13);
-                        }
+                if (character5.IdleStatus)
+                {
+                    flags.Set(13);
+                }
 
-                        //stream.WritePisc(0, 0); // очки чести полученные в PvP, кол-во убийств в PvP
-                        stream.Write(flags.ToByteArray()); // flags(ushort)
-                        /*
-                    * 0x01 - 8bit - режим боя
-                    * 0x04 - 6bit - невидимость?
-                    * 0x08 - 5bit - дуэль
-                    * 0x40 - 2bit - gmmode, дополнительно 7 байт
-                    * 0x80 - 1bit - дополнительно tl(ushort), tl(ushort), tl(ushort), tl(ushort)
-                    * 0x0100 - 16bit - дополнительно 3 байт (bc), firstHitterTeamId(uint)
-                    * 0x0400 - 14bit - надпись "Отсутсвует" под именем
-                    */
-                        break;
-                    }
-                case Npc _:
-                    stream.Write((ushort)8192); // flags
-                    break;
-                default:
-                    stream.Write((ushort)0); // flags
-                    break;
+                //stream.WritePisc(0, 0); // очки чести полученные в PvP, кол-во убийств в PvP
+                stream.Write(flags.ToByteArray()); // flags(ushort)
+                /*
+                * 0x01 - 8bit - режим боя
+                * 0x04 - 6bit - невидимость?
+                * 0x08 - 5bit - дуэль
+                * 0x40 - 2bit - gmmode, дополнительно 7 байт
+                * 0x80 - 1bit - дополнительно tl(ushort), tl(ushort), tl(ushort), tl(ushort)
+                * 0x0100 - 16bit - дополнительно 3 байт (bc), firstHitterTeamId(uint)
+                * 0x0400 - 14bit - надпись "Отсутсвует" под именем
+                */
+            }
+            else if (_unit is Npc)
+            {
+                stream.Write((ushort)8192); // flags
+            }
+            else
+            {
+                stream.Write((ushort)0); // flags
             }
 
             if (_unit is Character character6)
             {
-                #region read_Exp_Order_6300
+                #region read_Abilities_6300
                 var activeAbilities = character6.Abilities.GetActiveAbilities();
                 foreach (var ability in character6.Abilities.Values)
                 {
@@ -360,14 +363,14 @@ namespace AAEmu.Game.Core.Packets.G2C
                 {
                     stream.Write((byte)ability); // active
                 }
-                #endregion read_Exp_Order_6300
+                #endregion read_Abilities_6300
 
                 #region read_Exp_Order_6460
                 foreach (var ability in character6.Abilities.Values)
                 {
                     stream.Write(ability.Exp);
                     stream.Write(ability.Order);  // ability.Order
-                    stream.Write(true);           // canNotLevelUp
+                    stream.Write(false);          // canNotLevelUp
                 }
 
                 byte nHighActive = 0;
@@ -385,7 +388,7 @@ namespace AAEmu.Game.Core.Packets.G2C
                 }
                 #endregion read_Exp_Order_6460
 
-                stream.WriteBc(0);      // objId
+                stream.WriteBc(0);     // objId
                 stream.Write((byte)0); // camp
 
                 #region Stp
@@ -397,7 +400,7 @@ namespace AAEmu.Game.Core.Packets.G2C
                 stream.Write((byte)100); // stp
 
                 stream.Write((byte)7); // flags
-                //stream.Write((byte)0); // cosplay_visual
+
                 character6.VisualOptions.Write(stream, 0x20); // cosplay_visual
                 #endregion Stp
 
@@ -420,7 +423,9 @@ namespace AAEmu.Game.Core.Packets.G2C
             }
             #endregion NetUnit
 
+
             #region NetBuff
+
             // TODO: Fix the patron and auction house license buff issue
             if (_unit is Character)
             {
@@ -442,7 +447,6 @@ namespace AAEmu.Game.Core.Packets.G2C
             _unit.Effects.GetAllBuffs(goodBuffs, badBuffs, hiddenBuffs);
 
             stream.Write((byte)goodBuffs.Count); // TODO max 32
-
             foreach (var buff in goodBuffs)
             {
                 WriteBuff(stream, buff);
@@ -466,11 +470,11 @@ namespace AAEmu.Game.Core.Packets.G2C
 
         private void WriteBuff(PacketStream stream, Effect buff)
         {
-            stream.Write(buff.Index);                          // Id
-            stream.Write(buff.SkillCaster);
-            stream.Write(0u);                                  // type(id)
-            stream.Write(buff.Caster.Level);                   // sourceLevel
-            stream.Write(buff.AbLevel);                        // sourceAbLevel
+            stream.Write(buff.Index);        // Id
+            stream.Write(buff.SkillCaster);  // skillCaster
+            stream.Write(0);                 // type(id)
+            stream.Write(buff.Caster.Level); // sourceLevel
+            stream.Write(buff.AbLevel);      // sourceAbLevel
             stream.WritePisc(0, buff.GetTimeElapsed(), 0, 0u); // add in 3.0.3.0
             stream.WritePisc(buff.Template.BuffId, 1, 0, 0u);  // add in 3.0.3.0
         }
@@ -628,7 +632,7 @@ namespace AAEmu.Game.Core.Packets.G2C
                         ItemFlags |= v15;
                     }
                 }
-                stream.Write(0u); //  ItemFlags flags for 3.0.3.0
+                stream.Write(ItemFlags); //  ItemFlags flags for 3.0.3.0
             }
             #endregion Inventory_Equip
         }
